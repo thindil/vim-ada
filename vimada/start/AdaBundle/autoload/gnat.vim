@@ -87,7 +87,7 @@ function gnat#New ()						     " {{{1
       \ 'Get_Command'      : function ('gnat#Get_Command'),
       \ 'Project_File'     : '',
       \ 'Make_Command'     : '"gnatmake -P " . self.Project_File . "  -F -gnatef  "',
-      \ 'Pretty_Command'   : '"gnatpp -P " . self.Project_File . " --incremental -j0 "',
+      \ 'Pretty_Command'   : '"gnatpp -P " . self.Project_File . " "',
       \ 'Error_Format'     : '%f:%l:%c: %trror: %m,'   .
 			   \ '%f:%l:%c: %tarning: %m,' .
 			   \ '%f:%l:%c: (%ttyle) %m'}
