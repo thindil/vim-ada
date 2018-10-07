@@ -23,7 +23,7 @@ set directory=~/tmp,/var/tmp,/tmp
 set encoding=utf-8
 set laststatus=2
 set noshowmode
-set tags=./tags
+set tags=./tags;/
 set grepprg=grep\ -nre
 set updatetime=100
 let g:gitgutter_signs = 0
