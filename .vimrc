@@ -30,6 +30,7 @@ let g:gitgutter_signs = 0
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = "unique_tail"
+let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:rainbow_active = 1
 let g:syntastic_ada_compiler = "gnatmake"
 let g:synstatic_enable_signs = 0
@@ -37,7 +38,6 @@ let g:syntastic_enable_balloons = 0
 set background=dark
 colorscheme PaperColor
 if has("gui_running")
-   set guifont=Hack\ 11
    set guioptions=aegimLt
    set guiheadroom=0
    nnoremap <F11> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
