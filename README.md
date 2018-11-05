@@ -42,8 +42,6 @@ This is modified version of standard Ada support for Vim. Main changes:
 
 - Removed support for gnatxref (too problematic and too complicated,
   especially that here is very good support for Ada in ctags)
-- Changed gnat pretty print option. It now use `--incremental -j0` switches
-  which should be a lot faster on multicore processors.
 - Changed support from Rainbow Parenthesis to Rainbow Parentheses Improved
   plugin (which is included in this pack too).
 - Removed some tags commands which are now in base Vim (like jump to tag).
@@ -84,7 +82,7 @@ modified but have some custom configuration in `.vimrc` file.
 Webpage: https://github.com/luochen1990/rainbow
 
 Updated version of Rainbow Parenthesis. Help you read complex code by showing
-diff level of parentheses in diff color. This plugin wasn't modified bu have
+diff level of parentheses in diff color. This plugin wasn't modified but have
 some custom configuration in `.vimrc` file.
 
 ### Startify
