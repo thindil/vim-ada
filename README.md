@@ -9,6 +9,12 @@ All changes to plugins are under respective plugin license which can be found
 in plugins directory. If plugin don't have license info included, then all my
 changes are in public domain.
 
+## Screenshots
+
+![Dark background](screens/dark.png)
+
+![Light background](screens/light.png)
+
 ## Installation
 
 Just copy directory `vimada` to your Vim `runtimepath` directory (on Unix
