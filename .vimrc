@@ -33,7 +33,7 @@ let g:airline#extensions#tabline#formatter = "unique_tail"
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:rainbow_active = 1
 let g:syntastic_ada_compiler = "gnatmake"
-let g:synstatic_enable_signs = 0
+let g:syntastic_enable_signs = 0
 let g:syntastic_enable_balloons = 0                         " Disable syntatic error balloons
 set background=dark                                         " Set dark background
 colorscheme PaperColor                                      " Set color scheme
