@@ -39,6 +39,5 @@ set background=dark                                         " Set dark backgroun
 colorscheme PaperColor                                      " Set color scheme
 if has("gui_running")                                       " GUI specific settings
    set guioptions=aegimLt                                   " Show only menu, hide buttons, etc
-   set guiheadroom=0
    nnoremap <F11> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
 endif
