@@ -34,11 +34,11 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:rainbow_active = 1
 let g:syntastic_ada_compiler = "gnatmake"
 let g:synstatic_enable_signs = 0
-let g:syntastic_enable_balloons = 0
-set background=dark
-colorscheme PaperColor
-if has("gui_running")
-   set guioptions=aegimLt
+let g:syntastic_enable_balloons = 0                         " Disable syntatic error balloons
+set background=dark                                         " Set dark background
+colorscheme PaperColor                                      " Set color scheme
+if has("gui_running")                                       " GUI specific settings
+   set guioptions=aegimLt                                   " Show only menu, hide buttons, etc
    set guiheadroom=0
    nnoremap <F11> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
 endif
