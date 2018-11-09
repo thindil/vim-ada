@@ -204,7 +204,7 @@ syntax keyword  adaConditional	elsif when
 
 " Section: other keywords {{{1
 syntax match    adaKeyword	    "\<is\>" contains=adaRecord
-syntax keyword  adaKeyword	    all do exception in new null out
+syntax keyword  adaKeyword	    all do exception in new null out some
 syntax keyword  adaKeyword	    separate until overriding
 
 " Section: begin keywords {{{1
