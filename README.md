@@ -54,6 +54,13 @@ This is modified version of standard Ada support for Vim. Main changes:
 - Added support for Syntastic plugin (included in this pack too).
 - Updated help file.
 
+### AdaSpec
+
+Webpage: none
+
+At this moment very simple conversion of text version of Ada 2012 language
+specification to Vim documentation.
+
 ### Airline
 
 Webpage: https://github.com/vim-airline/vim-airline
