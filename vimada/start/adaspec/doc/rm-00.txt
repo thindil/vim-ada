@@ -47,7 +47,7 @@ specified in two documents, this consolidated version of the Ada Reference
 Manual is made available to the public.
 
 
-                                  Foreword
+                                  Foreword *ada-foreword-foreword*
 
 
 1/3 ISO (the International Organization for Standardization) and IEC (the
@@ -81,7 +81,7 @@ languages, their environments and system software interfaces.
 4/4 This consolidated edition updates the third edition (ISO/IEC 8652:2012).
 
 
-                                Introduction
+                                Introduction *ada-foreword-introduction*
 
 
 1   This is the Ada Reference Manual.
@@ -504,7 +504,7 @@ the defect correction procedure.
              !from Author Name yy-mm-dd
              !keywords keywords related to topic
              !discussion
-        
+
              text of discussion
 
 61/3 where ss.ss is the clause or subclause number, pp is the paragraph number

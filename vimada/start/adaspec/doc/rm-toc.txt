@@ -5,9 +5,9 @@
 
 Foreword to this version of the Ada Reference Manual |ada-foreword| 
 
-Foreword
+Foreword |ada-foreword-foreword|
 
-Introduction
+Introduction |ada-foreword-introduction|
 
 1. General |ada-general|
     1.1 Scope
