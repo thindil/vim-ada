@@ -1,0 +1,2666 @@
+*rm-g.txt*
+
+                                   Annex G
+                                 (normative)
+
+                                  Numerics *ada-numerics*
+
+
+1   The Numerics Annex specifies
+
+2     * features for complex arithmetic, including complex I/O;
+
+3     * a mode ("strict mode"), in which the predefined arithmetic operations
+        of floating point and fixed point types and the functions and
+        operations of various predefined packages have to provide guaranteed
+        accuracy or conform to other numeric performance requirements, which
+        the Numerics Annex also specifies;
+
+4     * a mode ("relaxed mode"), in which no accuracy or other numeric
+        performance requirements need be satisfied, as for implementations not
+        conforming to the Numerics Annex;
+
+5/2   * models of floating point and fixed point arithmetic on which the
+        accuracy requirements of strict mode are based;
+
+6/2   * the definitions of the model-oriented attributes of floating point
+        types that apply in the strict mode; and
+
+6.1/2   * features for the manipulation of real and complex vectors and
+        matrices.
+
+
+                            Implementation Advice
+
+7/3 If Fortran (respectively, C) is widely supported in the target
+environment, implementations supporting the Numerics Annex should provide the
+child package Interfaces.Fortran (respectively, Interfaces.C) specified in
+Annex B and should support a convention_identifier of Fortran (respectively,
+C) for the Convention aspect (see Annex B), thus allowing Ada programs to
+interface with programs written in that language.
+
+
+G.1 Complex Arithmetic
+
+
+1   Types and arithmetic operations for complex arithmetic are provided in
+Generic_Complex_Types, which is defined in G.1.1. Implementation-defined
+approximations to the complex analogs of the mathematical functions known as
+the "elementary functions" are provided by the subprograms in Generic_Complex_-
+Elementary_Functions, which is defined in G.1.2. Both of these library units
+are generic children of the predefined package Numerics (see A.5). Nongeneric
+equivalents of these generic packages for each of the predefined floating
+point types are also provided as children of Numerics.
+
+
+G.1.1 Complex Types
+
+
+
+                              Static Semantics
+
+1   The generic library package Numerics.Generic_Complex_Types has the
+following declaration:
+
+2/1     generic
+           type Real is digits <>;
+        package Ada.Numerics.Generic_Complex_Types is
+           pragma Pure(Generic_Complex_Types);
+
+3          type Complex is
+              record
+                 Re, Im : Real'Base;
+              end record;
+
+4/2        type Imaginary is private;
+           pragma Preelaborable_Initialization(Imaginary);
+
+5          i : constant Imaginary;
+           j : constant Imaginary;
+
+6          function Re (X : Complex)   return Real'Base;
+           function Im (X : Complex)   return Real'Base;
+           function Im (X : Imaginary) return Real'Base;
+
+7          procedure Set_Re (X  : in out Complex;
+                             Re : in     Real'Base);
+           procedure Set_Im (X  : in out Complex;
+                             Im : in     Real'Base);
+           procedure Set_Im (X  :    out Imaginary;
+                             Im : in     Real'Base);
+
+8          function Compose_From_Cartesian
+         (Re, Im : Real'Base) return Complex;
+           function Compose_From_Cartesian
+         (Re     : Real'Base) return Complex;
+           function Compose_From_Cartesian
+         (Im     : Imaginary) return Complex;
+
+9          function Modulus (X     : Complex) return Real'Base;
+           function "abs"   (Right : Complex) return Real'Base renames Modulus;
+
+10         function Argument (X     : Complex)   return Real'Base;
+           function Argument (X     : Complex;
+                              Cycle : Real'Base) return Real'Base;
+
+11         function Compose_From_Polar (Modulus, Argument        : Real'Base)
+              return Complex;
+           function Compose_From_Polar (Modulus, Argument, Cycle : Real'Base)
+              return Complex;
+
+12         function "+"       (Right : Complex) return Complex;
+           function "-"       (Right : Complex) return Complex;
+           function Conjugate (X     : Complex) return Complex;
+
+13         function "+" (Left, Right : Complex) return Complex;
+           function "-" (Left, Right : Complex) return Complex;
+           function "*" (Left, Right : Complex) return Complex;
+           function "/" (Left, Right : Complex) return Complex;
+
+14         function "**" (Left : Complex; Right : Integer) return Complex;
+
+15         function "+"       (Right : Imaginary) return Imaginary;
+           function "-"       (Right : Imaginary) return Imaginary;
+           function Conjugate
+         (X     : Imaginary) return Imaginary renames "-";
+           function "abs"     (Right : Imaginary) return Real'Base;
+
+16         function "+" (Left, Right : Imaginary) return Imaginary;
+           function "-" (Left, Right : Imaginary) return Imaginary;
+           function "*" (Left, Right : Imaginary) return Real'Base;
+           function "/" (Left, Right : Imaginary) return Real'Base;
+
+17         function "**" (Left : Imaginary; Right : Integer) return Complex;
+
+18         function "<"  (Left, Right : Imaginary) return Boolean;
+           function "<=" (Left, Right : Imaginary) return Boolean;
+           function ">"  (Left, Right : Imaginary) return Boolean;
+           function ">=" (Left, Right : Imaginary) return Boolean;
+
+19         function "+" (Left : Complex;   Right : Real'Base) return Complex;
+           function "+" (Left : Real'Base; Right : Complex)   return Complex;
+           function "-" (Left : Complex;   Right : Real'Base) return Complex;
+           function "-" (Left : Real'Base; Right : Complex)   return Complex;
+           function "*" (Left : Complex;   Right : Real'Base) return Complex;
+           function "*" (Left : Real'Base; Right : Complex)   return Complex;
+           function "/" (Left : Complex;   Right : Real'Base) return Complex;
+           function "/" (Left : Real'Base; Right : Complex)   return Complex;
+
+20         function "+" (Left : Complex;   Right : Imaginary) return Complex;
+           function "+" (Left : Imaginary; Right : Complex)   return Complex;
+           function "-" (Left : Complex;   Right : Imaginary) return Complex;
+           function "-" (Left : Imaginary; Right : Complex)   return Complex;
+           function "*" (Left : Complex;   Right : Imaginary) return Complex;
+           function "*" (Left : Imaginary; Right : Complex)   return Complex;
+           function "/" (Left : Complex;   Right : Imaginary) return Complex;
+           function "/" (Left : Imaginary; Right : Complex)   return Complex;
+
+21         function "+" (Left : Imaginary; Right : Real'Base) return Complex;
+           function "+" (Left : Real'Base; Right : Imaginary) return Complex;
+           function "-" (Left : Imaginary; Right : Real'Base) return Complex;
+           function "-" (Left : Real'Base; Right : Imaginary) return Complex;
+           function "*" (Left : Imaginary; Right : Real'Base) return Imaginary;
+           function "*" (Left : Real'Base; Right : Imaginary) return Imaginary;
+           function "/" (Left : Imaginary; Right : Real'Base) return Imaginary;
+           function "/" (Left : Real'Base; Right : Imaginary) return Imaginary;
+
+22      private
+
+23         type Imaginary is new Real'Base;
+           i : constant Imaginary := 1.0;
+           j : constant Imaginary := 1.0;
+
+24      end Ada.Numerics.Generic_Complex_Types;
+
+25/1 The library package Numerics.Complex_Types is declared pure and defines
+the same types, constants, and subprograms as Numerics.Generic_Complex_Types,
+except that the predefined type Float is systematically substituted for
+Real'Base throughout. Nongeneric equivalents of Numerics.Generic_Complex_Types
+for each of the other predefined floating point types are defined similarly,
+with the names Numerics.Short_Complex_Types, Numerics.Long_Complex_Types, etc.
+
+26/2 Complex is a visible type with Cartesian components.
+
+27  Imaginary is a private type; its full type is derived from Real'Base.
+
+28  The arithmetic operations and the Re, Im, Modulus, Argument, and Conjugate
+functions have their usual mathematical meanings. When applied to a parameter
+of pure-imaginary type, the "imaginary-part" function Im yields the value of
+its parameter, as the corresponding real value. The remaining subprograms have
+the following meanings:
+
+29    * The Set_Re and Set_Im procedures replace the designated component of a
+        complex parameter with the given real value; applied to a parameter of
+        pure-imaginary type, the Set_Im procedure replaces the value of that
+        parameter with the imaginary value corresponding to the given real
+        value.
+
+30    * The Compose_From_Cartesian function constructs a complex value from
+        the given real and imaginary components. If only one component is
+        given, the other component is implicitly zero.
+
+31    * The Compose_From_Polar function constructs a complex value from the
+        given modulus (radius) and argument (angle). When the value of the
+        parameter Modulus is positive (resp., negative), the result is the
+        complex value represented by the point in the complex plane lying at a
+        distance from the origin given by the absolute value of Modulus and
+        forming an angle measured counterclockwise from the positive (resp.,
+        negative) real axis given by the value of the parameter Argument.
+
+32  When the Cycle parameter is specified, the result of the Argument function
+and the parameter Argument of the Compose_From_Polar function are measured in
+units such that a full cycle of revolution has the given value; otherwise,
+they are measured in radians.
+
+33  The computed results of the mathematically multivalued functions are
+rendered single-valued by the following conventions, which are meant to imply
+the principal branch:
+
+34    * The result of the Modulus function is nonnegative.
+
+35    * The result of the Argument function is in the quadrant containing the
+        point in the complex plane represented by the parameter X. This may be
+        any quadrant (I through IV); thus, the range of the Argument function
+        is approximately -PI to PI (-Cycle/2.0 to Cycle/2.0, if the parameter
+        Cycle is specified). When the point represented by the parameter X
+        lies on the negative real axis, the result approximates
+
+36        * PI (resp., -PI) when the sign of the imaginary component of X is
+            positive (resp., negative), if Real'Signed_Zeros is True;
+
+37        * PI, if Real'Signed_Zeros is False.
+
+38    * Because a result lying on or near one of the axes may not be exactly
+        representable, the approximation inherent in computing the result may
+        place it in an adjacent quadrant, close to but on the wrong side of
+        the axis.
+
+
+                              Dynamic Semantics
+
+39  The exception Numerics.Argument_Error is raised by the Argument and
+Compose_From_Polar functions with specified cycle, signaling a parameter value
+outside the domain of the corresponding mathematical function, when the value
+of the parameter Cycle is zero or negative.
+
+40  The exception Constraint_Error is raised by the division operator when the
+value of the right operand is zero, and by the exponentiation operator when
+the value of the left operand is zero and the value of the exponent is
+negative, provided that Real'Machine_Overflows is True; when
+Real'Machine_Overflows is False, the result is unspecified. Constraint_Error
+can also be raised when a finite result overflows (see G.2.6).
+
+
+                         Implementation Requirements
+
+41  In the implementation of Numerics.Generic_Complex_Types, the range of
+intermediate values allowed during the calculation of a final result shall not
+be affected by any range constraint of the subtype Real.
+
+42  In the following cases, evaluation of a complex arithmetic operation shall
+yield the prescribed result, provided that the preceding rules do not call for
+an exception to be raised:
+
+43    * The results of the Re, Im, and Compose_From_Cartesian functions are
+        exact.
+
+44    * The real (resp., imaginary) component of the result of a binary
+        addition operator that yields a result of complex type is exact when
+        either of its operands is of pure-imaginary (resp., real) type.
+
+45    * The real (resp., imaginary) component of the result of a binary
+        subtraction operator that yields a result of complex type is exact
+        when its right operand is of pure-imaginary (resp., real) type.
+
+46    * The real component of the result of the Conjugate function for the
+        complex type is exact.
+
+47    * When the point in the complex plane represented by the parameter X
+        lies on the nonnegative real axis, the Argument function yields a
+        result of zero.
+
+48    * When the value of the parameter Modulus is zero, the
+        Compose_From_Polar function yields a result of zero.
+
+49    * When the value of the parameter Argument is equal to a multiple of the
+        quarter cycle, the result of the Compose_From_Polar function with
+        specified cycle lies on one of the axes. In this case, one of its
+        components is zero, and the other has the magnitude of the parameter
+        Modulus.
+
+50    * Exponentiation by a zero exponent yields the value one. Exponentiation
+        by a unit exponent yields the value of the left operand.
+        Exponentiation of the value one yields the value one. Exponentiation
+        of the value zero yields the value zero, provided that the exponent is
+        nonzero. When the left operand is of pure-imaginary type, one
+        component of the result of the exponentiation operator is zero.
+
+51  When the result, or a result component, of any operator of
+Numerics.Generic_Complex_Types has a mathematical definition in terms of a
+single arithmetic or relational operation, that result or result component
+exhibits the accuracy of the corresponding operation of the type Real.
+
+52  Other accuracy requirements for the Modulus, Argument, and
+Compose_From_Polar functions, and accuracy requirements for the multiplication
+of a pair of complex operands or for division by a complex operand, all of
+which apply only in the strict mode, are given in G.2.6.
+
+53  The sign of a zero result or zero result component yielded by a complex
+arithmetic operation or function is implementation defined when
+Real'Signed_Zeros is True.
+
+
+                         Implementation Permissions
+
+54  The nongeneric equivalent packages may, but need not, be actual
+instantiations of the generic package for the appropriate predefined type.
+
+55/2 Implementations may obtain the result of exponentiation of a complex or
+pure-imaginary operand by repeated complex multiplication, with arbitrary
+association of the factors and with a possible final complex reciprocation
+(when the exponent is negative). Implementations are also permitted to obtain
+the result of exponentiation of a complex operand, but not of a pure-imaginary
+operand, by converting the left operand to a polar representation;
+exponentiating the modulus by the given exponent; multiplying the argument by
+the given exponent; and reconverting to a Cartesian representation. Because of
+this implementation freedom, no accuracy requirement is imposed on complex
+exponentiation (except for the prescribed results given above, which apply
+regardless of the implementation method chosen).
+
+
+                            Implementation Advice
+
+56  Because the usual mathematical meaning of multiplication of a complex
+operand and a real operand is that of the scaling of both components of the
+former by the latter, an implementation should not perform this operation by
+first promoting the real operand to complex type and then performing a full
+complex multiplication. In systems that, in the future, support an Ada binding
+to IEC 559:1989, the latter technique will not generate the required result
+when one of the components of the complex operand is infinite. (Explicit
+multiplication of the infinite component by the zero component obtained during
+promotion yields a NaN that propagates into the final result.) Analogous
+advice applies in the case of multiplication of a complex operand and a
+pure-imaginary operand, and in the case of division of a complex operand by a
+real or pure-imaginary operand.
+
+57  Likewise, because the usual mathematical meaning of addition of a complex
+operand and a real operand is that the imaginary operand remains unchanged, an
+implementation should not perform this operation by first promoting the real
+operand to complex type and then performing a full complex addition. In
+implementations in which the Signed_Zeros attribute of the component type is
+True (and which therefore conform to IEC 559:1989 in regard to the handling of
+the sign of zero in predefined arithmetic operations), the latter technique
+will not generate the required result when the imaginary component of the
+complex operand is a negatively signed zero. (Explicit addition of the
+negative zero to the zero obtained during promotion yields a positive zero.)
+Analogous advice applies in the case of addition of a complex operand and a
+pure-imaginary operand, and in the case of subtraction of a complex operand
+and a real or pure-imaginary operand.
+
+58  Implementations in which Real'Signed_Zeros is True should attempt to
+provide a rational treatment of the signs of zero results and result
+components. As one example, the result of the Argument function should have
+the sign of the imaginary component of the parameter X when the point
+represented by that parameter lies on the positive real axis; as another, the
+sign of the imaginary component of the Compose_From_Polar function should be
+the same as (resp., the opposite of) that of the Argument parameter when that
+parameter has a value of zero and the Modulus parameter has a nonnegative
+(resp., negative) value.
+
+
+G.1.2 Complex Elementary Functions
+
+
+
+                              Static Semantics
+
+1   The generic library package Numerics.Generic_Complex_Elementary_Functions
+has the following declaration:
+
+2/2     with Ada.Numerics.Generic_Complex_Types;
+        generic
+           with package Complex_Types is
+                 new Ada.Numerics.Generic_Complex_Types (<>);
+           use Complex_Types;
+        package Ada.Numerics.Generic_Complex_Elementary_Functions is
+           pragma Pure(Generic_Complex_Elementary_Functions);
+
+3          function Sqrt (X : Complex)   return Complex;
+           function Log  (X : Complex)   return Complex;
+           function Exp  (X : Complex)   return Complex;
+           function Exp  (X : Imaginary) return Complex;
+           function "**" (Left : Complex;   Right : Complex)   return Complex;
+           function "**" (Left : Complex;   Right : Real'Base) return Complex;
+           function "**" (Left : Real'Base; Right : Complex)   return Complex;
+
+4          function Sin (X : Complex) return Complex;
+           function Cos (X : Complex) return Complex;
+           function Tan (X : Complex) return Complex;
+           function Cot (X : Complex) return Complex;
+
+5          function Arcsin (X : Complex) return Complex;
+           function Arccos (X : Complex) return Complex;
+           function Arctan (X : Complex) return Complex;
+           function Arccot (X : Complex) return Complex;
+
+6          function Sinh (X : Complex) return Complex;
+           function Cosh (X : Complex) return Complex;
+           function Tanh (X : Complex) return Complex;
+           function Coth (X : Complex) return Complex;
+
+7          function Arcsinh (X : Complex) return Complex;
+           function Arccosh (X : Complex) return Complex;
+           function Arctanh (X : Complex) return Complex;
+           function Arccoth (X : Complex) return Complex;
+
+8       end Ada.Numerics.Generic_Complex_Elementary_Functions;
+
+9/1 The library package Numerics.Complex_Elementary_Functions is declared pure
+and defines the same subprograms as Numerics.Generic_Complex_Elementary_-
+Functions, except that the predefined type Float is systematically substituted
+for Real'Base, and the Complex and Imaginary types exported by Numerics.-
+Complex_Types are systematically substituted for Complex and Imaginary,
+throughout. Nongeneric equivalents of Numerics.Generic_Complex_Elementary_-
+Functions corresponding to each of the other predefined floating point types
+are defined similarly, with the names Numerics.Short_Complex_Elementary_-
+Functions, Numerics.Long_Complex_Elementary_Functions, etc.
+
+10  The overloading of the Exp function for the pure-imaginary type is
+provided to give the user an alternate way to compose a complex value from a
+given modulus and argument. In addition to Compose_From_Polar(Rho, Theta) (see
+G.1.1), the programmer may write Rho * Exp(i * Theta).
+
+11  The imaginary (resp., real) component of the parameter X of the forward
+hyperbolic (resp., trigonometric) functions and of the Exp function (and the
+parameter X, itself, in the case of the overloading of the Exp function for
+the pure-imaginary type) represents an angle measured in radians, as does the
+imaginary (resp., real) component of the result of the Log and inverse
+hyperbolic (resp., trigonometric) functions.
+
+12  The functions have their usual mathematical meanings. However, the
+arbitrariness inherent in the placement of branch cuts, across which some of
+the complex elementary functions exhibit discontinuities, is eliminated by the
+following conventions:
+
+13    * The imaginary component of the result of the Sqrt and Log functions is
+        discontinuous as the parameter X crosses the negative real axis.
+
+14    * The result of the exponentiation operator when the left operand is of
+        complex type is discontinuous as that operand crosses the negative
+        real axis.
+
+15/2   * The imaginary component of the result of the Arcsin, Arccos, and
+        Arctanh functions is discontinuous as the parameter X crosses the real
+        axis to the left of -1.0 or the right of 1.0.
+
+16/2   * The real component of the result of the Arctan and Arcsinh functions
+        is discontinuous as the parameter X crosses the imaginary axis below
+        -i or above i.
+
+17/2   * The real component of the result of the Arccot function is
+        discontinuous as the parameter X crosses the imaginary axis below -i
+        or above i.
+
+18    * The imaginary component of the Arccosh function is discontinuous as
+        the parameter X crosses the real axis to the left of 1.0.
+
+19    * The imaginary component of the result of the Arccoth function is
+        discontinuous as the parameter X crosses the real axis between -1.0
+        and 1.0.
+
+20/2 The computed results of the mathematically multivalued functions are
+rendered single-valued by the following conventions, which are meant to imply
+that the principal branch is an analytic continuation of the corresponding
+real-valued function in Numerics.Generic_Elementary_Functions. (For Arctan and
+Arccot, the single-argument function in question is that obtained from the
+two-argument version by fixing the second argument to be its default value.)
+
+21    * The real component of the result of the Sqrt and Arccosh functions is
+        nonnegative.
+
+22    * The same convention applies to the imaginary component of the result
+        of the Log function as applies to the result of the natural-cycle
+        version of the Argument function of Numerics.Generic_Complex_Types
+        (see G.1.1).
+
+23    * The range of the real (resp., imaginary) component of the result of
+        the Arcsin and Arctan (resp., Arcsinh and Arctanh) functions is
+        approximately -PI/2.0 to PI/2.0.
+
+24    * The real (resp., imaginary) component of the result of the Arccos and
+        Arccot (resp., Arccoth) functions ranges from 0.0 to approximately
+        PI.
+
+25    * The range of the imaginary component of the result of the Arccosh
+        function is approximately -PI to PI.
+
+26  In addition, the exponentiation operator inherits the single-valuedness of
+the Log function.
+
+
+                              Dynamic Semantics
+
+27  The exception Numerics.Argument_Error is raised by the exponentiation
+operator, signaling a parameter value outside the domain of the corresponding
+mathematical function, when the value of the left operand is zero and the real
+component of the exponent (or the exponent itself, when it is of real type) is
+zero.
+
+28  The exception Constraint_Error is raised, signaling a pole of the
+mathematical function (analogous to dividing by zero), in the following cases,
+provided that Complex_Types.Real'Machine_Overflows is True:
+
+29    * by the Log, Cot, and Coth functions, when the value of the parameter X
+        is zero;
+
+30    * by the exponentiation operator, when the value of the left operand is
+        zero and the real component of the exponent (or the exponent itself,
+        when it is of real type) is negative;
+
+31    * by the Arctan and Arccot functions, when the value of the parameter X
+        is � i;
+
+32    * by the Arctanh and Arccoth functions, when the value of the parameter
+        X is � 1.0.
+
+33  Constraint_Error can also be raised when a finite result overflows (see
+G.2.6); this may occur for parameter values sufficiently near poles, and, in
+the case of some of the functions, for parameter values having components of
+sufficiently large magnitude. When Complex_Types.Real'Machine_Overflows is
+False, the result at poles is unspecified.
+
+
+                         Implementation Requirements
+
+34  In the implementation of Numerics.Generic_Complex_Elementary_Functions,
+the range of intermediate values allowed during the calculation of a final
+result shall not be affected by any range constraint of the subtype
+Complex_Types.Real.
+
+35  In the following cases, evaluation of a complex elementary function shall
+yield the prescribed result (or a result having the prescribed component),
+provided that the preceding rules do not call for an exception to be raised:
+
+36    * When the parameter X has the value zero, the Sqrt, Sin, Arcsin, Tan,
+        Arctan, Sinh, Arcsinh, Tanh, and Arctanh functions yield a result of
+        zero; the Exp, Cos, and Cosh functions yield a result of one; the
+        Arccos and Arccot functions yield a real result; and the Arccoth
+        function yields an imaginary result.
+
+37    * When the parameter X has the value one, the Sqrt function yields a
+        result of one; the Log, Arccos, and Arccosh functions yield a result
+        of zero; and the Arcsin function yields a real result.
+
+38    * When the parameter X has the value -1.0, the Sqrt function yields the
+        result
+
+39        * i (resp., -i), when the sign of the imaginary component of X is
+            positive (resp., negative), if Complex_Types.Real'Signed_Zeros is
+            True;
+
+40        * i, if Complex_Types.Real'Signed_Zeros is False;
+
+41/2   * When the parameter X has the value -1.0, the Log function yields an
+        imaginary result; and the Arcsin and Arccos functions yield a real
+        result.
+
+42    * When the parameter X has the value � i, the Log function yields an
+        imaginary result.
+
+43    * Exponentiation by a zero exponent yields the value one. Exponentiation
+        by a unit exponent yields the value of the left operand (as a complex
+        value). Exponentiation of the value one yields the value one.
+        Exponentiation of the value zero yields the value zero.
+
+44  Other accuracy requirements for the complex elementary functions, which
+apply only in the strict mode, are given in G.2.6.
+
+45  The sign of a zero result or zero result component yielded by a complex
+elementary function is implementation defined when
+Complex_Types.Real'Signed_Zeros is True.
+
+
+                         Implementation Permissions
+
+46  The nongeneric equivalent packages may, but need not, be actual
+instantiations of the generic package with the appropriate predefined
+nongeneric equivalent of Numerics.Generic_Complex_Types; if they are, then the
+latter shall have been obtained by actual instantiation of
+Numerics.Generic_Complex_Types.
+
+47  The exponentiation operator may be implemented in terms of the Exp and Log
+functions. Because this implementation yields poor accuracy in some parts of
+the domain, no accuracy requirement is imposed on complex exponentiation.
+
+48  The implementation of the Exp function of a complex parameter X is allowed
+to raise the exception Constraint_Error, signaling overflow, when the real
+component of X exceeds an unspecified threshold that is approximately log(
+Complex_Types.Real'Safe_Last). This permission recognizes the impracticality
+of avoiding overflow in the marginal case that the exponential of the real
+component of X exceeds the safe range of Complex_Types.Real but both
+components of the final result do not. Similarly, the Sin and Cos (resp., Sinh
+and Cosh) functions are allowed to raise the exception Constraint_Error,
+signaling overflow, when the absolute value of the imaginary (resp., real)
+component of the parameter X exceeds an unspecified threshold that is
+approximately log(Complex_Types.Real'Safe_Last) + log(2.0). This permission
+recognizes the impracticality of avoiding overflow in the marginal case that
+the hyperbolic sine or cosine of the imaginary (resp., real) component of X
+exceeds the safe range of Complex_Types.Real but both components of the final
+result do not.
+
+
+                            Implementation Advice
+
+49  Implementations in which Complex_Types.Real'Signed_Zeros is True should
+attempt to provide a rational treatment of the signs of zero results and
+result components. For example, many of the complex elementary functions have
+components that are odd functions of one of the parameter components; in these
+cases, the result component should have the sign of the parameter component at
+the origin. Other complex elementary functions have zero components whose sign
+is opposite that of a parameter component at the origin, or is always positive
+or always negative.
+
+
+G.1.3 Complex Input-Output
+
+
+1   The generic package Text_IO.Complex_IO defines procedures for the
+formatted input and output of complex values. The generic actual parameter in
+an instantiation of Text_IO.Complex_IO is an instance of
+Numerics.Generic_Complex_Types for some floating point subtype. Exceptional
+conditions are reported by raising the appropriate exception defined in
+Text_IO.
+
+
+                              Static Semantics
+
+2   The generic library package Text_IO.Complex_IO has the following
+declaration:
+
+3       with Ada.Numerics.Generic_Complex_Types;
+        generic
+           with package Complex_Types is
+                 new Ada.Numerics.Generic_Complex_Types (<>);
+        package Ada.Text_IO.Complex_IO is
+
+4          use Complex_Types;
+
+5          Default_Fore : Field := 2;
+           Default_Aft  : Field := Real'Digits - 1;
+           Default_Exp  : Field := 3;
+
+6          procedure Get (File  : in  File_Type;
+                          Item  : out Complex;
+                          Width : in  Field := 0);
+           procedure Get (Item  : out Complex;
+                          Width : in  Field := 0);
+
+7          procedure Put (File : in File_Type;
+                          Item : in Complex;
+                          Fore : in Field := Default_Fore;
+                          Aft  : in Field := Default_Aft;
+                          Exp  : in Field := Default_Exp);
+           procedure Put (Item : in Complex;
+                          Fore : in Field := Default_Fore;
+                          Aft  : in Field := Default_Aft;
+                          Exp  : in Field := Default_Exp);
+
+8          procedure Get (From : in  String;
+                          Item : out Complex;
+                          Last : out Positive);
+           procedure Put (To   : out String;
+                          Item : in  Complex;
+                          Aft  : in  Field := Default_Aft;
+                          Exp  : in  Field := Default_Exp);
+
+9       end Ada.Text_IO.Complex_IO;
+
+9.1/2 The library package Complex_Text_IO defines the same subprograms as
+Text_IO.Complex_IO, except that the predefined type Float is systematically
+substituted for Real, and the type Numerics.Complex_Types.Complex is
+systematically substituted for Complex throughout. Nongeneric equivalents of
+Text_IO.Complex_IO corresponding to each of the other predefined floating
+point types are defined similarly, with the names Short_Complex_Text_IO,
+Long_Complex_Text_IO, etc.
+
+10  The semantics of the Get and Put procedures are as follows:
+
+11      procedure Get (File  : in  File_Type;
+                       Item  : out Complex;
+                       Width : in  Field := 0);
+        procedure Get (Item  : out Complex;
+                       Width : in  Field := 0);
+
+12/1        The input sequence is a pair of optionally signed real literals
+            representing the real and imaginary components of a complex value.
+            These components have the format defined for the corresponding Get
+            procedure of an instance of Text_IO.Float_IO (see A.10.9) for the
+            base subtype of Complex_Types.Real. The pair of components may be
+            separated by a comma or surrounded by a pair of parentheses or
+            both. Blanks are freely allowed before each of the components and
+            before the parentheses and comma, if either is used. If the value
+            of the parameter Width is zero, then
+
+13            * line and page terminators are also allowed in these places;
+
+14            * the components shall be separated by at least one blank or
+                line terminator if the comma is omitted; and
+
+15            * reading stops when the right parenthesis has been read, if the
+                input sequence includes a left parenthesis, or when the
+                imaginary component has been read, otherwise.
+
+15.1        If a nonzero value of Width is supplied, then
+
+16            * the components shall be separated by at least one blank if the
+                comma is omitted; and
+
+17            * exactly Width characters are read, or the characters (possibly
+                none) up to a line terminator, whichever comes first (blanks
+                are included in the count).
+
+18          Returns, in the parameter Item, the value of type Complex that
+            corresponds to the input sequence.
+
+19          The exception Text_IO.Data_Error is raised if the input sequence
+            does not have the required syntax or if the components of the
+            complex value obtained are not of the base subtype of
+            Complex_Types.Real.
+
+20      procedure Put (File : in File_Type;
+                       Item : in Complex;
+                       Fore : in Field := Default_Fore;
+                       Aft  : in Field := Default_Aft;
+                       Exp  : in Field := Default_Exp);
+        procedure Put (Item : in Complex;
+                       Fore : in Field := Default_Fore;
+                       Aft  : in Field := Default_Aft;
+                       Exp  : in Field := Default_Exp);
+
+21          Outputs the value of the parameter Item as a pair of decimal
+            literals representing the real and imaginary components of the
+            complex value, using the syntax of an aggregate. More
+            specifically,
+
+22            * outputs a left parenthesis;
+
+23            * outputs the value of the real component of the parameter Item
+                with the format defined by the corresponding Put procedure of
+                an instance of Text_IO.Float_IO for the base subtype of
+                Complex_Types.Real, using the given values of Fore, Aft, and
+                Exp;
+
+24            * outputs a comma;
+
+25            * outputs the value of the imaginary component of the parameter
+                Item with the format defined by the corresponding Put
+                procedure of an instance of Text_IO.Float_IO for the base
+                subtype of Complex_Types.Real, using the given values of Fore,
+                Aft, and Exp;
+
+26            * outputs a right parenthesis.
+
+27      procedure Get (From : in  String;
+                       Item : out Complex;
+                       Last : out Positive);
+
+28/2        Reads a complex value from the beginning of the given string,
+            following the same rule as the Get procedure that reads a complex
+            value from a file, but treating the end of the string as a file
+            terminator. Returns, in the parameter Item, the value of type
+            Complex that corresponds to the input sequence. Returns in Last
+            the index value such that From(Last) is the last character read.
+
+29          The exception Text_IO.Data_Error is raised if the input sequence
+            does not have the required syntax or if the components of the
+            complex value obtained are not of the base subtype of
+            Complex_Types.Real.
+
+30      procedure Put (To   : out String;
+                       Item : in  Complex;
+                       Aft  : in  Field := Default_Aft;
+                       Exp  : in  Field := Default_Exp);
+
+31          Outputs the value of the parameter Item to the given string as a
+            pair of decimal literals representing the real and imaginary
+            components of the complex value, using the syntax of an aggregate.
+            More specifically,
+
+32            * a left parenthesis, the real component, and a comma are left
+                justified in the given string, with the real component having
+                the format defined by the Put procedure (for output to a file)
+                of an instance of Text_IO.Float_IO for the base subtype of
+                Complex_Types.Real, using a value of zero for Fore and the
+                given values of Aft and Exp;
+
+33            * the imaginary component and a right parenthesis are right
+                justified in the given string, with the imaginary component
+                having the format defined by the Put procedure (for output to
+                a file) of an instance of Text_IO.Float_IO for the base
+                subtype of Complex_Types.Real, using a value for Fore that
+                completely fills the remainder of the string, together with
+                the given values of Aft and Exp.
+
+34          The exception Text_IO.Layout_Error is raised if the given string
+            is too short to hold the formatted output.
+
+
+                         Implementation Permissions
+
+35  Other exceptions declared (by renaming) in Text_IO may be raised by the
+preceding procedures in the appropriate circumstances, as for the
+corresponding procedures of Text_IO.Float_IO.
+
+
+G.1.4 The Package Wide_Text_IO.Complex_IO
+
+
+
+                              Static Semantics
+
+1   Implementations shall also provide the generic library package
+Wide_Text_IO.Complex_IO. Its declaration is obtained from that of
+Text_IO.Complex_IO by systematically replacing Text_IO by Wide_Text_IO and
+String by Wide_String; the description of its behavior is obtained by
+additionally replacing references to particular characters (commas,
+parentheses, etc.) by those for the corresponding wide characters.
+
+
+G.1.5 The Package Wide_Wide_Text_IO.Complex_IO
+
+
+
+                              Static Semantics
+
+1/2 Implementations shall also provide the generic library package
+Wide_Wide_Text_IO.Complex_IO. Its declaration is obtained from that of
+Text_IO.Complex_IO by systematically replacing Text_IO by Wide_Wide_Text_IO
+and String by Wide_Wide_String; the description of its behavior is obtained by
+additionally replacing references to particular characters (commas,
+parentheses, etc.) by those for the corresponding wide wide characters.
+
+
+G.2 Numeric Performance Requirements
+
+
+
+                         Implementation Requirements
+
+1   Implementations shall provide a user-selectable mode in which the accuracy
+and other numeric performance requirements detailed in the following
+subclauses are observed. This mode, referred to as the strict mode, may or may
+not be the default mode; it directly affects the results of the predefined
+arithmetic operations of real types and the results of the subprograms in
+children of the Numerics package, and indirectly affects the operations in
+other language defined packages. Implementations shall also provide the
+opposing mode, which is known as the relaxed mode.
+
+
+                         Implementation Permissions
+
+2   Either mode may be the default mode.
+
+3   The two modes need not actually be different.
+
+
+G.2.1 Model of Floating Point Arithmetic
+
+
+1   In the strict mode, the predefined operations of a floating point type
+shall satisfy the accuracy requirements specified here and shall avoid or
+signal overflow in the situations described. This behavior is presented in
+terms of a model of floating point arithmetic that builds on the concept of
+the canonical form (see A.5.3).
+
+
+                              Static Semantics
+
+2   Associated with each floating point type is an infinite set of model
+numbers. The model numbers of a type are used to define the accuracy
+requirements that have to be satisfied by certain predefined operations of the
+type; through certain attributes of the model numbers, they are also used to
+explain the meaning of a user-declared floating point type declaration. The
+model numbers of a derived type are those of the parent type; the model
+numbers of a subtype are those of its type.
+
+3   The model numbers of a floating point type T are zero and all the values
+expressible in the canonical form (for the type T), in which mantissa has
+T'Model_Mantissa digits and exponent has a value greater than or equal to
+T'Model_Emin. (These attributes are defined in G.2.2.)
+
+4   A model interval of a floating point type is any interval whose bounds are
+model numbers of the type. The model interval of a type T associated with a
+value v is the smallest model interval of T that includes v. (The model
+interval associated with a model number of a type consists of that number
+only.)
+
+
+                         Implementation Requirements
+
+5   The accuracy requirements for the evaluation of certain predefined
+operations of floating point types are as follows.
+
+6   An operand interval is the model interval, of the type specified for the
+operand of an operation, associated with the value of the operand.
+
+7   For any predefined arithmetic operation that yields a result of a floating
+point type T, the required bounds on the result are given by a model interval
+of T (called the result interval) defined in terms of the operand values as
+follows:
+
+8     * The result interval is the smallest model interval of T that includes
+        the minimum and the maximum of all the values obtained by applying the
+        (exact) mathematical operation to values arbitrarily selected from the
+        respective operand intervals.
+
+9   The result interval of an exponentiation is obtained by applying the above
+rule to the sequence of multiplications defined by the exponent, assuming
+arbitrary association of the factors, and to the final division in the case of
+a negative exponent.
+
+10  The result interval of a conversion of a numeric value to a floating point
+type T is the model interval of T associated with the operand value, except
+when the source expression is of a fixed point type with a small that is not a
+power of T'Machine_Radix or is a fixed point multiplication or division either
+of whose operands has a small that is not a power of T'Machine_Radix; in these
+cases, the result interval is implementation defined.
+
+11  For any of the foregoing operations, the implementation shall deliver a
+value that belongs to the result interval when both bounds of the result
+interval are in the safe range of the result type T, as determined by the
+values of T'Safe_First and T'Safe_Last; otherwise,
+
+12    * if T'Machine_Overflows is True, the implementation shall either
+        deliver a value that belongs to the result interval or raise
+        Constraint_Error;
+
+13    * if T'Machine_Overflows is False, the result is implementation defined.
+
+14  For any predefined relation on operands of a floating point type T, the
+implementation may deliver any value (i.e., either True or False) obtained by
+applying the (exact) mathematical comparison to values arbitrarily chosen from
+the respective operand intervals.
+
+15  The result of a membership test is defined in terms of comparisons of the
+operand value with the lower and upper bounds of the given range or type mark
+(the usual rules apply to these comparisons).
+
+
+                         Implementation Permissions
+
+16  If the underlying floating point hardware implements division as
+multiplication by a reciprocal, the result interval for division (and
+exponentiation by a negative exponent) is implementation defined.
+
+
+G.2.2 Model-Oriented Attributes of Floating Point Types
+
+
+1   In implementations that support the Numerics Annex, the model-oriented
+attributes of floating point types shall yield the values defined here, in
+both the strict and the relaxed modes. These definitions add conditions to
+those in A.5.3.
+
+
+                              Static Semantics
+
+2   For every subtype S of a floating point type T:
+
+3/2 S'Model_Mantissa
+                Yields the number of digits in the mantissa of the canonical
+                form of the model numbers of T (see A.5.3). The value of this
+                attribute shall be greater than or equal to
+
+3.1/2               Ceiling(d � log(10) / log(T'Machine_Radix)) + g
+
+3.2/2           where d is the requested decimal precision of T, and g is 0 if
+                T'Machine_Radix is a positive power of 10 and 1 otherwise. In
+                addition, T'Model_Mantissa shall be less than or equal to the
+                value of T'Machine_Mantissa. This attribute yields a value of
+                the type universal_integer.
+
+4   S'Model_Emin
+                Yields the minimum exponent of the canonical form of the model
+                numbers of T (see A.5.3). The value of this attribute shall be
+                greater than or equal to the value of T'Machine_Emin. This
+                attribute yields a value of the type universal_integer.
+
+5   S'Safe_First
+                Yields the lower bound of the safe range of T. The value of
+                this attribute shall be a model number of T and greater than
+                or equal to the lower bound of the base range of T. In
+                addition, if T is declared by a floating_point_definition or
+                is derived from such a type, and the
+                floating_point_definition includes a
+                real_range_specification specifying a lower bound of lb, then
+                the value of this attribute shall be less than or equal to lb;
+                otherwise, it shall be less than or equal to -10.0 (4 � d),
+                where d is the requested decimal precision of T. This
+                attribute yields a value of the type universal_real.
+
+6   S'Safe_Last Yields the upper bound of the safe range of T. The value of
+                this attribute shall be a model number of T and less than or
+                equal to the upper bound of the base range of T. In addition,
+                if T is declared by a floating_point_definition or is derived
+                from such a type, and the floating_point_definition includes a
+                real_range_specification specifying an upper bound of ub, then
+                the value of this attribute shall be greater than or equal to
+                ub; otherwise, it shall be greater than or equal to 10.0 (4 �
+                d), where d is the requested decimal precision of T. This
+                attribute yields a value of the type universal_real.
+
+7   S'Model     Denotes a function (of a parameter X) whose specification is
+                given in A.5.3. If X is a model number of T, the function
+                yields X; otherwise, it yields the value obtained by rounding
+                or truncating X to either one of the adjacent model numbers of
+                T. Constraint_Error is raised if the resulting model number is
+                outside the safe range of S. A zero result has the sign of X
+                when S'Signed_Zeros is True.
+
+8   Subject to the constraints given above, the values of S'Model_Mantissa and
+S'Safe_Last are to be maximized, and the values of S'Model_Emin and
+S'Safe_First minimized, by the implementation as follows:
+
+9     * First, S'Model_Mantissa is set to the largest value for which values
+        of S'Model_Emin, S'Safe_First, and S'Safe_Last can be chosen so that
+        the implementation satisfies the strict-mode requirements of G.2.1 in
+        terms of the model numbers and safe range induced by these attributes.
+
+10    * Next, S'Model_Emin is set to the smallest value for which values of
+        S'Safe_First and S'Safe_Last can be chosen so that the implementation
+        satisfies the strict-mode requirements of G.2.1 in terms of the model
+        numbers and safe range induced by these attributes and the previously
+        determined value of S'Model_Mantissa.
+
+11/3   * Finally, S'Safe_First and S'Safe_Last are set (in either order) to
+        the smallest and largest values, respectively, for which the
+        implementation satisfies the strict-mode requirements of G.2.1 in
+        terms of the model numbers and safe range induced by these attributes
+        and the previously determined values of S'Model_Mantissa and
+        S'Model_Emin.
+
+
+G.2.3 Model of Fixed Point Arithmetic
+
+
+1   In the strict mode, the predefined arithmetic operations of a fixed point
+type shall satisfy the accuracy requirements specified here and shall avoid or
+signal overflow in the situations described.
+
+
+                         Implementation Requirements
+
+2   The accuracy requirements for the predefined fixed point arithmetic
+operations and conversions, and the results of relations on fixed point
+operands, are given below.
+
+3   The operands of the fixed point adding operators, absolute value, and
+comparisons have the same type. These operations are required to yield exact
+results, unless they overflow.
+
+4   Multiplications and divisions are allowed between operands of any two
+fixed point types; the result has to be (implicitly or explicitly) converted
+to some other numeric type. For purposes of defining the accuracy rules, the
+multiplication or division and the conversion are treated as a single
+operation whose accuracy depends on three types (those of the operands and the
+result). For decimal fixed point types, the attribute T'Round may be used to
+imply explicit conversion with rounding (see 3.5.10).
+
+5   When the result type is a floating point type, the accuracy is as given in
+G.2.1. For some combinations of the operand and result types in the remaining
+cases, the result is required to belong to a small set of values called the
+perfect result set; for other combinations, it is required merely to belong to
+a generally larger and implementation-defined set of values called the close
+result set. When the result type is a decimal fixed point type, the perfect
+result set contains a single value; thus, operations on decimal types are
+always fully specified.
+
+6   When one operand of a fixed-fixed multiplication or division is of type
+universal_real, that operand is not implicitly converted in the usual sense,
+since the context does not determine a unique target type, but the accuracy of
+the result of the multiplication or division (i.e., whether the result has to
+belong to the perfect result set or merely the close result set) depends on
+the value of the operand of type universal_real and on the types of the other
+operand and of the result.
+
+7   For a fixed point multiplication or division whose (exact) mathematical
+result is v, and for the conversion of a value v to a fixed point type, the
+perfect result set and close result set are defined as follows:
+
+8     * If the result type is an ordinary fixed point type with a small of s,
+
+9         * if v is an integer multiple of s, then the perfect result set
+            contains only the value v;
+
+10        * otherwise, it contains the integer multiple of s just below v and
+            the integer multiple of s just above v.
+
+11      The close result set is an implementation-defined set of consecutive
+        integer multiples of s containing the perfect result set as a subset.
+
+12    * If the result type is a decimal type with a small of s,
+
+13        * if v is an integer multiple of s, then the perfect result set
+            contains only the value v;
+
+14/3      * otherwise, if truncation applies, then it contains only the
+            integer multiple of s in the direction toward zero, whereas if
+            rounding applies, then it contains only the nearest integer
+            multiple of s (with ties broken by rounding away from zero).
+
+15      The close result set is an implementation-defined set of consecutive
+        integer multiples of s containing the perfect result set as a subset.
+
+16    * If the result type is an integer type,
+
+17        * if v is an integer, then the perfect result set contains only the
+            value v;
+
+18        * otherwise, it contains the integer nearest to the value v (if v
+            lies equally distant from two consecutive integers, the perfect
+            result set contains the one that is further from zero).
+
+19      The close result set is an implementation-defined set of consecutive
+        integers containing the perfect result set as a subset.
+
+20  The result of a fixed point multiplication or division shall belong either
+to the perfect result set or to the close result set, as described below, if
+overflow does not occur. In the following cases, if the result type is a fixed
+point type, let s be its small; otherwise, i.e. when the result type is an
+integer type, let s be 1.0.
+
+21    * For a multiplication or division neither of whose operands is of type
+        universal_real, let l and r be the smalls of the left and right
+        operands. For a multiplication, if (l � r) / s is an integer or the
+        reciprocal of an integer (the smalls are said to be "compatible" in
+        this case), the result shall belong to the perfect result set;
+        otherwise, it belongs to the close result set. For a division, if l /
+        (r � s) is an integer or the reciprocal of an integer (i.e., the
+        smalls are compatible), the result shall belong to the perfect result
+        set; otherwise, it belongs to the close result set.
+
+22    * For a multiplication or division having one universal_real operand
+        with a value of v, note that it is always possible to factor v as an
+        integer multiple of a "compatible" small, but the integer multiple may
+        be "too big." If there exists a factorization in which that multiple
+        is less than some implementation-defined limit, the result shall
+        belong to the perfect result set; otherwise, it belongs to the close
+        result set.
+
+23  A multiplication P * Q of an operand of a fixed point type F by an operand
+of an integer type I, or vice-versa, and a division P / Q of an operand of a
+fixed point type F by an operand of an integer type I, are also allowed. In
+these cases, the result has a type of F; explicit conversion of the result is
+never required. The accuracy required in these cases is the same as that
+required for a multiplication F(P * Q) or a division F(P / Q) obtained by
+interpreting the operand of the integer type to have a fixed point type with a
+small of 1.0.
+
+24  The accuracy of the result of a conversion from an integer or fixed point
+type to a fixed point type, or from a fixed point type to an integer type, is
+the same as that of a fixed point multiplication of the source value by a
+fixed point operand having a small of 1.0 and a value of 1.0, as given by the
+foregoing rules. The result of a conversion from a floating point type to a
+fixed point type shall belong to the close result set. The result of a
+conversion of a universal_real operand to a fixed point type shall belong to
+the perfect result set.
+
+25  The possibility of overflow in the result of a predefined arithmetic
+operation or conversion yielding a result of a fixed point type T is analogous
+to that for floating point types, except for being related to the base range
+instead of the safe range. If all of the permitted results belong to the base
+range of T, then the implementation shall deliver one of the permitted
+results; otherwise,
+
+26    * if T'Machine_Overflows is True, the implementation shall either
+        deliver one of the permitted results or raise Constraint_Error;
+
+27    * if T'Machine_Overflows is False, the result is implementation defined.
+
+
+G.2.4 Accuracy Requirements for the Elementary Functions
+
+
+1   In the strict mode, the performance of
+Numerics.Generic_Elementary_Functions shall be as specified here.
+
+
+                         Implementation Requirements
+
+2   When an exception is not raised, the result of evaluating a function in an
+instance EF of Numerics.Generic_Elementary_Functions belongs to a result
+interval, defined as the smallest model interval of EF.Float_Type that
+contains all the values of the form f � (1.0 + d), where f is the exact value
+of the corresponding mathematical function at the given parameter values, d is
+a real number, and |d| is less than or equal to the function's maximum
+relative error. The function delivers a value that belongs to the result
+interval when both of its bounds belong to the safe range of EF.Float_Type;
+otherwise,
+
+3     * if EF.Float_Type'Machine_Overflows is True, the function either
+        delivers a value that belongs to the result interval or raises
+        Constraint_Error, signaling overflow;
+
+4     * if EF.Float_Type'Machine_Overflows is False, the result is
+        implementation defined.
+
+5   The maximum relative error exhibited by each function is as follows:
+
+6     * 2.0 � EF.Float_Type'Model_Epsilon, in the case of the Sqrt, Sin, and
+        Cos functions;
+
+7     * 4.0 � EF.Float_Type'Model_Epsilon, in the case of the Log, Exp, Tan,
+        Cot, and inverse trigonometric functions; and
+
+8     * 8.0 � EF.Float_Type'Model_Epsilon, in the case of the forward and
+        inverse hyperbolic functions.
+
+9   The maximum relative error exhibited by the exponentiation operator, which
+depends on the values of the operands, is (4.0 + |Right � log(Left)| / 32.0) �
+EF.Float_Type'Model_Epsilon.
+
+10  The maximum relative error given above applies throughout the domain of
+the forward trigonometric functions when the Cycle parameter is specified.
+When the Cycle parameter is omitted, the maximum relative error given above
+applies only when the absolute value of the angle parameter X is less than or
+equal to some implementation-defined angle threshold, which shall be at least
+EF.Float_Type'Machine_Radix (Floor(EF.Float_Type'Machine_Mantissa/2)). Beyond
+the angle threshold, the accuracy of the forward trigonometric functions is
+implementation defined.
+
+11/2 The prescribed results specified in A.5.1 for certain functions at
+particular parameter values take precedence over the maximum relative error
+bounds; effectively, they narrow to a single value the result interval allowed
+by the maximum relative error bounds. Additional rules with a similar effect
+are given by table G-1 for the inverse trigonometric functions, at particular
+parameter values for which the mathematical result is possibly not a model
+number of EF.Float_Type (or is, indeed, even transcendental). In each table
+entry, the values of the parameters are such that the result lies on the axis
+between two quadrants; the corresponding accuracy rule, which takes precedence
+over the maximum relative error bounds, is that the result interval is the
+model interval of EF.Float_Type associated with the exact mathematical result
+given in the table.
+
+12/1 This paragraph was deleted.
+
+13  The last line of the table is meant to apply when
+EF.Float_Type'Signed_Zeros is False; the two lines just above it, when
+EF.Float_Type'Signed_Zeros is True and the parameter Y has a zero value with
+the indicated sign.
+
+          Table G-1: Tightly Approximated Elementary Function Results
+
+          Function                                                               
+          Value of X                                                             
+          Value of Y                                                             
+          Exact Result
+          when Cycle
+          Specified                                                              
+          Exact Result
+          when Cycle
+          Omitted
+
+          Arcsin                                                                 
+          1.0                                                                    
+          n.a.                                                                   
+          Cycle/4.0                                                              
+          PI/2.0
+          Arcsin                                                                 
+          -1.0                                                                   
+          n.a.                                                                   
+          -Cycle/4.0                                                             
+          -PI/2.0
+          Arccos                                                                 
+          0.0                                                                    
+          n.a.                                                                   
+          Cycle/4.0                                                              
+          PI/2.0
+          Arccos                                                                 
+          -1.0                                                                   
+          n.a.                                                                   
+          Cycle/2.0                                                              
+          PI
+          Arctan and Arccot                                                      
+          0.0                                                                    
+          positive                                                               
+          Cycle/4.0                                                              
+          PI/2.0
+          Arctan and Arccot                                                      
+          0.0                                                                    
+          negative                                                               
+          -Cycle/4.0                                                             
+          -PI/2.0
+          Arctan and Arccot                                                      
+          negative                                                               
+          +0.0                                                                   
+          Cycle/2.0                                                              
+          PI
+          Arctan and Arccot                                                      
+          negative                                                               
+          -0.0                                                                   
+          -Cycle/2.0                                                             
+          -PI
+          Arctan and Arccot                                                      
+          negative                                                               
+          0.0                                                                    
+          Cycle/2.0                                                              
+          PI
+14  The amount by which the result of an inverse trigonometric function is
+allowed to spill over into a quadrant adjacent to the one corresponding to the
+principal branch, as given in A.5.1, is limited. The rule is that the result
+belongs to the smallest model interval of EF.Float_Type that contains both
+boundaries of the quadrant corresponding to the principal branch. This rule
+also takes precedence over the maximum relative error bounds, effectively
+narrowing the result interval allowed by them.
+
+15  Finally, the following specifications also take precedence over the
+maximum relative error bounds:
+
+16    * The absolute value of the result of the Sin, Cos, and Tanh functions
+        never exceeds one.
+
+17    * The absolute value of the result of the Coth function is never less
+        than one.
+
+18    * The result of the Cosh function is never less than one.
+
+
+                            Implementation Advice
+
+19  The versions of the forward trigonometric functions without a Cycle
+parameter should not be implemented by calling the corresponding version with
+a Cycle parameter of 2.0*Numerics.Pi, since this will not provide the required
+accuracy in some portions of the domain. For the same reason, the version of
+Log without a Base parameter should not be implemented by calling the
+corresponding version with a Base parameter of Numerics.e.
+
+
+G.2.5 Performance Requirements for Random Number Generation
+
+
+1   In the strict mode, the performance of Numerics.Float_Random and
+Numerics.Discrete_Random shall be as specified here.
+
+
+                         Implementation Requirements
+
+2   Two different calls to the time-dependent Reset procedure shall reset the
+generator to different states, provided that the calls are separated in time
+by at least one second and not more than fifty years.
+
+3   The implementation's representations of generator states and its
+algorithms for generating random numbers shall yield a period of at least
+2(31)-2; much longer periods are desirable but not required.
+
+4   The implementations of Numerics.Float_Random.Random and
+Numerics.Discrete_Random.Random shall pass at least 85% of the individual
+trials in a suite of statistical tests. For Numerics.Float_Random, the tests
+are applied directly to the floating point values generated (i.e., they are
+not converted to integers first), while for Numerics.Discrete_Random they are
+applied to the generated values of various discrete types. Each test suite
+performs 6 different tests, with each test repeated 10 times, yielding a total
+of 60 individual trials. An individual trial is deemed to pass if the
+chi-square value (or other statistic) calculated for the observed counts or
+distribution falls within the range of values corresponding to the 2.5 and
+97.5 percentage points for the relevant degrees of freedom (i.e., it shall be
+neither too high nor too low). For the purpose of determining the degrees of
+freedom, measurement categories are combined whenever the expected counts are
+fewer than 5.
+
+
+G.2.6 Accuracy Requirements for Complex Arithmetic
+
+
+1   In the strict mode, the performance of Numerics.Generic_Complex_Types and
+Numerics.Generic_Complex_Elementary_Functions shall be as specified here.
+
+
+                         Implementation Requirements
+
+2   When an exception is not raised, the result of evaluating a real function
+of an instance CT of Numerics.Generic_Complex_Types (i.e., a function that
+yields a value of subtype CT.Real'Base or CT.Imaginary) belongs to a result
+interval defined as for a real elementary function (see G.2.4).
+
+3   When an exception is not raised, each component of the result of
+evaluating a complex function of such an instance, or of an instance of
+Numerics.Generic_Complex_Elementary_Functions obtained by instantiating the
+latter with CT (i.e., a function that yields a value of subtype CT.Complex),
+also belongs to a result interval. The result intervals for the components of
+the result are either defined by a maximum relative error bound or by a
+maximum box error bound. When the result interval for the real (resp.,
+imaginary) component is defined by maximum relative error, it is defined as
+for that of a real function, relative to the exact value of the real (resp.,
+imaginary) part of the result of the corresponding mathematical function. When
+defined by maximum box error, the result interval for a component of the
+result is the smallest model interval of CT.Real that contains all the values
+of the corresponding part of f � (1.0 + d), where f is the exact complex value
+of the corresponding mathematical function at the given parameter values, d is
+complex, and |d| is less than or equal to the given maximum box error. The
+function delivers a value that belongs to the result interval (or a value both
+of whose components belong to their respective result intervals) when both
+bounds of the result interval(s) belong to the safe range of CT.Real;
+otherwise,
+
+4     * if CT.Real'Machine_Overflows is True, the function either delivers a
+        value that belongs to the result interval (or a value both of whose
+        components belong to their respective result intervals) or raises
+        Constraint_Error, signaling overflow;
+
+5     * if CT.Real'Machine_Overflows is False, the result is implementation
+        defined.
+
+6/2 The error bounds for particular complex functions are tabulated in table
+G-2. In the table, the error bound is given as the coefficient of
+CT.Real'Model_Epsilon.
+
+7/1 This paragraph was deleted.
+
+          Table G-2: Error Bounds for Particular Complex Functions
+
+          Function or Operator                                                 
+          Nature of
+          Result                                                               
+          Nature of
+          Bound                                                                
+          Error Bound
+
+          Modulus                                                              
+          real                                                                 
+          max. rel. error                                                      
+          3.0
+          Argument                                                             
+          real                                                                 
+          max. rel. error                                                      
+          4.0
+          Compose_From_Polar                                                   
+          complex                                                              
+          max. rel. error                                                      
+          3.0
+          "*" (both operands complex)                                          
+          complex                                                              
+          max. box error                                                       
+          5.0
+          "/" (right operand complex)                                          
+          complex                                                              
+          max. box error                                                       
+          13.0
+          Sqrt                                                                 
+          complex                                                              
+          max. rel. error                                                      
+          6.0
+          Log                                                                  
+          complex                                                              
+          max. box error                                                       
+          13.0
+          Exp (complex parameter)                                              
+          complex                                                              
+          max. rel. error                                                      
+          7.0
+          Exp (imaginary parameter)                                            
+          complex                                                              
+          max. rel. error                                                      
+          2.0
+          Sin, Cos, Sinh, and Cosh                                             
+          complex                                                              
+          max. rel. error                                                      
+          11.0
+          Tan, Cot, Tanh, and Coth                                             
+          complex                                                              
+          max. rel. error                                                      
+          35.0
+          inverse trigonometric                                                
+          complex                                                              
+          max. rel. error                                                      
+          14.0
+          inverse hyperbolic                                                   
+          complex                                                              
+          max. rel. error                                                      
+          14.0
+8   The maximum relative error given above applies throughout the domain of
+the Compose_From_Polar function when the Cycle parameter is specified. When
+the Cycle parameter is omitted, the maximum relative error applies only when
+the absolute value of the parameter Argument is less than or equal to the
+angle threshold (see G.2.4). For the Exp function, and for the forward
+hyperbolic (resp., trigonometric) functions, the maximum relative error given
+above likewise applies only when the absolute value of the imaginary (resp.,
+real) component of the parameter X (or the absolute value of the parameter
+itself, in the case of the Exp function with a parameter of pure-imaginary
+type) is less than or equal to the angle threshold. For larger angles, the
+accuracy is implementation defined.
+
+9   The prescribed results specified in G.1.2 for certain functions at
+particular parameter values take precedence over the error bounds;
+effectively, they narrow to a single value the result interval allowed by the
+error bounds for a component of the result. Additional rules with a similar
+effect are given below for certain inverse trigonometric and inverse
+hyperbolic functions, at particular parameter values for which a component of
+the mathematical result is transcendental. In each case, the accuracy rule,
+which takes precedence over the error bounds, is that the result interval for
+the stated result component is the model interval of CT.Real associated with
+the component's exact mathematical value. The cases in question are as
+follows:
+
+10    * When the parameter X has the value zero, the real (resp., imaginary)
+        component of the result of the Arccot (resp., Arccoth) function is in
+        the model interval of CT.Real associated with the value PI/2.0.
+
+11    * When the parameter X has the value one, the real component of the
+        result of the Arcsin function is in the model interval of CT.Real
+        associated with the value PI/2.0.
+
+12    * When the parameter X has the value -1.0, the real component of the
+        result of the Arcsin (resp., Arccos) function is in the model interval
+        of CT.Real associated with the value -PI/2.0 (resp., PI).
+
+13/2 The amount by which a component of the result of an inverse trigonometric
+or inverse hyperbolic function is allowed to spill over into a quadrant
+adjacent to the one corresponding to the principal branch, as given in G.1.2,
+is limited. The rule is that the result belongs to the smallest model interval
+of CT.Real that contains both boundaries of the quadrant corresponding to the
+principal branch. This rule also takes precedence over the maximum error
+bounds, effectively narrowing the result interval allowed by them.
+
+14  Finally, the results allowed by the error bounds are narrowed by one
+further rule: The absolute value of each component of the result of the Exp
+function, for a pure-imaginary parameter, never exceeds one.
+
+
+                            Implementation Advice
+
+15  The version of the Compose_From_Polar function without a Cycle parameter
+should not be implemented by calling the corresponding version with a Cycle
+parameter of 2.0*Numerics.Pi, since this will not provide the required
+accuracy in some portions of the domain.
+
+
+G.3 Vector and Matrix Manipulation
+
+
+1/2 Types and operations for the manipulation of real vectors and matrices are
+provided in Generic_Real_Arrays, which is defined in G.3.1. Types and
+operations for the manipulation of complex vectors and matrices are provided
+in Generic_Complex_Arrays, which is defined in G.3.2. Both of these library
+units are generic children of the predefined package Numerics (see A.5).
+Nongeneric equivalents of these packages for each of the predefined floating
+point types are also provided as children of Numerics.
+
+
+G.3.1 Real Vectors and Matrices
+
+
+
+                              Static Semantics
+
+1/2 The generic library package Numerics.Generic_Real_Arrays has the following
+declaration:
+
+2/2     generic
+           type Real is digits <>;
+        package Ada.Numerics.Generic_Real_Arrays is
+           pragma Pure(Generic_Real_Arrays);
+
+3/2        -- Types
+
+4/2        type Real_Vector is array (Integer range <>) of Real'Base;
+           type Real_Matrix is array (Integer range <>, Integer range <>)
+                                                           of Real'Base;
+
+5/2        -- Subprograms for Real_Vector types
+
+6/2        -- Real_Vector arithmetic operations
+
+7/2        function "+"   (Right : Real_Vector)       return Real_Vector;
+           function "-"   (Right : Real_Vector)       return Real_Vector;
+           function "abs" (Right : Real_Vector)       return Real_Vector;
+
+8/2        function "+"   (Left, Right : Real_Vector) return Real_Vector;
+           function "-"   (Left, Right : Real_Vector) return Real_Vector;
+
+9/2        function "*"   (Left, Right : Real_Vector) return Real'Base;
+
+10/2       function "abs" (Right : Real_Vector)       return Real'Base;
+
+11/2       -- Real_Vector scaling operations
+
+12/2       function "*" (Left : Real'Base;   Right : Real_Vector)
+              return Real_Vector;
+           function "*" (Left : Real_Vector; Right : Real'Base)
+              return Real_Vector;
+           function "/" (Left : Real_Vector; Right : Real'Base)
+              return Real_Vector;
+
+13/2       -- Other Real_Vector operations
+
+14/2       function Unit_Vector (Index : Integer;
+                                 Order : Positive;
+                                 First : Integer := 1) return Real_Vector;
+
+15/2       -- Subprograms for Real_Matrix types
+
+16/2       -- Real_Matrix arithmetic operations
+
+17/2       function "+"       (Right : Real_Matrix) return Real_Matrix;
+           function "-"       (Right : Real_Matrix) return Real_Matrix;
+           function "abs"     (Right : Real_Matrix) return Real_Matrix;
+           function Transpose (X     : Real_Matrix) return Real_Matrix;
+
+18/2       function "+" (Left, Right : Real_Matrix) return Real_Matrix;
+           function "-" (Left, Right : Real_Matrix) return Real_Matrix;
+           function "*" (Left, Right : Real_Matrix) return Real_Matrix;
+
+19/2       function "*" (Left, Right : Real_Vector) return Real_Matrix;
+
+20/2       function "*" (Left : Real_Vector; Right : Real_Matrix)
+              return Real_Vector;
+           function "*" (Left : Real_Matrix; Right : Real_Vector)
+              return Real_Vector;
+
+21/2       -- Real_Matrix scaling operations
+
+22/2       function "*" (Left : Real'Base;   Right : Real_Matrix)
+              return Real_Matrix;
+           function "*" (Left : Real_Matrix; Right : Real'Base)
+              return Real_Matrix;
+           function "/" (Left : Real_Matrix; Right : Real'Base)
+              return Real_Matrix;
+
+23/2       -- Real_Matrix inversion and related operations
+
+24/2       function Solve
+         (A : Real_Matrix; X : Real_Vector) return Real_Vector;
+           function Solve (A, X : Real_Matrix) return Real_Matrix;
+           function Inverse (A : Real_Matrix) return Real_Matrix;
+           function Determinant (A : Real_Matrix) return Real'Base;
+
+25/2       -- Eigenvalues and vectors of a real symmetric matrix
+
+26/2       function Eigenvalues (A : Real_Matrix) return Real_Vector;
+
+27/2       procedure Eigensystem (A       : in  Real_Matrix;
+                                  Values  : out Real_Vector;
+                                  Vectors : out Real_Matrix);
+
+28/2       -- Other Real_Matrix operations
+
+29/2       function Unit_Matrix (Order            : Positive;
+                                 First_1, First_2 : Integer := 1)
+                                                    return Real_Matrix;
+
+30/2    end Ada.Numerics.Generic_Real_Arrays;
+
+31/2 The library package Numerics.Real_Arrays is declared pure and defines the
+same types and subprograms as Numerics.Generic_Real_Arrays, except that the
+predefined type Float is systematically substituted for Real'Base throughout.
+Nongeneric equivalents for each of the other predefined floating point types
+are defined similarly, with the names Numerics.Short_Real_Arrays,
+Numerics.Long_Real_Arrays, etc.
+
+32/2 Two types are defined and exported by Numerics.Generic_Real_Arrays. The
+composite type Real_Vector is provided to represent a vector with components
+of type Real; it is defined as an unconstrained, one-dimensional array with an
+index of type Integer. The composite type Real_Matrix is provided to represent
+a matrix with components of type Real; it is defined as an unconstrained,
+two-dimensional array with indices of type Integer.
+
+33/2 The effect of the various subprograms is as described below. In most
+cases the subprograms are described in terms of corresponding scalar
+operations of the type Real; any exception raised by those operations is
+propagated by the array operation. Moreover, the accuracy of the result for
+each individual component is as defined for the scalar operation unless stated
+otherwise.
+
+34/2 In the case of those operations which are defined to involve an inner
+product, Constraint_Error may be raised if an intermediate result is outside
+the range of Real'Base even though the mathematical final result would not be.
+
+35/2    function "+"   (Right : Real_Vector) return Real_Vector;
+        function "-"   (Right : Real_Vector) return Real_Vector;
+        function "abs" (Right : Real_Vector) return Real_Vector;
+
+36/2        Each operation returns the result of applying the corresponding
+            operation of the type Real to each component of Right. The index
+            range of the result is Right'Range.
+
+37/2    function "+" (Left, Right : Real_Vector) return Real_Vector;
+        function "-" (Left, Right : Real_Vector) return Real_Vector;
+
+38/2        Each operation returns the result of applying the corresponding
+            operation of the type Real to each component of Left and the
+            matching component of Right. The index range of the result is
+            Left'Range. Constraint_Error is raised if Left'Length is not equal
+            to Right'Length.
+
+39/2    function "*" (Left, Right : Real_Vector) return Real'Base;
+
+40/2        This operation returns the inner product of Left and Right.
+            Constraint_Error is raised if Left'Length is not equal to
+            Right'Length. This operation involves an inner product.
+
+41/2    function "abs" (Right : Real_Vector) return Real'Base;
+
+42/2        This operation returns the L2-norm of Right (the square root of
+            the inner product of the vector with itself).
+
+43/2    function "*" (Left : Real'Base; Right : Real_Vector) return Real_Vector;
+
+44/2        This operation returns the result of multiplying each component of
+            Right by the scalar Left using the "*" operation of the type Real.
+            The index range of the result is Right'Range.
+
+45/2    function "*" (Left : Real_Vector; Right : Real'Base) return Real_Vector;
+        function "/" (Left : Real_Vector; Right : Real'Base) return Real_Vector;
+
+46/2        Each operation returns the result of applying the corresponding
+            operation of the type Real to each component of Left and to the
+            scalar Right. The index range of the result is Left'Range.
+
+47/2    function Unit_Vector (Index : Integer;
+                              Order : Positive;
+                              First : Integer := 1) return Real_Vector;
+
+48/2        This function returns a unit vector with Order components and a
+            lower bound of First. All components are set to 0.0 except for the
+            Index component which is set to 1.0. Constraint_Error is raised if
+            Index < First, Index > First + Order - 1 or if First + Order - 1 >
+            Integer'Last.
+
+49/2    function "+"   (Right : Real_Matrix) return Real_Matrix;
+        function "-"   (Right : Real_Matrix) return Real_Matrix;
+        function "abs" (Right : Real_Matrix) return Real_Matrix;
+
+50/2        Each operation returns the result of applying the corresponding
+            operation of the type Real to each component of Right. The index
+            ranges of the result are those of Right.
+
+51/2    function Transpose (X : Real_Matrix) return Real_Matrix;
+
+52/2        This function returns the transpose of a matrix X. The first and
+            second index ranges of the result are X'Range(2) and X'Range(1)
+            respectively.
+
+53/2    function "+" (Left, Right : Real_Matrix) return Real_Matrix;
+        function "-" (Left, Right : Real_Matrix) return Real_Matrix;
+
+54/2        Each operation returns the result of applying the corresponding
+            operation of the type Real to each component of Left and the
+            matching component of Right. The index ranges of the result are
+            those of Left. Constraint_Error is raised if Left'Length(1) is not
+            equal to Right'Length(1) or Left'Length(2) is not equal to
+            Right'Length(2).
+
+55/2    function "*" (Left, Right : Real_Matrix) return Real_Matrix;
+
+56/2        This operation provides the standard mathematical operation for
+            matrix multiplication. The first and second index ranges of the
+            result are Left'Range(1) and Right'Range(2) respectively.
+            Constraint_Error is raised if Left'Length(2) is not equal to
+            Right'Length(1). This operation involves inner products.
+
+57/2    function "*" (Left, Right : Real_Vector) return Real_Matrix;
+
+58/2        This operation returns the outer product of a (column) vector Left
+            by a (row) vector Right using the operation "*" of the type Real
+            for computing the individual components. The first and second
+            index ranges of the result are Left'Range and Right'Range
+            respectively.
+
+59/2    function "*" (Left : Real_Vector; Right : Real_Matrix) return Real_Vector;
+
+60/2        This operation provides the standard mathematical operation for
+            multiplication of a (row) vector Left by a matrix Right. The index
+            range of the (row) vector result is Right'Range(2).
+            Constraint_Error is raised if Left'Length is not equal to
+            Right'Length(1). This operation involves inner products.
+
+61/2    function "*" (Left : Real_Matrix; Right : Real_Vector) return Real_Vector;
+
+62/2        This operation provides the standard mathematical operation for
+            multiplication of a matrix Left by a (column) vector Right. The
+            index range of the (column) vector result is Left'Range(1).
+            Constraint_Error is raised if Left'Length(2) is not equal to
+            Right'Length. This operation involves inner products.
+
+63/2    function "*" (Left : Real'Base; Right : Real_Matrix) return Real_Matrix;
+
+64/2        This operation returns the result of multiplying each component of
+            Right by the scalar Left using the "*" operation of the type Real.
+            The index ranges of the result are those of Right.
+
+65/2    function "*" (Left : Real_Matrix; Right : Real'Base) return Real_Matrix;
+        function "/" (Left : Real_Matrix; Right : Real'Base) return Real_Matrix;
+
+66/2        Each operation returns the result of applying the corresponding
+            operation of the type Real to each component of Left and to the
+            scalar Right. The index ranges of the result are those of Left.
+
+67/2    function Solve (A : Real_Matrix; X : Real_Vector) return Real_Vector;
+
+68/2        This function returns a vector Y such that X is (nearly) equal to
+            A * Y. This is the standard mathematical operation for solving a
+            single set of linear equations. The index range of the result is
+            A'Range(2). Constraint_Error is raised if A'Length(1),
+            A'Length(2), and X'Length are not equal. Constraint_Error is
+            raised if the matrix A is ill-conditioned.
+
+69/2    function Solve (A, X : Real_Matrix) return Real_Matrix;
+
+70/2        This function returns a matrix Y such that X is (nearly) equal to
+            A * Y. This is the standard mathematical operation for solving
+            several sets of linear equations. The index ranges of the result
+            are A'Range(2) and X'Range(2). Constraint_Error is raised if
+            A'Length(1), A'Length(2), and X'Length(1) are not equal.
+            Constraint_Error is raised if the matrix A is ill-conditioned.
+
+71/2    function Inverse (A : Real_Matrix) return Real_Matrix;
+
+72/2        This function returns a matrix B such that A * B is (nearly) equal
+            to the unit matrix. The index ranges of the result are A'Range(2)
+            and A'Range(1). Constraint_Error is raised if A'Length(1) is not
+            equal to A'Length(2). Constraint_Error is raised if the matrix A
+            is ill-conditioned.
+
+73/2    function Determinant (A : Real_Matrix) return Real'Base;
+
+74/2        This function returns the determinant of the matrix A.
+            Constraint_Error is raised if A'Length(1) is not equal to
+            A'Length(2).
+
+75/2    function Eigenvalues(A : Real_Matrix) return Real_Vector;
+
+76/2        This function returns the eigenvalues of the symmetric matrix A as
+            a vector sorted into order with the largest first.
+            Constraint_Error is raised if A'Length(1) is not equal to
+            A'Length(2). The index range of the result is A'Range(1).
+            Argument_Error is raised if the matrix A is not symmetric.
+
+77/2    procedure Eigensystem(A       : in  Real_Matrix;
+                              Values  : out Real_Vector;
+                              Vectors : out Real_Matrix);
+
+78/3        This procedure computes both the eigenvalues and eigenvectors of
+            the symmetric matrix A. The out parameter Values is the same as
+            that obtained by calling the function Eigenvalues. The out
+            parameter Vectors is a matrix whose columns are the eigenvectors
+            of the matrix A. The order of the columns corresponds to the order
+            of the eigenvalues. The eigenvectors are normalized and mutually
+            orthogonal (they are orthonormal), including when there are
+            repeated eigenvalues. Constraint_Error is raised if A'Length(1) is
+            not equal to A'Length(2), or if Values'Range is not equal to
+            A'Range(1), or if the index ranges of the parameter Vectors are
+            not equal to those of A. Argument_Error is raised if the matrix A
+            is not symmetric. Constraint_Error is also raised in
+            implementation-defined circumstances if the algorithm used does
+            not converge quickly enough.
+
+79/2    function Unit_Matrix (Order            : Positive;
+                              First_1, First_2 : Integer := 1) return Real_Matrix;
+
+80/2        This function returns a square unit matrix with Order**2
+            components and lower bounds of First_1 and First_2 (for the first
+            and second index ranges respectively). All components are set to
+            0.0 except for the main diagonal, whose components are set to 1.0.
+            Constraint_Error is raised if First_1 + Order - 1 > Integer'Last
+            or First_2 + Order - 1 > Integer'Last.
+
+
+                         Implementation Requirements
+
+81/2 Accuracy requirements for the subprograms Solve, Inverse, Determinant,
+Eigenvalues and Eigensystem are implementation defined.
+
+82/2 For operations not involving an inner product, the accuracy requirements
+are those of the corresponding operations of the type Real in both the strict
+mode and the relaxed mode (see G.2).
+
+83/2 For operations involving an inner product, no requirements are specified
+in the relaxed mode. In the strict mode the modulus of the absolute error of
+the inner product X*Y shall not exceed g*abs(X)*abs(Y) where g is defined as
+
+84/2    g = X'Length * Real'Machine_Radix**(1 - Real'Model_Mantissa)
+
+85/2 For the L2-norm, no accuracy requirements are specified in the relaxed
+mode. In the strict mode the relative error on the norm shall not exceed g /
+2.0 + 3.0 * Real'Model_Epsilon where g is defined as above.
+
+
+                         Documentation Requirements
+
+86/2 Implementations shall document any techniques used to reduce cancellation
+errors such as extended precision arithmetic.
+
+
+                         Implementation Permissions
+
+87/2 The nongeneric equivalent packages may, but need not, be actual
+instantiations of the generic package for the appropriate predefined type.
+
+
+                            Implementation Advice
+
+88/3 Implementations should implement the Solve and Inverse functions using
+established techniques such as LU decomposition with row interchanges followed
+by back and forward substitution. Implementations are recommended to refine
+the result by performing an iteration on the residuals; if this is done, then
+it should be documented.
+
+89/2 It is not the intention that any special provision should be made to
+determine whether a matrix is ill-conditioned or not. The naturally occurring
+overflow (including division by zero) which will result from executing these
+functions with an ill-conditioned matrix and thus raise Constraint_Error is
+sufficient.
+
+90/2 The test that a matrix is symmetric should be performed by using the
+equality operator to compare the relevant components.
+
+91/3 An implementation should minimize the circumstances under which the
+algorithm used for Eigenvalues and Eigensystem fails to converge.
+
+
+G.3.2 Complex Vectors and Matrices
+
+
+
+                              Static Semantics
+
+1/2 The generic library package Numerics.Generic_Complex_Arrays has the
+following declaration:
+
+2/2     with Ada.Numerics.Generic_Real_Arrays, Ada.Numerics.Generic_Complex_Types;
+        generic
+           with package Real_Arrays   is new
+              Ada.Numerics.Generic_Real_Arrays   (<>);
+           use Real_Arrays;
+           with package Complex_Types is new
+              Ada.Numerics.Generic_Complex_Types (Real);
+           use Complex_Types;
+        package Ada.Numerics.Generic_Complex_Arrays is
+           pragma Pure(Generic_Complex_Arrays);
+
+3/2        -- Types
+
+4/2        type Complex_Vector is array (Integer range <>) of Complex;
+           type Complex_Matrix is array (Integer range <>,
+                                         Integer range <>) of Complex;
+
+5/2        -- Subprograms for Complex_Vector types
+
+6/2        -- Complex_Vector selection, conversion and composition operations
+
+7/2        function Re (X : Complex_Vector) return Real_Vector;
+           function Im (X : Complex_Vector) return Real_Vector;
+
+8/2        procedure Set_Re (X  : in out Complex_Vector;
+                             Re : in     Real_Vector);
+           procedure Set_Im (X  : in out Complex_Vector;
+                             Im : in     Real_Vector);
+
+9/2        function Compose_From_Cartesian (Re     : Real_Vector)
+              return Complex_Vector;
+           function Compose_From_Cartesian (Re, Im : Real_Vector)
+              return Complex_Vector;
+
+10/2       function Modulus  (X     : Complex_Vector) return Real_Vector;
+           function "abs"    (Right : Complex_Vector) return Real_Vector
+                                                         renames Modulus;
+           function Argument (X     : Complex_Vector) return Real_Vector;
+           function Argument (X     : Complex_Vector;
+                              Cycle : Real'Base)      return Real_Vector;
+
+11/2       function Compose_From_Polar (Modulus, Argument : Real_Vector)
+              return Complex_Vector;
+           function Compose_From_Polar (Modulus, Argument : Real_Vector;
+                                        Cycle             : Real'Base)
+              return Complex_Vector;
+
+12/2       -- Complex_Vector arithmetic operations
+
+13/2       function "+"       (Right  : Complex_Vector) return Complex_Vector;
+           function "-"       (Right  : Complex_Vector) return Complex_Vector;
+           function Conjugate (X      : Complex_Vector) return Complex_Vector;
+
+14/2       function "+"  (Left, Right : Complex_Vector) return Complex_Vector;
+           function "-"  (Left, Right : Complex_Vector) return Complex_Vector;
+
+15/2       function "*"  (Left, Right : Complex_Vector) return Complex;
+
+16/3       function "abs"     (Right : Complex_Vector) return Real'Base;
+
+17/2       -- Mixed Real_Vector and Complex_Vector arithmetic operations
+
+18/2       function "+" (Left  : Real_Vector;
+                         Right : Complex_Vector) return Complex_Vector;
+           function "+" (Left  : Complex_Vector;
+                         Right : Real_Vector)    return Complex_Vector;
+           function "-" (Left  : Real_Vector;
+                         Right : Complex_Vector) return Complex_Vector;
+           function "-" (Left  : Complex_Vector;
+                         Right : Real_Vector)    return Complex_Vector;
+
+19/2       function "*" (Left  : Real_Vector;    Right : Complex_Vector)
+              return Complex;
+           function "*" (Left  : Complex_Vector; Right : Real_Vector)
+              return Complex;
+
+20/2       -- Complex_Vector scaling operations
+
+21/2       function "*" (Left  : Complex;
+                         Right : Complex_Vector) return Complex_Vector;
+           function "*" (Left  : Complex_Vector;
+                         Right : Complex)        return Complex_Vector;
+           function "/" (Left  : Complex_Vector;
+                         Right : Complex)        return Complex_Vector;
+
+22/2       function "*" (Left  : Real'Base;
+                         Right : Complex_Vector) return Complex_Vector;
+           function "*" (Left  : Complex_Vector;
+                         Right : Real'Base)      return Complex_Vector;
+           function "/" (Left  : Complex_Vector;
+                         Right : Real'Base)      return Complex_Vector;
+
+23/2       -- Other Complex_Vector operations
+
+24/2       function Unit_Vector (Index : Integer;
+                                 Order : Positive;
+                                 First : Integer := 1) return Complex_Vector;
+
+25/2       -- Subprograms for Complex_Matrix types
+
+26/2       -- Complex_Matrix selection, conversion and composition operations
+
+27/2       function Re (X : Complex_Matrix) return Real_Matrix;
+           function Im (X : Complex_Matrix) return Real_Matrix;
+
+28/2       procedure Set_Re (X  : in out Complex_Matrix;
+                             Re : in     Real_Matrix);
+           procedure Set_Im (X  : in out Complex_Matrix;
+                             Im : in     Real_Matrix);
+
+29/2       function Compose_From_Cartesian (Re     : Real_Matrix)
+              return Complex_Matrix;
+           function Compose_From_Cartesian (Re, Im : Real_Matrix)
+              return Complex_Matrix;
+
+30/2       function Modulus  (X     : Complex_Matrix) return Real_Matrix;
+           function "abs"    (Right : Complex_Matrix) return Real_Matrix
+                                                         renames Modulus;
+
+31/2       function Argument (X     : Complex_Matrix) return Real_Matrix;
+           function Argument (X     : Complex_Matrix;
+                              Cycle : Real'Base)      return Real_Matrix;
+
+32/2       function Compose_From_Polar (Modulus, Argument : Real_Matrix)
+              return Complex_Matrix;
+           function Compose_From_Polar (Modulus, Argument : Real_Matrix;
+                                        Cycle             : Real'Base)
+              return Complex_Matrix;
+
+33/2       -- Complex_Matrix arithmetic operations
+
+34/2       function "+"       (Right : Complex_Matrix) return Complex_Matrix;
+           function "-"       (Right : Complex_Matrix) return Complex_Matrix;
+           function Conjugate (X     : Complex_Matrix) return Complex_Matrix;
+           function Transpose (X     : Complex_Matrix) return Complex_Matrix;
+
+35/2       function "+" (Left, Right : Complex_Matrix) return Complex_Matrix;
+           function "-" (Left, Right : Complex_Matrix) return Complex_Matrix;
+           function "*" (Left, Right : Complex_Matrix) return Complex_Matrix;
+
+36/2       function "*" (Left, Right : Complex_Vector) return Complex_Matrix;
+
+37/2       function "*" (Left  : Complex_Vector;
+                         Right : Complex_Matrix) return Complex_Vector;
+           function "*" (Left  : Complex_Matrix;
+                         Right : Complex_Vector) return Complex_Vector;
+
+38/2       -- Mixed Real_Matrix and Complex_Matrix arithmetic operations
+
+39/2       function "+" (Left  : Real_Matrix;
+                         Right : Complex_Matrix) return Complex_Matrix;
+           function "+" (Left  : Complex_Matrix;
+                         Right : Real_Matrix)    return Complex_Matrix;
+           function "-" (Left  : Real_Matrix;
+                         Right : Complex_Matrix) return Complex_Matrix;
+           function "-" (Left  : Complex_Matrix;
+                         Right : Real_Matrix)    return Complex_Matrix;
+           function "*" (Left  : Real_Matrix;
+                         Right : Complex_Matrix) return Complex_Matrix;
+           function "*" (Left  : Complex_Matrix;
+                         Right : Real_Matrix)    return Complex_Matrix;
+
+40/2       function "*" (Left  : Real_Vector;
+                         Right : Complex_Vector) return Complex_Matrix;
+           function "*" (Left  : Complex_Vector;
+                         Right : Real_Vector)    return Complex_Matrix;
+
+41/2       function "*" (Left  : Real_Vector;
+                         Right : Complex_Matrix) return Complex_Vector;
+           function "*" (Left  : Complex_Vector;
+                         Right : Real_Matrix)    return Complex_Vector;
+           function "*" (Left  : Real_Matrix;
+                         Right : Complex_Vector) return Complex_Vector;
+           function "*" (Left  : Complex_Matrix;
+                         Right : Real_Vector)    return Complex_Vector;
+
+42/2       -- Complex_Matrix scaling operations
+
+43/2       function "*" (Left  : Complex;
+                         Right : Complex_Matrix) return Complex_Matrix;
+           function "*" (Left  : Complex_Matrix;
+                         Right : Complex)        return Complex_Matrix;
+           function "/" (Left  : Complex_Matrix;
+                         Right : Complex)        return Complex_Matrix;
+
+44/2       function "*" (Left  : Real'Base;
+                         Right : Complex_Matrix) return Complex_Matrix;
+           function "*" (Left  : Complex_Matrix;
+                         Right : Real'Base)      return Complex_Matrix;
+           function "/" (Left  : Complex_Matrix;
+                         Right : Real'Base)      return Complex_Matrix;
+
+45/2       -- Complex_Matrix inversion and related operations
+
+46/2       function Solve (A : Complex_Matrix; X : Complex_Vector)
+              return Complex_Vector;
+           function Solve (A, X : Complex_Matrix) return Complex_Matrix;
+           function Inverse (A : Complex_Matrix) return Complex_Matrix;
+           function Determinant (A : Complex_Matrix) return Complex;
+
+47/2       -- Eigenvalues and vectors of a Hermitian matrix
+
+48/2       function Eigenvalues(A : Complex_Matrix) return Real_Vector;
+
+49/2       procedure Eigensystem(A       : in  Complex_Matrix;
+                                 Values  : out Real_Vector;
+                                 Vectors : out Complex_Matrix);
+
+50/2       -- Other Complex_Matrix operations
+
+51/2       function Unit_Matrix (Order            : Positive;
+                                 First_1, First_2 : Integer := 1)
+                                                    return Complex_Matrix;
+
+52/2    end Ada.Numerics.Generic_Complex_Arrays;
+
+53/2 The library package Numerics.Complex_Arrays is declared pure and defines
+the same types and subprograms as Numerics.Generic_Complex_Arrays, except that
+the predefined type Float is systematically substituted for Real'Base, and the
+Real_Vector and Real_Matrix types exported by Numerics.Real_Arrays are
+systematically substituted for Real_Vector and Real_Matrix, and the Complex
+type exported by Numerics.Complex_Types is systematically substituted for
+Complex, throughout. Nongeneric equivalents for each of the other predefined
+floating point types are defined similarly, with the names
+Numerics.Short_Complex_Arrays, Numerics.Long_Complex_Arrays, etc.
+
+54/2 Two types are defined and exported by Numerics.Generic_Complex_Arrays.
+The composite type Complex_Vector is provided to represent a vector with
+components of type Complex; it is defined as an unconstrained one-dimensional
+array with an index of type Integer. The composite type Complex_Matrix is
+provided to represent a matrix with components of type Complex; it is defined
+as an unconstrained, two-dimensional array with indices of type Integer.
+
+55/2 The effect of the various subprograms is as described below. In many
+cases they are described in terms of corresponding scalar operations in
+Numerics.Generic_Complex_Types. Any exception raised by those operations is
+propagated by the array subprogram. Moreover, any constraints on the
+parameters and the accuracy of the result for each individual component are as
+defined for the scalar operation.
+
+56/2 In the case of those operations which are defined to involve an inner
+product, Constraint_Error may be raised if an intermediate result has a
+component outside the range of Real'Base even though the final mathematical
+result would not.
+
+57/2    function Re (X : Complex_Vector) return Real_Vector;
+        function Im (X : Complex_Vector) return Real_Vector;
+
+58/2        Each function returns a vector of the specified Cartesian
+            components of X. The index range of the result is X'Range.
+
+59/2    procedure Set_Re (X  : in out Complex_Vector; Re : in Real_Vector);
+        procedure Set_Im (X  : in out Complex_Vector; Im : in Real_Vector);
+
+60/2        Each procedure replaces the specified (Cartesian) component of
+            each of the components of X by the value of the matching component
+            of Re or Im; the other (Cartesian) component of each of the
+            components is unchanged. Constraint_Error is raised if X'Length is
+            not equal to Re'Length or Im'Length.
+
+61/2    function Compose_From_Cartesian (Re     : Real_Vector)
+           return Complex_Vector;
+        function Compose_From_Cartesian (Re, Im : Real_Vector)
+           return Complex_Vector;
+
+62/2        Each function constructs a vector of Complex results (in Cartesian
+            representation) formed from given vectors of Cartesian components;
+            when only the real components are given, imaginary components of
+            zero are assumed. The index range of the result is Re'Range.
+            Constraint_Error is raised if Re'Length is not equal to Im'Length.
+
+63/2    function Modulus  (X     : Complex_Vector) return Real_Vector;
+        function "abs"    (Right : Complex_Vector) return Real_Vector
+                                                      renames Modulus;
+        function Argument (X     : Complex_Vector) return Real_Vector;
+        function Argument (X     : Complex_Vector;
+                           Cycle : Real'Base)      return Real_Vector;
+
+64/2        Each function calculates and returns a vector of the specified
+            polar components of X or Right using the corresponding function in
+            numerics.generic_complex_types. The index range of the result is
+            X'Range or Right'Range.
+
+65/2    function Compose_From_Polar (Modulus, Argument : Real_Vector)
+           return Complex_Vector;
+        function Compose_From_Polar (Modulus, Argument : Real_Vector;
+                                     Cycle             : Real'Base)
+           return Complex_Vector;
+
+66/2        Each function constructs a vector of Complex results (in Cartesian
+            representation) formed from given vectors of polar components
+            using the corresponding function in numerics.generic_complex_types
+            on matching components of Modulus and Argument. The index range of
+            the result is Modulus'Range. Constraint_Error is raised if
+            Modulus'Length is not equal to Argument'Length.
+
+67/2    function "+" (Right : Complex_Vector) return Complex_Vector;
+        function "-" (Right : Complex_Vector) return Complex_Vector;
+
+68/2        Each operation returns the result of applying the corresponding
+            operation in numerics.generic_complex_types to each component of
+            Right. The index range of the result is Right'Range.
+
+69/2    function Conjugate (X : Complex_Vector) return Complex_Vector;
+
+70/2        This function returns the result of applying the appropriate
+            function Conjugate in numerics.generic_complex_types to each
+            component of X. The index range of the result is X'Range.
+
+71/2    function "+" (Left, Right : Complex_Vector) return Complex_Vector;
+        function "-" (Left, Right : Complex_Vector) return Complex_Vector;
+
+72/2        Each operation returns the result of applying the corresponding
+            operation in numerics.generic_complex_types to each component of
+            Left and the matching component of Right. The index range of the
+            result is Left'Range. Constraint_Error is raised if Left'Length is
+            not equal to Right'Length.
+
+73/2    function "*" (Left, Right : Complex_Vector) return Complex;
+
+74/2        This operation returns the inner product of Left and Right.
+            Constraint_Error is raised if Left'Length is not equal to
+            Right'Length. This operation involves an inner product.
+
+75/3    function "abs" (Right : Complex_Vector) return Real'Base;
+
+76/2        This operation returns the Hermitian L2-norm of Right (the square
+            root of the inner product of the vector with its conjugate).
+
+77/2    function "+" (Left  : Real_Vector;
+                      Right : Complex_Vector) return Complex_Vector;
+        function "+" (Left  : Complex_Vector;
+                      Right : Real_Vector)    return Complex_Vector;
+        function "-" (Left  : Real_Vector;
+                      Right : Complex_Vector) return Complex_Vector;
+        function "-" (Left  : Complex_Vector;
+                      Right : Real_Vector)    return Complex_Vector;
+
+78/2        Each operation returns the result of applying the corresponding
+            operation in numerics.generic_complex_types to each component of
+            Left and the matching component of Right. The index range of the
+            result is Left'Range. Constraint_Error is raised if Left'Length is
+            not equal to Right'Length.
+
+79/2    function "*" (Left : Real_Vector;    Right : Complex_Vector) return Complex;
+        function "*" (Left : Complex_Vector; Right : Real_Vector)    return Complex;
+
+80/2        Each operation returns the inner product of Left and Right.
+            Constraint_Error is raised if Left'Length is not equal to
+            Right'Length. These operations involve an inner product.
+
+81/2    function "*" (Left : Complex; Right : Complex_Vector) return Complex_Vector;
+
+82/2        This operation returns the result of multiplying each component of
+            Right by the complex number Left using the appropriate operation
+            "*" in numerics.generic_complex_types. The index range of the
+            result is Right'Range.
+
+83/2    function "*" (Left : Complex_Vector; Right : Complex) return Complex_Vector;
+        function "/" (Left : Complex_Vector; Right : Complex) return Complex_Vector;
+
+84/2        Each operation returns the result of applying the corresponding
+            operation in numerics.generic_complex_types to each component of
+            the vector Left and the complex number Right. The index range of
+            the result is Left'Range.
+
+85/2    function "*" (Left : Real'Base;
+                      Right : Complex_Vector) return Complex_Vector;
+
+86/2        This operation returns the result of multiplying each component of
+            Right by the real number Left using the appropriate operation "*"
+            in numerics.generic_complex_types. The index range of the result
+            is Right'Range.
+
+87/2    function "*" (Left : Complex_Vector;
+                      Right : Real'Base) return Complex_Vector;
+        function "/" (Left : Complex_Vector;
+                      Right : Real'Base) return Complex_Vector;
+
+88/2        Each operation returns the result of applying the corresponding
+            operation in numerics.generic_complex_types to each component of
+            the vector Left and the real number Right. The index range of the
+            result is Left'Range.
+
+89/2    function Unit_Vector (Index : Integer;
+                              Order : Positive;
+                              First : Integer := 1) return Complex_Vector;
+
+90/2        This function returns a unit vector with Order components and a
+            lower bound of First. All components are set to (0.0, 0.0) except
+            for the Index component which is set to (1.0, 0.0).
+            Constraint_Error is raised if Index < First, Index > First + Order
+            - 1, or if First + Order - 1 > Integer'Last.
+
+91/2    function Re (X : Complex_Matrix) return Real_Matrix;
+        function Im (X : Complex_Matrix) return Real_Matrix;
+
+92/2        Each function returns a matrix of the specified Cartesian
+            components of X. The index ranges of the result are those of X.
+
+93/2    procedure Set_Re (X : in out Complex_Matrix; Re : in Real_Matrix);
+        procedure Set_Im (X : in out Complex_Matrix; Im : in Real_Matrix);
+
+94/2        Each procedure replaces the specified (Cartesian) component of
+            each of the components of X by the value of the matching component
+            of Re or Im; the other (Cartesian) component of each of the
+            components is unchanged. Constraint_Error is raised if X'Length(1)
+            is not equal to Re'Length(1) or Im'Length(1) or if X'Length(2) is
+            not equal to Re'Length(2) or Im'Length(2).
+
+95/2    function Compose_From_Cartesian (Re     : Real_Matrix)
+           return Complex_Matrix;
+        function Compose_From_Cartesian (Re, Im : Real_Matrix)
+           return Complex_Matrix;
+
+96/2        Each function constructs a matrix of Complex results (in Cartesian
+            representation) formed from given matrices of Cartesian
+            components; when only the real components are given, imaginary
+            components of zero are assumed. The index ranges of the result are
+            those of Re. Constraint_Error is raised if Re'Length(1) is not
+            equal to Im'Length(1) or Re'Length(2) is not equal to Im'Length(2).
+
+97/2    function Modulus  (X     : Complex_Matrix) return Real_Matrix;
+        function "abs"    (Right : Complex_Matrix) return Real_Matrix
+                                                      renames Modulus;
+        function Argument (X     : Complex_Matrix) return Real_Matrix;
+        function Argument (X     : Complex_Matrix;
+                           Cycle : Real'Base)      return Real_Matrix;
+
+98/2        Each function calculates and returns a matrix of the specified
+            polar components of X or Right using the corresponding function in
+            numerics.generic_complex_types. The index ranges of the result are
+            those of X or Right.
+
+99/2    function Compose_From_Polar (Modulus, Argument : Real_Matrix)
+           return Complex_Matrix;
+        function Compose_From_Polar (Modulus, Argument : Real_Matrix;
+                                     Cycle             : Real'Base)
+           return Complex_Matrix;
+
+100/2       Each function constructs a matrix of Complex results (in Cartesian
+            representation) formed from given matrices of polar components
+            using the corresponding function in numerics.generic_complex_types
+            on matching components of Modulus and Argument. The index ranges
+            of the result are those of Modulus. Constraint_Error is raised if
+            Modulus'Length(1) is not equal to Argument'Length(1) or
+            Modulus'Length(2) is not equal to Argument'Length(2).
+
+101/2   function "+" (Right : Complex_Matrix) return Complex_Matrix;
+        function "-" (Right : Complex_Matrix) return Complex_Matrix;
+
+102/2       Each operation returns the result of applying the corresponding
+            operation in numerics.generic_complex_types to each component of
+            Right. The index ranges of the result are those of Right.
+
+103/2   function Conjugate (X : Complex_Matrix) return Complex_Matrix;
+
+104/2       This function returns the result of applying the appropriate
+            function Conjugate in numerics.generic_complex_types to each
+            component of X. The index ranges of the result are those of X.
+
+105/2   function Transpose (X : Complex_Matrix) return Complex_Matrix;
+
+106/2       This function returns the transpose of a matrix X. The first and
+            second index ranges of the result are X'Range(2) and X'Range(1)
+            respectively.
+
+107/2   function "+" (Left, Right : Complex_Matrix) return Complex_Matrix;
+        function "-" (Left, Right : Complex_Matrix) return Complex_Matrix;
+
+108/2       Each operation returns the result of applying the corresponding
+            operation in numerics.generic_complex_types to each component of
+            Left and the matching component of Right. The index ranges of the
+            result are those of Left. Constraint_Error is raised if
+            Left'Length(1) is not equal to Right'Length(1) or Left'Length(2)
+            is not equal to Right'Length(2).
+
+109/2   function "*" (Left, Right : Complex_Matrix) return Complex_Matrix;
+
+110/2       This operation provides the standard mathematical operation for
+            matrix multiplication. The first and second index ranges of the
+            result are Left'Range(1) and Right'Range(2) respectively.
+            Constraint_Error is raised if Left'Length(2) is not equal to
+            Right'Length(1). This operation involves inner products.
+
+111/2   function "*" (Left, Right : Complex_Vector) return Complex_Matrix;
+
+112/2       This operation returns the outer product of a (column) vector Left
+            by a (row) vector Right using the appropriate operation "*" in
+            numerics.generic_complex_types for computing the individual
+            components. The first and second index ranges of the result are
+            Left'Range and Right'Range respectively.
+
+113/2   function "*" (Left  : Complex_Vector;
+                      Right : Complex_Matrix) return Complex_Vector;
+
+114/2       This operation provides the standard mathematical operation for
+            multiplication of a (row) vector Left by a matrix Right. The index
+            range of the (row) vector result is Right'Range(2).
+            Constraint_Error is raised if Left'Length is not equal to
+            Right'Length(1). This operation involves inner products.
+
+115/2   function "*" (Left  : Complex_Matrix;
+                      Right : Complex_Vector) return Complex_Vector;
+
+116/2       This operation provides the standard mathematical operation for
+            multiplication of a matrix Left by a (column) vector Right. The
+            index range of the (column) vector result is Left'Range(1).
+            Constraint_Error is raised if Left'Length(2) is not equal to
+            Right'Length. This operation involves inner products.
+
+117/2   function "+" (Left  : Real_Matrix;
+                      Right : Complex_Matrix) return Complex_Matrix;
+        function "+" (Left  : Complex_Matrix;
+                      Right : Real_Matrix)    return Complex_Matrix;
+        function "-" (Left  : Real_Matrix;
+                      Right : Complex_Matrix) return Complex_Matrix;
+        function "-" (Left  : Complex_Matrix;
+                      Right : Real_Matrix)    return Complex_Matrix;
+
+118/2       Each operation returns the result of applying the corresponding
+            operation in numerics.generic_complex_types to each component of
+            Left and the matching component of Right. The index ranges of the
+            result are those of Left. Constraint_Error is raised if
+            Left'Length(1) is not equal to Right'Length(1) or Left'Length(2)
+            is not equal to Right'Length(2).
+
+119/2   function "*" (Left  : Real_Matrix;
+                      Right : Complex_Matrix) return Complex_Matrix;
+        function "*" (Left  : Complex_Matrix;
+                      Right : Real_Matrix)    return Complex_Matrix;
+
+120/2       Each operation provides the standard mathematical operation for
+            matrix multiplication. The first and second index ranges of the
+            result are Left'Range(1) and Right'Range(2) respectively.
+            Constraint_Error is raised if Left'Length(2) is not equal to
+            Right'Length(1). These operations involve inner products.
+
+121/2   function "*" (Left  : Real_Vector;
+                      Right : Complex_Vector) return Complex_Matrix;
+        function "*" (Left  : Complex_Vector;
+                      Right : Real_Vector)    return Complex_Matrix;
+
+122/2       Each operation returns the outer product of a (column) vector Left
+            by a (row) vector Right using the appropriate operation "*" in
+            numerics.generic_complex_types for computing the individual
+            components. The first and second index ranges of the result are
+            Left'Range and Right'Range respectively.
+
+123/2   function "*" (Left  : Real_Vector;
+                      Right : Complex_Matrix) return Complex_Vector;
+        function "*" (Left  : Complex_Vector;
+                      Right : Real_Matrix)    return Complex_Vector;
+
+124/2       Each operation provides the standard mathematical operation for
+            multiplication of a (row) vector Left by a matrix Right. The index
+            range of the (row) vector result is Right'Range(2).
+            Constraint_Error is raised if Left'Length is not equal to
+            Right'Length(1). These operations involve inner products.
+
+125/2   function "*" (Left  : Real_Matrix;
+                      Right : Complex_Vector) return Complex_Vector;
+        function "*" (Left  : Complex_Matrix;
+                      Right : Real_Vector)    return Complex_Vector;
+
+126/2       Each operation provides the standard mathematical operation for
+            multiplication of a matrix Left by a (column) vector Right. The
+            index range of the (column) vector result is Left'Range(1).
+            Constraint_Error is raised if Left'Length(2) is not equal to
+            Right'Length. These operations involve inner products.
+
+127/2   function "*" (Left : Complex; Right : Complex_Matrix) return Complex_Matrix;
+
+128/2       This operation returns the result of multiplying each component of
+            Right by the complex number Left using the appropriate operation
+            "*" in numerics.generic_complex_types. The index ranges of the
+            result are those of Right.
+
+129/2   function "*" (Left : Complex_Matrix; Right : Complex) return Complex_Matrix;
+        function "/" (Left : Complex_Matrix; Right : Complex) return Complex_Matrix;
+
+130/2       Each operation returns the result of applying the corresponding
+            operation in numerics.generic_complex_types to each component of
+            the matrix Left and the complex number Right. The index ranges of
+            the result are those of Left.
+
+131/2   function "*" (Left : Real'Base;
+                      Right : Complex_Matrix) return Complex_Matrix;
+
+132/2       This operation returns the result of multiplying each component of
+            Right by the real number Left using the appropriate operation "*"
+            in numerics.generic_complex_types. The index ranges of the result
+            are those of Right.
+
+133/2   function "*" (Left : Complex_Matrix;
+                      Right : Real'Base) return Complex_Matrix;
+        function "/" (Left : Complex_Matrix;
+                      Right : Real'Base) return Complex_Matrix;
+
+134/2       Each operation returns the result of applying the corresponding
+            operation in numerics.generic_complex_types to each component of
+            the matrix Left and the real number Right. The index ranges of the
+            result are those of Left.
+
+135/2   function Solve (A : Complex_Matrix; X : Complex_Vector) return Complex_Vector;
+
+136/2       This function returns a vector Y such that X is (nearly) equal to
+            A * Y. This is the standard mathematical operation for solving a
+            single set of linear equations. The index range of the result is
+            A'Range(2). Constraint_Error is raised if A'Length(1),
+            A'Length(2), and X'Length are not equal. Constraint_Error is
+            raised if the matrix A is ill-conditioned.
+
+137/2   function Solve (A, X : Complex_Matrix) return Complex_Matrix;
+
+138/2       This function returns a matrix Y such that X is (nearly) equal to
+            A * Y. This is the standard mathematical operation for solving
+            several sets of linear equations. The index ranges of the result
+            are A'Range(2) and X'Range(2). Constraint_Error is raised if
+            A'Length(1), A'Length(2), and X'Length(1) are not equal.
+            Constraint_Error is raised if the matrix A is ill-conditioned.
+
+139/2   function Inverse (A : Complex_Matrix) return Complex_Matrix;
+
+140/2       This function returns a matrix B such that A * B is (nearly) equal
+            to the unit matrix. The index ranges of the result are A'Range(2)
+            and A'Range(1). Constraint_Error is raised if A'Length(1) is not
+            equal to A'Length(2). Constraint_Error is raised if the matrix A
+            is ill-conditioned.
+
+141/2   function Determinant (A : Complex_Matrix) return Complex;
+
+142/2       This function returns the determinant of the matrix A.
+            Constraint_Error is raised if A'Length(1) is not equal to
+            A'Length(2).
+
+143/2   function Eigenvalues(A : Complex_Matrix) return Real_Vector;
+
+144/2       This function returns the eigenvalues of the Hermitian matrix A as
+            a vector sorted into order with the largest first.
+            Constraint_Error is raised if A'Length(1) is not equal to
+            A'Length(2). The index range of the result is A'Range(1).
+            Argument_Error is raised if the matrix A is not Hermitian.
+
+145/2   procedure Eigensystem(A       : in  Complex_Matrix;
+                              Values  :  out Real_Vector;
+                              Vectors :  out Complex_Matrix);
+
+146/3       This procedure computes both the eigenvalues and eigenvectors of
+            the Hermitian matrix A. The out parameter Values is the same as
+            that obtained by calling the function Eigenvalues. The out
+            parameter Vectors is a matrix whose columns are the eigenvectors
+            of the matrix A. The order of the columns corresponds to the order
+            of the eigenvalues. The eigenvectors are mutually orthonormal,
+            including when there are repeated eigenvalues. Constraint_Error is
+            raised if A'Length(1) is not equal to A'Length(2), or if
+            Values'Range is not equal to A'Range(1), or if the index ranges of
+            the parameter Vectors are not equal to those of A. Argument_Error
+            is raised if the matrix A is not Hermitian. Constraint_Error is
+            also raised in implementation-defined circumstances if the
+            algorithm used does not converge quickly enough.
+
+147/2   function Unit_Matrix (Order            : Positive;
+                              First_1, First_2 : Integer := 1)
+                                                 return Complex_Matrix;
+
+148/2       This function returns a square unit matrix with Order**2
+            components and lower bounds of First_1 and First_2 (for the first
+            and second index ranges respectively). All components are set to
+            (0.0, 0.0) except for the main diagonal, whose components are set
+            to (1.0, 0.0). Constraint_Error is raised if First_1 + Order - 1 >
+            Integer'Last or First_2 + Order - 1 > Integer'Last.
+
+
+                         Implementation Requirements
+
+149/2 Accuracy requirements for the subprograms Solve, Inverse, Determinant,
+Eigenvalues and Eigensystem are implementation defined.
+
+150/2 For operations not involving an inner product, the accuracy requirements
+are those of the corresponding operations of the type Real'Base and Complex in
+both the strict mode and the relaxed mode (see G.2).
+
+151/2 For operations involving an inner product, no requirements are specified
+in the relaxed mode. In the strict mode the modulus of the absolute error of
+the inner product X*Y shall not exceed g*abs(X)*abs(Y) where g is defined as
+
+152/2   g = X'Length * Real'Machine_Radix**(1 - Real'Model_Mantissa)
+            for mixed complex and real operands
+
+153/2   g = sqrt(2.0) * X'Length * Real'Machine_Radix**(1 - Real'Model_Mantissa)
+            for two complex operands
+
+154/2 For the L2-norm, no accuracy requirements are specified in the relaxed
+mode. In the strict mode the relative error on the norm shall not exceed g /
+2.0 + 3.0 * Real'Model_Epsilon where g has the definition appropriate for two
+complex operands.
+
+
+                         Documentation Requirements
+
+155/2 Implementations shall document any techniques used to reduce
+cancellation errors such as extended precision arithmetic.
+
+
+                         Implementation Permissions
+
+156/2 The nongeneric equivalent packages may, but need not, be actual
+instantiations of the generic package for the appropriate predefined type.
+
+157/2 Although many operations are defined in terms of operations from
+numerics.generic_complex_types, they need not be implemented by calling those
+operations provided that the effect is the same.
+
+
+                            Implementation Advice
+
+158/3 Implementations should implement the Solve and Inverse functions using
+established techniques. Implementations are recommended to refine the result
+by performing an iteration on the residuals; if this is done, then it should
+be documented.
+
+159/2 It is not the intention that any special provision should be made to
+determine whether a matrix is ill-conditioned or not. The naturally occurring
+overflow (including division by zero) which will result from executing these
+functions with an ill-conditioned matrix and thus raise Constraint_Error is
+sufficient.
+
+160/2 The test that a matrix is Hermitian should use the equality operator to
+compare the real components and negation followed by equality to compare the
+imaginary components (see G.2.1).
+
+160.1/3 An implementation should minimize the circumstances under which the
+algorithm used for Eigenvalues and Eigensystem fails to converge.
+
+161/2 Implementations should not perform operations on mixed complex and real
+operands by first converting the real operand to complex. See G.1.1.
+

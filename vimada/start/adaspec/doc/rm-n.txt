@@ -1,0 +1,320 @@
+*rm-n.txt*
+
+                                   Annex N
+                                (informative)
+
+                                  Glossary *ada-glossary*
+
+
+1/2 This Annex contains informal descriptions of some of the terms used in
+this International Standard. The index provides references to more formal
+definitions of all of the terms used in this International Standard.
+
+1.1/2 Abstract type. An abstract type is a tagged type intended for use as an
+ancestor of other types, but which is not allowed to have objects of its own.
+
+2   Access type. An access type has values that designate aliased objects.
+Access types correspond to "pointer types" or "reference types" in some other
+languages.
+
+3   Aliased. An aliased view of an object is one that can be designated by an
+access value. Objects allocated by allocators are aliased. Objects can also be
+explicitly declared as aliased with the reserved word aliased. The Access
+attribute can be used to create an access value designating an aliased object.
+
+3.1/2 Ancestor. An ancestor of a type is the type itself or, in the case of a
+type derived from other types, its parent type or one of its progenitor types
+or one of their ancestors. Note that ancestor and descendant are inverse
+relationships.
+
+4   Array type. An array type is a composite type whose components are all of
+the same type. Components are selected by indexing.
+
+4.1/3 Aspect. An aspect is a specifiable property of an entity. An aspect may
+be specified by an aspect_specification on the declaration of the entity. Some
+aspects may be queried via attributes.
+
+4.2/3 Assertion. An assertion is a boolean expression that appears in any of
+the following: a pragma Assert, a predicate, a precondition, a postcondition,
+an invariant, a constraint, or a null exclusion. An assertion is expected to
+be True at run time at certain specified places.
+
+4.3/2 Category (of types). A category of types is a set of types with one or
+more common properties, such as primitive operations. A category of types that
+is closed under derivation is also known as a class.
+
+5   Character type. A character type is an enumeration type whose values
+include characters.
+
+6/2 Class (of types). A class is a set of types that is closed under
+derivation, which means that if a given type is in the class, then all types
+derived from that type are also in the class. The set of types of a class
+share common properties, such as their primitive operations.
+
+7   Compilation unit. The text of a program can be submitted to the compiler
+in one or more compilations. Each compilation is a succession of
+compilation_units. A compilation_unit contains either the declaration, the
+body, or a renaming of a program unit.
+
+8/2 Composite type. A composite type may have components.
+
+9   Construct. A construct is a piece of text (explicit or implicit) that is
+an instance of a syntactic category defined under "Syntax".
+
+9.1/3 Container. A container is an object that contain other objects all of
+the same type, which could be class-wide. Several predefined container types
+are provided by the children of package Ada.Containers (see A.18.1).
+
+10  Controlled type. A controlled type supports user-defined assignment and
+finalization. Objects are always finalized before being destroyed.
+
+11  Declaration. A declaration is a language construct that associates a name
+with (a view of) an entity. A declaration may appear explicitly in the program
+text (an explicit declaration), or may be supposed to occur at a given place
+in the text as a consequence of the semantics of another construct (an
+implicit declaration).
+
+12/2 This paragraph was deleted.
+
+13/2 Derived type. A derived type is a type defined in terms of one or more
+other types given in a derived type definition. The first of those types is
+the parent type of the derived type and any others are progenitor types. Each
+class containing the parent type or a progenitor type also contains the
+derived type. The derived type inherits properties such as components and
+primitive operations from the parent and progenitors. A type together with the
+types derived from it (directly or indirectly) form a derivation class.
+
+13.1/2 Descendant. A type is a descendant of itself, its parent and progenitor
+types, and their ancestors. Note that descendant and ancestor are inverse
+relationships.
+
+14  Discrete type. A discrete type is either an integer type or an enumeration
+type. Discrete types may be used, for example, in case_statements and as array
+indices.
+
+15/2 Discriminant. A discriminant is a parameter for a composite type. It can
+control, for example, the bounds of a component of the type if the component
+is an array. A discriminant for a task type can be used to pass data to a task
+of the type upon creation.
+
+15.1/2 Elaboration. The process by which a declaration achieves its run-time
+effect is called elaboration. Elaboration is one of the forms of execution.
+
+16  Elementary type. An elementary type does not have components.
+
+17  Enumeration type. An enumeration type is defined by an enumeration of its
+values, which may be named by identifiers or character literals.
+
+17.1/2 Evaluation. The process by which an expression achieves its run-time
+effect is called evaluation. Evaluation is one of the forms of execution.
+
+18  Exception. An exception represents a kind of exceptional situation; an
+occurrence of such a situation (at run time) is called an exception
+occurrence. To raise an exception is to abandon normal program execution so as
+to draw attention to the fact that the corresponding situation has arisen.
+Performing some actions in response to the arising of an exception is called
+handling the exception.
+
+19  Execution. The process by which a construct achieves its run-time effect
+is called execution. Execution of a declaration is also called elaboration.
+Execution of an expression is also called evaluation.
+
+19.1/2 Function. A function is a form of subprogram that returns a result and
+can be called as part of an expression.
+
+20  Generic unit. A generic unit is a template for a (nongeneric) program
+unit; the template can be parameterized by objects, types, subprograms, and
+packages. An instance of a generic unit is created by a
+generic_instantiation. The rules of the language are enforced when a generic
+unit is compiled, using a generic contract model; additional checks are
+performed upon instantiation to verify the contract is met. That is, the
+declaration of a generic unit represents a contract between the body of the
+generic and instances of the generic. Generic units can be used to perform the
+role that macros sometimes play in other languages.
+
+20.1/2 Incomplete type. An incomplete type gives a view of a type that reveals
+only some of its properties. The remaining properties are provided by the full
+view given elsewhere. Incomplete types can be used for defining recursive data
+structures.
+
+20.2/3 Indexable container type. An indexable container type is one that has
+user-defined behavior for indexing, via the Constant_Indexing or
+Variable_Indexing aspects.
+
+21  Integer type. Integer types comprise the signed integer types and the
+modular types. A signed integer type has a base range that includes both
+positive and negative numbers, and has operations that may raise an exception
+when the result is outside the base range. A modular type has a base range
+whose lower bound is zero, and has operations with "wraparound" semantics.
+Modular types subsume what are called "unsigned types" in some other languages.
+
+21.1/2 Interface type. An interface type is a form of abstract tagged type
+which has no components or concrete operations except possibly null
+procedures. Interface types are used for composing other interfaces and tagged
+types and thereby provide multiple inheritance. Only an interface type can be
+used as a progenitor of another type.
+
+21.2/4 Invariant. An invariant is an assertion that is expected to be True for
+all objects of a given private type when viewed from outside the defining
+package.
+
+21.3/3 Iterable container type. An iterable container type is one that has
+user-defined behavior for iteration, via the Default_Iterator and
+Iterator_Element aspects.
+
+21.4/3 Iterator. An iterator is a construct that is used to loop over the
+elements of an array or container. Iterators may be user defined, and may
+perform arbitrary computations to access elements from a container.
+
+22  Library unit. A library unit is a separately compiled program unit, and is
+always a package, subprogram, or generic unit. Library units may have other
+(logically nested) library units as children, and may have other program units
+physically nested within them. A root library unit, together with its children
+and grandchildren and so on, form a subsystem.
+
+23/2 Limited type. A limited type is a type for which copying (such as in an
+assignment_statement) is not allowed. A nonlimited type is a type for which
+copying is allowed.
+
+24  Object. An object is either a constant or a variable. An object contains a
+value. An object is created by an object_declaration or by an allocator. A
+formal parameter is (a view of) an object. A subcomponent of an object is an
+object.
+
+24.1/2 Overriding operation. An overriding operation is one that replaces an
+inherited primitive operation. Operations may be marked explicitly as
+overriding or not overriding.
+
+25  Package. Packages are program units that allow the specification of groups
+of logically related entities. Typically, a package contains the declaration
+of a type (often a private type or private extension) along with the
+declarations of primitive subprograms of the type, which can be called from
+outside the package, while their inner workings remain hidden from outside
+users.
+
+25.1/2 Parent. The parent of a derived type is the first type given in the
+definition of the derived type. The parent can be almost any kind of type,
+including an interface type.
+
+26  Partition. A partition is a part of a program. Each partition consists of
+a set of library units. Each partition may run in a separate address space,
+possibly on a separate computer. A program may contain just one partition. A
+distributed program typically contains multiple partitions, which can execute
+concurrently.
+
+26.1/3 Postcondition. A postcondition is an assertion that is expected to be
+True when a given subprogram returns normally.
+
+27  Pragma. A pragma is a compiler directive. There are language-defined
+pragmas that give instructions for optimization, listing control, etc. An
+implementation may support additional (implementation-defined) pragmas.
+
+27.1/3 Precondition. A precondition is an assertion that is expected to be
+True when a given subprogram is called.
+
+27.2/3 Predicate. A predicate is an assertion that is expected to be True for
+all objects of a given subtype.
+
+28  Primitive operations. The primitive operations of a type are the
+operations (such as subprograms) declared together with the type declaration.
+They are inherited by other types in the same class of types. For a tagged
+type, the primitive subprograms are dispatching subprograms, providing
+run-time polymorphism. A dispatching subprogram may be called with statically
+tagged operands, in which case the subprogram body invoked is determined at
+compile time. Alternatively, a dispatching subprogram may be called using a
+dispatching call, in which case the subprogram body invoked is determined at
+run time.
+
+29/2 Private extension. A private extension is a type that extends another
+type, with the additional properties hidden from its clients.
+
+30/2 Private type. A private type gives a view of a type that reveals only
+some of its properties. The remaining properties are provided by the full view
+given elsewhere. Private types can be used for defining abstractions that hide
+unnecessary details from their clients.
+
+30.1/2 Procedure. A procedure is a form of subprogram that does not return a
+result and can only be called by a statement.
+
+30.2/2 Progenitor. A progenitor of a derived type is one of the types given in
+the definition of the derived type other than the first. A progenitor is
+always an interface type. Interfaces, tasks, and protected types may also have
+progenitors.
+
+31  Program. A program is a set of partitions, each of which may execute in a
+separate address space, possibly on a separate computer. A partition consists
+of a set of library units.
+
+32  Program unit. A program unit is either a package, a task unit, a protected
+unit, a protected entry, a generic unit, or an explicitly declared subprogram
+other than an enumeration literal. Certain kinds of program units can be
+separately compiled. Alternatively, they can appear physically nested within
+other program units.
+
+33/2 Protected type. A protected type is a composite type whose components are
+accessible only through one of its protected operations which synchronize
+concurrent access by multiple tasks.
+
+34  Real type. A real type has values that are approximations of the real
+numbers. Floating point and fixed point types are real types.
+
+35  Record extension. A record extension is a type that extends another type
+by adding additional components.
+
+36  Record type. A record type is a composite type consisting of zero or more
+named components, possibly of different types.
+
+36.1/3 Reference type. A reference type is one that has user-defined behavior
+for ".all", defined by the Implicit_Dereference aspect.
+
+36.2/2 Renaming. A renaming_declaration is a declaration that does not define
+a new entity, but instead defines a view of an existing entity.
+
+37  Scalar type. A scalar type is either a discrete type or a real type.
+
+37.1/3 Storage pool. Each access-to-object type has an associated storage pool
+object. The storage for an object created by an allocator comes from the
+storage pool of the type of the allocator. Some storage pools may be
+partitioned into subpools in order to support finer-grained storage management.
+
+37.2/3 Stream. A stream is a sequence of elements that can be used, along with
+the stream-oriented attributes, to support marshalling and unmarshalling of
+values of most types.
+
+37.3/2 Subprogram. A subprogram is a section of a program that can be executed
+in various contexts. It is invoked by a subprogram call that may qualify the
+effect of the subprogram through the passing of parameters. There are two
+forms of subprograms: functions, which return values, and procedures, which do
+not.
+
+38/3 Subtype. A subtype is a type together with optional constraints, null
+exclusions, and predicates, which constrain the values of the subtype to
+satisfy certain conditions. The values of a subtype are a subset of the values
+of its type.
+
+38.1/2 Synchronized. A synchronized entity is one that will work safely with
+multiple tasks at one time. A synchronized interface can be an ancestor of a
+task or a protected type. Such a task or protected type is called a
+synchronized tagged type.
+
+39  Tagged type. The objects of a tagged type have a run-time type tag, which
+indicates the specific type with which the object was originally created. An
+operand of a class-wide tagged type can be used in a dispatching call; the tag
+indicates which subprogram body to invoke. Nondispatching calls, in which the
+subprogram body to invoke is determined at compile time, are also allowed.
+Tagged types may be extended with additional components.
+
+40/2 Task type. A task type is a composite type used to represent active
+entities which execute concurrently and which can communicate via queued task
+entries. The top-level task of a partition is called the environment task.
+
+41/2 Type. Each object has a type. A type has an associated set of values, and
+a set of primitive operations which implement the fundamental aspects of its
+semantics. Types are grouped into categories. Most language-defined categories
+of types are also classes of types.
+
+41.1/4 Type Invariant. See Invariant.
+
+42/2 View. A view of an entity reveals some or all of the properties of the
+entity. A single entity may have multiple views.
+

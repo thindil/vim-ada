@@ -1,0 +1,1616 @@
+*rm-06.txt*
+
+                               6   Subprograms *ada-subprograms*
+
+
+1   A subprogram is a program unit or intrinsic operation whose execution is
+invoked by a subprogram call. There are two forms of subprogram: procedures
+and functions. A procedure call is a statement; a function call is an
+expression and returns a value. The definition of a subprogram can be given in
+two parts: a subprogram declaration defining its interface, and a
+subprogram_body defining its execution. Operators and enumeration literals are
+functions.
+
+2/3 A callable entity is a subprogram or entry (see Section 9). A callable
+entity is invoked by a call; that is, a subprogram call or entry call. A
+callable construct is a construct that defines the action of a call upon a
+callable entity: a subprogram_body, entry_body, or accept_statement.
+
+
+6.1 Subprogram Declarations
+
+
+1   A subprogram_declaration declares a procedure or function.
+
+
+                                   Syntax
+
+2/3     subprogram_declaration ::= 
+            [overriding_indicator]
+            subprogram_specification
+                [aspect_specification];
+
+3/2     This paragraph was deleted.
+
+4/2     subprogram_specification ::= 
+            procedure_specification
+          | function_specification
+
+4.1/2   procedure_specification ::= procedure defining_program_unit_name
+         parameter_profile
+
+4.2/2   function_specification ::= function defining_designator
+         parameter_and_result_profile
+
+5       designator ::= [parent_unit_name . ]identifier | operator_symbol
+
+6       defining_designator ::= defining_program_unit_name
+         | defining_operator_symbol
+
+7       defining_program_unit_name ::= [parent_unit_name
+         . ]defining_identifier
+
+8       The optional parent_unit_name is only allowed for library units (see
+        10.1.1).
+
+9       operator_symbol ::= string_literal
+
+10/3    The sequence of characters in an operator_symbol shall form a reserved
+        word, a delimiter, or compound delimiter that corresponds to an
+        operator belonging to one of the six categories of operators defined
+        in subclause 4.5.
+
+11      defining_operator_symbol ::= operator_symbol
+
+12      parameter_profile ::= [formal_part]
+
+13/2    parameter_and_result_profile ::= 
+            [formal_part] return [null_exclusion] subtype_mark
+          | [formal_part] return access_definition
+
+14      formal_part ::= 
+           (parameter_specification {; parameter_specification})
+
+15/3    parameter_specification ::= 
+            defining_identifier_list : [aliased] mode [null_exclusion
+        ] subtype_mark [:= default_expression]
+          | defining_identifier_list : access_definition
+         [:= default_expression]
+
+16      mode ::= [in] | in out | out
+
+
+                            Name Resolution Rules
+
+17  A formal parameter is an object directly visible within a
+subprogram_body that represents the actual parameter passed to the subprogram
+in a call; it is declared by a parameter_specification. For a formal
+parameter, the expected type for its default_expression, if any, is that of
+the formal parameter.
+
+
+                               Legality Rules
+
+18/3 The parameter mode of a formal parameter conveys the direction of
+information transfer with the actual parameter: in, in out, or out. Mode in is
+the default, and is the mode of a parameter defined by an access_definition.
+
+19  A default_expression is only allowed in a parameter_specification for a
+formal parameter of mode in.
+
+20/3 A subprogram_declaration or a generic_subprogram_declaration requires a
+completion unless the Import aspect (see B.1) is True for the declaration; the
+completion shall be a body or a renaming_declaration (see 8.5). A completion
+is not allowed for an abstract_subprogram_declaration (see 3.9.3), a
+null_procedure_declaration (see 6.7), or an expression_function_declaration
+(see 6.8).
+
+21  A name that denotes a formal parameter is not allowed within the
+formal_part in which it is declared, nor within the formal_part of a
+corresponding body or accept_statement.
+
+
+                              Static Semantics
+
+22  The profile of (a view of) a callable entity is either a
+parameter_profile or parameter_and_result_profile; it embodies information
+about the interface to that entity - for example, the profile includes
+information about parameters passed to the callable entity. All callable
+entities have a profile - enumeration literals, other subprograms, and
+entries. An access-to-subprogram type has a designated profile. Associated
+with a profile is a calling convention. A subprogram_declaration declares a
+procedure or a function, as indicated by the initial reserved word, with name
+and profile as given by its specification.
+
+23/2 The nominal subtype of a formal parameter is the subtype determined by
+the optional null_exclusion and the subtype_mark, or defined by the
+access_definition, in the parameter_specification. The nominal subtype of a
+function result is the subtype determined by the optional null_exclusion and
+the subtype_mark, or defined by the access_definition, in the
+parameter_and_result_profile.
+
+23.1/3 An explicitly aliased parameter is a formal parameter whose
+parameter_specification includes the reserved word aliased.
+
+24/2 An access parameter is a formal in parameter specified by an
+access_definition. An access result type is a function result type specified
+by an access_definition. An access parameter or result type is of an anonymous
+access type (see 3.10). Access parameters of an access-to-object type allow
+dispatching calls to be controlled by access values. Access parameters of an
+access-to-subprogram type permit calls to subprograms passed as parameters
+irrespective of their accessibility level.
+
+25  The subtypes of a profile are:
+
+26    * For any non-access parameters, the nominal subtype of the parameter.
+
+27/2   * For any access parameters of an access-to-object type, the designated
+        subtype of the parameter type.
+
+27.1/3   * For any access parameters of an access-to-subprogram type, the
+        subtypes of the designated profile of the parameter type.
+
+28/2   * For any non-access result, the nominal subtype of the function result.
+
+28.1/2   * For any access result type of an access-to-object type, the
+        designated subtype of the result type.
+
+28.2/3   * For any access result type of an access-to-subprogram type, the
+        subtypes of the designated profile of the result type.
+
+29  The types of a profile are the types of those subtypes.
+
+30/3 A subprogram declared by an abstract_subprogram_declaration is abstract;
+a subprogram declared by a subprogram_declaration is not. See 3.9.3, "
+Abstract Types and Subprograms". Similarly, a procedure declared by a
+null_procedure_declaration is a null procedure; a procedure declared by a
+subprogram_declaration is not. See 6.7, "Null Procedures". Finally, a function
+declared by an expression_function_declaration is an expression function; a
+function declared by a subprogram_declaration is not. See 6.8, "
+Expression Functions".
+
+30.1/2 An overriding_indicator is used to indicate whether overriding is
+intended. See 8.3.1, "Overriding Indicators".
+
+
+                              Dynamic Semantics
+
+31/2 The elaboration of a subprogram_declaration has no effect.
+
+        NOTES
+
+32      1  A parameter_specification with several identifiers is equivalent to
+        a sequence of single parameter_specifications, as explained in 3.3.
+
+33      2  Abstract subprograms do not have bodies, and cannot be used in a
+        nondispatching call (see 3.9.3, "Abstract Types and Subprograms").
+
+34      3  The evaluation of default_expressions is caused by certain calls,
+        as described in 6.4.1. They are not evaluated during the elaboration
+        of the subprogram declaration.
+
+35      4  Subprograms can be called recursively and can be called
+        concurrently from multiple tasks.
+
+
+                                  Examples
+
+36  Examples of subprogram declarations:
+
+37      procedure Traverse_Tree;
+        procedure Increment(X : in out Integer);
+        procedure Right_Indent(Margin : out Line_Size);          --  see 3.5.4
+        procedure Switch(From, To : in out Link);                --  see 3.10.1
+
+38      function Random return Probability;                      --  see 3.5.7
+
+39/4    function Min_Cell(X : Link) return Cell;                 --  see 3.10.1
+        function Next_Frame(K : Positive) return Frame;          --  see 3.10
+        function Dot_Product(Left, Right : Vector) return Real;  --  see 3.6
+        function Find(B : aliased in out Barrel; Key : String) return Real;
+                                                                 --  see 4.1.5
+
+40      function "*"(Left, Right : Matrix) return Matrix;        --  see 3.6
+
+41  Examples of in parameters with default expressions:
+
+42      procedure Print_Header(Pages  : in Natural;
+                    Header : in Line    :=  (1 .. Line'Last => ' ');  --  see 3.6
+                    Center : in Boolean := True);
+
+
+6.1.1 Preconditions and Postconditions
+
+
+1/4 For a noninstance subprogram, a generic subprogram, or an entry, the
+following language-defined aspects may be specified with an
+aspect_specification (see 13.1.1):
+
+2/3 Pre         This aspect specifies a specific precondition for a callable
+                entity; it shall be specified by an expression, called a
+                specific precondition expression. If not specified for an
+                entity, the specific precondition expression for the entity is
+                the enumeration literal True.
+
+3/3 Pre'Class   This aspect specifies a class-wide precondition for an
+                operation of a tagged type and its descendants; it shall be
+                specified by an expression, called a class-wide precondition
+                expression. If not specified for an entity, then if no other
+                class-wide precondition applies to the entity, the class-wide
+                precondition expression for the entity is the enumeration
+                literal True.
+
+4/3 Post        This aspect specifies a specific postcondition for a callable
+                entity; it shall be specified by an expression, called a
+                specific postcondition expression. If not specified for an
+                entity, the specific postcondition expression for the entity
+                is the enumeration literal True.
+
+5/3 Post'Class  This aspect specifies a class-wide postcondition for an
+                operation of a tagged type and its descendants; it shall be
+                specified by an expression, called a class-wide postcondition
+                expression. If not specified for an entity, the class-wide
+                postcondition expression for the entity is the enumeration
+                literal True.
+
+
+                            Name Resolution Rules
+
+6/3 The expected type for a precondition or postcondition expression is any
+boolean type.
+
+7/4 Within the expression for a Pre'Class or Post'Class aspect for a primitive
+subprogram S of a tagged type T, a name that denotes a formal parameter (or
+S'Result) of type T is interpreted as though it had a (notional) type NT that
+is a formal derived type whose ancestor type is T, with directly visible
+primitive operations. Similarly, a name that denotes a formal access parameter
+(or S'Result) of type access-to-T is interpreted as having type access-to-NT.
+The result of this interpretation is that the only operations that can be
+applied to such names are those defined for such a formal derived type.
+
+8/3 For an attribute_reference with attribute_designator Old, if the attribute
+reference has an expected type or shall resolve to a given type, the same
+applies to the prefix; otherwise, the prefix shall be resolved independently
+of context.
+
+
+                               Legality Rules
+
+9/3 The Pre or Post aspect shall not be specified for an abstract subprogram
+or a null procedure. Only the Pre'Class and Post'Class aspects may be
+specified for such a subprogram.
+
+10/3 If a type T has an implicitly declared subprogram P inherited from a
+parent type T1 and a homograph (see 8.3) of P from a progenitor type T2, and
+
+11/3   * the corresponding primitive subprogram P1 of type T1 is neither null
+        nor abstract; and
+
+12/3   * the class-wide precondition expression True does not apply to P1
+        (implicitly or explicitly); and
+
+13/3   * there is a class-wide precondition expression that applies to the
+        corresponding primitive subprogram P2 of T2 that does not fully
+        conform to any class-wide precondition expression that applies to P1,
+
+14/3 then:
+
+15/3   * If the type T is abstract, the implicitly declared subprogram P is
+        abstract.
+
+16/3   * Otherwise, the subprogram P requires overriding and shall be
+        overridden with a nonabstract subprogram.
+
+17/3 If a renaming of a subprogram or entry S1 overrides an inherited
+subprogram S2, then the overriding is illegal unless each class-wide
+precondition expression that applies to S1 fully conforms to some class-wide
+precondition expression that applies to S2 and each class-wide precondition
+expression that applies to S2 fully conforms to some class-wide precondition
+expression that applies to S1.
+
+17.1/4 Pre'Class shall not be specified for an overriding primitive subprogram
+of a tagged type T unless the Pre'Class aspect is specified for the
+corresponding primitive subprogram of some ancestor of T.
+
+17.2/4 In addition to the places where Legality Rules normally apply (see
+12.3), these rules also apply in the private part of an instance of a generic
+unit.
+
+
+                              Static Semantics
+
+18/4 If a Pre'Class or Post'Class aspect is specified for a primitive
+subprogram S of a tagged type T, or such an aspect defaults to True, then a
+corresponding expression also applies to the corresponding primitive
+subprogram S of each descendant of T. The corresponding expression is
+constructed from the associated expression as follows:
+
+18.1/4   * References to formal parameters of S (or to S itself) are replaced
+        with references to the corresponding formal parameters of the
+        corresponding inherited or overriding subprogram S (or to the
+        corresponding subprogram S itself).
+
+18.2/4 The primitive subprogram S is illegal if it is not abstract and the
+corresponding expression for a Pre'Class or Post'Class aspect would be illegal.
+
+19/3 If performing checks is required by the Pre, Pre'Class, Post, or
+Post'Class assertion policies (see 11.4.2) in effect at the point of a
+corresponding aspect specification applicable to a given subprogram or entry,
+then the respective precondition or postcondition expressions are considered
+enabled.
+
+20/3 An expression is potentially unevaluated if it occurs within:
+
+21/3   * any part of an if_expression other than the first condition;
+
+22/3   * a dependent_expression of a case_expression;
+
+22.1/4   * a predicate of a quantified_expression;
+
+23/3   * the right operand of a short-circuit control form; or
+
+24/3   * a membership_choice other than the first of a membership operation.
+
+25/3 For a prefix X that denotes an object of a nonlimited type, the following
+attribute is defined:
+
+26/4 X'Old      Each X'Old in a postcondition expression that is enabled
+                denotes a constant that is implicitly declared at the
+                beginning of the subprogram body, entry body, or accept
+                statement.
+
+26.1/4          The implicitly declared entity denoted by each occurrence of
+                X'Old is declared as follows:
+
+26.2/4            * If X is of an anonymous access type defined by an
+                    access_definition A then
+
+26.3/4                  X'Old : constant A := X;
+
+26.4/4            * If X is of a specific tagged type T then
+
+26.5/4                  anonymous : constant T'Class := T'Class(X);
+                        X'Old : T renames T(anonymous);
+
+26.6/4              where the name X'Old denotes the object renaming.
+
+26.7/4            * Otherwise
+
+26.8/4                  X'Old : constant S := X;
+
+26.9/4              where S is the nominal subtype of X. This includes the
+                    case where the type of S is an anonymous array type or a
+                    universal type.
+
+26.10/4         The nominal subtype of X'Old is as implied by the above
+                definitions. The expected type of the prefix of an Old
+                attribute is that of the attribute. Similarly, if an Old
+                attribute shall resolve to be of some type, then the prefix of
+                the attribute shall resolve to be of that type.
+
+27/3            Reference to this attribute is only allowed within a
+                postcondition expression. The prefix of an Old
+                attribute_reference shall not contain a Result
+                attribute_reference, nor an Old attribute_reference, nor a use
+                of an entity declared within the postcondition expression but
+                not within prefix itself (for example, the loop parameter of
+                an enclosing quantified_expression). The prefix of an Old
+                attribute_reference that is potentially unevaluated shall
+                statically denote an entity.
+
+28/3 For a prefix F that denotes a function declaration, the following
+attribute is defined:
+
+29/3 F'Result   Within a postcondition expression for function F, denotes the
+                result object of the function. The type of this attribute is
+                that of the function result except within a Post'Class
+                postcondition expression for a function with a controlling
+                result or with a controlling access result. For a controlling
+                result, the type of the attribute is T'Class, where T is the
+                function result type. For a controlling access result, the
+                type of the attribute is an anonymous access type whose
+                designated type is T'Class, where T is the designated type of
+                the function result type.
+
+30/3            Use of this attribute is allowed only within a postcondition
+                expression for F.
+
+
+                              Dynamic Semantics
+
+31/3 Upon a call of the subprogram or entry, after evaluating any actual
+parameters, precondition checks are performed as follows:
+
+32/3   * The specific precondition check begins with the evaluation of the
+        specific precondition expression that applies to the subprogram or
+        entry, if it is enabled; if the expression evaluates to False,
+        Assertions.Assertion_Error is raised; if the expression is not
+        enabled, the check succeeds.
+
+33/3   * The class-wide precondition check begins with the evaluation of any
+        enabled class-wide precondition expressions that apply to the
+        subprogram or entry. If and only if all the class-wide precondition
+        expressions evaluate to False, Assertions.Assertion_Error is raised.
+
+34/3 The precondition checks are performed in an arbitrary order, and if any
+of the class-wide precondition expressions evaluate to True, it is not
+specified whether the other class-wide precondition expressions are evaluated.
+The precondition checks and any check for elaboration of the subprogram body
+are performed in an arbitrary order. It is not specified whether in a call on
+a protected operation, the checks are performed before or after starting the
+protected action. For an entry call, the checks are performed prior to
+checking whether the entry is open.
+
+35/3 Upon successful return from a call of the subprogram or entry, prior to
+copying back any by-copy in out or out parameters, the postcondition check is
+performed. This consists of the evaluation of any enabled specific and
+class-wide postcondition expressions that apply to the subprogram or entry. If
+any of the postcondition expressions evaluate to False, then
+Assertions.Assertion_Error is raised. The postcondition expressions are
+evaluated in an arbitrary order, and if any postcondition expression evaluates
+to False, it is not specified whether any other postcondition expressions are
+evaluated. The postcondition check, and any constraint or predicate checks
+associated with in out or out parameters are performed in an arbitrary order.
+
+35.1/4 For a call to a task entry, the postcondition check is performed before
+the end of the rendezvous; for a call to a protected operation, the
+postcondition check is performed before the end of the protected action of the
+call. The postcondition check for any call is performed before the
+finalization of any implicitly-declared constants associated (as described
+above) with Old attribute_references but after the finalization of any other
+entities whose accessibility level is that of the execution of the callable
+construct.
+
+36/3 If a precondition or postcondition check fails, the exception is raised
+at the point of the call; the exception cannot be handled inside the called
+subprogram or entry. Similarly, any exception raised by the evaluation of a
+precondition or postcondition expression is raised at the point of call.
+
+37/4 For any call to a subprogram or entry S (including dispatching calls),
+the checks that are performed to verify specific precondition expressions and
+specific and class-wide postcondition expressions are determined by those for
+the subprogram or entry actually invoked. Note that the class-wide
+postcondition expressions verified by the postcondition check that is part of
+a call on a primitive subprogram of type T includes all class-wide
+postcondition expressions originating in any progenitor of T, even if the
+primitive subprogram called is inherited from a type T1 and some of the
+postcondition expressions do not apply to the corresponding primitive
+subprogram of T1. Any operations within a class-wide postcondition expression
+that were resolved as primitive operations of the (notional) formal derived
+type NT, are in the evaluation of the postcondition bound to the corresponding
+operations of the type identified by the controlling tag of the call on S.
+This applies to both dispatching and non-dispatching calls on S.
+
+38/4 The class-wide precondition check for a call to a subprogram or entry S
+consists solely of checking the class-wide precondition expressions that apply
+to the denoted callable entity (not necessarily to the one that is invoked).
+Any operations within such an expression that were resolved as primitive
+operations of the (notional) formal derived type NT are in the evaluation of
+the precondition bound to the corresponding operations of the type identified
+by the controlling tag of the call on S. This applies to both dispatching and
+non-dispatching calls on S.
+
+39/3 For a call via an access-to-subprogram value, all precondition and
+postcondition checks performed are determined by the subprogram or entry
+denoted by the prefix of the Access attribute reference that produced the
+value.
+
+        NOTES
+
+40/3    5  A precondition is checked just before the call. If another task can
+        change any value that the precondition expression depends on, the
+        precondition need not hold within the subprogram or entry body.
+
+
+6.2 Formal Parameter Modes
+
+
+1   A parameter_specification declares a formal parameter of mode in, in out,
+or out.
+
+
+                              Static Semantics
+
+2   A parameter is passed either by copy or by reference. When a parameter is
+passed by copy, the formal parameter denotes a separate object from the actual
+parameter, and any information transfer between the two occurs only before and
+after executing the subprogram. When a parameter is passed by reference, the
+formal parameter denotes (a view of) the object denoted by the actual
+parameter; reads and updates of the formal parameter directly reference the
+actual parameter object.
+
+3/3 A type is a by-copy type if it is an elementary type, or if it is a
+descendant of a private type whose full type is a by-copy type. A parameter of
+a by-copy type is passed by copy, unless the formal parameter is explicitly
+aliased.
+
+4   A type is a by-reference type if it is a descendant of one of the
+following:
+
+5     * a tagged type;
+
+6     * a task or protected type;
+
+7/3   * an explicitly limited record type;
+
+8     * a composite type with a subcomponent of a by-reference type;
+
+9     * a private type whose full type is a by-reference type.
+
+10/4 A parameter of a by-reference type is passed by reference, as is an
+explicitly aliased parameter of any type. Each value of a by-reference type
+has an associated object. For a parenthesized expression,
+qualified_expression, or view conversion, this object is the one associated
+with the operand. For a value conversion, the associated object is the
+anonymous result object if such an object is created (see 4.6); otherwise it
+is the associated object of the operand. For a conditional_expression, this
+object is the one associated with the evaluated dependent_expression.
+
+11/3 For other parameters, it is unspecified whether the parameter is passed
+by copy or by reference.
+
+
+                          Bounded (Run-Time) Errors
+
+12/3 If one name denotes a part of a formal parameter, and a second name
+denotes a part of a distinct formal parameter or an object that is not part of
+a formal parameter, then the two names are considered distinct access paths.
+If an object is of a type for which the parameter passing mechanism is not
+specified and is not an explicitly aliased parameter, then it is a bounded
+error to assign to the object via one access path, and then read the value of
+the object via a distinct access path, unless the first access path denotes a
+part of a formal parameter that no longer exists at the point of the second
+access (due to leaving the corresponding callable construct). The possible
+consequences are that Program_Error is raised, or the newly assigned value is
+read, or some old value of the object is read.
+
+        NOTES
+
+13/4    6  The mode of a formal parameter describes the direction of
+        information transfer to or from the subprogram_body (see 6.1).
+
+14      7  A formal parameter of mode in is a constant view (see 3.3); it
+        cannot be updated within the subprogram_body.
+
+15/4    8  A formal parameter of mode out might be uninitialized at the start
+        of the subprogram_body (see 6.4.1).
+
+
+6.3 Subprogram Bodies
+
+
+1   A subprogram_body specifies the execution of a subprogram.
+
+
+                                   Syntax
+
+2/3     subprogram_body ::= 
+            [overriding_indicator]
+            subprogram_specification
+               [aspect_specification] is
+               declarative_part
+            begin
+                handled_sequence_of_statements
+            end [designator];
+
+3       If a designator appears at the end of a subprogram_body, it shall
+        repeat the defining_designator of the subprogram_specification.
+
+
+                               Legality Rules
+
+4   In contrast to other bodies, a subprogram_body need not be the completion
+of a previous declaration, in which case the body declares the subprogram. If
+the body is a completion, it shall be the completion of a
+subprogram_declaration or generic_subprogram_declaration. The profile of a
+subprogram_body that completes a declaration shall conform fully to that of
+the declaration.
+
+
+                              Static Semantics
+
+5   A subprogram_body is considered a declaration. It can either complete a
+previous declaration, or itself be the initial declaration of the subprogram.
+
+
+                              Dynamic Semantics
+
+6   The elaboration of a nongeneric subprogram_body has no other effect than
+to establish that the subprogram can from then on be called without failing
+the Elaboration_Check.
+
+7   The execution of a subprogram_body is invoked by a subprogram call. For
+this execution the declarative_part is elaborated, and the
+handled_sequence_of_statements is then executed.
+
+
+                                  Examples
+
+8   Example of procedure body:
+
+9       procedure Push(E : in Element_Type; S : in out Stack) is
+        begin
+           if S.Index = S.Size then
+              raise Stack_Overflow;
+           else
+              S.Index := S.Index + 1;
+              S.Space(S.Index) := E;
+           end if;
+        end Push;
+
+10  Example of a function body:
+
+11      function Dot_Product(Left, Right : Vector) return Real is
+           Sum : Real := 0.0;
+        begin
+           Check(Left'First = Right'First and Left'Last = Right'Last);
+           for J in Left'Range loop
+              Sum := Sum + Left(J)*Right(J);
+           end loop;
+           return Sum;
+        end Dot_Product;
+
+
+6.3.1 Conformance Rules
+
+
+1   When subprogram profiles are given in more than one place, they are
+required to conform in one of four ways: type conformance, mode conformance,
+subtype conformance, or full conformance.
+
+
+                              Static Semantics
+
+2/1 As explained in B.1, "Interfacing Aspects", a convention can be specified
+for an entity. Unless this International Standard states otherwise, the
+default convention of an entity is Ada. For a callable entity or
+access-to-subprogram type, the convention is called the calling convention.
+The following conventions are defined by the language:
+
+3/3   * The default calling convention for any subprogram not listed below is
+        Ada. The Convention aspect may be specified to override the default
+        calling convention (see B.1).
+
+4     * The Intrinsic calling convention represents subprograms that are "
+        built in" to the compiler. The default calling convention is Intrinsic
+        for the following:
+
+5         * an enumeration literal;
+
+6         * a "/=" operator declared implicitly due to the declaration of "="
+            (see 6.6);
+
+7         * any other implicitly declared subprogram unless it is a
+            dispatching operation of a tagged type;
+
+8         * an inherited subprogram of a generic formal tagged type with
+            unknown discriminants;
+
+9         * an attribute that is a subprogram;
+
+10/2      * a subprogram declared immediately within a protected_body;
+
+10.1/4    * any prefixed view of a subprogram (see 4.1.3) without
+            synchronization kind (see 9.5) By_Entry or By_Protected_Procedure.
+
+11      The Access attribute is not allowed for Intrinsic subprograms.
+
+12/4   * The default calling convention is protected for a protected
+        subprogram, for a prefixed view of a subprogram with a synchronization
+        kind of By_Protected_Procedure, and for an access-to-subprogram type
+        with the reserved word protected in its definition.
+
+13/4   * The default calling convention is entry for an entry and for a
+        prefixed view of a subprogram with a synchronization kind of By_Entry.
+
+13.1/3   * The calling convention for an anonymous access-to-subprogram
+        parameter or anonymous access-to-subprogram result is protected if the
+        reserved word protected appears in its definition; otherwise, it is
+        the convention of the subprogram that contains the parameter.
+
+13.2/1   * If not specified above as Intrinsic, the calling convention for any
+        inherited or overriding dispatching operation of a tagged type is that
+        of the corresponding subprogram of the parent type. The default
+        calling convention for a new dispatching operation of a tagged type is
+        the convention of the type.
+
+14/3 Of these four conventions, only Ada and Intrinsic are allowed as a
+convention_identifier in the specification of a Convention aspect.
+
+15/2 Two profiles are type conformant if they have the same number of
+parameters, and both have a result if either does, and corresponding parameter
+and result types are the same, or, for access parameters or access results,
+corresponding designated types are the same, or corresponding designated
+profiles are type conformant.
+
+16/3 Two profiles are mode conformant if:
+
+16.1/3   * they are type conformant; and
+
+16.2/3   * corresponding parameters have identical modes and both or neither
+        are explicitly aliased parameters; and
+
+16.3/3   * for corresponding access parameters and any access result type, the
+        designated subtypes statically match and either both or neither are
+        access-to-constant, or the designated profiles are subtype conformant.
+
+17/3 Two profiles are subtype conformant if they are mode conformant,
+corresponding subtypes of the profile statically match, and the associated
+calling conventions are the same. The profile of a generic formal subprogram
+is not subtype conformant with any other profile.
+
+18/3 Two profiles are fully conformant if they are subtype conformant, if they
+have access-to-subprogram results whose designated profiles are fully
+conformant, and for corresponding parameters:
+
+18.1/3   * they have the same names; and
+
+18.2/3   * both or neither have null_exclusions; and
+
+18.3/3   * neither have default_expressions, or they both have
+        default_expressions that are fully conformant with one another; and
+
+18.4/3   * for access-to-subprogram parameters, the designated profiles are
+        fully conformant.
+
+19  Two expressions are fully conformant if, after replacing each use of an
+operator with the equivalent function_call:
+
+20    * each constituent construct of one corresponds to an instance of the
+        same syntactic category in the other, except that an expanded name may
+        correspond to a direct_name (or character_literal) or to a different
+        expanded name in the other; and
+
+20.1/4   * corresponding defining_identifiers occurring within the two
+        expressions are the same; and
+
+21/4   * each direct_name, character_literal, and selector_name that is not
+        part of the prefix of an expanded name in one denotes the same
+        declaration as the corresponding direct_name, character_literal, or
+        selector_name in the other, or they denote corresponding declarations
+        occurring within the two expressions; and
+
+21.1/3   * each attribute_designator in one is the same as the corresponding
+        attribute_designator in the other; and
+
+22    * each primary that is a literal in one has the same value as the
+        corresponding literal in the other.
+
+23  Two known_discriminant_parts are fully conformant if they have the same
+number of discriminants, and discriminants in the same positions have the same
+names, statically matching subtypes, and default_expressions that are fully
+conformant with one another.
+
+24  Two discrete_subtype_definitions are fully conformant if they are both
+subtype_indications or are both ranges, the subtype_marks (if any) denote the
+same subtype, and the corresponding simple_expressions of the ranges (if any)
+fully conform.
+
+24.1/2 The prefixed view profile of a subprogram is the profile obtained by
+omitting the first parameter of that subprogram. There is no prefixed view
+profile for a parameterless subprogram. For the purposes of defining subtype
+and mode conformance, the convention of a prefixed view profile is considered
+to match that of either an entry or a protected operation.
+
+
+                         Implementation Permissions
+
+25  An implementation may declare an operator declared in a language-defined
+library unit to be intrinsic.
+
+
+6.3.2 Inline Expansion of Subprograms
+
+
+1   Subprograms may be expanded in line at the call site.
+
+Paragraphs 2 through 4 were moved to Annex J, "Obsolescent Features".
+
+
+                              Static Semantics
+
+5/3 For a callable entity or a generic subprogram, the following
+language-defined representation aspect may be specified:
+
+5.1/3 Inline    The type of aspect Inline is Boolean. When aspect Inline is
+                True for a callable entity, inline expansion is desired for
+                all calls to that entity. When aspect Inline is True for a
+                generic subprogram, inline expansion is desired for all calls
+                to all instances of that generic subprogram.
+
+5.2/3           If directly specified, the aspect_definition shall be a static
+                expression. This aspect is never inherited; if not directly
+                specified, the aspect is False.
+
+
+                         Implementation Permissions
+
+6/3 For each call, an implementation is free to follow or to ignore the
+recommendation determined by the Inline aspect.
+
+
+6.4 Subprogram Calls
+
+
+1   A subprogram call is either a procedure_call_statement or a
+function_call; it invokes the execution of the subprogram_body. The call
+specifies the association of the actual parameters, if any, with formal
+parameters of the subprogram.
+
+
+                                   Syntax
+
+2       procedure_call_statement ::= 
+            procedure_name;
+          | procedure_prefix actual_parameter_part;
+
+3       function_call ::= 
+            function_name
+          | function_prefix actual_parameter_part
+
+4       actual_parameter_part ::= 
+            (parameter_association {, parameter_association})
+
+5       parameter_association ::= 
+           [formal_parameter_selector_name =>] explicit_actual_parameter
+
+6       explicit_actual_parameter ::= expression | variable_name
+
+7       A parameter_association is named or positional according to whether or
+        not the formal_parameter_selector_name is specified. Any positional
+        associations shall precede any named associations. Named associations
+        are not allowed if the prefix in a subprogram call is an attribute_-
+        reference.
+
+
+                            Name Resolution Rules
+
+8/2 The name or prefix given in a procedure_call_statement shall resolve to
+denote a callable entity that is a procedure, or an entry renamed as (viewed
+as) a procedure. The name or prefix given in a function_call shall resolve to
+denote a callable entity that is a function. The name or prefix shall not
+resolve to denote an abstract subprogram unless it is also a dispatching
+subprogram. When there is an actual_parameter_part, the prefix can be an
+implicit_dereference of an access-to-subprogram value.
+
+9   A subprogram call shall contain at most one association for each formal
+parameter. Each formal parameter without an association shall have a
+default_expression (in the profile of the view denoted by the name or prefix
+). This rule is an overloading rule (see 8.6).
+
+
+                              Dynamic Semantics
+
+10/2 For the execution of a subprogram call, the name or prefix of the call is
+evaluated, and each parameter_association is evaluated (see 6.4.1). If a
+default_expression is used, an implicit parameter_association is assumed for
+this rule. These evaluations are done in an arbitrary order. The subprogram_-
+body is then executed, or a call on an entry or protected subprogram is
+performed (see 3.9.2). Finally, if the subprogram completes normally, then
+after it is left, any necessary assigning back of formal to actual parameters
+occurs (see 6.4.1).
+
+10.1/2 If the name or prefix of a subprogram call denotes a prefixed view (see
+4.1.3), the subprogram call is equivalent to a call on the underlying
+subprogram, with the first actual parameter being provided by the prefix of
+the prefixed view (or the Access attribute of this prefix if the first formal
+parameter is an access parameter), and the remaining actual parameters given
+by the actual_parameter_part, if any.
+
+11/2 The exception Program_Error is raised at the point of a function_call if
+the function completes normally without executing a return statement.
+
+12/2 A function_call denotes a constant, as defined in 6.5; the nominal
+subtype of the constant is given by the nominal subtype of the function
+result.
+
+
+                                  Examples
+
+13  Examples of procedure calls:
+
+14      Traverse_Tree;                                               --  see 6.1
+        Print_Header(128, Title, True);                              --  see 6.1
+
+15      Switch(From => X, To => Next);                               --  see 6.1
+        Print_Header(128, Header => Title, Center => True);          --  see 6.1
+        Print_Header(Header => Title, Center => True, Pages => 128); --  see 6.1
+
+16  Examples of function calls:
+
+17      Dot_Product(U, V)   --  see 6.1 and 6.3
+        Clock               --  see 9.6
+        F.all               --  presuming F is of an access-to-subprogram type - see 3.10
+
+18  Examples of procedures with default expressions:
+
+19      procedure Activate(Process : in Process_Name;
+                           After   : in Process_Name := No_Process;
+                           Wait    : in Duration := 0.0;
+                           Prior   : in Boolean := False);
+
+20/3    procedure Pair(Left, Right : in Person_Name := new Person(M));   --  see 3.10.1
+
+21  Examples of their calls:
+
+22      Activate(X);
+        Activate(X, After => Y);
+        Activate(X, Wait => 60.0, Prior => True);
+        Activate(X, Y, 10.0, False);
+
+23/3    Pair;
+        Pair(Left => new Person(F), Right => new Person(M));
+
+        NOTES
+
+24      9  If a default_expression is used for two or more parameters in a
+        multiple parameter_specification, the default_expression is evaluated
+        once for each omitted parameter. Hence in the above examples, the two
+        calls of Pair are equivalent.
+
+
+                                  Examples
+
+25  Examples of overloaded subprograms:
+
+26      procedure Put(X : in Integer);
+        procedure Put(X : in String);
+
+27      procedure Set(Tint   : in Color);
+        procedure Set(Signal : in Light);
+
+28  Examples of their calls:
+
+29      Put(28);
+        Put("no possible ambiguity here");
+
+30      Set(Tint   => Red);
+        Set(Signal => Red);
+        Set(Color'(Red));
+
+31      --  Set(Red) would be ambiguous since Red may
+        --  denote a value either of type Color or of type Light
+
+
+6.4.1 Parameter Associations
+
+
+1   A parameter association defines the association between an actual
+parameter and a formal parameter.
+
+
+                            Name Resolution Rules
+
+2/3 The formal_parameter_selector_name of a named parameter_association shall
+resolve to denote a parameter_specification of the view being called; this is
+the formal parameter of the association. The formal parameter for a positional
+parameter_association is the parameter with the corresponding position in the
+formal part of the view being called.
+
+3   The actual parameter is either the explicit_actual_parameter given in a
+parameter_association for a given formal parameter, or the corresponding
+default_expression if no parameter_association is given for the formal
+parameter. The expected type for an actual parameter is the type of the
+corresponding formal parameter.
+
+4   If the mode is in, the actual is interpreted as an expression; otherwise,
+the actual is interpreted only as a name, if possible.
+
+
+                               Legality Rules
+
+5   If the mode is in out or out, the actual shall be a name that denotes a
+variable.
+
+5.1/4 If the mode is out, the actual parameter is a view conversion, and the
+type of the formal parameter is an access type or a scalar type that has the
+Default_Value aspect specified, then
+
+5.2/4   * there shall exist a type (other than a root numeric type) that is an
+        ancestor of both the target type and the operand type; and
+
+5.3/4   * in the case of a scalar type, the type of the operand of the
+        conversion shall have the Default_Value aspect specified.
+
+5.4/4 In addition to the places where Legality Rules normally apply (see
+12.3), these rules also apply in the private part of an instance of a generic
+unit.
+
+6/3 If the formal parameter is an explicitly aliased parameter, the type of
+the actual parameter shall be tagged or the actual parameter shall be an
+aliased view of an object. Further, if the formal parameter subtype F is
+untagged:
+
+6.1/3   * the subtype F shall statically match the nominal subtype of the
+        actual object; or
+
+6.2/3   * the subtype F shall be unconstrained, discriminated in its full
+        view, and unconstrained in any partial view.
+
+6.3/4 In addition to the places where Legality Rules normally apply (see
+12.3), these rules also apply in the private part of an instance of a generic
+unit.
+
+6.4/3 In a function call, the accessibility level of the actual object for
+each explicitly aliased parameter shall not be statically deeper than the
+accessibility level of the master of the call (see 3.10.2).
+
+6.5/3 Two names are known to denote the same object if:
+
+6.6/3   * both names statically denote the same stand-alone object or
+        parameter; or
+
+6.7/3   * both names are selected_components, their prefixes are known to
+        denote the same object, and their selector_names denote the same
+        component; or
+
+6.8/3   * both names are dereferences (implicit or explicit) and the
+        dereferenced names are known to denote the same object; or
+
+6.9/3   * both names are indexed_components, their prefixes are known to
+        denote the same object, and each of the pairs of corresponding index
+        values are either both static expressions with the same static value
+        or both names that are known to denote the same object; or
+
+6.10/3   * both names are slices, their prefixes are known to denote the same
+        object, and the two slices have statically matching index constraints;
+        or
+
+6.11/3   * one of the two names statically denotes a renaming declaration
+        whose renamed object_name is known to denote the same object as the
+        other, the prefix of any dereference within the renamed object_name is
+        not a variable, and any expression within the renamed object_name
+        contains no references to variables nor calls on nonstatic functions.
+
+6.12/3 Two names are known to refer to the same object if
+
+6.13/3   * The two names are known to denote the same object; or
+
+6.14/3   * One of the names is a selected_component, indexed_component, or
+        slice and its prefix is known to refer to the same object as the other
+        name; or
+
+6.15/3   * One of the two names statically denotes a renaming declaration
+        whose renamed object_name is known to refer to the same object as the
+        other name.
+
+6.16/3 If a call C has two or more parameters of mode in out or out that are
+of an elementary type, then the call is legal only if:
+
+6.17/3   * For each name N that is passed as a parameter of mode in out or out
+        to the call C, there is no other name among the other parameters of
+        mode in out or out to C that is known to denote the same object.
+
+6.18/3 If a construct C has two or more direct constituents that are names or
+expressions whose evaluation may occur in an arbitrary order, at least one of
+which contains a function call with an in out or out parameter, then the
+construct is legal only if:
+
+6.19/3   * For each name N that is passed as a parameter of mode in out or out
+        to some inner function call C2 (not including the construct C itself),
+        there is no other name anywhere within a direct constituent of the
+        construct C other than the one containing C2, that is known to refer
+        to the same object.
+
+6.20/3 For the purposes of checking this rule:
+
+6.21/3   * For an array aggregate, an expression associated with a
+        discrete_choice_list that has two or more discrete choices, or that
+        has a nonstatic range, is considered as two or more separate
+        occurrences of the expression;
+
+6.22/3   * For a record aggregate:
+
+6.23/3    * The expression of a record_component_association is considered to
+            occur once for each associated component; and
+
+6.24/3    * The default_expression for each record_component_association with
+            <> for which the associated component has a default_expression is
+            considered part of the aggregate;
+
+6.25/3   * For a call, any default_expression evaluated as part of the call is
+        considered part of the call.
+
+
+                              Dynamic Semantics
+
+7   For the evaluation of a parameter_association:
+
+8     * The actual parameter is first evaluated.
+
+9     * For an access parameter, the access_definition is elaborated, which
+        creates the anonymous access type.
+
+10    * For a parameter (of any mode) that is passed by reference (see 6.2), a
+        view conversion of the actual parameter to the nominal subtype of the
+        formal parameter is evaluated, and the formal parameter denotes that
+        conversion.
+
+11    * For an in or in out parameter that is passed by copy (see 6.2), the
+        formal parameter object is created, and the value of the actual
+        parameter is converted to the nominal subtype of the formal parameter
+        and assigned to the formal.
+
+12    * For an out parameter that is passed by copy, the formal parameter
+        object is created, and:
+
+13/3      * For an access type, the formal parameter is initialized from the
+            value of the actual, without checking that the value satisfies any
+            constraint, any predicate, or any exclusion of the null value;
+
+13.1/4    * For a scalar type that has the Default_Value aspect specified, the
+            formal parameter is initialized from the value of the actual,
+            without checking that the value satisfies any constraint or any
+            predicate. Furthermore, if the actual parameter is a view
+            conversion and either
+
+13.2/4        * there exists no type (other than a root numeric type) that is
+                an ancestor of both the target type and the type of the
+                operand of the conversion; or
+
+13.3/4        * the Default_Value aspect is unspecified for the type of the
+                operand of the conversion
+
+13.4/4      then Program_Error is raised;
+
+14        * For a composite type with discriminants or that has implicit
+            initial values for any subcomponents (see 3.3.1), the behavior is
+            as for an in out parameter passed by copy.
+
+15        * For any other type, the formal parameter is uninitialized. If
+            composite, a view conversion of the actual parameter to the
+            nominal subtype of the formal is evaluated (which might raise
+            Constraint_Error), and the actual subtype of the formal is that of
+            the view conversion. If elementary, the actual subtype of the
+            formal is given by its nominal subtype.
+
+15.1/3   * In a function call, for each explicitly aliased parameter, a check
+        is made that the accessibility level of the master of the actual
+        object is not deeper than that of the master of the call (see 3.10.2
+        ).
+
+16  A formal parameter of mode in out or out with discriminants is constrained
+if either its nominal subtype or the actual parameter is constrained.
+
+17  After normal completion and leaving of a subprogram, for each in out or
+out parameter that is passed by copy, the value of the formal parameter is
+converted to the subtype of the variable given as the actual parameter and
+assigned to it. These conversions and assignments occur in an arbitrary order.
+
+
+                             Erroneous Execution
+
+18/3 If the nominal subtype of a formal parameter with discriminants is
+constrained or indefinite, and the parameter is passed by reference, then the
+execution of the call is erroneous if the value of any discriminant of the
+actual is changed while the formal parameter exists (that is, before leaving
+the corresponding callable construct).
+
+
+6.5 Return Statements
+
+
+1/2 A simple_return_statement or extended_return_statement (collectively
+called a return statement) is used to complete the execution of the innermost
+enclosing subprogram_body, entry_body, or accept_statement.
+
+
+                                   Syntax
+
+2/2     simple_return_statement ::= return [expression];
+
+2.1/3   extended_return_object_declaration ::= 
+            defining_identifier
+         : [aliased][constant] return_subtype_indication [:= expression]
+
+2.2/3   extended_return_statement ::= 
+            return extended_return_object_declaration [do
+                handled_sequence_of_statements
+            end return];
+
+2.3/2   return_subtype_indication ::= subtype_indication
+         | access_definition
+
+
+                            Name Resolution Rules
+
+3/2 The result subtype of a function is the subtype denoted by the
+subtype_mark, or defined by the access_definition, after the reserved word
+return in the profile of the function. The expected type for the expression,
+if any, of a simple_return_statement is the result type of the corresponding
+function. The expected type for the expression of an
+extended_return_statement is that of the return_subtype_indication.
+
+
+                               Legality Rules
+
+4/2 A return statement shall be within a callable construct, and it applies to
+the innermost callable construct or extended_return_statement that contains
+it. A return statement shall not be within a body that is within the construct
+to which the return statement applies.
+
+5/3 A function body shall contain at least one return statement that applies
+to the function body, unless the function contains code_statements. A simple_-
+return_statement shall include an expression if and only if it applies to a
+function body. An extended_return_statement shall apply to a function body. An
+extended_return_statement with the reserved word constant shall include an
+expression.
+
+5.1/2 For an extended_return_statement that applies to a function body:
+
+5.2/3   * If the result subtype of the function is defined by a subtype_mark,
+        the return_subtype_indication shall be a subtype_indication. The type
+        of the subtype_indication shall be covered by the result type of the
+        function. The subtype defined by the subtype_indication shall be
+        statically compatible with the result subtype of the function; if the
+        result type of the function is elementary, the two subtypes shall
+        statically match. If the result subtype of the function is indefinite,
+        then the subtype defined by the subtype_indication shall be a definite
+        subtype, or there shall be an expression.
+
+5.3/2   * If the result subtype of the function is defined by an
+        access_definition, the return_subtype_indication shall be an
+        access_definition. The subtype defined by the access_definition shall
+        statically match the result subtype of the function. The accessibility
+        level of this anonymous access subtype is that of the result subtype.
+
+5.4/3   * If the result subtype of the function is class-wide, the
+        accessibility level of the type of the subtype defined by the
+        return_subtype_indication shall not be statically deeper than that of
+        the master that elaborated the function body.
+
+5.5/3 For any return statement that applies to a function body:
+
+5.6/3   * If the result subtype of the function is limited, then the
+        expression of the return statement (if any) shall meet the
+        restrictions described in 7.5.
+
+5.7/3   * If the result subtype of the function is class-wide, the
+        accessibility level of the type of the expression (if any) of the
+        return statement shall not be statically deeper than that of the
+        master that elaborated the function body.
+
+5.8/3   * If the subtype determined by the expression of the
+        simple_return_statement or by the return_subtype_indication has one or
+        more access discriminants, the accessibility level of the anonymous
+        access type of each access discriminant shall not be statically deeper
+        than that of the master that elaborated the function body.
+
+5.9/3 If the keyword aliased is present in an
+extended_return_object_declaration, the type of the extended return object
+shall be immutably limited.
+
+
+                              Static Semantics
+
+5.10/3 Within an extended_return_statement, the return object is declared with
+the given defining_identifier, with the nominal subtype defined by the return_-
+subtype_indication. An extended_return_statement with the reserved word
+constant is a full constant declaration that declares the return object to be
+a constant object.
+
+
+                              Dynamic Semantics
+
+5.11/3 For the execution of an extended_return_statement, the
+subtype_indication or access_definition is elaborated. This creates the
+nominal subtype of the return object. If there is an expression, it is
+evaluated and converted to the nominal subtype (which might raise
+Constraint_Error - see 4.6); the return object is created and the converted
+value is assigned to the return object. Otherwise, the return object is
+created and initialized by default as for a stand-alone object of its nominal
+subtype (see 3.3.1). If the nominal subtype is indefinite, the return object
+is constrained by its initial value. A check is made that the value of the
+return object belongs to the function result subtype. Constraint_Error is
+raised if this check fails.
+
+6/2 For the execution of a simple_return_statement, the expression (if any) is
+first evaluated, converted to the result subtype, and then is assigned to the
+anonymous return object.
+
+7/2 If the return object has any parts that are tasks, the activation of those
+tasks does not occur until after the function returns (see 9.2).
+
+8/4 If the result type of a function is a specific tagged type, the tag of the
+return object is that of the result type. If the result type is class-wide,
+the tag of the return object is that of the value of the expression, unless
+the return object is defined by an extended_return_object_declaration with a
+subtype_indication that is specific, in which case it is that of the type of
+the subtype_indication. A check is made that the master of the type identified
+by the tag of the result includes the elaboration of the master that
+elaborated the function body. If this check fails, Program_Error is raised.
+
+8.1/3 If the result subtype of the function is defined by an
+access_definition designating a specific tagged type T, a check is made that
+the result value is null or the tag of the object designated by the result
+value identifies T. Constraint_Error is raised if this check fails.
+
+Paragraphs 9 through 20 were deleted.
+
+21/3 If any part of the specific type of the return object of a function (or
+coextension thereof) has one or more access discriminants whose value is not
+constrained by the result subtype of the function, a check is made that the
+accessibility level of the anonymous access type of each access discriminant,
+as determined by the expression or the return_subtype_indication of the return
+statement, is not deeper than the level of the master of the call (see
+3.10.2). If this check fails, Program_Error is raised.
+
+22/3 For the execution of an extended_return_statement, the handled_sequence_-
+of_statements is executed. Within this handled_sequence_of_statements, the
+execution of a simple_return_statement that applies to the extended_return_-
+statement causes a transfer of control that completes the extended_return_-
+statement. Upon completion of a return statement that applies to a callable
+construct by the normal completion of a simple_return_statement or by reaching
+the end return of an extended_return_statement, a transfer of control is
+performed which completes the execution of the callable construct, and returns
+to the caller.
+
+23/2 In the case of a function, the function_call denotes a constant view of
+the return object.
+
+
+                         Implementation Permissions
+
+24/3 For a function call used to initialize a composite object with a
+constrained nominal subtype or used to initialize a return object that is
+built in place into such an object:
+
+24.1/3   * If the result subtype of the function is constrained, and
+        conversion of an object of this subtype to the subtype of the object
+        being initialized would raise Constraint_Error, then Constraint_Error
+        may be raised before calling the function.
+
+24.2/3   * If the result subtype of the function is unconstrained, and a
+        return statement is executed such that the return object is known to
+        be constrained, and conversion of the return object to the subtype of
+        the object being initialized would raise Constraint_Error, then
+        Constraint_Error may be raised at the point of the call (after
+        abandoning the execution of the function body).
+
+
+                                  Examples
+
+25  Examples of return statements:
+
+26/2    return;                         -- in a procedure body, entry_body,
+                                        -- accept_statement
+        , or extended_return_statement
+
+27      return Key_Value(Last_Index);   -- in a function body
+
+28/2    return Node : Cell do           -- in a function body, see 3.10.1
+         for Cell
+           Node.Value := Result;
+           Node.Succ := Next_Node;
+        end return;
+
+
+6.5.1 Nonreturning Procedures
+
+
+1/3 Specifying aspect No_Return to have the value True indicates that a
+procedure cannot return normally; it may propagate an exception or loop
+forever.
+
+Paragraphs 2 and 3 were moved to Annex J, "Obsolescent Features".
+
+
+                              Static Semantics
+
+3.1/3 For a procedure or generic procedure, the following language-defined
+representation aspect may be specified:
+
+3.2/3 No_Return The type of aspect No_Return is Boolean. When aspect No_Return
+                is True for an entity, the entity is said to be nonreturning.
+
+3.3/3           If directly specified, the aspect_definition shall be a static
+                expression. This aspect is never inherited; if not directly
+                specified, the aspect is False.
+
+3.4/3 If a generic procedure is nonreturning, then so are its instances. If a
+procedure declared within a generic unit is nonreturning, then so are the
+corresponding copies of that procedure in instances.
+
+
+                               Legality Rules
+
+4/3 Aspect No_Return shall not be specified for a null procedure nor an
+instance of a generic unit.
+
+5/2 A return statement shall not apply to a nonreturning procedure or generic
+procedure.
+
+6/2 A procedure shall be nonreturning if it overrides a dispatching
+nonreturning procedure. In addition to the places where Legality Rules
+normally apply (see 12.3), this rule applies also in the private part of an
+instance of a generic unit.
+
+7/2 If a renaming-as-body completes a nonreturning procedure declaration, then
+the renamed procedure shall be nonreturning.
+
+Paragraph 8 was deleted.
+
+
+                              Dynamic Semantics
+
+9/2 If the body of a nonreturning procedure completes normally, Program_Error
+is raised at the point of the call.
+
+
+                                  Examples
+
+10/3    procedure Fail(Msg : String)  -- raises Fatal_Error exception
+           with No_Return;
+           -- Inform compiler and reader that procedure never returns normally
+
+
+6.6 Overloading of Operators
+
+
+1   An operator is a function whose designator is an operator_symbol.
+Operators, like other functions, may be overloaded.
+
+
+                            Name Resolution Rules
+
+2   Each use of a unary or binary operator is equivalent to a function_call
+with function_prefix being the corresponding operator_symbol, and with
+(respectively) one or two positional actual parameters being the operand(s) of
+the operator (in order).
+
+
+                               Legality Rules
+
+3/3 The subprogram_specification of a unary or binary operator shall have one
+or two parameters, respectively. The parameters shall be of mode in. A generic
+function instantiation whose designator is an operator_symbol is only allowed
+if the specification of the generic function has the corresponding number of
+parameters, and they are all of mode in.
+
+4   Default_expressions are not allowed for the parameters of an operator
+(whether the operator is declared with an explicit subprogram_specification or
+by a generic_instantiation).
+
+5   An explicit declaration of "/=" shall not have a result type of the
+predefined type Boolean.
+
+
+                              Static Semantics
+
+6/3 An explicit declaration of "=" whose result type is Boolean implicitly
+declares an operator "/=" that gives the complementary result.
+
+        NOTES
+
+7       10  The operators "+" and "-" are both unary and binary operators, and
+        hence may be overloaded with both one- and two-parameter functions.
+
+
+                                  Examples
+
+8   Examples of user-defined operators:
+
+9       function "+" (Left, Right : Matrix) return Matrix;
+        function "+" (Left, Right : Vector) return Vector;
+        
+        --  assuming that A, B, and C are of the type Vector
+        --  the following two statements are equivalent:
+        
+        A := B + C;
+        A := "+"(B, C);
+
+
+6.7 Null Procedures
+
+
+1/2 A null_procedure_declaration provides a shorthand to declare a procedure
+with an empty body.
+
+
+                                   Syntax
+
+2/3     null_procedure_declaration ::= 
+           [overriding_indicator]
+           procedure_specification is null
+               [aspect_specification];
+
+
+                               Legality Rules
+
+2.1/3 If a null_procedure_declaration is a completion, it shall be the
+completion of a subprogram_declaration or generic_subprogram_declaration. The
+profile of a null_procedure_declaration that completes a declaration shall
+conform fully to that of the declaration.
+
+
+                              Static Semantics
+
+3/3 A null_procedure_declaration declares a null procedure. A completion is
+not allowed for a null_procedure_declaration; however, a
+null_procedure_declaration can complete a previous declaration.
+
+
+                              Dynamic Semantics
+
+4/2 The execution of a null procedure is invoked by a subprogram call. For the
+execution of a subprogram call on a null procedure, the execution of the
+subprogram_body has no effect.
+
+5/3 The elaboration of a null_procedure_declaration has no other effect than
+to establish that the null procedure can be called without failing the
+Elaboration_Check.
+
+
+                                  Examples
+
+6/2     procedure Simplify(Expr : in out Expression) is null; -- see 3.9
+        -- By default, Simplify does nothing, but it may be overridden in extensions of Expression
+
+
+6.8 Expression Functions
+
+
+1/3 An expression_function_declaration provides a shorthand to declare a
+function whose body consists of a single return statement.
+
+
+                                   Syntax
+
+2/4     expression_function_declaration ::= 
+           [overriding_indicator]
+           function_specification is
+               (expression)
+               [aspect_specification];
+         | [overriding_indicator]
+           function_specification is
+               aggregate
+               [aspect_specification];
+
+
+                            Name Resolution Rules
+
+3/4 The expected type for the expression or aggregate of an expression_-
+function_declaration is the result type (see 6.5) of the function.
+
+
+                               Legality Rules
+
+4/3 If an expression_function_declaration is a completion, it shall be the
+completion of a subprogram_declaration or generic_subprogram_declaration. The
+profile of an expression_function_declaration that completes a declaration
+shall conform fully to that of the declaration.
+
+5/4 If the result subtype has one or more unconstrained access discriminants,
+the accessibility level of the anonymous access type of each access
+discriminant, as determined by the expression or aggregate of the expression_-
+function_declaration, shall not be statically deeper than that of the master
+that elaborated the expression_function_declaration.
+
+
+                              Static Semantics
+
+6/4 An expression_function_declaration declares an expression function. The
+return expression of an expression function is the expression or aggregate of
+the expression_function_declaration. A completion is not allowed for an
+expression_function_declaration; however, an expression_function_declaration
+can complete a previous declaration.
+
+
+                              Dynamic Semantics
+
+7/4 The execution of an expression function is invoked by a subprogram call.
+For the execution of a subprogram call on an expression function, the
+execution of the subprogram_body executes an implicit function body containing
+only a simple_return_statement whose expression is the return expression of
+the expression function.
+
+8/3 The elaboration of an expression_function_declaration has no other effect
+than to establish that the expression function can be called without failing
+the Elaboration_Check.
+
+
+                                  Examples
+
+9/3     function Is_Origin (P : in Point) return Boolean is -- see 3.9
+           (P.X = 0.0 and P.Y = 0.0);
+

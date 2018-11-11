@@ -1,0 +1,175 @@
+*rm-l.txt*
+
+                                   Annex L
+                                (informative)
+
+                          Language-Defined Pragmas *ada-pragmas*
+
+
+1   This Annex summarizes the definitions given elsewhere of the
+language-defined pragmas.
+
+2   pragma All_Calls_Remote[(library_unit_name)]; - See E.2.3.
+
+2.1/2 pragma Assert([Check =>] boolean_expression[, [Message =>]
+string_expression]); - See 11.4.2.
+
+2.2/2 pragma Assertion_Policy(policy_identifier); - See 11.4.2.
+
+2.3/3 pragma Assertion_Policy(
+         assertion_aspect_mark => policy_identifier
+     {, assertion_aspect_mark => policy_identifier}); - See 11.4.2.
+
+3/3 This paragraph was deleted. 
+
+3.1/3 pragma Asynchronous (local_name); - See J.15.13.
+
+4/3 This paragraph was deleted. 
+
+4.1/3 pragma Atomic (local_name); - See J.15.8.
+
+5/3 This paragraph was deleted. 
+
+5.1/3 pragma Atomic_Components (array_local_name); - See J.15.8.
+
+6/3 This paragraph was deleted. 
+
+6.1/3 pragma Attach_Handler (handler_name, expression); - See J.15.7.
+
+7/3 This paragraph was deleted. 
+
+8/3 This paragraph was deleted. 
+
+8.1/3 pragma Convention([Convention =>] convention_identifier,[Entity =>]
+local_name); - See J.15.5.
+
+8.2/3 pragma CPU (expression); - See J.15.9.
+
+8.3/3 pragma Default_Storage_Pool (storage_pool_indicator); - See 13.11.3.
+
+8.4/2 pragma Detect_Blocking; - See H.5.
+
+9   pragma Discard_Names[([On => ] local_name)]; - See C.5.
+
+9.1/3 pragma Dispatching_Domain (expression); - See J.15.10.
+
+10  pragma Elaborate(library_unit_name{, library_unit_name}); - See 10.2.1.
+
+11  pragma Elaborate_All(library_unit_name{, library_unit_name}); - See
+10.2.1.
+
+12  pragma Elaborate_Body[(library_unit_name)]; - See 10.2.1.
+
+13/3 This paragraph was deleted. 
+
+13.1/3 pragma Export(
+     [Convention =>] convention_identifier, [Entity =>] local_name
+  [, [External_Name =>] external_name_string_expression]
+  [, [Link_Name =>] link_name_string_expression]); - See J.15.5.
+
+14/3 This paragraph was deleted. 
+
+14.1/3 pragma Import(
+     [Convention =>] convention_identifier, [Entity =>] local_name
+  [, [External_Name =>] external_name_string_expression]
+  [, [Link_Name =>] link_name_string_expression]); - See J.15.5.
+
+14.2/3 pragma Independent (component_local_name); - See J.15.8.
+
+14.3/3 pragma Independent_Components (local_name); - See J.15.8.
+
+15/3 This paragraph was deleted. 
+
+15.1/3 pragma Inline (name{, name}); - See J.15.1.
+
+16  pragma Inspection_Point[(object_name {, object_name})]; - See H.3.2.
+
+17/3 This paragraph was deleted. 
+
+17.1/3 pragma Interrupt_Handler (handler_name); - See J.15.7.
+
+18/3 This paragraph was deleted. 
+
+18.1/3 pragma Interrupt_Priority [(expression);] - See J.15.11.
+
+19  pragma Linker_Options(string_expression); - See B.1.
+
+20  pragma List(identifier); - See 2.8.
+
+21  pragma Locking_Policy(policy_identifier); - See D.3.
+
+21.1/3 This paragraph was deleted. 
+
+21.2/3 pragma No_Return (procedure_local_name{, procedure_local_name}); - See
+J.15.2.
+
+22  pragma Normalize_Scalars; - See H.1.
+
+23  pragma Optimize(identifier); - See 2.8.
+
+24/3 This paragraph was deleted. 
+
+24.1/3 pragma Pack (first_subtype_local_name); - See J.15.3.
+
+25  pragma Page; - See 2.8.
+
+25.1/2 pragma Partition_Elaboration_Policy (policy_identifier); - See H.6.
+
+25.2/2 pragma Preelaborable_Initialization(direct_name); - See 10.2.1.
+
+26  pragma Preelaborate[(library_unit_name)]; - See 10.2.1.
+
+27/3 This paragraph was deleted. 
+
+27.1/3 pragma Priority (expression); - See J.15.11.
+
+27.2/2 pragma Priority_Specific_Dispatching (
+     policy_identifier, first_priority_expression, last_priority_expression);
+- See D.2.2.
+
+27.3/3 pragma Profile (profile_identifier {,
+profile_pragma_argument_association}); - See 13.12.
+
+27.4/3 This paragraph was deleted. 
+
+28  pragma Pure[(library_unit_name)]; - See 10.2.1.
+
+29  pragma Queuing_Policy(policy_identifier); - See D.4.
+
+29.1/3 This paragraph was deleted. 
+
+29.2/3 pragma Relative_Deadline (relative_deadline_expression); - See
+J.15.12.
+
+30  pragma Remote_Call_Interface[(library_unit_name)]; - See E.2.3.
+
+31  pragma Remote_Types[(library_unit_name)]; - See E.2.2.
+
+32  pragma Restrictions(restriction{, restriction}); - See 13.12.
+
+33  pragma Reviewable; - See H.3.1.
+
+34  pragma Shared_Passive[(library_unit_name)]; - See E.2.1.
+
+35/3 This paragraph was deleted. 
+
+35.1/3 pragma Storage_Size (expression); - See J.15.4.
+
+36  pragma Suppress(identifier); - See 11.5.
+
+37  pragma Task_Dispatching_Policy(policy_identifier); - See D.2.2.
+
+37.1/3 This paragraph was deleted. 
+
+37.2/3 pragma Unchecked_Union (first_subtype_local_name); - See J.15.6.
+
+37.3/2 pragma Unsuppress(identifier); - See 11.5.
+
+38/3 This paragraph was deleted. 
+
+38.1/3 pragma Volatile (local_name); - See J.15.8.
+
+39/3 This paragraph was deleted. 
+
+39.1/3 pragma Volatile_Components (array_local_name); - See J.15.8.
+

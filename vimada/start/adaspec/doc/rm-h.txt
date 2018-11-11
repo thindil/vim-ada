@@ -1,0 +1,537 @@
+*rm-h.txt*
+
+                                   Annex H
+                                 (normative)
+
+                           High Integrity Systems *ada-integrity*
+
+
+1/2 This Annex addresses requirements for high integrity systems (including
+safety-critical systems and security-critical systems). It provides facilities
+and specifies documentation requirements that relate to several needs:
+
+2     * Understanding program execution;
+
+3     * Reviewing object code;
+
+4     * Restricting language constructs whose usage might complicate the
+        demonstration of program correctness
+
+4.1 Execution understandability is supported by pragma Normalize_Scalars, and
+also by requirements for the implementation to document the effect of a
+program in the presence of a bounded error or where the language rules leave
+the effect unspecified.
+
+5   The pragmas Reviewable and Restrictions relate to the other requirements
+addressed by this Annex.
+
+        NOTES
+
+6       1  The Valid attribute (see 13.9.2) is also useful in addressing these
+        needs, to avoid problems that could otherwise arise from scalars that
+        have values outside their declared range constraints.
+
+
+H.1 Pragma Normalize_Scalars
+
+
+1   This pragma ensures that an otherwise uninitialized scalar object is set
+to a predictable value, but out of range if possible.
+
+
+                                   Syntax
+
+2       The form of a pragma Normalize_Scalars is as follows:
+
+3         pragma Normalize_Scalars;
+
+
+                           Post-Compilation Rules
+
+4   Pragma Normalize_Scalars is a configuration pragma. It applies to all
+compilation_units included in a partition.
+
+
+                         Documentation Requirements
+
+5/2 If a pragma Normalize_Scalars applies, the implementation shall document
+the implicit initial values for scalar subtypes, and shall identify each case
+in which such a value is used and is not an invalid representation.
+
+
+                            Implementation Advice
+
+6/2 Whenever possible, the implicit initial values for a scalar subtype should
+be an invalid representation (see 13.9.1).
+
+        NOTES
+
+7       2  The initialization requirement applies to uninitialized scalar
+        objects that are subcomponents of composite objects, to allocated
+        objects, and to stand-alone objects. It also applies to scalar out
+        parameters. Scalar subcomponents of composite out parameters are
+        initialized to the corresponding part of the actual, by virtue of
+        6.4.1.
+
+8       3  The initialization requirement does not apply to a scalar for which
+        pragma Import has been specified, since initialization of an imported
+        object is performed solely by the foreign language environment (see
+        B.1).
+
+9       4  The use of pragma Normalize_Scalars in conjunction with Pragma
+        Restrictions(No_Exceptions) may result in erroneous execution (see
+        H.4).
+
+
+H.2 Documentation of Implementation Decisions
+
+
+
+                         Documentation Requirements
+
+1   The implementation shall document the range of effects for each situation
+that the language rules identify as either a bounded error or as having an
+unspecified effect. If the implementation can constrain the effects of
+erroneous execution for a given construct, then it shall document such
+constraints. The documentation might be provided either independently of any
+compilation unit or partition, or as part of an annotated listing for a given
+unit or partition. See also 1.1.3, and 1.1.2.
+
+        NOTES
+
+2       5  Among the situations to be documented are the conventions chosen
+        for parameter passing, the methods used for the management of run-time
+        storage, and the method used to evaluate numeric expressions if this
+        involves extended range or extra precision.
+
+
+H.3 Reviewable Object Code
+
+
+1   Object code review and validation are supported by pragmas Reviewable and
+Inspection_Point.
+
+
+H.3.1 Pragma Reviewable
+
+
+1   This pragma directs the implementation to provide information to
+facilitate analysis and review of a program's object code, in particular to
+allow determination of execution time and storage usage and to identify the
+correspondence between the source and object programs.
+
+
+                                   Syntax
+
+2       The form of a pragma Reviewable is as follows:
+
+3         pragma Reviewable;
+
+
+                           Post-Compilation Rules
+
+4   Pragma Reviewable is a configuration pragma. It applies to all
+compilation_units included in a partition.
+
+
+                         Implementation Requirements
+
+5   The implementation shall provide the following information for any
+compilation unit to which such a pragma applies:
+
+6     * Where compiler-generated run-time checks remain;
+
+7     * An identification of any construct with a language-defined check that
+        is recognized prior to run time as certain to fail if executed (even
+        if the generation of run-time checks has been suppressed);
+
+8/2   * For each read of a scalar object, an identification of the read as
+        either "known to be initialized," or "possibly uninitialized,"
+        independent of whether pragma Normalize_Scalars applies;
+
+9     * Where run-time support routines are implicitly invoked;
+
+10    * An object code listing, including:
+
+11        * Machine instructions, with relative offsets;
+
+12        * Where each data object is stored during its lifetime;
+
+13        * Correspondence with the source program, including an
+            identification of the code produced per declaration and per
+            statement.
+
+14    * An identification of each construct for which the implementation
+        detects the possibility of erroneous execution;
+
+15    * For each subprogram, block, task, or other construct implemented by
+        reserving and subsequently freeing an area on a run-time stack, an
+        identification of the length of the fixed-size portion of the area and
+        an indication of whether the non-fixed size portion is reserved on the
+        stack or in a dynamically-managed storage region.
+
+16  The implementation shall provide the following information for any
+partition to which the pragma applies:
+
+17    * An object code listing of the entire partition, including
+        initialization and finalization code as well as run-time system
+        components, and with an identification of those instructions and data
+        that will be relocated at load time;
+
+18    * A description of the run-time model relevant to the partition.
+
+18.1 The implementation shall provide control- and data-flow information, both
+within each compilation unit and across the compilation units of the
+partition.
+
+
+                            Implementation Advice
+
+19  The implementation should provide the above information in both a
+human-readable and machine-readable form, and should document the latter so as
+to ease further processing by automated tools.
+
+20  Object code listings should be provided both in a symbolic format and also
+in an appropriate numeric format (such as hexadecimal or octal).
+
+        NOTES
+
+21      6  The order of elaboration of library units will be documented even
+        in the absence of pragma Reviewable (see 10.2).
+
+
+H.3.2 Pragma Inspection_Point
+
+
+1   An occurrence of a pragma Inspection_Point identifies a set of objects
+each of whose values is to be available at the point(s) during program
+execution corresponding to the position of the pragma in the compilation unit.
+The purpose of such a pragma is to facilitate code validation.
+
+
+                                   Syntax
+
+2       The form of a pragma Inspection_Point is as follows:
+
+3         pragma Inspection_Point[(object_name {, object_name})];
+
+
+                               Legality Rules
+
+4   A pragma Inspection_Point is allowed wherever a declarative_item or
+statement is allowed. Each object_name shall statically denote the declaration
+of an object.
+
+
+                              Static Semantics
+
+5/2 An inspection point is a point in the object code corresponding to the
+occurrence of a pragma Inspection_Point in the compilation unit. An object is
+inspectable at an inspection point if the corresponding pragma
+Inspection_Point either has an argument denoting that object, or has no
+arguments and the declaration of the object is visible at the inspection
+point.
+
+
+                              Dynamic Semantics
+
+6   Execution of a pragma Inspection_Point has no effect.
+
+
+                         Implementation Requirements
+
+7   Reaching an inspection point is an external interaction with respect to
+the values of the inspectable objects at that point (see 1.1.3).
+
+
+                         Documentation Requirements
+
+8   For each inspection point, the implementation shall identify a mapping
+between each inspectable object and the machine resources (such as memory
+locations or registers) from which the object's value can be obtained.
+
+        NOTES
+
+9/2     7  The implementation is not allowed to perform "dead store
+        elimination" on the last assignment to a variable prior to a point where the
+        variable is inspectable. Thus an inspection point has the effect of an
+        implicit read of each of its inspectable objects.
+
+10      8  Inspection points are useful in maintaining a correspondence
+        between the state of the program in source code terms, and the machine
+        state during the program's execution. Assertions about the values of
+        program objects can be tested in machine terms at inspection points.
+        Object code between inspection points can be processed by automated
+        tools to verify programs mechanically.
+
+11      9  The identification of the mapping from source program objects to
+        machine resources is allowed to be in the form of an annotated object
+        listing, in human-readable or tool-processable form.
+
+
+H.4 High Integrity Restrictions
+
+
+1/3 This subclause defines restrictions that can be used with pragma
+Restrictions (see 13.12); these facilitate the demonstration of program
+correctness by allowing tailored versions of the run-time system.
+
+
+                              Static Semantics
+
+2/2 This paragraph was deleted.
+
+3/2 The following restriction_identifiers are language defined:
+
+4   Tasking-related restriction:
+
+5   No_Protected_Types
+                There are no declarations of protected types or protected
+                objects.
+
+6   Memory-management related restrictions:
+
+7   No_Allocators
+                There are no occurrences of an allocator.
+
+8/1 No_Local_Allocators
+                Allocators are prohibited in subprograms, generic subprograms,
+                tasks, and entry bodies.
+
+8.1/3 No_Anonymous_Allocators
+                There are no allocators of anonymous access types.
+
+8.2/3 No_Coextensions
+                There are no coextensions. See 3.10.2.
+
+8.3/3 No_Access_Parameter_Allocators
+                Allocators are not permitted as the actual parameter to an
+                access parameter. See 6.1.
+
+9/2             This paragraph was deleted.
+
+10  Immediate_Reclamation
+                Except for storage occupied by objects created by allocators
+                and not deallocated via unchecked deallocation, any storage
+                reserved at run time for an object is immediately reclaimed
+                when the object no longer exists.
+
+11  Exception-related restriction:
+
+12  No_Exceptions
+                Raise_statements and exception_handlers are not allowed. No
+                language-defined run-time checks are generated; however, a
+                run-time check performed automatically by the hardware is
+                permitted.
+
+13  Other restrictions:
+
+14  No_Floating_Point
+                Uses of predefined floating point types and operations, and
+                declarations of new floating point types, are not allowed.
+
+15  No_Fixed_Point
+                Uses of predefined fixed point types and operations, and
+                declarations of new fixed point types, are not allowed.
+
+16/2            This paragraph was deleted.
+
+17  No_Access_Subprograms
+                The declaration of access-to-subprogram types is not allowed.
+
+18  No_Unchecked_Access
+                The Unchecked_Access attribute is not allowed.
+
+19  No_Dispatch Occurrences of T'Class are not allowed, for any (tagged)
+                subtype T.
+
+20/2 No_IO      Semantic dependence on any of the library units Sequential_IO,
+                Direct_IO, Text_IO, Wide_Text_IO, Wide_Wide_Text_IO, or
+                Stream_IO is not allowed.
+
+21  No_Delay    Delay_Statements and semantic dependence on package Calendar
+                are not allowed.
+
+22  No_Recursion
+                As part of the execution of a subprogram, the same subprogram
+                is not invoked.
+
+23  No_Reentrancy
+                During the execution of a subprogram by a task, no other task
+                invokes the same subprogram.
+
+
+                         Implementation Requirements
+
+23.1/2 An implementation of this Annex shall support:
+
+23.2/2   * the restrictions defined in this subclause; and
+
+23.3/3   * the following restrictions defined in D.7: No_Task_Hierarchy,
+        No_Abort_Statement, No_Implicit_Heap_Allocation,
+        No_Standard_Allocators_After_Elaboration; and
+
+23.4/2   * the pragma Profile(Ravenscar); and
+
+23.5/2   * the following uses of restriction_parameter_identifiers defined in
+        D.7, which are checked prior to program execution:
+
+23.6/2    * Max_Task_Entries => 0,
+
+23.7/2    * Max_Asynchronous_Select_Nesting => 0, and
+
+23.8/2    * Max_Tasks => 0.
+
+24/3 If an implementation supports pragma Restrictions for a particular
+argument, then except for the restrictions No_Unchecked_Deallocation,
+No_Unchecked_Conversion, No_Access_Subprograms, No_Unchecked_Access,
+No_Specification_of_Aspect, No_Use_of_Attribute, No_Use_of_Pragma, and the
+equivalent use of No_Dependence, the associated restriction applies to the
+run-time system.
+
+
+                         Documentation Requirements
+
+25  If a pragma Restrictions(No_Exceptions) is specified, the implementation
+shall document the effects of all constructs where language-defined checks are
+still performed automatically (for example, an overflow check performed by the
+processor).
+
+
+                             Erroneous Execution
+
+26  Program execution is erroneous if pragma Restrictions(No_Exceptions) has
+been specified and the conditions arise under which a generated
+language-defined run-time check would fail.
+
+27  Program execution is erroneous if pragma Restrictions(No_Recursion) has
+been specified and a subprogram is invoked as part of its own execution, or if
+pragma Restrictions(No_Reentrancy) has been specified and during the execution
+of a subprogram by a task, another task invokes the same subprogram.
+
+        NOTES
+
+28/2    10  Uses of restriction_parameter_identifier No_Dependence defined in
+        13.12.1: No_Dependence => Ada.Unchecked_Deallocation and No_Dependence
+        => Ada.Unchecked_Conversion may be appropriate for high-integrity
+        systems. Other uses of No_Dependence can also be appropriate for
+        high-integrity systems.
+
+
+H.5 Pragma Detect_Blocking
+
+
+1/2 The following pragma forces an implementation to detect potentially
+blocking operations within a protected operation.
+
+
+                                   Syntax
+
+2/2     The form of a pragma Detect_Blocking is as follows:
+
+3/2       pragma Detect_Blocking;
+
+
+                           Post-Compilation Rules
+
+4/2 A pragma Detect_Blocking is a configuration pragma.
+
+
+                              Dynamic Semantics
+
+5/2 An implementation is required to detect a potentially blocking operation
+within a protected operation, and to raise Program_Error (see 9.5.1).
+
+
+                         Implementation Permissions
+
+6/2 An implementation is allowed to reject a compilation_unit if a potentially
+blocking operation is present directly within an entry_body or the body of a
+protected subprogram.
+
+        NOTES
+
+7/2     11  An operation that causes a task to be blocked within a foreign
+        language domain is not defined to be potentially blocking, and need
+        not be detected.
+
+
+H.6 Pragma Partition_Elaboration_Policy
+
+
+1/3 This subclause defines a pragma for user control over elaboration policy.
+
+
+                                   Syntax
+
+2/2     The form of a pragma Partition_Elaboration_Policy is as follows:
+
+3/2       pragma Partition_Elaboration_Policy (policy_identifier);
+
+4/2     The policy_identifier shall be either Sequential, Concurrent or an
+        implementation-defined identifier.
+
+
+                           Post-Compilation Rules
+
+5/2 A pragma Partition_Elaboration_Policy is a configuration pragma. It
+specifies the elaboration policy for a partition. At most one elaboration
+policy shall be specified for a partition.
+
+6/3 If the Sequential policy is specified for a partition, then pragma
+Restrictions (No_Task_Hierarchy) shall also be specified for the partition.
+
+
+                              Dynamic Semantics
+
+7/2 Notwithstanding what this International Standard says elsewhere, this
+pragma allows partition elaboration rules concerning task activation and
+interrupt attachment to be changed. If the policy_identifier is Concurrent, or
+if there is no pragma Partition_Elaboration_Policy defined for the partition,
+then the rules defined elsewhere in this Standard apply.
+
+8/2 If the partition elaboration policy is Sequential, then task activation
+and interrupt attachment are performed in the following sequence of steps:
+
+9/2   * The activation of all library-level tasks and the attachment of
+        interrupt handlers are deferred until all library units are elaborated.
+
+10/2   * The interrupt handlers are attached by the environment task.
+
+11/2   * The environment task is suspended while the library-level tasks are
+        activated.
+
+12/2   * The environment task executes the main subprogram (if any)
+        concurrently with these executing tasks.
+
+13/2 If several dynamic interrupt handler attachments for the same interrupt
+are deferred, then the most recent call of Attach_Handler or Exchange_Handler
+determines which handler is attached.
+
+14/2 If any deferred task activation fails, Tasking_Error is raised at the
+beginning of the sequence of statements of the body of the environment task
+prior to calling the main subprogram.
+
+
+                            Implementation Advice
+
+15/3 If the partition elaboration policy is Sequential and the Environment
+task becomes permanently blocked during elaboration, then the partition is
+deadlocked and it is recommended that the partition be immediately terminated.
+
+
+                         Implementation Permissions
+
+16/3 If the partition elaboration policy is Sequential and any task activation
+fails, then an implementation may immediately terminate the active partition
+to mitigate the hazard posed by continuing to execute with a subset of the
+tasks being active.
+
+        NOTES
+
+17/2    12  If any deferred task activation fails, the environment task is
+        unable to handle the Tasking_Error exception and completes
+        immediately. By contrast, if the partition elaboration policy is
+        Concurrent, then this exception could be handled within a library
+        unit.
+

@@ -1,0 +1,845 @@
+*rm-02.txt*
+
+                            2   Lexical Elements *ada-lexical*
+
+
+1/3 The text of a program consists of the texts of one or more compilations.
+The text of a compilation is a sequence of lexical elements, each composed of
+characters; the rules of composition are given in this clause. Pragmas, which
+provide certain information for the compiler, are also described in this
+clause.
+
+
+2.1 Character Set
+
+
+1/3 The character repertoire for the text of an Ada program consists of the
+entire coding space described by the ISO/IEC 10646:2011 Universal
+Multiple-Octet Coded Character Set. This coding space is organized in planes,
+each plane comprising 65536 characters.
+
+
+                                   Syntax
+
+        Paragraphs 2 and 3 were deleted.
+
+3.1/3   A character is defined by this International Standard for each cell in
+        the coding space described by ISO/IEC 10646:2011, regardless of
+        whether or not ISO/IEC 10646:2011 allocates a character to that cell.
+
+
+                              Static Semantics
+
+4/3 The coded representation for characters is implementation defined (it need
+not be a representation defined within ISO/IEC 10646:2011). A character whose
+relative code point in its plane is 16#FFFE# or 16#FFFF# is not allowed
+anywhere in the text of a program. The only characters allowed outside of
+comments are those in categories other_format, format_effector, and
+graphic_character.
+
+4.1/3 The semantics of an Ada program whose text is not in Normalization Form
+KC (as defined by Clause 21 of ISO/IEC 10646:2011) is implementation defined.
+
+5/3 The description of the language definition in this International Standard
+uses the character properties General Category, Simple Uppercase Mapping,
+Uppercase Mapping, and Special Case Condition of the documents referenced by
+the note in Clause 1 of ISO/IEC 10646:2011. The actual set of graphic symbols
+used by an implementation for the visual representation of the text of an Ada
+program is not specified.
+
+6/3 Characters are categorized as follows:
+
+7/2             This paragraph was deleted.
+
+8/2 letter_uppercase
+                Any character whose General Category is defined to be "
+                Letter, Uppercase".
+
+9/2 letter_lowercase
+                Any character whose General Category is defined to be "
+                Letter, Lowercase".
+
+9.1/2 letter_titlecase
+                Any character whose General Category is defined to be "
+                Letter, Titlecase".
+
+9.2/2 letter_modifier
+                Any character whose General Category is defined to be "
+                Letter, Modifier".
+
+9.3/2 letter_other
+                Any character whose General Category is defined to be "
+                Letter, Other".
+
+9.4/2 mark_non_spacing
+                Any character whose General Category is defined to be "Mark,
+                Non-Spacing".
+
+9.5/2 mark_spacing_combining
+                Any character whose General Category is defined to be "Mark,
+                Spacing Combining".
+
+10/2 number_decimal
+                Any character whose General Category is defined to be "
+                Number, Decimal".
+
+10.1/2 number_letter
+                Any character whose General Category is defined to be "
+                Number, Letter".
+
+10.2/2 punctuation_connector
+                Any character whose General Category is defined to be "
+                Punctuation, Connector".
+
+10.3/2 other_format
+                Any character whose General Category is defined to be "Other,
+                Format".
+
+11/2 separator_space
+                Any character whose General Category is defined to be "
+                Separator, Space".
+
+12/2 separator_line
+                Any character whose General Category is defined to be "
+                Separator, Line".
+
+12.1/2 separator_paragraph
+                Any character whose General Category is defined to be "
+                Separator, Paragraph".
+
+13/3 format_effector
+                The characters whose code points are 16#09# (CHARACTER
+                TABULATION), 16#0A# (LINE FEED), 16#0B# (LINE TABULATION),
+                16#0C# (FORM FEED), 16#0D# (CARRIAGE RETURN), 16#85# (NEXT
+                LINE), and the characters in categories separator_line and
+                separator_paragraph.
+
+13.1/2 other_control
+                Any character whose General Category is defined to be "Other,
+                Control", and which is not defined to be a format_effector.
+
+13.2/2 other_private_use
+                Any character whose General Category is defined to be "Other,
+                Private Use".
+
+13.3/2 other_surrogate
+                Any character whose General Category is defined to be "Other,
+                Surrogate".
+
+14/3 graphic_character
+                Any character that is not in the categories other_control,
+                other_private_use, other_surrogate, format_effector, and whose
+                relative code point in its plane is neither 16#FFFE# nor
+                16#FFFF#.
+
+15/3 The following names are used when referring to certain characters (the
+first name is that given in ISO/IEC 10646:2011):
+
+  graphic symbol
+
+         "
+         #
+         &
+         '
+         (
+         )
+         *
+         +
+         ,
+         -
+         .
+
+
+name
+
+quotation mark
+number sign
+ampersand
+apostrophe, tick
+left parenthesis
+right parenthesis
+asterisk, multiply
+plus sign
+comma
+hyphen-minus, minus
+full stop, dot, point
+
+
+  graphic symbol
+
+         :
+         ;
+         <
+         =
+         >
+         _
+         |
+         /
+         !
+         %
+
+
+
+name
+
+colon
+semicolon
+less-than sign
+equals sign
+greater-than sign
+low line, underline
+vertical line
+solidus, divide
+exclamation point
+percent sign
+
+
+
+                         Implementation Requirements
+
+16/3 An Ada implementation shall accept Ada source code in UTF-8 encoding,
+with or without a BOM (see A.4.11), where every character is represented by
+its code point. The character pair CARRIAGE RETURN/LINE FEED (code points
+16#0D# 16#0A#) signifies a single end of line (see 2.2); every other
+occurrence of a format_effector other than the character whose code point
+position is 16#09# (CHARACTER TABULATION) also signifies a single end of line.
+
+
+                         Implementation Permissions
+
+17/3 The categories defined above, as well as case mapping and folding, may be
+based on an implementation-defined version of ISO/IEC 10646 (2003 edition or
+later).
+
+        NOTES
+
+18/2    1  The characters in categories other_control, other_private_use, and
+        other_surrogate are only allowed in comments.
+
+
+2.2 Lexical Elements, Separators, and Delimiters
+
+
+
+                              Static Semantics
+
+1   The text of a program consists of the texts of one or more compilations.
+The text of each compilation is a sequence of separate lexical elements. Each
+lexical element is formed from a sequence of characters, and is either a
+delimiter, an identifier, a reserved word, a numeric_literal, a
+character_literal, a string_literal, or a comment. The meaning of a program
+depends only on the particular sequences of lexical elements that form its
+compilations, excluding comments.
+
+2/3 The text of a compilation is divided into lines. In general, the
+representation for an end of line is implementation defined. However, a
+sequence of one or more format_effectors other than the character whose code
+point is 16#09# (CHARACTER TABULATION) signifies at least one end of line.
+
+3/2 In some cases an explicit separator is required to separate adjacent
+lexical elements. A separator is any of a separator_space, a format_effector,
+or the end of a line, as follows:
+
+4/2   * A separator_space is a separator except within a comment, a
+        string_literal, or a character_literal.
+
+5/3   * The character whose code point is 16#09# (CHARACTER TABULATION) is a
+        separator except within a comment.
+
+6     * The end of a line is always a separator.
+
+7   One or more separators are allowed between any two adjacent lexical
+elements, before the first of each compilation, or after the last. At least
+one separator is required between an identifier, a reserved word, or a
+numeric_literal and an adjacent identifier, reserved word, or
+numeric_literal.
+
+7.1/3 One or more other_format characters are allowed anywhere that a
+separator is; any such characters have no effect on the meaning of an Ada
+program.
+
+8/2 A delimiter is either one of the following characters:
+
+9       &    '    (    )    *    +    ,    -    .    /    :    ;    <    =    >    |
+
+10  or one of the following compound delimiters each composed of two adjacent
+special characters
+
+11      =>    ..    **    :=    /=    >=    <=    <<    >>    <>
+
+12  Each of the special characters listed for single character delimiters is a
+single delimiter except if this character is used as a character of a compound
+delimiter, or as a character of a comment, string_literal, character_literal,
+or numeric_literal.
+
+13  The following names are used when referring to compound delimiters:
+
+          delimiter                  name
+
+          =>                         arrow
+          ..                         double dot
+          **                         double star, exponentiate
+          :=                         assignment (pronounced: "becomes")
+          /=                         inequality (pronounced: "not equal")
+          >=                         greater than or equal
+          <=                         less than or equal
+          <<                         left label bracket
+          >>                         right label bracket
+          <>                         box
+
+                         Implementation Requirements
+
+14  An implementation shall support lines of at least 200 characters in
+length, not counting any characters used to signify the end of a line. An
+implementation shall support lexical elements of at least 200 characters in
+length. The maximum supported line length and lexical element length are
+implementation defined.
+
+
+2.3 Identifiers
+
+
+1   Identifiers are used as names.
+
+
+                                   Syntax
+
+2/2     identifier ::= 
+           identifier_start {identifier_start | identifier_extend}
+
+3/2     identifier_start ::= 
+             letter_uppercase
+           | letter_lowercase
+           | letter_titlecase
+           | letter_modifier
+           | letter_other
+           | number_letter
+
+3.1/3   identifier_extend ::= 
+             mark_non_spacing
+           | mark_spacing_combining
+           | number_decimal
+           | punctuation_connector
+
+4/3     An identifier shall not contain two consecutive characters in category
+        punctuation_connector, or end with a character in that category.
+
+
+                              Static Semantics
+
+5/3 Two identifiers are considered the same if they consist of the same
+sequence of characters after applying locale-independent simple case folding,
+as defined by documents referenced in the note in Clause 1 of ISO/IEC
+10646:2011.
+
+5.3/3 After applying simple case folding, an identifier shall not be identical
+to a reserved word.
+
+
+                         Implementation Permissions
+
+6   In a nonstandard mode, an implementation may support other upper/lower
+case equivalence rules for identifiers, to accommodate local conventions.
+
+        NOTES
+
+6.1/2   2  Identifiers differing only in the use of corresponding upper and
+        lower case letters are considered the same.
+
+
+                                  Examples
+
+7   Examples of identifiers:
+
+8/2     Count      X    Get_Symbol   Ethelyn   Marion
+        Snobol_4   X1   Page_Count   Store_Next_Item
+        <Unicode-928><Unicode-955><Unicode-940><Unicode-964><Unicode-969>
+        <Unicode-957>      -- Plato
+        <Unicode-1063><Unicode-1072><Unicode-1081><Unicode-1082>
+        <Unicode-1086><Unicode-1074><Unicode-1089><Unicode-1082>
+        <Unicode-1080><Unicode-1081>  -- Tchaikovsky
+        <Unicode-952>  <Unicode-966>        -- Angles
+
+
+2.4 Numeric Literals
+
+
+1   There are two kinds of numeric_literals, real literals and integer
+literals. A real literal is a numeric_literal that includes a point; an
+integer literal is a numeric_literal without a point.
+
+
+                                   Syntax
+
+2       numeric_literal ::= decimal_literal | based_literal
+
+        NOTES
+
+3       3  The type of an integer literal is universal_integer. The type of a
+        real literal is universal_real.
+
+
+2.4.1 Decimal Literals
+
+
+1   A decimal_literal is a numeric_literal in the conventional decimal
+notation (that is, the base is ten).
+
+
+                                   Syntax
+
+2       decimal_literal ::= numeral [.numeral] [exponent]
+
+3       numeral ::= digit {[underline] digit}
+
+4       exponent ::= E [+] numeral | E - numeral
+
+4.1/2   digit ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+5       An exponent for an integer literal shall not have a minus sign.
+
+
+                              Static Semantics
+
+6   An underline character in a numeric_literal does not affect its meaning.
+The letter E of an exponent can be written either in lower case or in upper
+case, with the same meaning.
+
+7   An exponent indicates the power of ten by which the value of the
+decimal_literal without the exponent is to be multiplied to obtain the value
+of the decimal_literal with the exponent.
+
+
+                                  Examples
+
+8   Examples of decimal literals:
+
+9       12        0      1E6    123_456    --  integer literals
+        
+        12.0      0.0    0.456  3.14159_26 --  real literals
+
+
+2.4.2 Based Literals
+
+
+1   A based_literal is a numeric_literal expressed in a form that specifies
+the base explicitly.
+
+
+                                   Syntax
+
+2       based_literal ::= 
+           base # based_numeral [.based_numeral] # [exponent]
+
+3       base ::= numeral
+
+4       based_numeral ::= 
+           extended_digit {[underline] extended_digit}
+
+5       extended_digit ::= digit | A | B | C | D | E | F
+
+
+                               Legality Rules
+
+6   The base (the numeric value of the decimal numeral preceding the first #)
+shall be at least two and at most sixteen. The extended_digits A through F
+represent the digits ten through fifteen, respectively. The value of each
+extended_digit of a based_literal shall be less than the base.
+
+
+                              Static Semantics
+
+7   The conventional meaning of based notation is assumed. An exponent
+indicates the power of the base by which the value of the based_literal
+without the exponent is to be multiplied to obtain the value of the
+based_literal with the exponent. The base and the exponent, if any, are in
+decimal notation.
+
+8   The extended_digits A through F can be written either in lower case or in
+upper case, with the same meaning.
+
+
+                                  Examples
+
+9   Examples of based literals:
+
+10      2#1111_1111#  16#FF#       016#0ff#   --  integer literals of value 255
+        16#E#E1       2#1110_0000#            --  integer literals of value 224
+        16#F.FF#E+2   2#1.1111_1111_1110#E11  --  real literals of value 4095.0
+
+
+2.5 Character Literals
+
+
+1   A character_literal is formed by enclosing a graphic character between two
+apostrophe characters.
+
+
+                                   Syntax
+
+2       character_literal ::= 'graphic_character'
+
+        NOTES
+
+3       4  A character_literal is an enumeration literal of a character type.
+        See 3.5.2.
+
+
+                                  Examples
+
+4   Examples of character literals:
+
+5/2     'A'     '*'     '''     ' '
+        'L'     '<Unicode-1051>'     '<Unicode-923>'    -- Various els.
+        '<Unicode-8734>'     '<Unicode-1488>
+        '            -- Big numbers - infinity and aleph.
+
+
+2.6 String Literals
+
+
+1   A string_literal is formed by a sequence of graphic characters (possibly
+none) enclosed between two quotation marks used as string brackets. They are
+used to represent operator_symbols (see 6.1), values of a string type (see
+4.2), and array subaggregates (see 4.3.3).
+
+
+                                   Syntax
+
+2       string_literal ::= "{string_element}"
+
+3       string_element ::= "" | non_quotation_mark_graphic_character
+
+4       A string_element is either a pair of quotation marks (""), or a single
+        graphic_character other than a quotation mark.
+
+
+                              Static Semantics
+
+5   The sequence of characters of a string_literal is formed from the sequence
+of string_elements between the bracketing quotation marks, in the given order,
+with a string_element that is "" becoming a single quotation mark in the
+sequence of characters, and any other string_element being reproduced in the
+sequence.
+
+6   A null string literal is a string_literal with no string_elements between
+the quotation marks.
+
+        NOTES
+
+7       5  An end of line cannot appear in a string_literal.
+
+7.1/2   6  No transformation is performed on the sequence of characters of a
+        string_literal.
+
+
+                                  Examples
+
+8   Examples of string literals:
+
+9/2     "Message of the day:"
+        
+        ""                    --  a null string literal
+        " "   "A"   """"      --  three string literals of length 1
+        
+        "Characters such as $, %, and } are allowed in string literals"
+        "Archimedes said ""<Unicode-917><Unicode-973><Unicode-961>
+        <Unicode-951><Unicode-954><Unicode-945>"""
+        "Volume of cylinder (PIr²h) = "
+
+
+2.7 Comments
+
+
+1   A comment starts with two adjacent hyphens and extends up to the end of
+the line.
+
+
+                                   Syntax
+
+2       comment ::= --{non_end_of_line_character}
+
+3       A comment may appear on any line of a program.
+
+
+                              Static Semantics
+
+4   The presence or absence of comments has no influence on whether a program
+is legal or illegal. Furthermore, comments do not influence the meaning of a
+program; their sole purpose is the enlightenment of the human reader.
+
+
+                                  Examples
+
+5   Examples of comments:
+
+6       --  the last sentence above echoes the Algol 68 report 
+        
+        end;  --  processing of Line is complete 
+        
+        --  a long comment may be split onto
+        --  two or more consecutive lines   
+        
+        ----------------  the first two hyphens start the comment  
+
+
+2.8 Pragmas
+
+
+1   A pragma is a compiler directive. There are language-defined pragmas that
+give instructions for optimization, listing control, etc. An implementation
+may support additional (implementation-defined) pragmas.
+
+
+                                   Syntax
+
+2       pragma ::= 
+           pragma identifier [(pragma_argument_association
+         {, pragma_argument_association})];
+
+3/3     pragma_argument_association ::= 
+             [pragma_argument_identifier =>] name
+           | [pragma_argument_identifier =>] expression
+           | pragma_argument_aspect_mark =>  name
+           | pragma_argument_aspect_mark =>  expression
+
+4/3     In a pragma, any pragma_argument_associations without a
+        pragma_argument_identifier or pragma_argument_aspect_mark shall
+        precede any associations with a pragma_argument_identifier or
+        pragma_argument_aspect_mark.
+
+5       Pragmas are only allowed at the following places in a program:
+
+6         * After a semicolon delimiter, but not within a formal_part or
+            discriminant_part.
+
+7/3       * At any place where the syntax rules allow a construct defined by a
+            syntactic category whose name ends with "declaration", "item", "
+            statement", "clause", or "alternative", or one of the syntactic
+            categories variant or exception_handler; but not in place of such
+            a construct if the construct is required, or is part of a list
+            that is required to have at least one such construct.
+
+7.1/3     * In place of a statement in a sequence_of_statements.
+
+7.2/3     * At any place where a compilation_unit is allowed.
+
+8       Additional syntax rules and placement restrictions exist for specific
+        pragmas.
+
+9   The name of a pragma is the identifier following the reserved word pragma.
+The name or expression of a pragma_argument_association is a pragma argument.
+
+10/3 An identifier specific to a pragma is an identifier or reserved word that
+is used in a pragma argument with special meaning for that pragma.
+
+
+                              Static Semantics
+
+11  If an implementation does not recognize the name of a pragma, then it has
+no effect on the semantics of the program. Inside such a pragma, the only
+rules that apply are the Syntax Rules.
+
+
+                              Dynamic Semantics
+
+12  Any pragma that appears at the place of an executable construct is
+executed. Unless otherwise specified for a particular pragma, this execution
+consists of the evaluation of each evaluable pragma argument in an arbitrary
+order.
+
+
+                         Implementation Requirements
+
+13  The implementation shall give a warning message for an unrecognized pragma
+name.
+
+
+                         Implementation Permissions
+
+14  An implementation may provide implementation-defined pragmas; the name of
+an implementation-defined pragma shall differ from those of the
+language-defined pragmas.
+
+15  An implementation may ignore an unrecognized pragma even if it violates
+some of the Syntax Rules, if detecting the syntax error is too complex.
+
+
+                            Implementation Advice
+
+16/3 Normally, implementation-defined pragmas should have no semantic effect
+for error-free programs; that is, if the implementation-defined pragmas in a
+working program are replaced with unrecognized pragmas, the program should
+still be legal, and should still have the same semantics.
+
+17  Normally, an implementation should not define pragmas that can make an
+illegal program legal, except as follows:
+
+18/3   * A pragma used to complete a declaration;
+
+19    * A pragma used to configure the environment by adding, removing, or
+        replacing library_items.
+
+
+                                   Syntax
+
+20      The forms of List, Page, and Optimize pragmas are as follows:
+
+21        pragma List(identifier);
+
+22        pragma Page;
+
+23        pragma Optimize(identifier);
+
+24      Other pragmas are defined throughout this International Standard, and
+        are summarized in Annex L.
+
+
+                              Static Semantics
+
+25  A pragma List takes one of the identifiers On or Off as the single
+argument. This pragma is allowed anywhere a pragma is allowed. It specifies
+that listing of the compilation is to be continued or suspended until a List
+pragma with the opposite argument is given within the same compilation. The
+pragma itself is always listed if the compiler is producing a listing.
+
+26  A pragma Page is allowed anywhere a pragma is allowed. It specifies that
+the program text which follows the pragma should start on a new page (if the
+compiler is currently producing a listing).
+
+27  A pragma Optimize takes one of the identifiers Time, Space, or Off as the
+single argument. This pragma is allowed anywhere a pragma is allowed, and it
+applies until the end of the immediately enclosing declarative region, or for
+a pragma at the place of a compilation_unit, to the end of the compilation. It
+gives advice to the implementation as to whether time or space is the primary
+optimization criterion, or that optional optimizations should be turned off.
+It is implementation defined how this advice is followed.
+
+
+                                  Examples
+
+28  Examples of pragmas:
+
+29/3    pragma List(Off); -- turn off listing generation
+        pragma Optimize(Off); -- turn off optional optimizations
+        pragma Pure(Rational_Numbers); -- set categorization for package
+        pragma Assert(Exists(File_Name),
+                      Message => "Nonexistent file"); -- assert file exists
+
+
+2.9 Reserved Words
+
+
+
+                                   Syntax
+
+1/1     This paragraph was deleted.
+
+2/3     The following are the reserved words. Within a program, some or all of
+        the letters of a reserved word may be in upper case.
+
+            abort
+            abs
+            abstract
+            accept
+            access
+            aliased
+            all
+            and
+            array
+            at
+
+            begin
+            body
+
+            case
+            constant
+
+            declare
+            delay
+            delta
+            digits
+            do
+
+
+            else
+            elsif
+            end
+            entry
+            exception
+            exit
+
+            for
+            function
+
+            generic
+            goto
+
+            if
+            in
+            interface
+            is
+
+            limited
+            loop
+
+            mod
+
+
+            new
+            not
+            null
+
+            of
+            or
+            others
+            out
+            overriding
+
+            package
+            pragma
+            private
+            procedure
+            protected
+
+            raise
+            range
+            record
+            rem
+            renames
+            requeue
+
+
+            return
+            reverse
+
+            select
+            separate
+            some
+            subtype
+            synchronized
+
+            tagged
+            task
+            terminate
+            then
+            type
+
+            until
+            use
+
+            when
+            while
+            with
+
+            xor
+
+        NOTES
+
+3       7  The reserved words appear in lower case boldface in this
+        International Standard, except when used in the designator of an
+        attribute (see 4.1.4). Lower case boldface is also used for a reserved
+        word in a string_literal used as an operator_symbol. This is merely a
+        convention - programs may be written in whatever typeface is desired
+        and available.
+

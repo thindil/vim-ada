@@ -1,0 +1,1440 @@
+*rm-12.txt*
+
+                             12   Generic Units *ada-generic*
+
+
+1   A generic unit is a program unit that is either a generic subprogram or a
+generic package. A generic unit is a template, which can be parameterized, and
+from which corresponding (nongeneric) subprograms or packages can be obtained.
+The resulting program units are said to be instances of the original generic
+unit.
+
+2   A generic unit is declared by a generic_declaration. This form of
+declaration has a generic_formal_part declaring any generic formal parameters.
+An instance of a generic unit is obtained as the result of a
+generic_instantiation with appropriate generic actual parameters for the
+generic formal parameters. An instance of a generic subprogram is a
+subprogram. An instance of a generic package is a package.
+
+3   Generic units are templates. As templates they do not have the properties
+that are specific to their nongeneric counterparts. For example, a generic
+subprogram can be instantiated but it cannot be called. In contrast, an
+instance of a generic subprogram is a (nongeneric) subprogram; hence, this
+instance can be called but it cannot be used to produce further instances.
+
+
+12.1 Generic Declarations
+
+
+1   A generic_declaration declares a generic unit, which is either a generic
+subprogram or a generic package. A generic_declaration includes a
+generic_formal_part declaring any generic formal parameters. A generic formal
+parameter can be an object; alternatively (unlike a parameter of a
+subprogram), it can be a type, a subprogram, or a package.
+
+
+                                   Syntax
+
+2       generic_declaration ::= generic_subprogram_declaration
+         | generic_package_declaration
+
+3/3     generic_subprogram_declaration ::= 
+             generic_formal_part  subprogram_specification
+                [aspect_specification];
+
+4       generic_package_declaration ::= 
+             generic_formal_part  package_specification;
+
+5       generic_formal_part ::= 
+        generic {generic_formal_parameter_declaration | use_clause}
+
+6       generic_formal_parameter_declaration ::= 
+              formal_object_declaration
+            | formal_type_declaration
+            | formal_subprogram_declaration
+            | formal_package_declaration
+
+7       The only form of subtype_indication allowed within a
+        generic_formal_part is a subtype_mark (that is, the
+        subtype_indication shall not include an explicit constraint). The
+        defining name of a generic subprogram shall be an identifier (not an
+        operator_symbol).
+
+
+                              Static Semantics
+
+8/2 A generic_declaration declares a generic unit - a generic package, generic
+procedure, or generic function, as appropriate.
+
+9   An entity is a generic formal entity if it is declared by a
+generic_formal_parameter_declaration. "Generic formal," or simply "formal," is
+used as a prefix in referring to objects, subtypes (and types), functions,
+procedures and packages, that are generic formal entities, as well as to their
+respective declarations. Examples: "generic formal procedure" or a "formal
+integer type declaration."
+
+
+                              Dynamic Semantics
+
+10  The elaboration of a generic_declaration has no effect.
+
+        NOTES
+
+11      1  Outside a generic unit a name that denotes the
+        generic_declaration denotes the generic unit. In contrast, within the
+        declarative region of the generic unit, a name that denotes the
+        generic_declaration denotes the current instance.
+
+12      2  Within a generic subprogram_body, the name of this program unit
+        acts as the name of a subprogram. Hence this name can be overloaded,
+        and it can appear in a recursive call of the current instance. For the
+        same reason, this name cannot appear after the reserved word new in a
+        (recursive) generic_instantiation.
+
+13      3  A default_expression or default_name appearing in a
+        generic_formal_part is not evaluated during elaboration of the
+        generic_formal_part; instead, it is evaluated when used. (The usual
+        visibility rules apply to any name used in a default: the denoted
+        declaration therefore has to be visible at the place of the
+        expression.)
+
+
+                                  Examples
+
+14  Examples of generic formal parts:
+
+15      generic     --  parameterless 
+
+16      generic
+           Size : Natural;  --  formal object 
+
+17      generic
+           Length : Integer := 200;          -- formal object with a default expression
+
+18         Area   : Integer := Length*Length; -- formal object with a default expression
+
+19      generic
+           type Item  is private;                       -- formal type
+           type Index is (<>);                          -- formal type
+           type Row   is array(Index range <>) of Item; -- formal type
+           with function "<"(X, Y : Item) return Boolean;    -- formal subprogram 
+
+20  Examples of generic declarations declaring generic subprograms Exchange
+and Squaring:
+
+21      generic
+           type Elem is private;
+        procedure Exchange(U, V : in out Elem);
+
+22      generic
+           type Item is private;
+           with function "*"(U, V : Item) return Item is <>;
+        function Squaring(X : Item) return Item;
+
+23  Example of a generic declaration declaring a generic package:
+
+24      generic
+           type Item   is private;
+           type Vector is array (Positive range <>) of Item;
+           with function Sum(X, Y : Item) return Item;
+        package On_Vectors is
+           function Sum  (A, B : Vector) return Vector;
+           function Sigma(A    : Vector) return Item;
+           Length_Error : exception;
+        end On_Vectors;
+
+
+
+
+12.2 Generic Bodies
+
+
+1   The body of a generic unit (a generic body) is a template for the instance
+bodies. The syntax of a generic body is identical to that of a nongeneric
+body.
+
+
+                              Dynamic Semantics
+
+2   The elaboration of a generic body has no other effect than to establish
+that the generic unit can from then on be instantiated without failing the
+Elaboration_Check. If the generic body is a child of a generic package, then
+its elaboration establishes that each corresponding declaration nested in an
+instance of the parent (see 10.1.1) can from then on be instantiated without
+failing the Elaboration_Check.
+
+        NOTES
+
+3       4  The syntax of generic subprograms implies that a generic subprogram
+        body is always the completion of a declaration.
+
+
+                                  Examples
+
+4   Example of a generic procedure body:
+
+5       procedure Exchange(U, V : in out Elem) is  -- see 12.1
+           T : Elem;  --  the generic formal type
+        begin
+           T := U;
+           U := V;
+           V := T;
+        end Exchange;
+
+6   Example of a generic function body:
+
+7       function Squaring(X : Item) return Item is  --  see 12.1
+        begin
+           return X*X;  --  the formal operator "*"
+        end Squaring;
+
+8   Example of a generic package body:
+
+9       package body On_Vectors is  --  see 12.1
+
+10         function Sum(A, B : Vector) return Vector is
+              Result : Vector(A'Range); --  the formal type Vector
+              Bias   : constant Integer := B'First - A'First;
+           begin
+              if A'Length /= B'Length then
+                 raise Length_Error;
+              end if;
+
+11            for N in A'Range loop
+                 Result(N) := Sum(A(N), B(N + Bias)); -- the formal function Sum
+              end loop;
+              return Result;
+           end Sum;
+
+12         function Sigma(A : Vector) return Item is
+              Total : Item := A(A'First); --  the formal type Item
+           begin
+              for N in A'First + 1 .. A'Last loop
+                 Total := Sum(Total, A(N)); --  the formal function Sum
+              end loop;
+              return Total;
+           end Sigma;
+        end On_Vectors;
+
+
+12.3 Generic Instantiation
+
+
+1   An instance of a generic unit is declared by a generic_instantiation.
+
+
+                                   Syntax
+
+2/3     generic_instantiation ::= 
+             package defining_program_unit_name is
+                 new generic_package_name [generic_actual_part]
+                    [aspect_specification];
+           | [overriding_indicator]
+             procedure defining_program_unit_name is
+                 new generic_procedure_name [generic_actual_part]
+                    [aspect_specification];
+           | [overriding_indicator]
+             function defining_designator is
+                 new generic_function_name [generic_actual_part]
+                    [aspect_specification];
+
+3       generic_actual_part ::= 
+           (generic_association {, generic_association})
+
+4       generic_association ::= 
+           [generic_formal_parameter_selector_name
+         =>] explicit_generic_actual_parameter
+
+5       explicit_generic_actual_parameter ::= expression | variable_name
+           | subprogram_name | entry_name | subtype_mark
+           | package_instance_name
+
+6       A generic_association is named or positional according to whether or
+        not the generic_formal_parameter_selector_name is specified. Any
+        positional associations shall precede any named associations.
+
+7/3 The generic actual parameter is either the
+explicit_generic_actual_parameter given in a generic_association for each
+formal, or the corresponding default_expression or default_name if no generic_-
+association is given for the formal. When the meaning is clear from context,
+the term "generic actual," or simply "actual," is used as a synonym for "
+generic actual parameter" and also for the view denoted by one, or the value
+of one.
+
+
+                               Legality Rules
+
+8   In a generic_instantiation for a particular kind of program unit (package,
+procedure, or function), the name shall denote a generic unit of the
+corresponding kind (generic package, generic procedure, or generic function,
+respectively).
+
+9/3 The generic_formal_parameter_selector_name of a named
+generic_association shall denote a generic_formal_parameter_declaration of the
+generic unit being instantiated. If two or more formal subprograms have the
+same defining name, then named associations are not allowed for the
+corresponding actuals.
+
+9.1/3 The generic_formal_parameter_declaration for a positional
+generic_association is the parameter with the corresponding position in the
+generic_formal_part of the generic unit being instantiated.
+
+10  A generic_instantiation shall contain at most one generic_association for
+each formal. Each formal without an association shall have a
+default_expression or subprogram_default.
+
+11  In a generic unit Legality Rules are enforced at compile time of the
+generic_declaration and generic body, given the properties of the formals. In
+the visible part and formal part of an instance, Legality Rules are enforced
+at compile time of the generic_instantiation, given the properties of the
+actuals. In other parts of an instance, Legality Rules are not enforced; this
+rule does not apply when a given rule explicitly specifies otherwise.
+
+
+                              Static Semantics
+
+12  A generic_instantiation declares an instance; it is equivalent to the
+instance declaration (a package_declaration or subprogram_declaration)
+immediately followed by the instance body, both at the place of the
+instantiation.
+
+13  The instance is a copy of the text of the template. Each use of a formal
+parameter becomes (in the copy) a use of the actual, as explained below. An
+instance of a generic package is a package, that of a generic procedure is a
+procedure, and that of a generic function is a function.
+
+14  The interpretation of each construct within a generic declaration or body
+is determined using the overloading rules when that generic declaration or
+body is compiled. In an instance, the interpretation of each (copied)
+construct is the same, except in the case of a name that denotes the
+generic_declaration or some declaration within the generic unit; the
+corresponding name in the instance then denotes the corresponding copy of the
+denoted declaration. The overloading rules do not apply in the instance.
+
+15  In an instance, a generic_formal_parameter_declaration declares a view
+whose properties are identical to those of the actual, except as specified in
+12.4, "Formal Objects" and 12.6, "Formal Subprograms". Similarly, for a
+declaration within a generic_formal_parameter_declaration, the corresponding
+declaration in an instance declares a view whose properties are identical to
+the corresponding declaration within the declaration of the actual.
+
+16  Implicit declarations are also copied, and a name that denotes an implicit
+declaration in the generic denotes the corresponding copy in the instance.
+However, for a type declared within the visible part of the generic, a whole
+new set of primitive subprograms is implicitly declared for use outside the
+instance, and may differ from the copied set if the properties of the type in
+some way depend on the properties of some actual type specified in the
+instantiation. For example, if the type in the generic is derived from a
+formal private type, then in the instance the type will inherit subprograms
+from the corresponding actual type.
+
+17  These new implicit declarations occur immediately after the type
+declaration in the instance, and override the copied ones. The copied ones can
+be called only from within the instance; the new ones can be called only from
+outside the instance, although for tagged types, the body of a new one can be
+executed by a call to an old one.
+
+18  In the visible part of an instance, an explicit declaration overrides an
+implicit declaration if they are homographs, as described in 8.3. On the other
+hand, an explicit declaration in the private part of an instance overrides an
+implicit declaration in the instance, only if the corresponding explicit
+declaration in the generic overrides a corresponding implicit declaration in
+the generic. Corresponding rules apply to the other kinds of overriding
+described in 8.3.
+
+
+                           Post-Compilation Rules
+
+19  Recursive generic instantiation is not allowed in the following sense: if
+a given generic unit includes an instantiation of a second generic unit, then
+the instance generated by this instantiation shall not include an instance of
+the first generic unit (whether this instance is generated directly, or
+indirectly by intermediate instantiations).
+
+
+                              Dynamic Semantics
+
+20  For the elaboration of a generic_instantiation, each generic_association
+is first evaluated. If a default is used, an implicit generic_association is
+assumed for this rule. These evaluations are done in an arbitrary order,
+except that the evaluation for a default actual takes place after the
+evaluation for another actual if the default includes a name that denotes the
+other one. Finally, the instance declaration and body are elaborated.
+
+21  For the evaluation of a generic_association the generic actual parameter
+is evaluated. Additional actions are performed in the case of a formal object
+of mode in (see 12.4).
+
+        NOTES
+
+22      5  If a formal type is not tagged, then the type is treated as an
+        untagged type within the generic body. Deriving from such a type in a
+        generic body is permitted; the new type does not get a new tag value,
+        even if the actual is tagged. Overriding operations for such a derived
+        type cannot be dispatched to from outside the instance.
+
+
+                                  Examples
+
+23  Examples of generic instantiations (see 12.1):
+
+24      procedure Swap is new Exchange(Elem => Integer);
+        procedure Swap is new Exchange(Character);                  
+        --  Swap is overloaded 
+        function Square is new Squaring(Integer);                   
+        --  "*" of Integer used by default
+        function Square is new Squaring(Item => Matrix, "*" => Matrix_Product);
+        function Square is new Squaring(Matrix, Matrix_Product); -- same as previous    
+
+25      package Int_Vectors is new On_Vectors(Integer, Table, "+");
+
+26  Examples of uses of instantiated units:
+
+27      Swap(A, B);
+        A := Square(A);
+
+28      T : Table(1 .. 5) := (10, 20, 30, 40, 50);
+        N : Integer := Int_Vectors.Sigma(T);  --  150 (see 12.2, "
+        Generic Bodies" for the body of Sigma)
+
+29      use Int_Vectors;
+        M : Integer := Sigma(T);  --  150
+
+
+12.4 Formal Objects
+
+
+1   A generic formal object can be used to pass a value or variable to a
+generic unit.
+
+
+                                   Syntax
+
+2/3     formal_object_declaration ::= 
+            defining_identifier_list : mode [null_exclusion] subtype_mark
+         [:= default_expression]
+                [aspect_specification];
+          |  defining_identifier_list : mode access_definition
+         [:= default_expression]
+                [aspect_specification];
+
+
+                            Name Resolution Rules
+
+3   The expected type for the default_expression, if any, of a formal object
+is the type of the formal object.
+
+4   For a generic formal object of mode in, the expected type for the actual
+is the type of the formal.
+
+5/2 For a generic formal object of mode in out, the type of the actual shall
+resolve to the type determined by the subtype_mark, or for a
+formal_object_declaration with an access_definition, to a specific anonymous
+access type. If the anonymous access type is an access-to-object type, the
+type of the actual shall have the same designated type as that of the
+access_definition. If the anonymous access type is an access-to-subprogram
+type, the type of the actual shall have a designated profile which is type
+conformant with that of the access_definition.
+
+
+                               Legality Rules
+
+6   If a generic formal object has a default_expression, then the mode shall
+be in (either explicitly or by default); otherwise, its mode shall be either
+in or in out.
+
+7   For a generic formal object of mode in, the actual shall be an
+expression. For a generic formal object of mode in out, the actual shall be a
+name that denotes a variable for which renaming is allowed (see 8.5.1).
+
+8/2 In the case where the type of the formal is defined by an
+access_definition, the type of the actual and the type of the formal:
+
+8.1/2   * shall both be access-to-object types with statically matching
+        designated subtypes and with both or neither being access-to-constant
+        types; or
+
+8.2/2   * shall both be access-to-subprogram types with subtype conformant
+        designated profiles.
+
+8.3/2 For a formal_object_declaration with a null_exclusion or an
+access_definition that has a null_exclusion:
+
+8.4/2   * if the actual matching the formal_object_declaration denotes the
+        generic formal object of another generic unit G, and the instantiation
+        containing the actual occurs within the body of G or within the body
+        of a generic unit declared within the declarative region of G, then
+        the declaration of the formal object of G shall have a
+        null_exclusion;
+
+8.5/2   * otherwise, the subtype of the actual matching the
+        formal_object_declaration shall exclude null. In addition to the
+        places where Legality Rules normally apply (see 12.3), this rule
+        applies also in the private part of an instance of a generic unit.
+
+
+                              Static Semantics
+
+9/2 A formal_object_declaration declares a generic formal object. The default
+mode is in. For a formal object of mode in, the nominal subtype is the one
+denoted by the subtype_mark or access_definition in the declaration of the
+formal. For a formal object of mode in out, its type is determined by the
+subtype_mark or access_definition in the declaration; its nominal subtype is
+nonstatic, even if the subtype_mark denotes a static subtype; for a composite
+type, its nominal subtype is unconstrained if the first subtype of the type is
+unconstrained, even if the subtype_mark denotes a constrained subtype.
+
+10/2 In an instance, a formal_object_declaration of mode in is a full constant
+declaration and declares a new stand-alone constant object whose
+initialization expression is the actual, whereas a formal_object_declaration
+of mode in out declares a view whose properties are identical to those of the
+actual.
+
+
+                              Dynamic Semantics
+
+11  For the evaluation of a generic_association for a formal object of mode
+in, a constant object is created, the value of the actual parameter is
+converted to the nominal subtype of the formal object, and assigned to the
+object, including any value adjustment - see 7.6.
+
+        NOTES
+
+12      6  The constraints that apply to a generic formal object of mode in
+        out are those of the corresponding generic actual parameter (not those
+        implied by the subtype_mark that appears in the
+        formal_object_declaration). Therefore, to avoid confusion, it is
+        recommended that the name of a first subtype be used for the
+        declaration of such a formal object.
+
+
+12.5 Formal Types
+
+
+1/2 A generic formal subtype can be used to pass to a generic unit a subtype
+whose type is in a certain category of types.
+
+
+                                   Syntax
+
+2/3     formal_type_declaration ::= 
+              formal_complete_type_declaration
+            | formal_incomplete_type_declaration
+
+2.1/3   formal_complete_type_declaration ::= 
+            type defining_identifier[discriminant_part
+        ] is formal_type_definition
+                [aspect_specification];
+
+2.2/3   formal_incomplete_type_declaration ::= 
+            type defining_identifier[discriminant_part] [is tagged];
+
+3/2     formal_type_definition ::= 
+              formal_private_type_definition
+            | formal_derived_type_definition
+            | formal_discrete_type_definition
+            | formal_signed_integer_type_definition
+            | formal_modular_type_definition
+            | formal_floating_point_definition
+            | formal_ordinary_fixed_point_definition
+            | formal_decimal_fixed_point_definition
+            | formal_array_type_definition
+            | formal_access_type_definition
+            | formal_interface_type_definition
+
+
+                               Legality Rules
+
+4   For a generic formal subtype, the actual shall be a subtype_mark; it
+denotes the (generic) actual subtype.
+
+
+                              Static Semantics
+
+5   A formal_type_declaration declares a (generic) formal type, and its first
+subtype, the (generic) formal subtype.
+
+6/3 The form of a formal_type_definition determines a category (of types) to
+which the formal type belongs. For a formal_private_type_definition the
+reserved words tagged and limited indicate the category of types (see 12.5.1
+). The reserved word tagged also plays this role in the case of a
+formal_incomplete_type_declaration. For a formal_derived_type_definition the
+category of types is the derivation class rooted at the ancestor type. For
+other formal types, the name of the syntactic category indicates the category
+of types; a formal_discrete_type_definition defines a discrete type, and so
+on.
+
+
+                               Legality Rules
+
+7/2 The actual type shall be in the category determined for the formal.
+
+
+                              Static Semantics
+
+8/3 The formal type also belongs to each category that contains the determined
+category. The primitive subprograms of the type are as for any type in the
+determined category. For a formal type other than a formal derived type, these
+are the predefined operators of the type. For an elementary formal type, the
+predefined operators are implicitly declared immediately after the declaration
+of the formal type. For a composite formal type, the predefined operators are
+implicitly declared either immediately after the declaration of the formal
+type, or later immediately within the declarative region in which the type is
+declared according to the rules of 7.3.1. In an instance, the copy of such an
+implicit declaration declares a view of the predefined operator of the actual
+type, even if this operator has been overridden for the actual type and even
+if it is never declared for the actual type. The rules specific to formal
+derived types are given in 12.5.1.
+
+        NOTES
+
+9       7  Generic formal types, like all types, are not named. Instead, a
+        name can denote a generic formal subtype. Within a generic unit, a
+        generic formal type is considered as being distinct from all other
+        (formal or nonformal) types.
+
+10      8  A discriminant_part is allowed only for certain kinds of types, and
+        therefore only for certain kinds of generic formal types. See 3.7.
+
+
+                                  Examples
+
+11  Examples of generic formal types:
+
+12      type Item is private;
+        type Buffer(Length : Natural) is limited private;
+
+13      type Enum  is (<>);
+        type Int   is range <>;
+        type Angle is delta <>;
+        type Mass  is digits <>;
+
+14      type Table is array (Enum) of Item;
+
+15  Example of a generic formal part declaring a formal integer type:
+
+16      generic
+           type Rank is range <>;
+           First  : Rank := Rank'First;
+           Second : Rank := First + 1;  --  the operator "+" of the type Rank  
+
+
+12.5.1 Formal Private and Derived Types
+
+
+1/3 In its most general form, the category determined for a formal private
+type is all types, but the category can be restricted to only nonlimited types
+or to only tagged types. Similarly, the category for a formal incomplete type
+is all types but the category can be restricted to only tagged types; unlike
+other formal types, the actual type does not need to be able to be frozen (see
+13.14). The category determined for a formal derived type is the derivation
+class rooted at the ancestor type.
+
+
+                                   Syntax
+
+2       formal_private_type_definition ::= 
+        [[abstract] tagged] [limited] private
+
+3/2     formal_derived_type_definition ::= 
+             [abstract] [limited | synchronized] new subtype_mark
+         [[and interface_list]with private]
+
+
+                               Legality Rules
+
+4   If a generic formal type declaration has a known_discriminant_part, then
+it shall not include a default_expression for a discriminant.
+
+5/3 The ancestor subtype of a formal derived type is the subtype denoted by
+the subtype_mark of the formal_derived_type_definition. For a formal derived
+type declaration, the reserved words with private shall appear if and only if
+the ancestor type is a tagged type; in this case the formal derived type is a
+private extension of the ancestor type and the ancestor shall not be a
+class-wide type. Similarly, an interface_list or the optional reserved words
+abstract or synchronized shall appear only if the ancestor type is a tagged
+type. The reserved word limited or synchronized shall appear only if the
+ancestor type and any progenitor types are limited types. The reserved word
+synchronized shall appear (rather than limited) if the ancestor type or any of
+the progenitor types are synchronized interfaces. The ancestor type shall be a
+limited interface if the reserved word synchronized appears.
+
+5.1/4 The actual type for a formal derived type shall be a descendant of the
+ancestor type and every progenitor of the formal type. If the formal type is
+nonlimited, the actual type shall be nonlimited. The actual type for a formal
+derived type shall be tagged if and only if the formal derived type is a
+private extension. If the reserved word synchronized appears in the
+declaration of the formal derived type, the actual type shall be a
+synchronized tagged type.
+
+6/3 If a formal private or derived subtype is definite, then the actual
+subtype shall also be definite.
+
+6.1/3 A formal_incomplete_type_declaration declares a formal incomplete type.
+The only view of a formal incomplete type is an incomplete view. Thus, a
+formal incomplete type is subject to the same usage restrictions as any other
+incomplete type - see 3.10.1.
+
+7   For a generic formal derived type with no discriminant_part:
+
+8     * If the ancestor subtype is constrained, the actual subtype shall be
+        constrained, and shall be statically compatible with the ancestor;
+
+9     * If the ancestor subtype is an unconstrained access or composite
+        subtype, the actual subtype shall be unconstrained.
+
+10    * If the ancestor subtype is an unconstrained discriminated subtype,
+        then the actual shall have the same number of discriminants, and each
+        discriminant of the actual shall correspond to a discriminant of the
+        ancestor, in the sense of 3.7.
+
+10.1/2   * If the ancestor subtype is an access subtype, the actual subtype
+        shall exclude null if and only if the ancestor subtype excludes null.
+
+11/3 The declaration of a formal derived type shall not have a
+known_discriminant_part. For a generic formal private or incomplete type with
+a known_discriminant_part:
+
+12    * The actual type shall be a type with the same number of discriminants.
+
+13    * The actual subtype shall be unconstrained.
+
+14    * The subtype of each discriminant of the actual type shall statically
+        match the subtype of the corresponding discriminant of the formal
+        type.
+
+15  For a generic formal type with an unknown_discriminant_part, the actual
+may, but need not, have discriminants, and may be definite or indefinite.
+
+15.1/4 When enforcing Legality Rules, for the purposes of determining within a
+generic body whether a type is unconstrained in any partial view, a
+discriminated subtype is considered to have a constrained partial view if it
+is a descendant of an untagged generic formal private or derived type.
+
+
+                              Static Semantics
+
+16/2 The category determined for a formal private type is as follows:
+
+17/2    Type Definition                        Determined Category
+        
+        limited private                        the category of all types
+        private                                
+        the category of all nonlimited types
+        tagged limited private                 
+        the category of all tagged types
+        tagged private                         
+        the category of all nonlimited tagged types
+
+18  The presence of the reserved word abstract determines whether the actual
+type may be abstract.
+
+18.1/3 The category determined for a formal incomplete type is the category of
+all types, unless the formal_type_declaration includes the reserved word
+tagged; in this case, it is the category of all tagged types.
+
+19  A formal private or derived type is a private or derived type,
+respectively. A formal derived tagged type is a private extension. A formal
+private or derived type is abstract if the reserved word abstract appears in
+its declaration.
+
+20/3 For a formal derived type, the characteristics (including components, but
+excluding discriminants if there is a new discriminant_part), predefined
+operators, and inherited user-defined primitive subprograms are determined by
+its ancestor type and its progenitor types (if any), in the same way that
+those of a derived type are determined by those of its parent type and its
+progenitor types (see 3.4 and 7.3.1).
+
+21/3 In an instance, the copy of an implicit declaration of a primitive
+subprogram of a formal derived type declares a view of the corresponding
+primitive subprogram of the ancestor or progenitor of the formal derived type,
+even if this primitive has been overridden for the actual type and even if it
+is never declared for the actual type. When the ancestor or progenitor of the
+formal derived type is itself a formal type, the copy of the implicit
+declaration declares a view of the corresponding copied operation of the
+ancestor or progenitor. In the case of a formal private extension, however,
+the tag of the formal type is that of the actual type, so if the tag in a call
+is statically determined to be that of the formal type, the body executed will
+be that corresponding to the actual type.
+
+22/1 For a prefix S that denotes a formal indefinite subtype, the following
+attribute is defined:
+
+23/3 S'Definite S'Definite yields True if the actual subtype corresponding to
+                S is definite; otherwise, it yields False. The value of this
+                attribute is of the predefined type Boolean.
+
+
+                              Dynamic Semantics
+
+23.1/3 In the case where a formal type has unknown discriminants, and the
+actual type is a class-wide type T'Class:
+
+23.2/2   * For the purposes of defining the primitive operations of the formal
+        type, each of the primitive operations of the actual type is
+        considered to be a subprogram (with an intrinsic calling convention -
+        see 6.3.1) whose body consists of a dispatching call upon the
+        corresponding operation of T, with its formal parameters as the actual
+        parameters. If it is a function, the result of the dispatching call is
+        returned.
+
+23.3/2   * If the corresponding operation of T has no controlling formal
+        parameters, then the controlling tag value is determined by the
+        context of the call, according to the rules for tag-indeterminate
+        calls (see 3.9.2 and 5.2). In the case where the tag would be
+        statically determined to be that of the formal type, the call raises
+        Program_Error. If such a function is renamed, any call on the renaming
+        raises Program_Error.
+
+        NOTES
+
+24/2    9  In accordance with the general rule that the actual type shall
+        belong to the category determined for the formal (see 12.5, "
+        Formal Types"):
+
+25        * If the formal type is nonlimited, then so shall be the actual;
+
+26        * For a formal derived type, the actual shall be in the class rooted
+            at the ancestor subtype.
+
+27      10  The actual type can be abstract only if the formal type is
+        abstract (see 3.9.3).
+
+28      11  If the formal has a discriminant_part, the actual can be either
+        definite or indefinite. Otherwise, the actual has to be definite.
+
+
+12.5.2 Formal Scalar Types
+
+
+1/2 A formal scalar type is one defined by any of the formal_type_definitions
+in this subclause. The category determined for a formal scalar type is the
+category of all discrete, signed integer, modular, floating point, ordinary
+fixed point, or decimal types.
+
+
+                                   Syntax
+
+2       formal_discrete_type_definition ::= (<>)
+
+3       formal_signed_integer_type_definition ::= range <>
+
+4       formal_modular_type_definition ::= mod <>
+
+5       formal_floating_point_definition ::= digits <>
+
+6       formal_ordinary_fixed_point_definition ::= delta <>
+
+7       formal_decimal_fixed_point_definition ::= delta <> digits <>
+
+
+                               Legality Rules
+
+8   The actual type for a formal scalar type shall not be a nonstandard
+numeric type.
+
+        NOTES
+
+9       12  The actual type shall be in the class of types implied by the
+        syntactic category of the formal type definition (see 12.5, "
+        Formal Types"). For example, the actual for a
+        formal_modular_type_definition shall be a modular type.
+
+
+12.5.3 Formal Array Types
+
+
+1/2 The category determined for a formal array type is the category of all
+array types.
+
+
+                                   Syntax
+
+2       formal_array_type_definition ::= array_type_definition
+
+
+                               Legality Rules
+
+3   The only form of discrete_subtype_definition that is allowed within the
+declaration of a generic formal (constrained) array subtype is a
+subtype_mark.
+
+4   For a formal array subtype, the actual subtype shall satisfy the following
+conditions:
+
+5     * The formal array type and the actual array type shall have the same
+        dimensionality; the formal subtype and the actual subtype shall be
+        either both constrained or both unconstrained.
+
+6     * For each index position, the index types shall be the same, and the
+        index subtypes (if unconstrained), or the index ranges (if
+        constrained), shall statically match (see 4.9.1).
+
+7     * The component subtypes of the formal and actual array types shall
+        statically match.
+
+8     * If the formal type has aliased components, then so shall the actual.
+
+
+                                  Examples
+
+9   Example of formal array types:
+
+10      --  given the generic package 
+
+11      generic
+           type Item   is private;
+           type Index  is (<>);
+           type Vector is array (Index range <>) of Item;
+           type Table  is array (Index) of Item;
+        package P is
+           ...
+        end P;
+
+12      --  and the types 
+
+13      type Mix    is array (Color range <>) of Boolean;
+        type Option is array (Color) of Boolean;
+
+14      --  then Mix can match Vector and Option can match Table 
+
+15      package R is new P(Item   => Boolean, Index => Color,
+                           Vector => Mix,     Table => Option);
+
+16      --  Note that Mix cannot match Table and Option cannot match Vector
+
+
+12.5.4 Formal Access Types
+
+
+1/2 The category determined for a formal access type is the category of all
+access types.
+
+
+                                   Syntax
+
+2       formal_access_type_definition ::= access_type_definition
+
+
+                               Legality Rules
+
+3   For a formal access-to-object type, the designated subtypes of the formal
+and actual types shall statically match.
+
+4/2 If and only if the general_access_modifier constant applies to the formal,
+the actual shall be an access-to-constant type. If the
+general_access_modifier all applies to the formal, then the actual shall be a
+general access-to-variable type (see 3.10). If and only if the formal subtype
+excludes null, the actual subtype shall exclude null.
+
+5/3 For a formal access-to-subprogram subtype, the designated profiles of the
+formal and the actual shall be subtype conformant.
+
+
+                                  Examples
+
+6   Example of formal access types:
+
+7       --  the formal types of the generic package 
+
+8       generic
+           type Node is private;
+           type Link is access Node;
+        package P is
+           ...
+        end P;
+
+9       --  can be matched by the actual types 
+
+10      type Car;
+        type Car_Name is access Car;
+
+11      type Car is
+           record
+              Pred, Succ : Car_Name;
+              Number     : License_Number;
+              Owner      : Person;
+           end record;
+
+12      --  in the following generic instantiation 
+
+13      package R is new P(Node => Car, Link => Car_Name);
+
+
+12.5.5 Formal Interface Types
+
+
+1/2 The category determined for a formal interface type is the category of all
+interface types.
+
+
+                                   Syntax
+
+2/2     formal_interface_type_definition ::= interface_type_definition
+
+
+                               Legality Rules
+
+3/2 The actual type shall be a descendant of every progenitor of the formal
+type.
+
+4/2 The actual type shall be a limited, task, protected, or synchronized
+interface if and only if the formal type is also, respectively, a limited,
+task, protected, or synchronized interface.
+
+
+                                  Examples
+
+5/2     type Root_Work_Item is tagged private;
+
+6/2     generic
+           type Managed_Task is task interface;
+           type Work_Item(<>) is new Root_Work_Item with private;
+        package Server_Manager is
+           task type Server is new Managed_Task with
+              entry Start(Data : in out Work_Item);
+           end Server;
+        end Server_Manager;
+
+7/2 This generic allows an application to establish a standard interface that
+all tasks need to implement so they can be managed appropriately by an
+application-specific scheduler.
+
+
+12.6 Formal Subprograms
+
+
+1   Formal subprograms can be used to pass callable entities to a generic
+unit.
+
+
+                                   Syntax
+
+2/2     formal_subprogram_declaration ::= 
+        formal_concrete_subprogram_declaration
+            | formal_abstract_subprogram_declaration
+
+2.1/3   formal_concrete_subprogram_declaration ::= 
+             with subprogram_specification [is subprogram_default]
+                [aspect_specification];
+
+2.2/3   formal_abstract_subprogram_declaration ::= 
+             with subprogram_specification is abstract [subprogram_default]
+                [aspect_specification];
+
+3/2     subprogram_default ::= default_name | <> | null
+
+4       default_name ::= name
+
+4.1/2   A subprogram_default of null shall not be specified for a formal
+        function or for a formal_abstract_subprogram_declaration.
+
+
+                            Name Resolution Rules
+
+5   The expected profile for the default_name, if any, is that of the formal
+subprogram.
+
+6   For a generic formal subprogram, the expected profile for the actual is
+that of the formal subprogram.
+
+
+                               Legality Rules
+
+7/3 The profiles of the formal and any named default shall be mode conformant.
+
+8/3 The profiles of the formal and actual shall be mode conformant.
+
+8.1/2 For a parameter or result subtype of a formal_subprogram_declaration
+that has an explicit null_exclusion:
+
+8.2/2   * if the actual matching the formal_subprogram_declaration denotes a
+        generic formal object of another generic unit G, and the instantiation
+        containing the actual that occurs within the body of a generic unit G
+        or within the body of a generic unit declared within the declarative
+        region of the generic unit G, then the corresponding parameter or
+        result type of the formal subprogram of G shall have a
+        null_exclusion;
+
+8.3/2   * otherwise, the subtype of the corresponding parameter or result type
+        of the actual matching the formal_subprogram_declaration shall exclude
+        null. In addition to the places where Legality Rules normally apply
+        (see 12.3), this rule applies also in the private part of an instance
+        of a generic unit.
+
+8.4/3 If a formal parameter of a formal_abstract_subprogram_declaration is of
+a specific tagged type T or of an anonymous access type designating a specific
+tagged type T, T is called a controlling type of the
+formal_abstract_subprogram_declaration. Similarly, if the result of a formal_-
+abstract_subprogram_declaration for a function is of a specific tagged type T
+or of an anonymous access type designating a specific tagged type T, T is
+called a controlling type of the formal_abstract_subprogram_declaration. A
+formal_abstract_subprogram_declaration shall have exactly one controlling
+type, and that type shall not be incomplete.
+
+8.5/2 The actual subprogram for a formal_abstract_subprogram_declaration shall
+be a dispatching operation of the controlling type or of the actual type
+corresponding to the controlling type.
+
+
+                              Static Semantics
+
+9   A formal_subprogram_declaration declares a generic formal subprogram. The
+types of the formal parameters and result, if any, of the formal subprogram
+are those determined by the subtype_marks given in the
+formal_subprogram_declaration; however, independent of the particular subtypes
+that are denoted by the subtype_marks, the nominal subtypes of the formal
+parameters and result, if any, are defined to be nonstatic, and unconstrained
+if of an array type (no applicable index constraint is provided in a call on a
+formal subprogram). In an instance, a formal_subprogram_declaration declares a
+view of the actual. The profile of this view takes its subtypes and calling
+convention from the original profile of the actual entity, while taking the
+formal parameter names and default_expressions from the profile given in the
+formal_subprogram_declaration. The view is a function or procedure, never an
+entry.
+
+9.1/3 If a subtype_mark in the profile of the formal_subprogram_declaration
+denotes a formal private or formal derived type and the actual type for this
+formal type is a class-wide type T'Class, then for the purposes of resolving
+the corresponding actual subprogram at the point of the instantiation, certain
+implicit declarations may be available as possible resolutions as follows:
+
+9.2/3       For each primitive subprogram of T that is directly visible at the
+            point of the instantiation, and that has at least one controlling
+            formal parameter, a corresponding implicitly declared subprogram
+            with the same defining name, and having the same profile as the
+            primitive subprogram except that T is systematically replaced by
+            T'Class in the types of its profile, is potentially use-visible.
+            The body of such a subprogram is as defined in 12.5.1 for
+            primitive subprograms of a formal type when the actual type is
+            class-wide.
+
+10  If a generic unit has a subprogram_default specified by a box, and the
+corresponding actual parameter is omitted, then it is equivalent to an
+explicit actual parameter that is a usage name identical to the defining name
+of the formal.
+
+10.1/2 If a generic unit has a subprogram_default specified by the reserved
+word null, and the corresponding actual parameter is omitted, then it is
+equivalent to an explicit actual parameter that is a null procedure having the
+profile given in the formal_subprogram_declaration.
+
+10.2/2 The subprogram declared by a formal_abstract_subprogram_declaration
+with a controlling type T is a dispatching operation of type T.
+
+        NOTES
+
+11      13  The matching rules for formal subprograms state requirements that
+        are similar to those applying to subprogram_renaming_declarations (see
+        8.5.4). In particular, the name of a parameter of the formal
+        subprogram need not be the same as that of the corresponding parameter
+        of the actual subprogram; similarly, for these parameters,
+        default_expressions need not correspond.
+
+12      14  The constraints that apply to a parameter of a formal subprogram
+        are those of the corresponding formal parameter of the matching actual
+        subprogram (not those implied by the corresponding subtype_mark in the
+        _specification of the formal subprogram). A similar remark applies to
+        the result of a function. Therefore, to avoid confusion, it is
+        recommended that the name of a first subtype be used in any
+        declaration of a formal subprogram.
+
+13      15  The subtype specified for a formal parameter of a generic formal
+        subprogram can be any visible subtype, including a generic formal
+        subtype of the same generic_formal_part.
+
+14      16  A formal subprogram is matched by an attribute of a type if the
+        attribute is a function with a matching specification. An enumeration
+        literal of a given type matches a parameterless formal function whose
+        result type is the given type.
+
+15      17  A default_name denotes an entity that is visible or directly
+        visible at the place of the generic_declaration; a box used as a
+        default is equivalent to a name that denotes an entity that is
+        directly visible at the place of the _instantiation.
+
+16/2    18  The actual subprogram cannot be abstract unless the formal
+        subprogram is a formal_abstract_subprogram_declaration (see 3.9.3).
+
+16.1/2  19  The subprogram declared by a
+        formal_abstract_subprogram_declaration is an abstract subprogram. All
+        calls on a subprogram declared by a formal_abstract_subprogram_-
+        declaration must be dispatching calls. See 3.9.3.
+
+16.2/2  20  A null procedure as a subprogram default has convention Intrinsic
+        (see 6.3.1).
+
+
+                                  Examples
+
+17  Examples of generic formal subprograms:
+
+18/2    with function "+"(X, Y : Item) return Item is <>;
+        with function Image(X : Enum) return String is Enum'Image;
+        with procedure Update is Default_Update;
+        with procedure Pre_Action(X : in Item) is null;  -- defaults to no action
+        with procedure Write(S    : not null access Root_Stream_Type'Class;
+                             Desc : Descriptor)
+                             is abstract Descriptor'Write;  -- see 13.13.2
+        -- Dispatching operation on Descriptor with default
+
+19      --  given the generic procedure declaration 
+
+20      generic
+           with procedure Action (X : in Item);
+        procedure Iterate(Seq : in Item_Sequence);
+
+21      --  and the procedure 
+
+22      procedure Put_Item(X : in Item);
+
+23      --  the following instantiation is possible 
+
+24      procedure Put_List is new Iterate(Action => Put_Item);
+
+
+12.7 Formal Packages
+
+
+1   Formal packages can be used to pass packages to a generic unit. The
+formal_package_declaration declares that the formal package is an instance of
+a given generic package. Upon instantiation, the actual package has to be an
+instance of that generic package.
+
+
+                                   Syntax
+
+2/3     formal_package_declaration ::= 
+            with package defining_identifier is new generic_package_name
+          formal_package_actual_part
+                [aspect_specification];
+
+3/2     formal_package_actual_part ::= 
+            ([others =>] <>)
+          | [generic_actual_part]
+          | (formal_package_association {, formal_package_association
+        } [, others => <>])
+
+3.1/2   formal_package_association ::= 
+            generic_association
+          | generic_formal_parameter_selector_name => <>
+
+3.2/2   Any positional formal_package_associations shall precede any named
+        formal_package_associations.
+
+
+                               Legality Rules
+
+4   The generic_package_name shall denote a generic package (the template for
+the formal package); the formal package is an instance of the template.
+
+4.1/3 The generic_formal_parameter_selector_name of a
+formal_package_association shall denote a
+generic_formal_parameter_declaration of the template. If two or more formal
+subprograms of the template have the same defining name, then named
+associations are not allowed for the corresponding actuals.
+
+4.2/3 A formal_package_actual_part shall contain at most one
+formal_package_association for each formal parameter. If the
+formal_package_actual_part does not include "others => <>", each formal
+parameter without an association shall have a default_expression or
+subprogram_default.
+
+4.3/3 The rules for matching between formal_package_associations and the
+generic formals of the template are as follows:
+
+4.4/3   * If all of the formal_package_associations are given by generic
+        associations, the explicit_generic_actual_parameters of the
+        formal_package_associations shall be legal for an instantiation of the
+        template.
+
+4.5/3   * If a formal_package_association for a formal type T of the template
+        is given by <>, then the formal_package_association for any other
+        generic_formal_parameter_declaration of the template that mentions T
+        directly or indirectly must be given by <> as well.
+
+5/2 The actual shall be an instance of the template. If the
+formal_package_actual_part is (<>) or (others => <>), then the actual may be
+any instance of the template; otherwise, certain of the actual parameters of
+the actual instance shall match the corresponding actual parameters of the
+formal package, determined as follows:
+
+5.1/2   * If the formal_package_actual_part includes generic_associations as
+        well as associations with <>, then only the actual parameters
+        specified explicitly with generic_associations are required to match;
+
+5.2/2   * Otherwise, all actual parameters shall match, whether any actual
+        parameter is given explicitly or by default.
+
+5.3/2 The rules for matching of actual parameters between the actual instance
+and the formal package are as follows:
+
+6/2   * For a formal object of mode in, the actuals match if they are static
+        expressions with the same value, or if they statically denote the same
+        constant, or if they are both the literal null.
+
+7     * For a formal subtype, the actuals match if they denote statically
+        matching subtypes.
+
+8     * For other kinds of formals, the actuals match if they statically
+        denote the same entity.
+
+8.1/1 For the purposes of matching, any actual parameter that is the name of a
+formal object of mode in is replaced by the formal object's actual expression
+(recursively).
+
+
+                              Static Semantics
+
+9   A formal_package_declaration declares a generic formal package.
+
+10/2 The visible part of a formal package includes the first list of
+basic_declarative_items of the package_specification. In addition, for each
+actual parameter that is not required to match, a copy of the declaration of
+the corresponding formal parameter of the template is included in the visible
+part of the formal package. If the copied declaration is for a formal type,
+copies of the implicit declarations of the primitive subprograms of the formal
+type are also included in the visible part of the formal package.
+
+11/2 For the purposes of matching, if the actual instance A is itself a formal
+package, then the actual parameters of A are those specified explicitly or
+implicitly in the formal_package_actual_part for A, plus, for those not
+specified, the copies of the formal parameters of the template included in the
+visible part of A.
+
+
+                                  Examples
+
+12/2 Example of a generic package with formal package parameters:
+
+13/2    with Ada.Containers.Ordered_Maps;  -- see A.18.6
+        generic
+           with package Mapping_1 is new Ada.Containers.Ordered_Maps(<>);
+           with package Mapping_2 is new Ada.Containers.Ordered_Maps
+                                            (Key_Type => Mapping_1.Element_Type,
+                                             others => <>);
+        package Ordered_Join is
+           -- Provide a "join" between two mappings
+
+14/2       subtype Key_Type is Mapping_1.Key_Type;
+           subtype Element_Type is Mapping_2.Element_Type;
+
+15/2       function Lookup(Key : Key_Type) return Element_Type;
+
+16/2       ...
+        end Ordered_Join;
+
+17/2 Example of an instantiation of a package with formal packages:
+
+18/2    with Ada.Containers.Ordered_Maps;
+        package Symbol_Package is
+
+19/2       type String_Id is ...
+
+20/2       type Symbol_Info is ...
+
+21/2       package String_Table is new Ada.Containers.Ordered_Maps
+                   (Key_Type => String,
+                    Element_Type => String_Id);
+
+22/2       package Symbol_Table is new Ada.Containers.Ordered_Maps
+                   (Key_Type => String_Id,
+                    Element_Type => Symbol_Info);
+
+23/2       package String_Info is new Ordered_Join(Mapping_1 => String_Table,
+                                                   Mapping_2 => Symbol_Table);
+
+24/2       Apple_Info : constant Symbol_Info := String_Info.Lookup("Apple");
+
+25/2    end Symbol_Package;
+
+
+12.8 Example of a Generic Package
+
+
+1   The following example provides a possible formulation of stacks by means
+of a generic package. The size of each stack and the type of the stack
+elements are provided as generic formal parameters.
+
+
+                                  Examples
+
+2/1 This paragraph was deleted.
+
+3       generic
+           Size : Positive;
+           type Item is private;
+        package Stack is
+           procedure Push(E : in  Item);
+           procedure Pop (E : out Item);
+           Overflow, Underflow : exception;
+        end Stack;
+
+4       package body Stack is
+
+5          type Table is array (Positive range <>) of Item;
+           Space : Table(1 .. Size);
+           Index : Natural := 0;
+
+6          procedure Push(E : in Item) is
+           begin
+              if Index >= Size then
+                 raise Overflow;
+              end if;
+              Index := Index + 1;
+              Space(Index) := E;
+           end Push;
+
+7          procedure Pop(E : out Item) is
+           begin
+              if Index = 0 then
+                 raise Underflow;
+              end if;
+              E := Space(Index);
+              Index := Index - 1;
+           end Pop;
+
+8       end Stack;
+
+9   Instances of this generic package can be obtained as follows:
+
+10      package Stack_Int  is new Stack(Size => 200, Item => Integer);
+        package Stack_Bool is new Stack(100, Boolean);
+
+11  Thereafter, the procedures of the instantiated packages can be called as
+follows:
+
+12      Stack_Int.Push(N);
+        Stack_Bool.Push(True);
+
+13  Alternatively, a generic formulation of the type Stack can be given as
+follows (package body omitted):
+
+14      generic
+           type Item is private;
+        package On_Stacks is
+           type Stack(Size : Positive) is limited private;
+           procedure Push(S : in out Stack; E : in  Item);
+           procedure Pop (S : in out Stack; E : out Item);
+           Overflow, Underflow : exception;
+        private
+           type Table is array (Positive range <>) of Item;
+           type Stack(Size : Positive) is
+              record
+                 Space : Table(1 .. Size);
+                 Index : Natural := 0;
+              end record;
+        end On_Stacks;
+
+15  In order to use such a package, an instance has to be created and
+thereafter stacks of the corresponding type can be declared:
+
+16      declare
+           package Stack_Real is new On_Stacks(Real); use Stack_Real;
+           S : Stack(100);
+        begin
+           ...
+           Push(S, 2.54);
+           ...
+        end;
+

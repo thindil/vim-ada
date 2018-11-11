@@ -1,0 +1,1348 @@
+*rm-07.txt*
+
+                                7   Packages *ada-packages*
+
+
+1   Packages are program units that allow the specification of groups of
+logically related entities. Typically, a package contains the declaration of a
+type (often a private type or private extension) along with the declarations
+of primitive subprograms of the type, which can be called from outside the
+package, while their inner workings remain hidden from outside users.
+
+
+7.1 Package Specifications and Declarations
+
+
+1   A package is generally provided in two parts: a package_specification and
+a package_body. Every package has a package_specification, but not all
+packages have a package_body.
+
+
+                                   Syntax
+
+2       package_declaration ::= package_specification;
+
+3/3     package_specification ::= 
+            package defining_program_unit_name
+                [aspect_specification] is
+              {basic_declarative_item}
+           [private
+              {basic_declarative_item}]
+            end [[parent_unit_name.]identifier]
+
+4       If an identifier or parent_unit_name.identifier appears at the end of
+        a package_specification, then this sequence of lexical elements shall
+        repeat the defining_program_unit_name.
+
+
+                               Legality Rules
+
+5/2 A package_declaration or generic_package_declaration requires a completion
+(a body) if it contains any basic_declarative_item that requires a completion,
+but whose completion is not in its package_specification.
+
+
+                              Static Semantics
+
+6/2 The first list of basic_declarative_items of a package_specification of a
+package other than a generic formal package is called the visible part of the
+package. The optional list of basic_declarative_items after the reserved word
+private (of any package_specification) is called the private part of the
+package. If the reserved word private does not appear, the package has an
+implicit empty private part. Each list of basic_declarative_items of a
+package_specification forms a declaration list of the package.
+
+7   An entity declared in the private part of a package is visible only within
+the declarative region of the package itself (including any child units - see
+10.1.1). In contrast, expanded names denoting entities declared in the visible
+part can be used even outside the package; furthermore, direct visibility of
+such entities can be achieved by means of use_clauses (see 4.1.3 and 8.4).
+
+
+                              Dynamic Semantics
+
+8   The elaboration of a package_declaration consists of the elaboration of
+its basic_declarative_items in the given order.
+
+        NOTES
+
+9       1  The visible part of a package contains all the information that
+        another program unit is able to know about the package.
+
+10      2  If a declaration occurs immediately within the specification of a
+        package, and the declaration has a corresponding completion that is a
+        body, then that body has to occur immediately within the body of the
+        package.
+
+
+                                  Examples
+
+11  Example of a package declaration:
+
+12      package Rational_Numbers is
+
+13         type Rational is
+              record
+                 Numerator   : Integer;
+                 Denominator : Positive;
+              end record;
+
+14         function "="(X,Y : Rational) return Boolean;
+
+15         function "/"  (X,Y : Integer)  return Rational;  --  to construct a rational number
+
+16         function "+"  (X,Y : Rational) return Rational;
+           function "-"  (X,Y : Rational) return Rational;
+           function "*"  (X,Y : Rational) return Rational;
+           function "/"  (X,Y : Rational) return Rational;
+        end Rational_Numbers;
+
+17  There are also many examples of package declarations in the predefined
+language environment (see Annex A).
+
+
+7.2 Package Bodies
+
+
+1   In contrast to the entities declared in the visible part of a package, the
+entities declared in the package_body are visible only within the
+package_body itself. As a consequence, a package with a package_body can be
+used for the construction of a group of related subprograms in which the
+logical operations available to clients are clearly isolated from the internal
+entities.
+
+
+                                   Syntax
+
+2/3     package_body ::= 
+            package body defining_program_unit_name
+                [aspect_specification] is
+               declarative_part
+           [begin
+                handled_sequence_of_statements]
+            end [[parent_unit_name.]identifier];
+
+3       If an identifier or parent_unit_name.identifier appears at the end of
+        a package_body, then this sequence of lexical elements shall repeat
+        the defining_program_unit_name.
+
+
+                               Legality Rules
+
+4   A package_body shall be the completion of a previous package_declaration
+or generic_package_declaration. A library package_declaration or library
+generic_package_declaration shall not have a body unless it requires a body;
+pragma Elaborate_Body can be used to require a library_unit_declaration to
+have a body (see 10.2.1) if it would not otherwise require one.
+
+
+                              Static Semantics
+
+5/3 In any package_body without statements there is an implicit
+null_statement. For any package_declaration without an explicit completion,
+there is an implicit package_body containing a single null_statement. For a
+noninstance, nonlibrary package, this body occurs at the end of the
+declarative_part of the innermost enclosing program unit or block_statement;
+if there are several such packages, the order of the implicit package_bodies
+is unspecified. (For an instance, the implicit package_body occurs at the
+place of the instantiation (see 12.3). For a library package, the place is
+partially determined by the elaboration dependences (see Clause 10).)
+
+
+                              Dynamic Semantics
+
+6   For the elaboration of a nongeneric package_body, its declarative_part is
+first elaborated, and its handled_sequence_of_statements is then executed.
+
+        NOTES
+
+7       3  A variable declared in the body of a package is only visible within
+        this body and, consequently, its value can only be changed within the
+        package_body. In the absence of local tasks, the value of such a
+        variable remains unchanged between calls issued from outside the
+        package to subprograms declared in the visible part. The properties of
+        such a variable are similar to those of a "static" variable of C.
+
+8       4  The elaboration of the body of a subprogram explicitly declared in
+        the visible part of a package is caused by the elaboration of the body
+        of the package. Hence a call of such a subprogram by an outside
+        program unit raises the exception Program_Error if the call takes
+        place before the elaboration of the package_body (see 3.11).
+
+
+                                  Examples
+
+9   Example of a package body (see 7.1):
+
+10      package body Rational_Numbers is
+
+11         procedure Same_Denominator (X,Y : in out Rational) is
+           begin
+              --  reduces X and Y to the same denominator:
+              ...
+           end Same_Denominator;
+
+12         function "="(X,Y : Rational) return Boolean is
+              U : Rational := X;
+              V : Rational := Y;
+           begin
+              Same_Denominator (U,V);
+              return U.Numerator = V.Numerator;
+           end "=";
+
+13         function "/" (X,Y : Integer) return Rational is
+           begin
+              if Y > 0 then
+                 return (Numerator => X,  Denominator => Y);
+              else
+                 return (Numerator => -X, Denominator => -Y);
+              end if;
+           end "/";
+
+14         function "+" (X,Y : Rational) return Rational is ... end "+";
+           function "-" (X,Y : Rational) return Rational is ... end "-";
+           function "*" (X,Y : Rational) return Rational is ... end "*";
+           function "/" (X,Y : Rational) return Rational is ... end "/";
+
+15      end Rational_Numbers;
+
+
+7.3 Private Types and Private Extensions
+
+
+1   The declaration (in the visible part of a package) of a type as a private
+type or private extension serves to separate the characteristics that can be
+used directly by outside program units (that is, the logical properties) from
+other characteristics whose direct use is confined to the package (the details
+of the definition of the type itself). See 3.9.1 for an overview of type
+extensions.
+
+
+                                   Syntax
+
+2/3     private_type_declaration ::= 
+           type defining_identifier [discriminant_part
+        ] is [[abstract] tagged] [limited] private
+              [aspect_specification];
+
+3/3     private_extension_declaration ::= 
+           type defining_identifier [discriminant_part] is
+             [abstract] [limited | synchronized] new ancestor_subtype_indication
+             [and interface_list] with private
+               [aspect_specification];
+
+
+                               Legality Rules
+
+4   A private_type_declaration or private_extension_declaration declares a
+partial view of the type; such a declaration is allowed only as a
+declarative_item of the visible part of a package, and it requires a
+completion, which shall be a full_type_declaration that occurs as a
+declarative_item of the private part of the package. The view of the type
+declared by the full_type_declaration is called the full view. A generic
+formal private type or a generic formal private extension is also a partial
+view.
+
+5   A type shall be completely defined before it is frozen (see 3.11.1 and
+13.14). Thus, neither the declaration of a variable of a partial view of a
+type, nor the creation by an allocator of an object of the partial view are
+allowed before the full declaration of the type. Similarly, before the full
+declaration, the name of the partial view cannot be used in a
+generic_instantiation or in a representation item.
+
+6/2 A private type is limited if its declaration includes the reserved word
+limited; a private extension is limited if its ancestor type is a limited type
+that is not an interface type, or if the reserved word limited or synchronized
+appears in its definition. If the partial view is nonlimited, then the full
+view shall be nonlimited. If a tagged partial view is limited, then the full
+view shall be limited. On the other hand, if an untagged partial view is
+limited, the full view may be limited or nonlimited.
+
+7   If the partial view is tagged, then the full view shall be tagged. On the
+other hand, if the partial view is untagged, then the full view may be tagged
+or untagged. In the case where the partial view is untagged and the full view
+is tagged, no derivatives of the partial view are allowed within the immediate
+scope of the partial view; derivatives of the full view are allowed.
+
+7.1/2 If a full type has a partial view that is tagged, then:
+
+7.2/2   * the partial view shall be a synchronized tagged type (see 3.9.4) if
+        and only if the full type is a synchronized tagged type;
+
+7.3/2   * the partial view shall be a descendant of an interface type (see
+        3.9.4) if and only if the full type is a descendant of the interface
+        type.
+
+8   The ancestor subtype of a private_extension_declaration is the subtype
+defined by the ancestor_subtype_indication; the ancestor type shall be a
+specific tagged type. The full view of a private extension shall be derived
+(directly or indirectly) from the ancestor type. In addition to the places
+where Legality Rules normally apply (see 12.3), the requirement that the
+ancestor be specific applies also in the private part of an instance of a
+generic unit.
+
+8.1/2 If the reserved word limited appears in a
+private_extension_declaration, the ancestor type shall be a limited type. If
+the reserved word synchronized appears in a private_extension_declaration, the
+ancestor type shall be a limited interface.
+
+9   If the declaration of a partial view includes a known_discriminant_part,
+then the full_type_declaration shall have a fully conforming (explicit)
+known_discriminant_part (see 6.3.1, "Conformance Rules"). The ancestor subtype
+may be unconstrained; the parent subtype of the full view is required to be
+constrained (see 3.7).
+
+10  If a private extension inherits known discriminants from the ancestor
+subtype, then the full view shall also inherit its discriminants from the
+ancestor subtype, and the parent subtype of the full view shall be constrained
+if and only if the ancestor subtype is constrained.
+
+10.1/3 If the full_type_declaration for a private extension includes a
+derived_type_definition, then the reserved word limited shall appear in the
+full_type_declaration if and only if it also appears in the
+private_extension_declaration.
+
+11  If a partial view has unknown discriminants, then the
+full_type_declaration may define a definite or an indefinite subtype, with or
+without discriminants.
+
+12  If a partial view has neither known nor unknown discriminants, then the
+full_type_declaration shall define a definite subtype.
+
+13  If the ancestor subtype of a private extension has constrained
+discriminants, then the parent subtype of the full view shall impose a
+statically matching constraint on those discriminants.
+
+
+                              Static Semantics
+
+14  A private_type_declaration declares a private type and its first subtype.
+Similarly, a private_extension_declaration declares a private extension and
+its first subtype.
+
+15/3 A declaration of a partial view and the corresponding
+full_type_declaration define two views of a single type. The declaration of a
+partial view together with the visible part define the operations that are
+available to outside program units; the declaration of the full view together
+with the private part define other operations whose direct use is possible
+only within the declarative region of the package itself. Moreover, within the
+scope of the declaration of the full view, the characteristics (see 3.4) of
+the type are determined by the full view; in particular, within its scope, the
+full view determines the classes that include the type, which components,
+entries, and protected subprograms are visible, what attributes and other
+predefined operations are allowed, and whether the first subtype is static.
+See 7.3.1.
+
+16/3 For a private extension, the characteristics (including components, but
+excluding discriminants if there is a new discriminant_part specified),
+predefined operators, and inherited user-defined primitive subprograms are
+determined by its ancestor type and its progenitor types (if any), in the same
+way that those of a record extension are determined by those of its parent
+type and its progenitor types (see 3.4 and 7.3.1).
+
+
+                              Dynamic Semantics
+
+17  The elaboration of a private_type_declaration creates a partial view of a
+type. The elaboration of a private_extension_declaration elaborates the
+ancestor_subtype_indication, and creates a partial view of a type.
+
+        NOTES
+
+18      5  The partial view of a type as declared by a
+        private_type_declaration is defined to be a composite view (in 3.2).
+        The full view of the type might or might not be composite. A private
+        extension is also composite, as is its full view.
+
+19/2    6  Declaring a private type with an unknown_discriminant_part is a way
+        of preventing clients from creating uninitialized objects of the type;
+        they are then forced to initialize each object by calling some
+        operation declared in the visible part of the package.
+
+20/2    7  The ancestor type specified in a private_extension_declaration and
+        the parent type specified in the corresponding declaration of a record
+        extension given in the private part need not be the same. If the
+        ancestor type is not an interface type, the parent type of the full
+        view can be any descendant of the ancestor type. In this case, for a
+        primitive subprogram that is inherited from the ancestor type and not
+        overridden, the formal parameter names and default expressions (if
+        any) come from the corresponding primitive subprogram of the specified
+        ancestor type, while the body comes from the corresponding primitive
+        subprogram of the parent type of the full view. See 3.9.2.
+
+20.1/2  8  If the ancestor type specified in a private_extension_declaration
+        is an interface type, the parent type can be any type so long as the
+        full view is a descendant of the ancestor type. The progenitor types
+        specified in a private_extension_declaration and the progenitor types
+        specified in the corresponding declaration of a record extension given
+        in the private part need not be the same - the only requirement is
+        that the private extension and the record extension be descended from
+        the same set of interfaces.
+
+
+                                  Examples
+
+21  Examples of private type declarations:
+
+22      type Key is private;
+        type File_Name is limited private;
+
+23  Example of a private extension declaration:
+
+24      type List is new Ada.Finalization.Controlled with private;
+
+
+7.3.1 Private Operations
+
+
+1   For a type declared in the visible part of a package or generic package,
+certain operations on the type do not become visible until later in the
+package - either in the private part or the body. Such private operations are
+available only inside the declarative region of the package or generic
+package.
+
+
+                              Static Semantics
+
+2   The predefined operators that exist for a given type are determined by the
+classes to which the type belongs. For example, an integer type has a
+predefined "+" operator. In most cases, the predefined operators of a type are
+declared immediately after the definition of the type; the exceptions are
+explained below. Inherited subprograms are also implicitly declared
+immediately after the definition of the type, except as stated below.
+
+3/3 For a composite type, the characteristics (see 7.3) of the type are
+determined in part by the characteristics of its component types. At the place
+where the composite type is declared, the only characteristics of component
+types used are those characteristics visible at that place. If later
+immediately within the declarative region in which the composite type is
+declared additional characteristics become visible for a component type, then
+any corresponding characteristics become visible for the composite type. Any
+additional predefined operators are implicitly declared at that place. If
+there is no such place, then additional predefined operators are not declared
+at all, but they still exist.
+
+4/1 The corresponding rule applies to a type defined by a
+derived_type_definition, if there is a place immediately within the
+declarative region in which the type is declared where additional
+characteristics of its parent type become visible.
+
+5/1 For example, an array type whose component type is limited private becomes
+nonlimited if the full view of the component type is nonlimited and visible at
+some later place immediately within the declarative region in which the array
+type is declared. In such a case, the predefined "=" operator is implicitly
+declared at that place, and assignment is allowed after that place.
+
+5.1/3 A type is a descendant of the full view of some ancestor of its parent
+type only if the current view it has of its parent is a descendant of the full
+view of that ancestor. More generally, at any given place, a type is descended
+from the same view of an ancestor as that from which the current view of its
+parent is descended. This view determines what characteristics are inherited
+from the ancestor, and, for example, whether the type is considered to be a
+descendant of a record type, or a descendant only through record extensions of
+a more distant ancestor.
+
+5.2/4 Furthermore, it is possible for there to be places where a derived type
+is known to be derived indirectly from an ancestor type, but is not a
+descendant of even a partial view of the ancestor type, because the parent of
+the derived type is not visibly a descendant of the ancestor. In this case,
+the derived type inherits no characteristics from that ancestor, but
+nevertheless is within the derivation class of the ancestor for the purposes
+of type conversion, the "covers" relationship, and matching against a formal
+derived type. In this case the derived type is effectively a descendant of an
+incomplete view of the ancestor.
+
+6/3 Inherited primitive subprograms follow a different rule. For a
+derived_type_definition, each inherited primitive subprogram is implicitly
+declared at the earliest place, if any, immediately within the declarative
+region in which the type_declaration occurs, but after the type_declaration,
+where the corresponding declaration from the parent is visible. If there is no
+such place, then the inherited subprogram is not declared at all, but it still
+exists. For a tagged type, it is possible to dispatch to an inherited
+subprogram that is not declared at all.
+
+7   For a private_extension_declaration, each inherited subprogram is declared
+immediately after the private_extension_declaration if the corresponding
+declaration from the ancestor is visible at that place. Otherwise, the
+inherited subprogram is not declared for the private extension, though it
+might be for the full type.
+
+8   The Class attribute is defined for tagged subtypes in 3.9. In addition,
+for every subtype S of an untagged private type whose full view is tagged, the
+following attribute is defined:
+
+9   S'Class     Denotes the class-wide subtype corresponding to the full view
+                of S. This attribute is allowed only from the beginning of the
+                private part in which the full view is declared, until the
+                declaration of the full view. After the full view, the Class
+                attribute of the full view can be used.
+
+        NOTES
+
+10      9  Because a partial view and a full view are two different views of
+        one and the same type, outside of the defining package the
+        characteristics of the type are those defined by the visible part.
+        Within these outside program units the type is just a private type or
+        private extension, and any language rule that applies only to another
+        class of types does not apply. The fact that the full declaration
+        might implement a private type with a type of a particular class (for
+        example, as an array type) is relevant only within the declarative
+        region of the package itself including any child units.
+
+11      The consequences of this actual implementation are, however, valid
+        everywhere. For example: any default initialization of components
+        takes place; the attribute Size provides the size of the full view;
+        finalization is still done for controlled components of the full view;
+        task dependence rules still apply to components that are task objects.
+
+12/2    10  Partial views provide initialization, membership tests, selected
+        components for the selection of discriminants and inherited
+        components, qualification, and explicit conversion. Nonlimited partial
+        views also allow use of assignment_statements.
+
+13      11  For a subtype S of a partial view, S'Size is defined (see 13.3).
+        For an object A of a partial view, the attributes A'Size and A'Address
+        are defined (see 13.3). The Position, First_Bit, and Last_Bit
+        attributes are also defined for discriminants and inherited
+        components.
+
+
+                                  Examples
+
+14  Example of a type with private operations:
+
+15      package Key_Manager is
+           type Key is private;
+           Null_Key : constant Key; -- a deferred constant declaration (see 7.4
+        )
+           procedure Get_Key(K : out Key);
+           function "<" (X, Y : Key) return Boolean;
+        private
+           type Key is new Natural;
+           Null_Key : constant Key := Key'First;
+        end Key_Manager;
+
+16      package body Key_Manager is
+           Last_Key : Key := Null_Key;
+           procedure Get_Key(K : out Key) is
+           begin
+              Last_Key := Last_Key + 1;
+              K := Last_Key;
+           end Get_Key;
+
+17         function "<" (X, Y : Key) return Boolean is
+           begin
+              return Natural(X) < Natural(Y);
+           end "<";
+        end Key_Manager;
+
+        NOTES
+
+18      12  Notes on the example: Outside of the package Key_Manager, the
+        operations available for objects of type Key include assignment, the
+        comparison for equality or inequality, the procedure Get_Key and the
+        operator "<"; they do not include other relational operators such as
+        ">=", or arithmetic operators.
+
+19      The explicitly declared operator "<" hides the predefined operator "<"
+        implicitly declared by the full_type_declaration. Within the body of
+        the function, an explicit conversion of X and Y to the subtype Natural
+        is necessary to invoke the "<" operator of the parent type.
+        Alternatively, the result of the function could be written as not (X
+        >= Y), since the operator ">=" is not redefined.
+
+20      The value of the variable Last_Key, declared in the package body,
+        remains unchanged between calls of the procedure Get_Key. (See also
+        the NOTES of 7.2.)
+
+
+7.3.2 Type Invariants
+
+
+1/4 For a private type, private extension, or interface, the following
+language-defined aspects may be specified with an aspect_specification (see
+13.1.1):
+
+2/3 Type_Invariant
+                This aspect shall be specified by an expression, called an
+                invariant expression. Type_Invariant may be specified on a
+                private_type_declaration, on a private_extension_declaration,
+                or on a full_type_declaration that declares the completion of
+                a private type or private extension.
+
+3/4 Type_Invariant'Class
+                This aspect shall be specified by an expression, called an
+                invariant expression. Type_Invariant'Class may be specified on
+                a private_type_declaration, a private_extension_declaration,
+                or a full_type_declaration for an interface type.
+                Type_Invariant'Class determines a class-wide type invariant
+                for a tagged type.
+
+
+                            Name Resolution Rules
+
+4/3 The expected type for an invariant expression is any boolean type.
+
+5/4 Within an invariant expression, the identifier of the first subtype of the
+associated type denotes the current instance of the type. Within an invariant
+expression for the Type_Invariant aspect of a type T, the type of this current
+instance is T. Within an invariant expression for the Type_Invariant'Class
+aspect of a type T, the type of this current instance is interpreted as though
+it had a (notional) type NT that is a visible formal derived type whose
+ancestor type is T. The effect of this interpretation is that the only
+operations that can be applied to this current instance are those defined for
+such a formal derived type.
+
+
+                               Legality Rules
+
+6/3 The Type_Invariant'Class aspect shall not be specified for an untagged
+type. The Type_Invariant aspect shall not be specified for an abstract type.
+
+6.1/4 If a type extension occurs at a point where a private operation of some
+ancestor is visible and inherited, and a Type_Invariant'Class expression
+applies to that ancestor, then the inherited operation shall be abstract or
+shall be overridden.
+
+
+                              Static Semantics
+
+7/3 If the Type_Invariant aspect is specified for a type T, then the invariant
+expression applies to T.
+
+8/3 If the Type_Invariant'Class aspect is specified for a tagged type T, then
+the invariant expression applies to all descendants of T.
+
+
+                              Dynamic Semantics
+
+9/4 If one or more invariant expressions apply to a nonabstract type T, then
+an invariant check is performed at the following places, on the specified
+object(s):
+
+10/4   * After successful initialization of an object of type T by default
+        (see 3.3.1), the check is performed on the new object unless the
+        partial view of T has unknown discriminants;
+
+10.1/4   * After successful explicit initialization of the completion of a
+        deferred constant with a part of type T, if the completion is inside
+        the immediate scope of the full view of T, and the deferred constant
+        is visible outside the immediate scope of T, the check is performed on
+        the part(s) of type T;
+
+11/3   * After successful conversion to type T, the check is performed on the
+        result of the conversion;
+
+12/3   * For a view conversion, outside the immediate scope of T, that
+        converts from a descendant of T (including T itself) to an ancestor of
+        type T (other than T itself), a check is performed on the part of the
+        object that is of type T:
+
+13/3      * after assigning to the view conversion; and
+
+14/3      * after successful return from a call that passes the view
+            conversion as an in out or out parameter.
+
+15/4   * After a successful call on the Read or Input stream-oriented
+        attribute of the type T, the check is performed on the object
+        initialized by the attribute;
+
+16/3   * An invariant is checked upon successful return from a call on any
+        subprogram or entry that:
+
+17/4      * is declared within the immediate scope of type T (or by an
+            instance of a generic unit, and the generic is declared within the
+            immediate scope of type T),
+
+18/4      * This paragraph was deleted.
+
+19/4      * and either:
+
+19.1/4        * has a result with a part of type T, or
+
+19.2/4        * has one or more out or in out parameters with a part of type
+                T, or
+
+19.3/4        * has an access-to-object parameter or result whose designated
+                type has a part of type T, or
+
+19.4/4        * is a procedure or entry that has an in parameter with a part
+                of type T,
+
+19.5/4    * and either:
+
+19.6/4        * T is a private type or a private extension and the subprogram
+                or entry is visible outside the immediate scope of type T or
+                overrides an inherited operation that is visible outside the
+                immediate scope of T, or
+
+19.7/4        * T is a record extension, and the subprogram or entry is a
+                primitive operation visible outside the immediate scope of
+                type T or overrides an inherited operation that is visible
+                outside the immediate scope of T.
+
+20/3    The check is performed on each such part of type T.
+
+20.1/4   * For a view conversion to a class-wide type occurring within the
+        immediate scope of T, from a specific type that is a descendant of T
+        (including T itself), a check is performed on the part of the object
+        that is of type T.
+
+21/4 If performing checks is required by the Type_Invariant or
+Type_Invariant'Class assertion policies (see 11.4.2) in effect at the point of
+the corresponding aspect specification applicable to a given type, then the
+respective invariant expression is considered enabled.
+
+22/3 The invariant check consists of the evaluation of each enabled invariant
+expression that applies to T, on each of the objects specified above. If any
+of these evaluate to False, Assertions.Assertion_Error is raised at the point
+of the object initialization, conversion, or call. If a given call requires
+more than one evaluation of an invariant expression, either for multiple
+objects of a single type or for multiple types with invariants, the
+evaluations are performed in an arbitrary order, and if one of them evaluates
+to False, it is not specified whether the others are evaluated. Any invariant
+check is performed prior to copying back any by-copy in out or out parameters.
+Invariant checks, any postcondition check, and any constraint or predicate
+checks associated with in out or out parameters are performed in an arbitrary
+order.
+
+22.1/4 For an invariant check on a value of type T1 based on a class-wide
+invariant expression inherited from an ancestor type T, any operations within
+the invariant expression that were resolved as primitive operations of the
+(notional) formal derived type NT are bound to the corresponding operations of
+type T1 in the evaluation of the invariant expression for the check on T1.
+
+23/3 The invariant checks performed on a call are determined by the subprogram
+or entry actually invoked, whether directly, as part of a dispatching call, or
+as part of a call through an access-to-subprogram value.
+
+        NOTES
+
+24/3    13  For a call of a primitive subprogram of type NT that is inherited
+        from type T, the specified checks of the specific invariants of both
+        the types NT and T are performed. For a call of a primitive subprogram
+        of type NT that is overridden for type NT, the specified checks of the
+        specific invariants of only type NT are performed.
+
+
+7.4 Deferred Constants
+
+
+1   Deferred constant declarations may be used to declare constants in the
+visible part of a package, but with the value of the constant given in the
+private part. They may also be used to declare constants imported from other
+languages (see Annex B).
+
+
+                               Legality Rules
+
+2/3 A deferred constant declaration is an object_declaration with the reserved
+word constant but no initialization expression. The constant declared by a
+deferred constant declaration is called a deferred constant. Unless the Import
+aspect (see B.1) is True for a deferred constant declaration, the deferred
+constant declaration requires a completion, which shall be a full constant
+declaration (called the full declaration of the deferred constant).
+
+3   A deferred constant declaration that is completed by a full constant
+declaration shall occur immediately within the visible part of a
+package_specification. For this case, the following additional rules apply to
+the corresponding full declaration:
+
+4     * The full declaration shall occur immediately within the private part
+        of the same package;
+
+5/2   * The deferred and full constants shall have the same type, or shall
+        have statically matching anonymous access subtypes;
+
+6/3   * If the deferred constant declaration includes a subtype_indication S
+        that defines a constrained subtype, then the constraint defined by the
+        subtype_indication in the full declaration shall match the constraint
+        defined by S statically. On the other hand, if the subtype of the
+        deferred constant is unconstrained, then the full declaration is still
+        allowed to impose a constraint. The constant itself will be
+        constrained, like all constants;
+
+7/2   * If the deferred constant declaration includes the reserved word
+        aliased, then the full declaration shall also;
+
+7.1/2   * If the subtype of the deferred constant declaration excludes null,
+        the subtype of the full declaration shall also exclude null.
+
+8/3 A deferred constant declaration for which the Import aspect is True need
+not appear in the visible part of a package_specification, and has no full
+constant declaration.
+
+9/2 The completion of a deferred constant declaration shall occur before the
+constant is frozen (see 13.14).
+
+
+                              Dynamic Semantics
+
+10/3 The elaboration of a deferred constant declaration elaborates the
+subtype_indication, access_definition, or (only allowed in the case of an
+imported constant) the array_type_definition.
+
+        NOTES
+
+11      14  The full constant declaration for a deferred constant that is of a
+        given private type or private extension is not allowed before the
+        corresponding full_type_declaration. This is a consequence of the
+        freezing rules for types (see 13.14).
+
+
+                                  Examples
+
+12  Examples of deferred constant declarations:
+
+13      Null_Key : constant Key;      -- see 7.3.1
+
+14/3    CPU_Identifier : constant String(1..8)
+           with Import => True, Convention => Assembler, Link_Name => "CPU_ID";
+                                      -- see B.1
+
+
+7.5 Limited Types
+
+
+1/2 A limited type is (a view of) a type for which copying (such as for an
+assignment_statement) is not allowed. A nonlimited type is a (view of a) type
+for which copying is allowed.
+
+
+                               Legality Rules
+
+2/2 If a tagged record type has any limited components, then the reserved word
+limited shall appear in its record_type_definition. If the reserved word
+limited appears in the definition of a derived_type_definition, its parent
+type and any progenitor interfaces shall be limited.
+
+2.1/3 In the following contexts, an expression of a limited type is not
+permitted unless it is an aggregate, a function_call, a parenthesized
+expression or qualified_expression whose operand is permitted by this rule, or
+a conditional_expression all of whose dependent_expressions are permitted by
+this rule:
+
+2.2/2   * the initialization expression of an object_declaration (see 3.3.1)
+
+2.3/2   * the default_expression of a component_declaration (see 3.8)
+
+2.4/2   * the expression of a record_component_association (see 4.3.1)
+
+2.5/2   * the expression for an ancestor_part of an extension_aggregate (see
+        4.3.2)
+
+2.6/2   * an expression of a positional_array_aggregate or the expression of
+        an array_component_association (see 4.3.3)
+
+2.7/2   * the qualified_expression of an initialized allocator (see 4.8)
+
+2.8/2   * the expression of a return statement (see 6.5)
+
+2.9/4   * the return expression of an expression function (see 6.8)
+
+2.10/3   * the default_expression or actual parameter for a formal object of
+        mode in (see 12.4)
+
+
+                              Static Semantics
+
+3/3 A view of a type is limited if it is one of the following:
+
+4/2   * a type with the reserved word limited, synchronized, task, or
+        protected in its definition;
+
+5/3   * a class-wide type whose specific type is limited;
+
+6/2   * a composite type with a limited component;
+
+6.1/3   * an incomplete view;
+
+6.2/2   * a derived type whose parent is limited and is not an interface.
+
+7   Otherwise, the type is nonlimited.
+
+8   There are no predefined equality operators for a limited type.
+
+8.1/3 A type is immutably limited if it is one of the following:
+
+8.2/3   * An explicitly limited record type;
+
+8.3/3   * A record extension with the reserved word limited;
+
+8.4/3   * A nonformal limited private type that is tagged or has at least one
+        access discriminant with a default_expression;
+
+8.5/3   * A task type, a protected type, or a synchronized interface;
+
+8.6/3   * A type derived from an immutably limited type.
+
+8.7/3 A descendant of a generic formal limited private type is presumed to be
+immutably limited except within the body of a generic unit or a body declared
+within the declarative region of a generic unit, if the formal type is
+declared within the formal part of the generic unit.
+
+        NOTES
+
+9/3     15  While it is allowed to write initializations of limited objects,
+        such initializations never copy a limited object. The source of such
+        an assignment operation must be an aggregate or function_call, and
+        such aggregates and function_calls must be built directly in the
+        target object (see 7.6).
+
+        Paragraphs 10 through 15 were deleted.
+
+16      16  As illustrated in 7.3.1, an untagged limited type can become
+        nonlimited under certain circumstances.
+
+
+                                  Examples
+
+17  Example of a package with a limited type:
+
+18      package IO_Package is
+           type File_Name is limited private;
+
+19         procedure Open (F : in out File_Name);
+           procedure Close(F : in out File_Name);
+           procedure Read (F : in File_Name; Item : out Integer);
+           procedure Write(F : in File_Name; Item : in  Integer);
+        private
+           type File_Name is
+              limited record
+                 Internal_Name : Integer := 0;
+              end record;
+        end IO_Package;
+
+20      package body IO_Package is
+           Limit : constant := 200;
+           type File_Descriptor is record  ...  end record;
+           Directory : array (1 .. Limit) of File_Descriptor;
+           ...
+           procedure Open (F : in out File_Name) is  ...  end;
+           procedure Close(F : in out File_Name) is  ...  end;
+           procedure Read (F : in File_Name; Item : out Integer) is ... end;
+           procedure Write(F : in File_Name; Item : in  Integer) is ... end;
+        begin
+           ...
+        end IO_Package;
+
+        NOTES
+
+21      17  Notes on the example: In the example above, an outside subprogram
+        making use of IO_Package may obtain a file name by calling Open and
+        later use it in calls to Read and Write. Thus, outside the package, a
+        file name obtained from Open acts as a kind of password; its internal
+        properties (such as containing a numeric value) are not known and no
+        other operations (such as addition or comparison of internal names)
+        can be performed on a file name. Most importantly, clients of the
+        package cannot make copies of objects of type File_Name.
+
+22      This example is characteristic of any case where complete control over
+        the operations of a type is desired. Such packages serve a dual
+        purpose. They prevent a user from making use of the internal structure
+        of the type. They also implement the notion of an encapsulated data
+        type where the only operations on the type are those given in the
+        package specification.
+
+23/2    The fact that the full view of File_Name is explicitly declared
+        limited means that parameter passing will always be by reference and
+        function results will always be built directly in the result object
+        (see 6.2 and 6.5).
+
+
+7.6 Assignment and Finalization
+
+
+1   Three kinds of actions are fundamental to the manipulation of objects:
+initialization, finalization, and assignment. Every object is initialized,
+either explicitly or by default, after being created (for example, by an
+object_declaration or allocator). Every object is finalized before being
+destroyed (for example, by leaving a subprogram_body containing an
+object_declaration, or by a call to an instance of Unchecked_Deallocation). An
+assignment operation is used as part of assignment_statements, explicit
+initialization, parameter passing, and other operations.
+
+2   Default definitions for these three fundamental operations are provided by
+the language, but a controlled type gives the user additional control over
+parts of these operations. In particular, the user can define, for a
+controlled type, an Initialize procedure which is invoked immediately after
+the normal default initialization of a controlled object, a Finalize procedure
+which is invoked immediately before finalization of any of the components of a
+controlled object, and an Adjust procedure which is invoked as the last step
+of an assignment to a (nonlimited) controlled object.
+
+
+                              Static Semantics
+
+3   The following language-defined library package exists:
+
+4/3     package Ada.Finalization is
+            pragma Pure(Finalization);
+
+5/2         type Controlled is abstract tagged private;
+            pragma Preelaborable_Initialization(Controlled);
+
+6/2         procedure Initialize (Object : in out Controlled) is null;
+            procedure Adjust     (Object : in out Controlled) is null;
+            procedure Finalize   (Object : in out Controlled) is null;
+
+7/2         type Limited_Controlled is abstract tagged limited private;
+            pragma Preelaborable_Initialization(Limited_Controlled);
+
+8/2         procedure Initialize (Object : in out Limited_Controlled) is null;
+            procedure Finalize   (Object : in out Limited_Controlled) is null;
+        private
+            ... -- not specified by the language
+        end Ada.Finalization;
+
+9/2 A controlled type is a descendant of Controlled or Limited_Controlled. The
+predefined "=" operator of type Controlled always returns True, since this
+operator is incorporated into the implementation of the predefined equality
+operator of types derived from Controlled, as explained in 4.5.2. The type
+Limited_Controlled is like Controlled, except that it is limited and it lacks
+the primitive subprogram Adjust.
+
+9.1/2 A type is said to need finalization if:
+
+9.2/2   * it is a controlled type, a task type or a protected type; or
+
+9.3/3   * it has a component whose type needs finalization; or
+
+9.4/3   * it is a class-wide type; or
+
+9.5/3   * it is a partial view whose full view needs finalization; or
+
+9.6/2   * it is one of a number of language-defined types that are explicitly
+        defined to need finalization.
+
+
+                              Dynamic Semantics
+
+10/2 During the elaboration or evaluation of a construct that causes an object
+to be initialized by default, for every controlled subcomponent of the object
+that is not assigned an initial value (as defined in 3.3.1), Initialize is
+called on that subcomponent. Similarly, if the object that is initialized by
+default as a whole is controlled, Initialize is called on the object.
+
+11/2 For an extension_aggregate whose ancestor_part is a subtype_mark denoting
+a controlled subtype, the Initialize procedure of the ancestor type is called,
+unless that Initialize procedure is abstract.
+
+12  Initialize and other initialization operations are done in an arbitrary
+order, except as follows. Initialize is applied to an object after
+initialization of its subcomponents, if any (including both implicit
+initialization and Initialize calls). If an object has a component with an
+access discriminant constrained by a per-object expression, Initialize is
+applied to this component after any components that do not have such
+discriminants. For an object with several components with such a discriminant,
+Initialize is applied to them in order of their component_declarations. For an
+allocator, any task activations follow all calls on Initialize.
+
+13  When a target object with any controlled parts is assigned a value, either
+when created or in a subsequent assignment_statement, the assignment operation
+proceeds as follows:
+
+14    * The value of the target becomes the assigned value.
+
+15    * The value of the target is adjusted.
+
+16/3 To adjust the value of a composite object, the values of the components
+of the object are first adjusted in an arbitrary order, and then, if the
+object is nonlimited controlled, Adjust is called. Adjusting the value of an
+elementary object has no effect, nor does adjusting the value of a composite
+object with no controlled parts.
+
+17  For an assignment_statement, after the name and expression have been
+evaluated, and any conversion (including constraint checking) has been done,
+an anonymous object is created, and the value is assigned into it; that is,
+the assignment operation is applied. (Assignment includes value adjustment.)
+The target of the assignment_statement is then finalized. The value of the
+anonymous object is then assigned into the target of the
+assignment_statement. Finally, the anonymous object is finalized. As explained
+below, the implementation may eliminate the intermediate anonymous object, so
+this description subsumes the one given in 5.2, "Assignment Statements".
+
+17.1/3 When a function call or aggregate is used to initialize an object, the
+result of the function call or aggregate is an anonymous object, which is
+assigned into the newly-created object. For such an assignment, the anonymous
+object might be built in place, in which case the assignment does not involve
+any copying. Under certain circumstances, the anonymous object is required to
+be built in place. In particular:
+
+17.2/3   * If the full type of any part of the object is immutably limited,
+        the anonymous object is built in place.
+
+17.3/3   * In the case of an aggregate, if the full type of any part of the
+        newly-created object is controlled, the anonymous object is built in
+        place.
+
+17.4/3   * In other cases, it is unspecified whether the anonymous object is
+        built in place.
+
+17.5/3 Notwithstanding what this International Standard says elsewhere, if an
+object is built in place:
+
+17.6/3   * Upon successful completion of the return statement or aggregate,
+        the anonymous object mutates into the newly-created object; that is,
+        the anonymous object ceases to exist, and the newly-created object
+        appears in its place.
+
+17.7/3   * Finalization is not performed on the anonymous object.
+
+17.8/3   * Adjustment is not performed on the newly-created object.
+
+17.9/3   * All access values that designate parts of the anonymous object now
+        designate the corresponding parts of the newly-created object.
+
+17.10/3   * All renamings of parts of the anonymous object now denote views of
+        the corresponding parts of the newly-created object.
+
+17.11/3   * Coextensions of the anonymous object become coextensions of the
+        newly-created object.
+
+
+                         Implementation Permissions
+
+18/3 An implementation is allowed to relax the above rules for
+assignment_statements in the following ways:
+
+19/3   * If an object is assigned the value of that same object, the
+        implementation need not do anything.
+
+20/3   * For assignment of a noncontrolled type, the implementation may
+        finalize and assign each component of the variable separately (rather
+        than finalizing the entire variable and assigning the entire new
+        value) unless a discriminant of the variable is changed by the
+        assignment.
+
+21/3   * The implementation need not create an anonymous object if the value
+        being assigned is the result of evaluating a name denoting an object
+        (the source object) whose storage cannot overlap with the target. If
+        the source object might overlap with the target object, then the
+        implementation can avoid the need for an intermediary anonymous object
+        by exercising one of the above permissions and perform the assignment
+        one component at a time (for an overlapping array assignment), or not
+        at all (for an assignment where the target and the source of the
+        assignment are the same object).
+
+22/2 Furthermore, an implementation is permitted to omit implicit Initialize,
+Adjust, and Finalize calls and associated assignment operations on an object
+of a nonlimited controlled type provided that:
+
+23/2   * any omitted Initialize call is not a call on a user-defined
+        Initialize procedure, and
+
+24/2   * any usage of the value of the object after the implicit Initialize or
+        Adjust call and before any subsequent Finalize call on the object does
+        not change the external effect of the program, and
+
+25/2   * after the omission of such calls and operations, any execution of the
+        program that executes an Initialize or Adjust call on an object or
+        initializes an object by an aggregate will also later execute a
+        Finalize call on the object and will always do so prior to assigning a
+        new value to the object, and
+
+26/2   * the assignment operations associated with omitted Adjust calls are
+        also omitted.
+
+27/2 This permission applies to Adjust and Finalize calls even if the implicit
+calls have additional external effects.
+
+
+7.6.1 Completion and Finalization
+
+
+1   This subclause defines completion and leaving of the execution of
+constructs and entities. A master is the execution of a construct that
+includes finalization of local objects after it is complete (and after waiting
+for any local tasks - see 9.3), but before leaving. Other constructs and
+entities are left immediately upon completion.
+
+
+                              Dynamic Semantics
+
+2/2 The execution of a construct or entity is complete when the end of that
+execution has been reached, or when a transfer of control (see 5.1) causes it
+to be abandoned. Completion due to reaching the end of execution, or due to
+the transfer of control of an exit_statement, return statement,
+goto_statement, or requeue_statement or of the selection of a
+terminate_alternative is normal completion. Completion is abnormal otherwise -
+when control is transferred out of a construct due to abort or the raising of
+an exception.
+
+3/2 After execution of a construct or entity is complete, it is left, meaning
+that execution continues with the next action, as defined for the execution
+that is taking place. Leaving an execution happens immediately after its
+completion, except in the case of a master: the execution of a body other than
+a package_body; the execution of a statement; or the evaluation of an
+expression, function_call, or range that is not part of an enclosing
+expression, function_call, range, or simple_statement other than a simple_-
+return_statement. A master is finalized after it is complete, and before it is
+left.
+
+4   For the finalization of a master, dependent tasks are first awaited, as
+explained in 9.3. Then each object whose accessibility level is the same as
+that of the master is finalized if the object was successfully initialized and
+still exists. These actions are performed whether the master is left by
+reaching the last statement or via a transfer of control. When a transfer of
+control causes completion of an execution, each included master is finalized
+in order, from innermost outward.
+
+5   For the finalization of an object:
+
+6/3   * If the full type of the object is an elementary type, finalization has
+        no effect;
+
+7/3   * If the full type of the object is a tagged type, and the tag of the
+        object identifies a controlled type, the Finalize procedure of that
+        controlled type is called;
+
+8/3   * If the full type of the object is a protected type, or if the full
+        type of the object is a tagged type and the tag of the object
+        identifies a protected type, the actions defined in 9.4 are performed;
+
+9/3   * If the full type of the object is a composite type, then after
+        performing the above actions, if any, every component of the object is
+        finalized in an arbitrary order, except as follows: if the object has
+        a component with an access discriminant constrained by a per-object
+        expression, this component is finalized before any components that do
+        not have such discriminants; for an object with several components
+        with such a discriminant, they are finalized in the reverse of the
+        order of their component_declarations;
+
+9.1/2   * If the object has coextensions (see 3.10.2), each coextension is
+        finalized after the object whose access discriminant designates it.
+
+10  Immediately before an instance of Unchecked_Deallocation reclaims the
+storage of an object, the object is finalized. If an instance of
+Unchecked_Deallocation is never applied to an object created by an allocator,
+the object will still exist when the corresponding master completes, and it
+will be finalized then.
+
+11/3 The finalization of a master performs finalization of objects created by
+declarations in the master in the reverse order of their creation. After the
+finalization of a master is complete, the objects finalized as part of its
+finalization cease to exist, as do any types and subtypes defined and created
+within the master.
+
+11.1/3 Each nonderived access type T has an associated collection, which is
+the set of objects created by allocators of T, or of types derived from T.
+Unchecked_Deallocation removes an object from its collection. Finalization of
+a collection consists of finalization of each object in the collection, in an
+arbitrary order. The collection of an access type is an object implicitly
+declared at the following place:
+
+11.2/3   * For a named access type, the first freezing point (see 13.14) of
+        the type.
+
+11.3/3   * For the type of an access parameter, the call that contains the
+        allocator.
+
+11.4/3   * For the type of an access result, within the master of the call
+        (see 3.10.2).
+
+11.5/3   * For any other anonymous access type, the first freezing point of
+        the innermost enclosing declaration.
+
+12/2 The target of an assignment_statement is finalized before copying in the
+new value, as explained in 7.6.
+
+13/3 The master of an object is the master enclosing its creation whose
+accessibility level (see 3.10.2) is equal to that of the object, except in the
+case of an anonymous object representing the result of an aggregate or
+function call. If such an anonymous object is part of the result of evaluating
+the actual parameter expression for an explicitly aliased parameter of a
+function call, the master of the object is the innermost master enclosing the
+evaluation of the aggregate or function call, excluding the aggregate or
+function call itself. Otherwise, the master of such an anonymous object is the
+innermost master enclosing the evaluation of the aggregate or function call,
+which may be the aggregate or function call itself.
+
+13.1/3 In the case of an expression that is a master, finalization of any
+(anonymous) objects occurs after completing evaluation of the expression and
+all use of the objects, prior to starting the execution of any subsequent
+construct.
+
+
+                          Bounded (Run-Time) Errors
+
+14/1 It is a bounded error for a call on Finalize or Adjust that occurs as
+part of object finalization or assignment to propagate an exception. The
+possible consequences depend on what action invoked the Finalize or Adjust
+operation:
+
+15    * For a Finalize invoked as part of an assignment_statement,
+        Program_Error is raised at that point.
+
+16/2   * For an Adjust invoked as part of assignment operations other than
+        those invoked as part of an assignment_statement, other adjustments
+        due to be performed might or might not be performed, and then
+        Program_Error is raised. During its propagation, finalization might or
+        might not be applied to objects whose Adjust failed. For an Adjust
+        invoked as part of an assignment_statement, any other adjustments due
+        to be performed are performed, and then Program_Error is raised.
+
+17    * For a Finalize invoked as part of a call on an instance of
+        Unchecked_Deallocation, any other finalizations due to be performed
+        are performed, and then Program_Error is raised.
+
+17.1/3   * This paragraph was deleted.
+
+17.2/1   * For a Finalize invoked due to reaching the end of the execution of
+        a master, any other finalizations associated with the master are
+        performed, and Program_Error is raised immediately after leaving the
+        master.
+
+18/2   * For a Finalize invoked by the transfer of control of an
+        exit_statement, return statement, goto_statement, or
+        requeue_statement, Program_Error is raised no earlier than after the
+        finalization of the master being finalized when the exception
+        occurred, and no later than the point where normal execution would
+        have continued. Any other finalizations due to be performed up to that
+        point are performed before raising Program_Error.
+
+19    * For a Finalize invoked by a transfer of control that is due to raising
+        an exception, any other finalizations due to be performed for the same
+        master are performed; Program_Error is raised immediately after
+        leaving the master.
+
+20    * For a Finalize invoked by a transfer of control due to an abort or
+        selection of a terminate alternative, the exception is ignored; any
+        other finalizations due to be performed are performed.
+
+
+                         Implementation Permissions
+
+20.1/3 If the execution of an allocator propagates an exception, any parts of
+the allocated object that were successfully initialized may be finalized as
+part of the finalization of the innermost master enclosing the allocator.
+
+20.2/3 The implementation may finalize objects created by allocators for an
+access type whose storage pool supports subpools (see 13.11.4) as if the
+objects were created (in an arbitrary order) at the point where the storage
+pool was elaborated instead of at the first freezing point of the access type.
+
+        NOTES
+
+21/3    18  The rules of Clause 10 imply that immediately prior to partition
+        termination, Finalize operations are applied to library-level
+        controlled objects (including those created by allocators of
+        library-level access types, except those already finalized). This
+        occurs after waiting for library-level tasks to terminate.
+
+22      19  A constant is only constant between its initialization and
+        finalization. Both initialization and finalization are allowed to
+        change the value of a constant.
+
+23      20  Abort is deferred during certain operations related to controlled
+        types, as explained in 9.8. Those rules prevent an abort from causing
+        a controlled object to be left in an ill-defined state.
+
+24      21  The Finalize procedure is called upon finalization of a controlled
+        object, even if Finalize was called earlier, either explicitly or as
+        part of an assignment; hence, if a controlled type is visibly
+        controlled (implying that its Finalize primitive is directly
+        callable), or is nonlimited (implying that assignment is allowed), its
+        Finalize procedure should be designed to have no ill effect if it is
+        applied a second time to the same object.
+

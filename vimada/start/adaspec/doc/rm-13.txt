@@ -1,0 +1,3935 @@
+*rm-13.txt*
+
+                         13   Representation Issues *ada-representation*
+
+
+1/3 This clause describes features for querying and controlling certain
+aspects of entities and for interfacing to hardware.
+
+
+13.1 Operational and Representation Aspects
+
+
+0.1/3 Two kinds of aspects of entities can be specified: representation
+aspects and operational aspects. Representation aspects affect how the types
+and other entities of the language are to be mapped onto the underlying
+machine. Operational aspects determine other properties of entities.
+
+0.2/3 Either kind of aspect of an entity may be specified by means of an
+aspect_specification (see 13.1.1), which is an optional element of most kinds
+of declarations and applies to the entity or entities being declared. Aspects
+may also be specified by certain other constructs occurring subsequent to the
+declaration of the affected entity: a representation aspect value may be
+specified by means of a representation item and an operational aspect value
+may be specified by means of an operational item.
+
+1/1 There are six kinds of representation items: attribute_definition_clauses
+for representation attributes, enumeration_representation_clauses, record_-
+representation_clauses, at_clauses, component_clauses, and representation
+pragmas. They can be provided to give more efficient representation or to
+interface with features that are outside the domain of the language (for
+example, peripheral hardware).
+
+1.1/1 An operational item is an attribute_definition_clause for an operational
+attribute.
+
+1.2/1 An operational item or a representation item applies to an entity
+identified by a local_name, which denotes an entity declared local to the
+current declarative region, or a library unit declared immediately preceding a
+representation pragma in a compilation.
+
+
+                                   Syntax
+
+2/1     aspect_clause ::= attribute_definition_clause
+              | enumeration_representation_clause
+              | record_representation_clause
+              | at_clause
+
+3       local_name ::= direct_name
+              | direct_name'attribute_designator
+              | library_unit_name
+
+4/1     A representation pragma is allowed only at places where an
+        aspect_clause or compilation_unit is allowed.
+
+
+                            Name Resolution Rules
+
+5/1 In an operational item or representation item, if the local_name is a
+direct_name, then it shall resolve to denote a declaration (or, in the case of
+a pragma, one or more declarations) that occurs immediately within the same
+declarative region as the item. If the local_name has an
+attribute_designator, then it shall resolve to denote an
+implementation-defined component (see 13.5.1) or a class-wide type implicitly
+declared immediately within the same declarative region as the item. A
+local_name that is a library_unit_name (only permitted in a representation
+pragma) shall resolve to denote the library_item that immediately precedes
+(except for other pragmas) the representation pragma.
+
+
+                               Legality Rules
+
+6/1 The local_name of an aspect_clause or representation pragma shall
+statically denote an entity (or, in the case of a pragma, one or more
+entities) declared immediately preceding it in a compilation, or within the
+same declarative_part, package_specification, task_definition, protected_-
+definition, or record_definition as the representation or operational item. If
+a local_name denotes a local callable entity, it may do so through a local
+subprogram_renaming_declaration (as a way to resolve ambiguity in the presence
+of overloading); otherwise, the local_name shall not denote a renaming_-
+declaration.
+
+7/2 The representation of an object consists of a certain number of bits (the
+size of the object). For an object of an elementary type, these are the bits
+that are normally read or updated by the machine code when loading, storing,
+or operating-on the value of the object. For an object of a composite type,
+these are the bits reserved for this object, and include bits occupied by
+subcomponents of the object. If the size of an object is greater than that of
+its subtype, the additional bits are padding bits. For an elementary object,
+these padding bits are normally read and updated along with the others. For a
+composite object, padding bits might not be read or updated in any given
+composite operation, depending on the implementation.
+
+8/3 A representation item directly specifies a representation aspect of the
+entity denoted by the local_name, except in the case of a type-related
+representation item, whose local_name shall denote a first subtype, and which
+directly specifies an aspect of the subtype's type. A representation item that
+names a subtype is either subtype-specific (Size and Alignment clauses) or
+type-related (all others). Subtype-specific aspects may differ for different
+subtypes of the same type.
+
+8.1/3 An operational item directly specifies an operational aspect of the
+entity denoted by the local_name, except in the case of a type-related
+operational item, whose local_name shall denote a first subtype, and which
+directly specifies an aspect of the type of the subtype.
+
+9/4 A representation item that directly specifies an aspect of a subtype or
+type shall appear after the type is completely defined (see 3.11.1), and
+before the subtype or type is frozen (see 13.14).
+
+9.1/4 An operational item that directly specifies an aspect of an entity shall
+appear before the entity is frozen (see 13.14).
+
+9.2/4 If a representation item, operational item, or aspect_specification is
+given that directly specifies an aspect of an entity, then it is illegal to
+give another representation item, operational item, or aspect_specification
+that directly specifies the same aspect of the entity.
+
+9.3/4 Unless otherwise specified, it is illegal to specify an operational or
+representation aspect of a generic formal parameter.
+
+10/4 For an untagged derived type, it is illegal to specify a type-related
+representation aspect if the parent type is a by-reference type, or has any
+user-defined primitive subprograms. Similarly, it is illegal to specify a
+nonconfirming type-related representation aspect for an untagged by-reference
+type after one or more types have been derived from it.
+
+11/3 Operational and representation aspects of a generic formal parameter are
+the same as those of the actual. Operational and representation aspects are
+the same for all views of a type. Specification of a type-related
+representation aspect is not allowed for a descendant of a generic formal
+untagged type.
+
+12/3 The specification of the Size aspect for a given subtype, or the size or
+storage place for an object (including a component) of a given subtype, shall
+allow for enough storage space to accommodate any value of the subtype.
+
+13/3 If a specification of a representation or operational aspect is not
+supported by the implementation, it is illegal or raises an exception at run
+time.
+
+13.1/3 A type_declaration is illegal if it has one or more progenitors, and a
+nonconfirming value was specified for a representation aspect of an ancestor,
+and this conflicts with the representation of some other ancestor. The cases
+that cause conflicts are implementation defined.
+
+
+                              Static Semantics
+
+14  If two subtypes statically match, then their subtype-specific aspects
+(Size and Alignment) are the same.
+
+15/3 A derived type inherits each type-related representation aspect of its
+parent type that was directly specified before the declaration of the derived
+type, or (in the case where the parent is derived) that was inherited by the
+parent type from the grandparent type. A derived subtype inherits each
+subtype-specific representation aspect of its parent subtype that was directly
+specified before the declaration of the derived type, or (in the case where
+the parent is derived) that was inherited by the parent subtype from the
+grandparent subtype, but only if the parent subtype statically matches the
+first subtype of the parent type. An inherited representation aspect is
+overridden by a subsequent aspect_specification or representation item that
+specifies a different value for the same aspect of the type or subtype.
+
+15.1/3 In contrast, whether operational aspects are inherited by a derived
+type depends on each specific aspect; unless specified, an operational aspect
+is not inherited. When operational aspects are inherited by a derived type,
+aspects that were directly specified by aspect_specifications or operational
+items that are visible at the point of the derived type declaration, or (in
+the case where the parent is derived) that were inherited by the parent type
+from the grandparent type are inherited. An inherited operational aspect is
+overridden by a subsequent aspect_specification or operational item that
+specifies the same aspect of the type.
+
+15.2/2 When an aspect that is a subprogram is inherited, the derived type
+inherits the aspect in the same way that a derived type inherits a
+user-defined primitive subprogram from its parent (see 3.4).
+
+16  Each aspect of representation of an entity is as follows:
+
+17    * If the aspect is specified for the entity, meaning that it is either
+        directly specified or inherited, then that aspect of the entity is as
+        specified, except in the case of Storage_Size, which specifies a
+        minimum.
+
+18    * If an aspect of representation of an entity is not specified, it is
+        chosen by default in an unspecified manner.
+
+18.1/1 If an operational aspect is specified for an entity (meaning that it is
+either directly specified or inherited), then that aspect of the entity is as
+specified. Otherwise, the aspect of the entity has the default value for that
+aspect.
+
+18.2/3 An aspect_specification or representation item that specifies a
+representation aspect that would have been chosen in the absence of the
+aspect_specification or representation item is said to be confirming. The
+aspect value specified in this case is said to be a confirming representation
+aspect value. Other values of the aspect are said to be nonconfirming, as are
+the aspect_specifications and representation items that specified them.
+
+
+                              Dynamic Semantics
+
+19/1 For the elaboration of an aspect_clause, any evaluable constructs within
+it are evaluated.
+
+
+                         Implementation Permissions
+
+20/3 An implementation may interpret representation aspects in an
+implementation-defined manner. An implementation may place
+implementation-defined restrictions on the specification of representation
+aspects. A recommended level of support is defined for the specification of
+representation aspects and related features in each subclause. These
+recommendations are changed to requirements for implementations that support
+the Systems Programming Annex (see C.2, "Required Representation Support").
+
+
+                            Implementation Advice
+
+21/3 The recommended level of support for the specification of all
+representation aspects is qualified as follows:
+
+21.1/3   * A confirming specification for a representation aspect should be
+        supported.
+
+22/3   * An implementation need not support the specification for a
+        representation aspect that contains nonstatic expressions, unless each
+        nonstatic expression is a name that statically denotes a constant
+        declared before the entity.
+
+23    * An implementation need not support a specification for the Size for a
+        given composite subtype, nor the size or storage place for an object
+        (including a component) of a given composite subtype, unless the
+        constraints on the subtype and its composite subcomponents (if any)
+        are all static constraints.
+
+24/3   * An implementation need not support specifying a nonconfirming
+        representation aspect value if it could cause an aliased object or an
+        object of a by-reference type to be allocated at a nonaddressable
+        location or, when the alignment attribute of the subtype of such an
+        object is nonzero, at an address that is not an integral multiple of
+        that alignment.
+
+25/3   * An implementation need not support specifying a nonconfirming
+        representation aspect value if it could cause an aliased object of an
+        elementary type to have a size other than that which would have been
+        chosen by default.
+
+26/3   * An implementation need not support specifying a nonconfirming
+        representation aspect value if it could cause an aliased object of a
+        composite type, or an object whose type is by-reference, to have a
+        size smaller than that which would have been chosen by default.
+
+27/3   * An implementation need not support specifying a nonconfirming
+        subtype-specific representation aspect value for an indefinite or
+        abstract subtype.
+
+28/3 For purposes of these rules, the determination of whether specifying a
+representation aspect value for a type could cause an object to have some
+property is based solely on the properties of the type itself, not on any
+available information about how the type is used. In particular, it presumes
+that minimally aligned objects of this type might be declared at some point.
+
+        NOTES
+
+29/3    1  Aspects that can be specified are defined throughout this
+        International Standard, and are summarized in K.1.
+
+
+13.1.1 Aspect Specifications
+
+
+1/3 Certain representation or operational aspects of an entity may be
+specified as part of its declaration using an aspect_specification, rather
+than using a separate representation or operational item. The declaration with
+the aspect_specification is termed the associated declaration.
+
+
+                                   Syntax
+
+2/3     aspect_specification ::= 
+           with aspect_mark [=> aspect_definition] {,
+                   aspect_mark [=> aspect_definition] }
+
+3/3     aspect_mark ::= aspect_identifier['Class]
+
+4/3     aspect_definition ::= name | expression | identifier
+
+
+                            Name Resolution Rules
+
+5/3 An aspect_mark identifies an aspect of the entity defined by the
+associated declaration (the associated entity); the aspect denotes an object,
+a value, an expression, a subprogram, or some other kind of entity. If the
+aspect_mark identifies:
+
+6/3   * an aspect that denotes an object, the aspect_definition shall be a
+        name. The expected type for the name is the type of the identified
+        aspect of the associated entity;
+
+7/3   * an aspect that is a value or an expression, the aspect_definition
+        shall be an expression. The expected type for the expression is the
+        type of the identified aspect of the associated entity;
+
+8/3   * an aspect that denotes a subprogram, the aspect_definition shall be a
+        name; the expected profile for the name is the profile required for
+        the aspect of the associated entity;
+
+9/3   * an aspect that denotes some other kind of entity, the
+        aspect_definition shall be a name, and the name shall resolve to
+        denote an entity of the appropriate kind;
+
+10/3   * an aspect that is given by an identifier specific to the aspect, the
+        aspect_definition shall be an identifier, and the identifier shall be
+        one of the identifiers specific to the identified aspect.
+
+11/3 The usage names in an aspect_definition are not resolved at the point of
+the associated declaration, but rather are resolved at the end of the
+immediately enclosing declaration list.
+
+12/3 If the associated declaration is for a subprogram or entry, the names of
+the formal parameters are directly visible within the aspect_definition, as
+are certain attributes, as specified elsewhere in this International Standard
+for the identified aspect. If the associated declaration is a
+type_declaration, within the aspect_definition the names of any components are
+directly visible, and the name of the first subtype denotes the current
+instance of the type (see 8.6). If the associated declaration is a
+subtype_declaration, within the aspect_definition the name of the new subtype
+denotes the current instance of the subtype.
+
+
+                               Legality Rules
+
+13/3 If the first freezing point of the associated entity comes before the end
+of the immediately enclosing declaration list, then each usage name in the
+aspect_definition shall resolve to the same entity at the first freezing point
+as it does at the end of the immediately enclosing declaration list.
+
+14/3 At most one occurrence of each aspect_mark is allowed within a single
+aspect_specification. The aspect identified by the aspect_mark shall be an
+aspect that can be specified for the associated entity (or view of the entity
+defined by the associated declaration).
+
+15/3 The aspect_definition associated with a given aspect_mark may be omitted
+only when the aspect_mark identifies an aspect of a boolean type, in which
+case it is equivalent to the aspect_definition being specified as True.
+
+16/3 If the aspect_mark includes 'Class, then the associated entity shall be a
+tagged type or a primitive subprogram of a tagged type.
+
+17/3 There are no language-defined aspects that may be specified on a
+renaming_declaration, a generic_formal_parameter_declaration, a subunit, a
+package_body, a task_body, a protected_body, or a body_stub other than a
+subprogram_body_stub.
+
+18/4 A language-defined aspect shall not be specified in an
+aspect_specification given on a completion of a subprogram or generic
+subprogram.
+
+18.1/4 If an aspect of a derived type is inherited from an ancestor type and
+has the boolean value True, the inherited value shall not be overridden to
+have the value False for the derived type, unless otherwise specified in this
+International Standard.
+
+18.2/4 Certain type-related aspects are defined to be nonoverridable; all such
+aspects are specified using an aspect_definition that is a name.
+
+18.3/4 If a nonoverridable aspect is directly specified for a type T, then any
+explicit specification of that aspect for any other descendant of T shall be
+confirming; that is, the specified name shall match the inherited aspect,
+meaning that the specified name shall denote the same declarations as would
+the inherited name.
+
+18.4/4 If a full type has a partial view, and a given nonoverridable aspect is
+allowed for both the full view and the partial view, then the given aspect for
+the partial view and the full view shall be the same: the aspect shall be
+directly specified only on the partial view; if the full type inherits the
+aspect, then a matching definition shall be specified (directly or by
+inheritance) for the partial view.
+
+18.5/4 In addition to the places where Legality Rules normally apply (see
+12.3), these rules about nonoverridable aspects also apply in the private part
+of an instance of a generic unit.
+
+18.6/4 The Default_Iterator, Iterator_Element, Implicit_Dereference,
+Constant_Indexing, and Variable_Indexing aspects are nonoverridable.
+
+
+                              Static Semantics
+
+19/3 Depending on which aspect is identified by the aspect_mark, an
+aspect_definition specifies:
+
+20/3   * a name that denotes a subprogram, object, or other kind of entity;
+
+21/3   * an expression, which is either evaluated to produce a single value,
+        or which (as in a precondition) is to be evaluated at particular
+        points during later execution; or
+
+22/3   * an identifier specific to the aspect.
+
+23/3 The identified aspect of the associated entity, or in some cases, the
+view of the entity defined by the declaration, is as specified by the
+aspect_definition (or by the default of True when boolean). Whether an
+aspect_specification applies to an entity or only to the particular view of
+the entity defined by the declaration is determined by the aspect_mark and the
+kind of entity. The following aspects are view specific:
+
+24/3   * An aspect specified on an object_declaration;
+
+25/3   * An aspect specified on a subprogram_declaration;
+
+26/3   * An aspect specified on a renaming_declaration.
+
+27/3 All other aspect_specifications are associated with the entity, and apply
+to all views of the entity, unless otherwise specified in this International
+Standard.
+
+28/4 If the aspect_mark includes 'Class (a class-wide aspect), then, unless
+specified otherwise for a particular class-wide aspect:
+
+29/3   * if the associated entity is a tagged type, the specification applies
+        to all descendants of the type;
+
+30/3   * if the associated entity is a primitive subprogram of a tagged type
+        T, the specification applies to the corresponding primitive subprogram
+        of all descendants of T.
+
+31/3 All specifiable operational and representation attributes may be
+specified with an aspect_specification instead of an
+attribute_definition_clause (see 13.3).
+
+32/4 Any aspect specified by a representation pragma or library unit pragma
+that has a local_name as its single argument may be specified by an
+aspect_specification, with the entity being the local_name. The
+aspect_definition is expected to be of type Boolean. The expression shall be
+static. Notwithstanding what this International Standard says elsewhere, the
+expression of an aspect that can be specified by a library unit pragma is
+resolved and evaluated at the point where it occurs in the
+aspect_specification, rather than the first freezing point of the associated
+package.
+
+33/3 In addition, other operational and representation aspects not associated
+with specifiable attributes or representation pragmas may be specified, as
+specified elsewhere in this International Standard.
+
+34/4 This paragraph was deleted.
+
+35/3 If a Legality Rule or Static Semantics rule only applies when a
+particular aspect has been specified, the aspect is considered to have been
+specified only when the aspect_specification or attribute_definition_clause is
+visible (see 8.3) at the point of the application of the rule.
+
+36/3 Alternative legality and semantics rules may apply for particular
+aspects, as specified elsewhere in this International Standard.
+
+
+                              Dynamic Semantics
+
+37/3 At the freezing point of the associated entity, the
+aspect_specification is elaborated. The elaboration of the
+aspect_specification includes the evaluation of the name or expression, if
+any, unless the aspect itself is an expression. If the corresponding aspect
+represents an expression (as in a precondition), the elaboration has no
+effect; the expression is evaluated later at points within the execution as
+specified elsewhere in this International Standard for the particular aspect.
+
+
+                         Implementation Permissions
+
+38/3 Implementations may support implementation-defined aspects. The
+aspect_specification for an implementation-defined aspect may use an
+implementation-defined syntax for the aspect_definition, and may follow
+implementation-defined legality and semantics rules.
+
+
+13.2 Packed Types
+
+
+1/3 The Pack aspect having the value True specifies that storage minimization
+should be the main criterion when selecting the representation of a composite
+type.
+
+Paragraphs 2 through 4 were moved to Annex J, "Obsolescent Features".
+
+
+                              Static Semantics
+
+5/3 For a full type declaration of a composite type, the following
+language-defined representation aspect may be specified:
+
+5.1/3 Pack      The type of aspect Pack is Boolean. When aspect Pack is True
+                for a type, the type (or the extension part) is said to be
+                packed. For a type extension, the parent part is packed as for
+                the parent type, and specifying Pack causes packing only of
+                the extension part.
+
+5.2/3           If directly specified, the aspect_definition shall be a static
+                expression. If not specified (including by inheritance), the
+                aspect is False.
+
+
+                            Implementation Advice
+
+6   If a type is packed, then the implementation should try to minimize
+storage allocated to objects of the type, possibly at the expense of speed of
+accessing components, subject to reasonable complexity in addressing
+calculations.
+
+6.1/4 This paragraph was deleted.
+
+7/3 The recommended level of support for the Pack aspect is:
+
+7.1/4   * Any component of a packed type that is of a by-reference type, that
+        is specified as independently addressable, or that contains an aliased
+        part, shall be aligned according to the alignment of its subtype.
+
+8/4   * For a packed record type, the components should be packed as tightly
+        as possible subject to the above alignment requirements, the Sizes of
+        the component subtypes, and any record_representation_clause that
+        applies to the type; the implementation may, but need not, reorder
+        components or cross aligned word boundaries to improve the packing. A
+        component whose Size is greater than the word size may be allocated an
+        integral number of words.
+
+9/4   * For a packed array type, if the Size of the component subtype is less
+        than or equal to the word size, Component_Size should be less than or
+        equal to the Size of the component subtype, rounded up to the nearest
+        factor of the word size, unless this would violate the above alignment
+        requirements.
+
+
+13.3 Operational and Representation Attributes
+
+
+1/1 The values of certain implementation-dependent characteristics can be
+obtained by interrogating appropriate operational or representation
+attributes. Some of these attributes are specifiable via an
+attribute_definition_clause.
+
+
+                                   Syntax
+
+2       attribute_definition_clause ::= 
+              for local_name'attribute_designator use expression;
+            | for local_name'attribute_designator use name;
+
+
+                            Name Resolution Rules
+
+3   For an attribute_definition_clause that specifies an attribute that
+denotes a value, the form with an expression shall be used. Otherwise, the
+form with a name shall be used.
+
+4   For an attribute_definition_clause that specifies an attribute that
+denotes a value or an object, the expected type for the expression or name is
+that of the attribute. For an attribute_definition_clause that specifies an
+attribute that denotes a subprogram, the expected profile for the name is the
+profile required for the attribute. For an attribute_definition_clause that
+specifies an attribute that denotes some other kind of entity, the name shall
+resolve to denote an entity of the appropriate kind.
+
+
+                               Legality Rules
+
+5/3 An attribute_designator is allowed in an attribute_definition_clause only
+if this International Standard explicitly allows it, or for an
+implementation-defined attribute if the implementation allows it. Each
+specifiable attribute constitutes an operational aspect or aspect of
+representation; the name of the aspect is that of the attribute.
+
+6   For an attribute_definition_clause that specifies an attribute that
+denotes a subprogram, the profile shall be mode conformant with the one
+required for the attribute, and the convention shall be Ada. Additional
+requirements are defined for particular attributes.
+
+
+                              Static Semantics
+
+7/2 A Size clause is an attribute_definition_clause whose
+attribute_designator is Size. Similar definitions apply to the other
+specifiable attributes.
+
+8   A storage element is an addressable element of storage in the machine. A
+word is the largest amount of storage that can be conveniently and efficiently
+manipulated by the hardware, given the implementation's run-time model. A word
+consists of an integral number of storage elements.
+
+8.1/3 A machine scalar is an amount of storage that can be conveniently and
+efficiently loaded, stored, or operated upon by the hardware. Machine scalars
+consist of an integral number of storage elements. The set of machine scalars
+is implementation defined, but includes at least the storage element and the
+word. Machine scalars are used to interpret component_clauses when the
+nondefault bit ordering applies.
+
+9/3 The following representation attributes are defined: Address, Alignment,
+Size, Storage_Size, Component_Size, Has_Same_Storage, and Overlaps_Storage.
+
+10/1 For a prefix X that denotes an object, program unit, or label:
+
+11  X'Address   Denotes the address of the first of the storage elements
+                allocated to X. For a program unit or label, this value refers
+                to the machine code associated with the corresponding body or
+                statement. The value of this attribute is of type
+                System.Address.
+
+11.1/3          The prefix of X'Address shall not statically denote a
+                subprogram that has convention Intrinsic. X'Address raises
+                Program_Error if X denotes a subprogram that has convention
+                Intrinsic.
+
+12              Address may be specified for stand-alone objects and for
+                program units via an attribute_definition_clause.
+
+
+                             Erroneous Execution
+
+13/3 If an Address is specified, it is the programmer's responsibility to
+ensure that the address is valid and appropriate for the entity and its use;
+otherwise, program execution is erroneous.
+
+
+                            Implementation Advice
+
+14  For an array X, X'Address should point at the first component of the
+array, and not at the array bounds.
+
+15  The recommended level of support for the Address attribute is:
+
+16    * X'Address should produce a useful result if X is an object that is
+        aliased or of a by-reference type, or is an entity whose Address has
+        been specified.
+
+17    * An implementation should support Address clauses for imported
+        subprograms.
+
+18/2   * This paragraph was deleted.
+
+19    * If the Address of an object is specified, or it is imported or
+        exported, then the implementation should not perform optimizations
+        based on assumptions of no aliases.
+
+        NOTES
+
+20      2  The specification of a link name with the Link_Name aspect (see
+        B.1) for a subprogram or object is an alternative to explicit
+        specification of its link-time address, allowing a link-time directive
+        to place the subprogram or object within memory.
+
+21      3  The rules for the Size attribute imply, for an aliased object X,
+        that if X'Size = Storage_Unit, then X'Address points at a storage
+        element containing all of the bits of X, and only the bits of X.
+
+
+                              Static Semantics
+
+22/2 For a prefix X that denotes an object:
+
+23/2 X'Alignment
+                The value of this attribute is of type universal_integer, and
+                nonnegative; zero means that the object is not necessarily
+                aligned on a storage element boundary. If X'Alignment is not
+                zero, then X is aligned on a storage unit boundary and
+                X'Address is an integral multiple of X'Alignment (that is, the
+                Address modulo the Alignment is zero).
+
+24/2            This paragraph was deleted.
+
+25/2            Alignment may be specified for stand-alone objects via an
+                attribute_definition_clause; the expression of such a clause
+                shall be static, and its value nonnegative.
+
+26/2            This paragraph was deleted.
+
+26.1/2 For every subtype S:
+
+26.2/2 S'Alignment
+                The value of this attribute is of type universal_integer, and
+                nonnegative.
+
+26.3/2          For an object X of subtype S, if S'Alignment is not zero, then
+                X'Alignment is a nonzero integral multiple of S'Alignment
+                unless specified otherwise by a representation item.
+
+26.4/2          Alignment may be specified for first subtypes via an attribute_-
+                definition_clause; the expression of such a clause shall be
+                static, and its value nonnegative.
+
+
+                             Erroneous Execution
+
+27  Program execution is erroneous if an Address clause is given that
+conflicts with the Alignment.
+
+28/2 For an object that is not allocated under control of the implementation,
+execution is erroneous if the object is not aligned according to its Alignment.
+
+
+                            Implementation Advice
+
+28.1/3 For any tagged specific subtype S, S'Class'Alignment should equal
+S'Alignment.
+
+29  The recommended level of support for the Alignment attribute for subtypes
+is:
+
+30/2   * An implementation should support an Alignment clause for a discrete
+        type, fixed point type, record type, or array type, specifying an
+        Alignment value that is zero or a power of two, subject to the
+        following:
+
+31/2   * An implementation need not support an Alignment clause for a signed
+        integer type specifying an Alignment greater than the largest
+        Alignment value that is ever chosen by default by the implementation
+        for any signed integer type. A corresponding limitation may be imposed
+        for modular integer types, fixed point types, enumeration types,
+        record types, and array types.
+
+32/2   * An implementation need not support a nonconfirming Alignment clause
+        which could enable the creation of an object of an elementary type
+        which cannot be easily loaded and stored by available machine
+        instructions.
+
+32.1/2   * An implementation need not support an Alignment specified for a
+        derived tagged type which is not a multiple of the Alignment of the
+        parent type. An implementation need not support a nonconfirming
+        Alignment specified for a derived untagged by-reference type.
+
+33  The recommended level of support for the Alignment attribute for objects
+is:
+
+34/2   * This paragraph was deleted.
+
+35    * For stand-alone library-level objects of statically constrained
+        subtypes, the implementation should support all Alignments supported
+        by the target linker. For example, page alignment is likely to be
+        supported for such objects, but not for subtypes.
+
+35.1/2   * For other objects, an implementation should at least support the
+        alignments supported for their subtype, subject to the following:
+
+35.2/2   * An implementation need not support Alignments specified for objects
+        of a by-reference type or for objects of types containing aliased
+        subcomponents if the specified Alignment is not a multiple of the
+        Alignment of the subtype of the object.
+
+        NOTES
+
+36      4  Alignment is a subtype-specific attribute.
+
+37/2    This paragraph was deleted.
+
+38/3    5  A component_clause, Component_Size clause, or specifying the Pack
+        aspect as True can override a specified Alignment.
+
+
+                              Static Semantics
+
+39/1 For a prefix X that denotes an object:
+
+40  X'Size      Denotes the size in bits of the representation of the object.
+                The value of this attribute is of the type universal_integer.
+
+41              Size may be specified for stand-alone objects via an
+                attribute_definition_clause; the expression of such a clause
+                shall be static and its value nonnegative.
+
+
+                            Implementation Advice
+
+41.1/2 The size of an array object should not include its bounds.
+
+42/2 The recommended level of support for the Size attribute of objects is the
+same as for subtypes (see below), except that only a confirming Size clause
+need be supported for an aliased elementary object.
+
+43/2   * This paragraph was deleted.
+
+
+                              Static Semantics
+
+44  For every subtype S:
+
+45  S'Size      If S is definite, denotes the size (in bits) that the
+                implementation would choose for the following objects of
+                subtype S:
+
+46                * A record component of subtype S when the record type is
+                    packed.
+
+47                * The formal parameter of an instance of
+                    Unchecked_Conversion that converts from subtype S to some
+                    other subtype.
+
+48              If S is indefinite, the meaning is implementation defined. The
+                value of this attribute is of the type universal_integer. The
+                Size of an object is at least as large as that of its subtype,
+                unless the object's Size is determined by a Size clause, a
+                component_clause, or a Component_Size clause. Size may be
+                specified for first subtypes via an attribute_definition_-
+                clause; the expression of such a clause shall be static and
+                its value nonnegative.
+
+
+                         Implementation Requirements
+
+49  In an implementation, Boolean'Size shall be 1.
+
+
+                            Implementation Advice
+
+50/2 If the Size of a subtype allows for efficient independent addressability
+(see 9.10) on the target architecture, then the Size of the following objects
+of the subtype should equal the Size of the subtype:
+
+51    * Aliased objects (including components).
+
+52    * Unaliased components, unless the Size of the component is determined
+        by a component_clause or Component_Size clause.
+
+53  A Size clause on a composite subtype should not affect the internal layout
+of components.
+
+54  The recommended level of support for the Size attribute of subtypes is:
+
+55    * The Size (if not specified) of a static discrete or fixed point
+        subtype should be the number of bits needed to represent each value
+        belonging to the subtype using an unbiased representation, leaving
+        space for a sign bit only if the subtype contains negative values. If
+        such a subtype is a first subtype, then an implementation should
+        support a specified Size for it that reflects this representation.
+
+56    * For a subtype implemented with levels of indirection, the Size should
+        include the size of the pointers, but not the size of what they point
+        at.
+
+56.1/2   * An implementation should support a Size clause for a discrete type,
+        fixed point type, record type, or array type, subject to the
+        following:
+
+56.2/2    * An implementation need not support a Size clause for a signed
+            integer type specifying a Size greater than that of the largest
+            signed integer type supported by the implementation in the absence
+            of a size clause (that is, when the size is chosen by default). A
+            corresponding limitation may be imposed for modular integer types,
+            fixed point types, enumeration types, record types, and array
+            types.
+
+56.3/2    * A nonconfirming size clause for the first subtype of a derived
+            untagged by-reference type need not be supported.
+
+        NOTES
+
+57      6  Size is a subtype-specific attribute.
+
+58/3    7  A component_clause or Component_Size clause can override a
+        specified Size. Aspect Pack cannot.
+
+
+                              Static Semantics
+
+59/1 For a prefix T that denotes a task object (after any implicit
+dereference):
+
+60/3 T'Storage_Size
+                Denotes the number of storage elements reserved for the task.
+                The value of this attribute is of the type universal_integer.
+                The Storage_Size includes the size of the task's stack, if
+                any. The language does not specify whether or not it includes
+                other storage associated with the task (such as the "task
+                control block" used by some implementations.) If the aspect
+                Storage_Size is specified for the type of the object, the
+                value of the Storage_Size attribute is at least the value
+                determined by the aspect.
+
+61/3 Aspect Storage_Size specifies the amount of storage to be reserved for
+the execution of a task.
+
+Paragraphs 62 through 65 were moved to Annex J, "Obsolescent Features".
+
+
+                              Static Semantics
+
+65.1/3 For a task type (including the anonymous type of a
+single_task_declaration), the following language-defined representation aspect
+may be specified:
+
+65.2/3 Storage_Size
+                The Storage_Size aspect is an expression, which shall be of
+                any integer type.
+
+
+                               Legality Rules
+
+65.3/3 The Storage_Size aspect shall not be specified for a task interface
+type.
+
+
+                              Dynamic Semantics
+
+66/3 When a task object is created, the expression (if any) associated with
+the Storage_Size aspect of its type is evaluated; the Storage_Size attribute
+of the newly created task object is at least the value of the expression.
+
+67  At the point of task object creation, or upon task activation,
+Storage_Error is raised if there is insufficient free storage to accommodate
+the requested Storage_Size.
+
+
+                              Static Semantics
+
+68/1 For a prefix X that denotes an array subtype or array object (after any
+implicit dereference):
+
+69  X'Component_Size
+                Denotes the size in bits of components of the type of X. The
+                value of this attribute is of type universal_integer.
+
+70              Component_Size may be specified for array types via an
+                attribute_definition_clause; the expression of such a clause
+                shall be static, and its value nonnegative.
+
+
+                            Implementation Advice
+
+71  The recommended level of support for the Component_Size attribute is:
+
+72    * An implementation need not support specified Component_Sizes that are
+        less than the Size of the component subtype.
+
+73/3   * An implementation should support specified Component_Sizes that are
+        factors and multiples of the word size. For such Component_Sizes, the
+        array should contain no gaps between components. For other
+        Component_Sizes (if supported), the array should contain no gaps
+        between components when Pack is also specified; the implementation
+        should forbid this combination in cases where it cannot support a
+        no-gaps representation.
+
+
+                              Static Semantics
+
+73.1/3 For a prefix X that denotes an object:
+
+73.2/4 X'Has_Same_Storage
+                X'Has_Same_Storage denotes a function with the following
+                specification:
+
+73.3/3              function X'Has_Same_Storage (Arg : any_type)
+                      return Boolean
+
+73.4/4          The actual parameter shall be a name that denotes an object.
+                The object denoted by the actual parameter can be of any type.
+                This function evaluates the names of the objects involved. It
+                returns True if the representation of the object denoted by
+                the actual parameter occupies exactly the same bits as the
+                representation of the object denoted by X and the objects
+                occupy at least one bit; otherwise, it returns False.
+
+73.5/3 For a prefix X that denotes an object:
+
+73.6/3 X'Overlaps_Storage
+                X'Overlaps_Storage denotes a function with the following
+                specification:
+
+73.7/3              function X'Overlaps_Storage (Arg : any_type)
+                      return Boolean
+
+73.8/3          The actual parameter shall be a name that denotes an object.
+                The object denoted by the actual parameter can be of any type.
+                This function evaluates the names of the objects involved and
+                returns True if the representation of the object denoted by
+                the actual parameter shares at least one bit with the
+                representation of the object denoted by X; otherwise, it
+                returns False.
+
+        NOTES
+
+73.9/3  8  X'Has_Same_Storage(Y) implies X'Overlaps_Storage(Y).
+
+73.10/3 9  X'Has_Same_Storage(Y) and X'Overlaps_Storage(Y) are not considered
+        to be reads of X and Y.
+
+
+                              Static Semantics
+
+73.11/3 The following type-related operational attribute is defined:
+External_Tag.
+
+74/1 For every subtype S of a tagged type T (specific or class-wide):
+
+75/3 S'External_Tag
+                S'External_Tag denotes an external string representation for
+                S'Tag; it is of the predefined type String. External_Tag may
+                be specified for a specific tagged type via an
+                attribute_definition_clause; the expression of such a clause
+                shall be static. The default external tag representation is
+                implementation defined. See 13.13.2. The value of External_Tag
+                is never inherited; the default value is always used unless a
+                new value is directly specified for a type.
+
+
+                              Dynamic Semantics
+
+75.1/3 If a user-specified external tag S'External_Tag is the same as
+T'External_Tag for some other tagged type declared by a different declaration
+in the partition, Program_Error is raised by the elaboration of the
+attribute_definition_clause.
+
+
+                         Implementation Requirements
+
+76  In an implementation, the default external tag for each specific tagged
+type declared in a partition shall be distinct, so long as the type is
+declared outside an instance of a generic body. If the compilation unit in
+which a given tagged type is declared, and all compilation units on which it
+semantically depends, are the same in two different partitions, then the
+external tag for the type shall be the same in the two partitions. What it
+means for a compilation unit to be the same in two different partitions is
+implementation defined. At a minimum, if the compilation unit is not
+recompiled between building the two different partitions that include it, the
+compilation unit is considered the same in the two partitions.
+
+
+                         Implementation Permissions
+
+76.1/3 If a user-specified external tag S'External_Tag is the same as
+T'External_Tag for some other tagged type declared by a different declaration
+in the partition, the partition may be rejected.
+
+        NOTES
+
+77/2    10  The following language-defined attributes are specifiable, at
+        least for some of the kinds of entities to which they apply: Address,
+        Alignment, Bit_Order, Component_Size, External_Tag, Input,
+        Machine_Radix, Output, Read, Size, Small, Storage_Pool, Storage_Size,
+        Stream_Size, and Write.
+
+78      11  It follows from the general rules in 13.1 that if one writes "for
+        X'Size use Y;" then the X'Size attribute_reference will return Y
+        (assuming the implementation allows the Size clause). The same is true
+        for all of the specifiable attributes except Storage_Size.
+
+
+                                  Examples
+
+79  Examples of attribute definition clauses:
+
+80      Byte : constant := 8;
+        Page : constant := 2**12;
+
+81      type Medium is range 0 .. 65_000;
+        for Medium'Size use 2*Byte;
+        for Medium'Alignment use 2;
+        Device_Register : Medium;
+        for Device_Register'Size use Medium'Size;
+        for Device_Register'Address use System.Storage_Elements.To_Address(16#FFFF_0020#);
+
+82      type Short is delta 0.01 range -100.0 .. 100.0;
+        for Short'Size use 15;
+
+83      for Car_Name'Storage_Size use -- specify access type's storage pool size
+                2000*((Car'Size/System.Storage_Unit) +1); -- approximately 2000 cars
+
+84/2    function My_Input(Stream : not null access Ada.Streams.Root_Stream_Type'Class)
+          return T;
+        for T'Input use My_Input; -- see 13.13.2
+
+        NOTES
+
+85      12  Notes on the examples: In the Size clause for Short, fifteen bits
+        is the minimum necessary, since the type definition requires
+        Short'Small <= 2**(-7).
+
+
+13.4 Enumeration Representation Clauses
+
+
+1   An enumeration_representation_clause specifies the internal codes for
+enumeration literals.
+
+
+                                   Syntax
+
+2       enumeration_representation_clause ::= 
+            for first_subtype_local_name use enumeration_aggregate;
+
+3       enumeration_aggregate ::= array_aggregate
+
+
+                            Name Resolution Rules
+
+4   The enumeration_aggregate shall be written as a one-dimensional
+array_aggregate, for which the index subtype is the unconstrained subtype of
+the enumeration type, and each component expression is expected to be of any
+integer type.
+
+
+                               Legality Rules
+
+5   The first_subtype_local_name of an enumeration_representation_clause shall
+denote an enumeration subtype.
+
+6/2 Each component of the array_aggregate shall be given by an expression
+rather than a <>. The expressions given in the array_aggregate shall be
+static, and shall specify distinct integer codes for each value of the
+enumeration type; the associated integer codes shall satisfy the predefined
+ordering relation of the type.
+
+
+                              Static Semantics
+
+7   An enumeration_representation_clause specifies the coding aspect of
+representation. The coding consists of the internal code for each enumeration
+literal, that is, the integral value used internally to represent each literal.
+
+
+                         Implementation Requirements
+
+8   For nonboolean enumeration types, if the coding is not specified for the
+type, then for each value of the type, the internal code shall be equal to its
+position number.
+
+
+                            Implementation Advice
+
+9   The recommended level of support for enumeration_representation_clauses
+is:
+
+10    * An implementation should support at least the internal codes in the
+        range System.Min_Int..System.Max_Int. An implementation need not
+        support enumeration_representation_clauses for boolean types.
+
+        NOTES
+
+11/3    13  Unchecked_Conversion may be used to query the internal codes used
+        for an enumeration type. The attributes of the type, such as Succ,
+        Pred, and Pos, are unaffected by the
+        enumeration_representation_clause. For example, Pos always returns the
+        position number, not the internal integer code that might have been
+        specified in an enumeration_representation_clause.
+
+
+                                  Examples
+
+12  Example of an enumeration representation clause:
+
+13      type Mix_Code is (ADD, SUB, MUL, LDA, STA, STZ);
+
+14      for Mix_Code use
+           (ADD => 1, SUB => 2, MUL => 3, LDA => 8, STA => 24, STZ =>33);
+
+
+13.5 Record Layout
+
+
+1   The (record) layout aspect of representation consists of the storage
+places for some or all components, that is, storage place attributes of the
+components. The layout can be specified with a record_representation_clause.
+
+
+13.5.1 Record Representation Clauses
+
+
+1   A record_representation_clause specifies the storage representation of
+records and record extensions, that is, the order, position, and size of
+components (including discriminants, if any).
+
+
+                                   Syntax
+
+2       record_representation_clause ::= 
+            for first_subtype_local_name use
+              record [mod_clause]
+                {component_clause}
+              end record;
+
+3       component_clause ::= 
+            component_local_name at position range first_bit .. last_bit;
+
+4       position ::= static_expression
+
+5       first_bit ::= static_simple_expression
+
+6       last_bit ::= static_simple_expression
+
+
+                            Name Resolution Rules
+
+7   Each position, first_bit, and last_bit is expected to be of any integer
+type.
+
+
+                               Legality Rules
+
+8/2 The first_subtype_local_name of a record_representation_clause shall
+denote a specific record or record extension subtype.
+
+9   If the component_local_name is a direct_name, the local_name shall denote
+a component of the type. For a record extension, the component shall not be
+inherited, and shall not be a discriminant that corresponds to a discriminant
+of the parent type. If the component_local_name has an attribute_designator,
+the direct_name of the local_name shall denote either the declaration of the
+type or a component of the type, and the attribute_designator shall denote an
+implementation-defined implicit component of the type.
+
+10  The position, first_bit, and last_bit shall be static expressions. The
+value of position and first_bit shall be nonnegative. The value of last_bit
+shall be no less than first_bit - 1.
+
+10.1/2 If the nondefault bit ordering applies to the type, then either:
+
+10.2/2   * the value of last_bit shall be less than the size of the largest
+        machine scalar; or
+
+10.3/2   * the value of first_bit shall be zero and the value of last_bit + 1
+        shall be a multiple of System.Storage_Unit.
+
+11  At most one component_clause is allowed for each component of the type,
+including for each discriminant (component_clauses may be given for some, all,
+or none of the components). Storage places within a component_list shall not
+overlap, unless they are for components in distinct variants of the same
+variant_part.
+
+12  A name that denotes a component of a type is not allowed within a
+record_representation_clause for the type, except as the
+component_local_name of a component_clause.
+
+
+                              Static Semantics
+
+13/2 A record_representation_clause (without the mod_clause) specifies the
+layout.
+
+13.1/2 If the default bit ordering applies to the type, the position,
+first_bit, and last_bit of each component_clause directly specify the position
+and size of the corresponding component.
+
+13.2/3 If the nondefault bit ordering applies to the type, then the layout is
+determined as follows:
+
+13.3/2   * the component_clauses for which the value of last_bit is greater
+        than or equal to the size of the largest machine scalar directly
+        specify the position and size of the corresponding component;
+
+13.4/2   * for other component_clauses, all of the components having the same
+        value of position are considered to be part of a single machine
+        scalar, located at that position; this machine scalar has a size which
+        is the smallest machine scalar size larger than the largest last_bit
+        for all component_clauses at that position; the first_bit and
+        last_bit of each component_clause are then interpreted as bit offsets
+        in this machine scalar.
+
+14  A record_representation_clause for a record extension does not override
+the layout of the parent part; if the layout was specified for the parent
+type, it is inherited by the record extension.
+
+
+                         Implementation Permissions
+
+15  An implementation may generate implementation-defined components (for
+example, one containing the offset of another component). An implementation
+may generate names that denote such implementation-defined components; such
+names shall be implementation-defined attribute_references. An implemen-
+tation may allow such implementation-defined names to be used in record_-
+representation_clauses. An implementation can restrict such component_clauses
+in any manner it sees fit.
+
+16  If a record_representation_clause is given for an untagged derived type,
+the storage place attributes for all of the components of the derived type may
+differ from those of the corresponding components of the parent type, even for
+components whose storage place is not specified explicitly in the record_-
+representation_clause.
+
+
+                            Implementation Advice
+
+17  The recommended level of support for record_representation_clauses is:
+
+17.1/2   * An implementation should support machine scalars that correspond to
+        all of the integer, floating point, and address formats supported by
+        the machine.
+
+18    * An implementation should support storage places that can be extracted
+        with a load, mask, shift sequence of machine code, and set with a
+        load, shift, mask, store sequence, given the available machine
+        instructions and run-time model.
+
+19    * A storage place should be supported if its size is equal to the Size
+        of the component subtype, and it starts and ends on a boundary that
+        obeys the Alignment of the component subtype.
+
+20/2   * For a component with a subtype whose Size is less than the word size,
+        any storage place that does not cross an aligned word boundary should
+        be supported.
+
+21    * An implementation may reserve a storage place for the tag field of a
+        tagged type, and disallow other components from overlapping that
+        place.
+
+22    * An implementation need not support a component_clause for a component
+        of an extension part if the storage place is not after the storage
+        places of all components of the parent type, whether or not those
+        storage places had been specified.
+
+        NOTES
+
+23      14  If no component_clause is given for a component, then the choice
+        of the storage place for the component is left to the implementation.
+        If component_clauses are given for all components, the
+        record_representation_clause completely specifies the representation
+        of the type and will be obeyed exactly by the implementation.
+
+
+                                  Examples
+
+24  Example of specifying the layout of a record type:
+
+25      Word : constant := 4;  --  storage element is byte, 4 bytes per word
+
+26      type State         is (A,M,W,P);
+        type Mode          is (Fix, Dec, Exp, Signif);
+
+27      type Byte_Mask     is array (0..7)  of Boolean;
+        type State_Mask    is array (State) of Boolean;
+        type Mode_Mask     is array (Mode)  of Boolean;
+
+28      type Program_Status_Word is
+          record
+              System_Mask        : Byte_Mask;
+              Protection_Key     : Integer range 0 .. 3;
+              Machine_State      : State_Mask;
+              Interrupt_Cause    : Interruption_Code;
+              Ilc                : Integer range 0 .. 3;
+              Cc                 : Integer range 0 .. 3;
+              Program_Mask       : Mode_Mask;
+              Inst_Address       : Address;
+        end record;
+
+29      for Program_Status_Word use
+          record
+              System_Mask      at 0*Word range 0  .. 7;
+              Protection_Key   at 0*Word range 10 .. 11; -- bits 8,9 unused
+              Machine_State    at 0*Word range 12 .. 15;
+              Interrupt_Cause  at 0*Word range 16 .. 31;
+              Ilc              at 1*Word range 0  .. 1;  -- second word
+              Cc               at 1*Word range 2  .. 3;
+              Program_Mask     at 1*Word range 4  .. 7;
+              Inst_Address     at 1*Word range 8  .. 31;
+          end record;
+
+30      for Program_Status_Word'Size use 8*System.Storage_Unit;
+        for Program_Status_Word'Alignment use 8;
+
+        NOTES
+
+31      15  Note on the example: The record_representation_clause defines the
+        record layout. The Size clause guarantees that (at least) eight
+        storage elements are used for objects of the type. The Alignment
+        clause guarantees that aliased, imported, or exported objects of the
+        type will have addresses divisible by eight.
+
+
+13.5.2 Storage Place Attributes
+
+
+
+                              Static Semantics
+
+1   For a component C of a composite, non-array object R, the storage place
+attributes are defined:
+
+2/2 R.C'Position
+                If the nondefault bit ordering applies to the composite type,
+                and if a component_clause specifies the placement of C,
+                denotes the value given for the position of the
+                component_clause; otherwise, denotes the same value as
+                R.C'Address - R'Address. The value of this attribute is of the
+                type universal_integer.
+
+3/2 R.C'First_Bit
+                If the nondefault bit ordering applies to the composite type,
+                and if a component_clause specifies the placement of C,
+                denotes the value given for the first_bit of the
+                component_clause; otherwise, denotes the offset, from the
+                start of the first of the storage elements occupied by C, of
+                the first bit occupied by C. This offset is measured in bits.
+                The first bit of a storage element is numbered zero. The value
+                of this attribute is of the type universal_integer.
+
+4/2 R.C'Last_Bit
+                If the nondefault bit ordering applies to the composite type,
+                and if a component_clause specifies the placement of C,
+                denotes the value given for the last_bit of the
+                component_clause; otherwise, denotes the offset, from the
+                start of the first of the storage elements occupied by C, of
+                the last bit occupied by C. This offset is measured in bits.
+                The value of this attribute is of the type universal_integer.
+
+
+                            Implementation Advice
+
+5   If a component is represented using some form of pointer (such as an
+offset) to the actual data of the component, and this data is contiguous with
+the rest of the object, then the storage place attributes should reflect the
+place of the actual data, not the pointer. If a component is allocated
+discontiguously from the rest of the object, then a warning should be
+generated upon reference to one of its storage place attributes.
+
+
+13.5.3 Bit Ordering
+
+
+1   The Bit_Order attribute specifies the interpretation of the storage place
+attributes.
+
+
+                              Static Semantics
+
+2   A bit ordering is a method of interpreting the meaning of the storage
+place attributes. High_Order_First (known in the vernacular as "big endian")
+means that the first bit of a storage element (bit 0) is the most significant
+bit (interpreting the sequence of bits that represent a component as an
+unsigned integer value). Low_Order_First (known in the vernacular as "little
+endian") means the opposite: the first bit is the least significant.
+
+3   For every specific record subtype S, the following attribute is defined:
+
+4   S'Bit_Order Denotes the bit ordering for the type of S. The value of this
+                attribute is of type System.Bit_Order. Bit_Order may be
+                specified for specific record types via an
+                attribute_definition_clause; the expression of such a clause
+                shall be static.
+
+5   If Word_Size = Storage_Unit, the default bit ordering is implementation
+defined. If Word_Size > Storage_Unit, the default bit ordering is the same as
+the ordering of storage elements in a word, when interpreted as an integer.
+
+6   The storage place attributes of a component of a type are interpreted
+according to the bit ordering of the type.
+
+
+                            Implementation Advice
+
+7   The recommended level of support for the nondefault bit ordering is:
+
+8/2   * The implementation should support the nondefault bit ordering in
+        addition to the default bit ordering.
+
+        NOTES
+
+9/2     16  Bit_Order clauses make it possible to write
+        record_representation_clauses that can be ported between machines
+        having different bit ordering. They do not guarantee transparent
+        exchange of data between such machines.
+
+
+13.6 Change of Representation
+
+
+1/3 A type_conversion (see 4.6) can be used to convert between two different
+representations of the same array or record. To convert an array from one
+representation to another, two array types need to be declared with matching
+component subtypes, and convertible index types. If one type has Pack
+specified and the other does not, then explicit conversion can be used to pack
+or unpack an array.
+
+2   To convert a record from one representation to another, two record types
+with a common ancestor type need to be declared, with no inherited
+subprograms. Distinct representations can then be specified for the record
+types, and explicit conversion between the types can be used to effect a
+change in representation.
+
+
+                                  Examples
+
+3   Example of change of representation:
+
+4       -- Packed_Descriptor and Descriptor are two different types
+        -- with identical characteristics, apart from their
+        -- representation
+
+5       type Descriptor is
+            record
+              -- components of a descriptor
+            end record;
+
+6       type Packed_Descriptor is new Descriptor;
+
+7       for Packed_Descriptor use
+            record
+              -- component clauses for some or for all components
+            end record;
+
+8       -- Change of representation can now be accomplished by explicit type conversions:
+
+9       D : Descriptor;
+        P : Packed_Descriptor;
+
+10      P := Packed_Descriptor(D);  -- pack D
+        D := Descriptor(P);         -- unpack P
+
+
+
+
+13.7 The Package System
+
+
+1   For each implementation there is a library package called System which
+includes the definitions of certain configuration-dependent characteristics.
+
+
+                              Static Semantics
+
+2   The following language-defined library package exists:
+
+3/2     package System is
+           pragma Pure(System);
+
+4          type Name is implementation-defined-enumeration-type;
+           System_Name : constant Name := implementation-defined;
+
+5          -- System-Dependent Named Numbers:
+
+6          Min_Int               : constant := root_integer'First;
+           Max_Int               : constant := root_integer'Last;
+
+7          Max_Binary_Modulus    : constant := implementation-defined;
+           Max_Nonbinary_Modulus : constant := implementation-defined;
+
+8          Max_Base_Digits       : constant := root_real'Digits;
+           Max_Digits            : constant := implementation-defined;
+
+9          Max_Mantissa          : constant := implementation-defined;
+           Fine_Delta            : constant := implementation-defined;
+
+10         Tick                  : constant := implementation-defined;
+
+11         -- Storage-related Declarations:
+
+12         type Address is implementation-defined;
+           Null_Address : constant Address;
+
+13         Storage_Unit : constant := implementation-defined;
+           Word_Size    : constant := implementation-defined * Storage_Unit;
+           Memory_Size  : constant := implementation-defined;
+
+14/3       -- Address Comparison:
+           function "<" (Left, Right : Address) return Boolean
+              with Convention => Intrinsic;
+           function "<="(Left, Right : Address) return Boolean
+              with Convention => Intrinsic;
+           function ">" (Left, Right : Address) return Boolean
+              with Convention => Intrinsic;
+           function ">="(Left, Right : Address) return Boolean
+              with Convention => Intrinsic;
+           function "=" (Left, Right : Address) return Boolean
+              with Convention => Intrinsic;
+        -- function "/=" (Left, Right : Address) return Boolean;
+           -- "/=" is implicitly defined
+
+15/2       -- Other System-Dependent Declarations:
+           type Bit_Order is (High_Order_First, Low_Order_First);
+           Default_Bit_Order : constant Bit_Order := implementation-defined;
+
+16         -- Priority-related declarations (see D.1):
+           subtype Any_Priority is Integer range implementation-defined;
+           subtype Priority is Any_Priority range Any_Priority'First ..
+                     implementation-defined;
+           subtype Interrupt_Priority is Any_Priority range Priority'Last+1 ..
+                     Any_Priority'Last;
+
+17         Default_Priority : constant Priority :=
+                     (Priority'First + Priority'Last)/2;
+
+18      private
+           ... -- not specified by the language
+        end System;
+
+19  Name is an enumeration subtype. Values of type Name are the names of
+alternative machine configurations handled by the implementation. System_Name
+represents the current machine configuration.
+
+20  The named numbers Fine_Delta and Tick are of the type universal_real; the
+others are of the type universal_integer.
+
+21  The meanings of the named numbers are:
+
+22  Min_Int     The smallest (most negative) value allowed for the expressions
+                of a signed_integer_type_definition.
+
+23  Max_Int     The largest (most positive) value allowed for the expressions
+                of a signed_integer_type_definition.
+
+24  Max_Binary_Modulus
+                A power of two such that it, and all lesser positive powers of
+                two, are allowed as the modulus of a modular_type_definition.
+
+25  Max_Nonbinary_Modulus
+                A value such that it, and all lesser positive integers, are
+                allowed as the modulus of a modular_type_definition.
+
+26  Max_Base_Digits
+                The largest value allowed for the requested decimal precision
+                in a floating_point_definition.
+
+27  Max_Digits  The largest value allowed for the requested decimal precision
+                in a floating_point_definition that has no
+                real_range_specification. Max_Digits is less than or equal to
+                Max_Base_Digits.
+
+28  Max_Mantissa
+                The largest possible number of binary digits in the mantissa
+                of machine numbers of a user-defined ordinary fixed point
+                type. (The mantissa is defined in Annex G.)
+
+29  Fine_Delta  The smallest delta allowed in an
+                ordinary_fixed_point_definition that has the real_range_-
+                specification range -1.0 .. 1.0.
+
+30  Tick        A period in seconds approximating the real time interval
+                during which the value of Calendar.Clock remains constant.
+
+31  Storage_Unit
+                The number of bits per storage element.
+
+32  Word_Size   The number of bits per word.
+
+33  Memory_Size An implementation-defined value that is intended to reflect
+                the memory size of the configuration in storage elements.
+
+34/2 Address is a definite, nonlimited type with preelaborable initialization
+(see 10.2.1). Address represents machine addresses capable of addressing
+individual storage elements. Null_Address is an address that is distinct from
+the address of any object or program unit.
+
+35/2 Default_Bit_Order shall be a static constant. See 13.5.3 for an
+explanation of Bit_Order and Default_Bit_Order.
+
+
+                         Implementation Permissions
+
+36/2 An implementation may add additional implementation-defined declarations
+to package System and its children. However, it is usually better for the
+implementation to provide additional functionality via implementation-defined
+children of System.
+
+
+                            Implementation Advice
+
+37  Address should be a private type.
+
+        NOTES
+
+38      17  There are also some language-defined child packages of System
+        defined elsewhere.
+
+
+13.7.1 The Package System.Storage_Elements
+
+
+
+                              Static Semantics
+
+1   The following language-defined library package exists:
+
+2/2     package System.Storage_Elements is
+           pragma Pure(Storage_Elements);
+
+3          type Storage_Offset is range implementation-defined;
+
+4          subtype Storage_Count
+         is Storage_Offset range 0..Storage_Offset'Last;
+
+5          type Storage_Element is mod implementation-defined;
+           for Storage_Element'Size use Storage_Unit;
+           type Storage_Array is array
+             (Storage_Offset range <>) of aliased Storage_Element;
+           for Storage_Array'Component_Size use Storage_Unit;
+
+6          -- Address Arithmetic:
+
+7/3        function "+"(Left : Address; Right : Storage_Offset) return Address
+              with Convention => Intrinsic;
+           function "+"(Left : Storage_Offset; Right : Address) return Address
+              with Convention => Intrinsic;
+           function "-"(Left : Address; Right : Storage_Offset) return Address
+              with Convention => Intrinsic;
+           function "-"(Left, Right : Address) return Storage_Offset
+              with Convention => Intrinsic;
+
+8/3        function "mod"(Left : Address; Right : Storage_Offset)
+              return Storage_Offset
+                 with Convention => Intrinsic;
+
+9          -- Conversion to/from integers:
+
+10/3       type Integer_Address is implementation-defined;
+           function To_Address(Value : Integer_Address) return Address
+              with Convention => Intrinsic;
+           function To_Integer(Value : Address) return Integer_Address
+              with Convention => Intrinsic;
+
+11/3    end System.Storage_Elements;
+
+12  Storage_Element represents a storage element. Storage_Offset represents an
+offset in storage elements. Storage_Count represents a number of storage
+elements. Storage_Array represents a contiguous sequence of storage elements.
+
+13  Integer_Address is a (signed or modular) integer subtype. To_Address and
+To_Integer convert back and forth between this type and Address.
+
+
+                         Implementation Requirements
+
+14  Storage_Offset'Last shall be greater than or equal to Integer'Last or the
+largest possible storage offset, whichever is smaller. Storage_Offset'First
+shall be <= (-Storage_Offset'Last).
+
+Paragraph 15 was deleted.
+
+
+                            Implementation Advice
+
+16  Operations in System and its children should reflect the target
+environment semantics as closely as is reasonable. For example, on most
+machines, it makes sense for address arithmetic to "wrap around." Operations
+that do not make sense should raise Program_Error.
+
+
+13.7.2 The Package System.Address_To_Access_Conversions
+
+
+
+                              Static Semantics
+
+1   The following language-defined generic library package exists:
+
+2       generic
+            type Object(<>) is limited private;
+        package System.Address_To_Access_Conversions is
+           pragma Preelaborate(Address_To_Access_Conversions);
+
+3/3        type Object_Pointer is access all Object;
+           function To_Pointer(Value : Address) return Object_Pointer
+              with Convention => Intrinsic;
+           function To_Address(Value : Object_Pointer) return Address
+              with Convention => Intrinsic;
+
+4/3     end System.Address_To_Access_Conversions;
+
+5/2 The To_Pointer and To_Address subprograms convert back and forth between
+values of types Object_Pointer and Address. To_Pointer(X'Address) is equal to
+X'Unchecked_Access for any X that allows Unchecked_Access.
+To_Pointer(Null_Address) returns null. For other addresses, the behavior is
+unspecified. To_Address(null) returns Null_Address. To_Address(Y), where Y /=
+null, returns Y.all'Address.
+
+
+                         Implementation Permissions
+
+6   An implementation may place restrictions on instantiations of
+Address_To_Access_Conversions.
+
+
+13.8 Machine Code Insertions
+
+
+1   A machine code insertion can be achieved by a call to a subprogram whose
+sequence_of_statements contains code_statements.
+
+
+                                   Syntax
+
+2       code_statement ::= qualified_expression;
+
+3       A code_statement is only allowed in the handled_sequence_of_statements
+        of a subprogram_body. If a subprogram_body contains any
+        code_statements, then within this subprogram_body the only allowed
+        form of statement is a code_statement (labeled or not), the only
+        allowed declarative_items are use_clauses, and no exception_handler is
+        allowed (comments and pragmas are allowed as usual).
+
+
+                            Name Resolution Rules
+
+4   The qualified_expression is expected to be of any type.
+
+
+                               Legality Rules
+
+5   The qualified_expression shall be of a type declared in package
+System.Machine_Code.
+
+6   A code_statement shall appear only within the scope of a with_clause that
+mentions package System.Machine_Code.
+
+
+                              Static Semantics
+
+7   The contents of the library package System.Machine_Code (if provided) are
+implementation defined. The meaning of code_statements is implementation
+defined. Typically, each qualified_expression represents a machine instruction
+or assembly directive.
+
+
+                         Implementation Permissions
+
+8   An implementation may place restrictions on code_statements. An
+implementation is not required to provide package System.Machine_Code.
+
+        NOTES
+
+9       18  An implementation may provide implementation-defined pragmas
+        specifying register conventions and calling conventions.
+
+10/2    19  Machine code functions are exempt from the rule that a return
+        statement is required. In fact, return statements are forbidden, since
+        only code_statements are allowed.
+
+11      20  Intrinsic subprograms (see 6.3.1, "Conformance Rules") can also be
+        used to achieve machine code insertions. Interface to assembly
+        language can be achieved using the features in Annex B, "
+        Interface to Other Languages".
+
+
+                                  Examples
+
+12  Example of a code statement:
+
+13/3    M : Mask;
+        procedure Set_Mask
+          with Inline;
+
+14      procedure Set_Mask is
+          use System.Machine_Code; -- assume "with System.Machine_Code;"
+         appears somewhere above
+        begin
+          SI_Format'(Code => SSM, B => M'Base_Reg, D => M'Disp);
+          --  Base_Reg and Disp are implementation-defined attributes
+        end Set_Mask;
+
+
+13.9 Unchecked Type Conversions
+
+
+1   An unchecked type conversion can be achieved by a call to an instance of
+the generic function Unchecked_Conversion.
+
+
+                              Static Semantics
+
+2   The following language-defined generic library function exists:
+
+3/3     generic
+           type Source(<>) is limited private;
+           type Target(<>) is limited private;
+        function Ada.Unchecked_Conversion(S : Source) return Target
+           with Convention => Intrinsic;
+        pragma Pure(Ada.Unchecked_Conversion);
+
+
+                              Dynamic Semantics
+
+4   The size of the formal parameter S in an instance of Unchecked_Conversion
+is that of its subtype. This is the actual subtype passed to Source, except
+when the actual is an unconstrained composite subtype, in which case the
+subtype is constrained by the bounds or discriminants of the value of the
+actual expression passed to S.
+
+5   If all of the following are true, the effect of an unchecked conversion is
+to return the value of an object of the target subtype whose representation is
+the same as that of the source object S:
+
+6     * S'Size = Target'Size.
+
+7/3   * S'Alignment is a multiple of Target'Alignment or Target'Alignment is
+        zero.
+
+8     * The target subtype is not an unconstrained composite subtype.
+
+9     * S and the target subtype both have a contiguous representation.
+
+10    * The representation of S is a representation of an object of the target
+        subtype.
+
+11/2 Otherwise, if the result type is scalar, the result of the function is
+implementation defined, and can have an invalid representation (see 13.9.1).
+If the result type is nonscalar, the effect is implementation defined; in
+particular, the result can be abnormal (see 13.9.1).
+
+
+                         Implementation Permissions
+
+12  An implementation may return the result of an unchecked conversion by
+reference, if the Source type is not a by-copy type. In this case, the result
+of the unchecked conversion represents simply a different (read-only) view of
+the operand of the conversion.
+
+13  An implementation may place restrictions on Unchecked_Conversion.
+
+
+                            Implementation Advice
+
+14/2 Since the Size of an array object generally does not include its bounds,
+the bounds should not be part of the converted data.
+
+15  The implementation should not generate unnecessary run-time checks to
+ensure that the representation of S is a representation of the target type. It
+should take advantage of the permission to return by reference when possible.
+Restrictions on unchecked conversions should be avoided unless required by the
+target environment.
+
+16  The recommended level of support for unchecked conversions is:
+
+17/3   * Unchecked conversions should be supported and should be reversible in
+        the cases where this subclause defines the result. To enable
+        meaningful use of unchecked conversion, a contiguous representation
+        should be used for elementary subtypes, for statically constrained
+        array subtypes whose component subtype is one of the subtypes
+        described in this paragraph, and for record subtypes without
+        discriminants whose component subtypes are described in this
+        paragraph.
+
+
+13.9.1 Data Validity
+
+
+1   Certain actions that can potentially lead to erroneous execution are not
+directly erroneous, but instead can cause objects to become abnormal.
+Subsequent uses of abnormal objects can be erroneous.
+
+2   A scalar object can have an invalid representation, which means that the
+object's representation does not represent any value of the object's subtype.
+The primary cause of invalid representations is uninitialized variables.
+
+3   Abnormal objects and invalid representations are explained in this
+subclause.
+
+
+                              Dynamic Semantics
+
+4   When an object is first created, and any explicit or default
+initializations have been performed, the object and all of its parts are in
+the normal state. Subsequent operations generally leave them normal. However,
+an object or part of an object can become abnormal in the following ways:
+
+5     * An assignment to the object is disrupted due to an abort (see 9.8) or
+        due to the failure of a language-defined check (see 11.6).
+
+6/2   * The object is not scalar, and is passed to an in out or out parameter
+        of an imported procedure, the Read procedure of an instance of
+        Sequential_IO, Direct_IO, or Storage_IO, or the stream attribute
+        T'Read, if after return from the procedure the representation of the
+        parameter does not represent a value of the parameter's subtype.
+
+6.1/2   * The object is the return object of a function call of a nonscalar
+        type, and the function is an imported function, an instance of
+        Unchecked_Conversion, or the stream attribute T'Input, if after return
+        from the function the representation of the return object does not
+        represent a value of the function's subtype.
+
+6.2/2 For an imported object, it is the programmer's responsibility to ensure
+that the object remains in a normal state.
+
+7   Whether or not an object actually becomes abnormal in these cases is not
+specified. An abnormal object becomes normal again upon successful completion
+of an assignment to the object as a whole.
+
+
+                             Erroneous Execution
+
+8   It is erroneous to evaluate a primary that is a name denoting an abnormal
+object, or to evaluate a prefix that denotes an abnormal object.
+
+
+                          Bounded (Run-Time) Errors
+
+9   If the representation of a scalar object does not represent a value of the
+object's subtype (perhaps because the object was not initialized), the object
+is said to have an invalid representation. It is a bounded error to evaluate
+the value of such an object. If the error is detected, either Constraint_Error
+or Program_Error is raised. Otherwise, execution continues using the invalid
+representation. The rules of the language outside this subclause assume that
+all objects have valid representations. The semantics of operations on invalid
+representations are as follows:
+
+10    * If the representation of the object represents a value of the object's
+        type, the value of the type is used.
+
+11    * If the representation of the object does not represent a value of the
+        object's type, the semantics of operations on such representations is
+        implementation-defined, but does not by itself lead to erroneous or
+        unpredictable execution, or to other objects becoming abnormal.
+
+
+                             Erroneous Execution
+
+12/3 A call to an imported function or an instance of Unchecked_Conversion is
+erroneous if the result is scalar, the result object has an invalid
+representation, and the result is used other than as the expression of an
+assignment_statement or an object_declaration, as the object_name of an
+object_renaming_declaration, or as the prefix of a Valid attribute. If such a
+result object is used as the source of an assignment, and the assigned value
+is an invalid representation for the target of the assignment, then any use of
+the target object prior to a further assignment to the target object, other
+than as the prefix of a Valid attribute reference, is erroneous.
+
+13/3 The dereference of an access value is erroneous if it does not designate
+an object of an appropriate type or a subprogram with an appropriate profile,
+if it designates a nonexistent object, or if it is an access-to-variable value
+that designates a constant object and it did not originate from an
+attribute_reference applied to an aliased variable view of a controlled or
+immutably limited object. An access value whose dereference is erroneous can
+exist, for example, because of Unchecked_Deallocation, Unchecked_Access, or
+Unchecked_Conversion.
+
+        NOTES
+
+14      21  Objects can become abnormal due to other kinds of actions that
+        directly update the object's representation; such actions are
+        generally considered directly erroneous, however.
+
+
+13.9.2 The Valid Attribute
+
+
+1   The Valid attribute can be used to check the validity of data produced by
+unchecked conversion, input, interface to foreign languages, and the like.
+
+
+                              Static Semantics
+
+2   For a prefix X that denotes a scalar object (after any implicit
+dereference), the following attribute is defined:
+
+3/4 X'Valid     Yields True if and only if the object denoted by X is normal,
+                has a valid representation, and then, if the preceding
+                conditions hold, the value of X also satisfies the predicates
+                of the nominal subtype of X. The value of this attribute is of
+                the predefined type Boolean.
+
+        NOTES
+
+4       22  Invalid data can be created in the following cases (not counting
+        erroneous or unpredictable execution):
+
+5         * an uninitialized scalar object,
+
+6         * the result of an unchecked conversion,
+
+7         * input,
+
+8         * interface to another language (including machine code),
+
+9         * aborting an assignment,
+
+10        * disrupting an assignment due to the failure of a language-defined
+            check (see 11.6), and
+
+11        * use of an object whose Address has been specified.
+
+12/4    23  Determining whether X is normal and has a valid representation as
+        part of the evaluation of X'Valid is not considered to include an
+        evaluation of X; hence, it is not an error to check the validity of an
+        object that is invalid or abnormal. Determining whether X satisfies
+        the predicates of its nominal subtype may include an evaluation of X,
+        but only after it has been determined that X has a valid
+        representation.
+
+13/4    If X is volatile, the evaluation of X'Valid is considered a read of X.
+
+14/2    24  The Valid attribute may be used to check the result of calling an
+        instance of Unchecked_Conversion (or any other operation that can
+        return invalid values). However, an exception handler should also be
+        provided because implementations are permitted to raise
+        Constraint_Error or Program_Error if they detect the use of an invalid
+        representation (see 13.9.1).
+
+
+13.10 Unchecked Access Value Creation
+
+
+1   The attribute Unchecked_Access is used to create access values in an
+unsafe manner - the programmer is responsible for preventing "dangling
+references."
+
+
+                              Static Semantics
+
+2   The following attribute is defined for a prefix X that denotes an aliased
+view of an object:
+
+3   X'Unchecked_Access
+                All rules and semantics that apply to X'Access (see 3.10.2)
+                apply also to X'Unchecked_Access, except that, for the
+                purposes of accessibility rules and checks, it is as if X were
+                declared immediately within a library package.
+
+        NOTES
+
+4       25  This attribute is provided to support the situation where a local
+        object is to be inserted into a global linked data structure, when the
+        programmer knows that it will always be removed from the data
+        structure prior to exiting the object's scope. The Access attribute
+        would be illegal in this case (see 3.10.2, "
+        Operations of Access Types").
+
+5       26  There is no Unchecked_Access attribute for subprograms.
+
+
+13.11 Storage Management
+
+
+1   Each access-to-object type has an associated storage pool. The storage
+allocated by an allocator comes from the pool; instances of
+Unchecked_Deallocation return storage to the pool. Several access types can
+share the same pool.
+
+2/2 A storage pool is a variable of a type in the class rooted at
+Root_Storage_Pool, which is an abstract limited controlled type. By default,
+the implementation chooses a standard storage pool for each access-to-object
+type. The user may define new pool types, and may override the choice of pool
+for an access-to-object type by specifying Storage_Pool for the type.
+
+
+                               Legality Rules
+
+3   If Storage_Pool is specified for a given access type, Storage_Size shall
+not be specified for it.
+
+
+                              Static Semantics
+
+4   The following language-defined library package exists:
+
+5       with Ada.Finalization;
+        with System.Storage_Elements;
+        package System.Storage_Pools is
+            pragma Preelaborate(System.Storage_Pools);
+
+6/2         type Root_Storage_Pool is
+                abstract new Ada.Finalization.Limited_Controlled with private;
+            pragma Preelaborable_Initialization(Root_Storage_Pool);
+
+7           procedure Allocate(
+              Pool : in out Root_Storage_Pool;
+              Storage_Address : out Address;
+              Size_In_Storage_Elements : in Storage_Elements.Storage_Count;
+              Alignment : in Storage_Elements.Storage_Count) is abstract;
+
+8           procedure Deallocate(
+              Pool : in out Root_Storage_Pool;
+              Storage_Address : in Address;
+              Size_In_Storage_Elements : in Storage_Elements.Storage_Count;
+              Alignment : in Storage_Elements.Storage_Count) is abstract;
+
+9           function Storage_Size(Pool : Root_Storage_Pool)
+                return Storage_Elements.Storage_Count is abstract;
+
+10      private
+           ... -- not specified by the language
+        end System.Storage_Pools;
+
+11  A storage pool type (or pool type) is a descendant of Root_Storage_Pool.
+The elements of a storage pool are the objects allocated in the pool by
+allocators.
+
+12/2 For every access-to-object subtype S, the following representation
+attributes are defined:
+
+13  S'Storage_Pool
+                Denotes the storage pool of the type of S. The type of this
+                attribute is Root_Storage_Pool'Class.
+
+14  S'Storage_Size
+                Yields the result of calling Storage_Size(S'Storage_Pool),
+                which is intended to be a measure of the number of storage
+                elements reserved for the pool. The type of this attribute is
+                universal_integer.
+
+15  Storage_Size or Storage_Pool may be specified for a nonderived
+access-to-object type via an attribute_definition_clause; the name in a
+Storage_Pool clause shall denote a variable.
+
+16/3 An allocator of a type T that does not support subpools allocates storage
+from T's storage pool. If the storage pool is a user-defined object, then the
+storage is allocated by calling Allocate as described below. Allocators for
+types that support subpools are described in 13.11.4.
+
+17  If Storage_Pool is not specified for a type defined by an
+access_to_object_definition, then the implementation chooses a standard
+storage pool for it in an implementation-defined manner. In this case, the
+exception Storage_Error is raised by an allocator if there is not enough
+storage. It is implementation defined whether or not the implementation
+provides user-accessible names for the standard pool type(s).
+
+18/4 If Storage_Size is specified for an access type T, an
+implementation-defined pool P is used for the type. The Storage_Size of P is
+at least that requested, and the storage for P is reclaimed when the master
+containing the declaration of the access type is left. If the implementation
+cannot satisfy the request, Storage_Error is raised at the freezing point of
+type T. The storage pool P is used only for allocators returning type T or
+other access types specified to use T'Storage_Pool. Storage_Error is raised by
+an allocator returning such a type if the storage space of P is exhausted
+(additional memory is not allocated).
+
+18.1/4 If neither Storage_Pool nor Storage_Size are specified, then the
+meaning of Storage_Size is implementation defined.
+
+19  If Storage_Pool is specified for an access type, then the specified pool
+is used.
+
+20  The effect of calling Allocate and Deallocate for a standard storage pool
+directly (rather than implicitly via an allocator or an instance of
+Unchecked_Deallocation) is unspecified.
+
+
+                             Erroneous Execution
+
+21  If Storage_Pool is specified for an access type, then if Allocate can
+satisfy the request, it should allocate a contiguous block of memory, and
+return the address of the first storage element in Storage_Address. The block
+should contain Size_In_Storage_Elements storage elements, and should be
+aligned according to Alignment. The allocated storage should not be used for
+any other purpose while the pool element remains in existence. If the request
+cannot be satisfied, then Allocate should propagate an exception (such as
+Storage_Error). If Allocate behaves in any other manner, then the program
+execution is erroneous.
+
+
+                         Implementation Requirements
+
+21.1/3 The Allocate procedure of a user-defined storage pool object P may be
+called by the implementation only to allocate storage for a type T whose pool
+is P, only at the following points:
+
+21.2/3   * During the execution of an allocator of type T;
+
+21.3/3   * During the execution of a return statement for a function whose
+        result is built-in-place in the result of an allocator of type T;
+
+21.4/3   * During the execution of an assignment operation with a target of an
+        allocated object of type T with a part that has an unconstrained
+        discriminated subtype with defaults.
+
+21.5/3 For each of the calls of Allocate described above, P (equivalent to
+T'Storage_Pool) is passed as the Pool parameter. The Size_In_Storage_Elements
+parameter indicates the number of storage elements to be allocated, and is no
+more than D'Max_Size_In_Storage_Elements, where D is the designated subtype of
+T. The Alignment parameter is a nonzero integral multiple of D'Alignment if D
+is a specific type, and otherwise is a nonzero integral multiple of the
+alignment of the specific type identified by the tag of the object being
+created; it is unspecified if there is no such value. The Alignment parameter
+is no more than D'Max_Alignment_For_Allocation. The result returned in the
+Storage_Address parameter is used as the address of the allocated storage,
+which is a contiguous block of memory of Size_In_Storage_Elements storage
+elements. Any exception propagated by Allocate is propagated by the construct
+that contained the call.
+
+21.6/3 The number of calls to Allocate needed to implement an allocator for
+any particular type is unspecified. The number of calls to Deallocate needed
+to implement an instance of Unchecked_Deallocation (see 13.11.2) for any
+particular object is the same as the number of Allocate calls for that object.
+
+21.7/3 The Deallocate procedure of a user-defined storage pool object P may be
+called by the implementation to deallocate storage for a type T whose pool is
+P only at the places when an Allocate call is allowed for P, during the
+execution of an instance of Unchecked_Deallocation for T, or as part of the
+finalization of the collection of T. For such a call of Deallocate, P
+(equivalent to T'Storage_Pool) is passed as the Pool parameter. The value of
+the Storage_Address parameter for a call to Deallocate is the value returned
+in the Storage_Address parameter of the corresponding successful call to
+Allocate. The values of the Size_In_Storage_Elements and Alignment parameters
+are the same values passed to the corresponding Allocate call. Any exception
+propagated by Deallocate is propagated by the construct that contained the
+call.
+
+
+                         Documentation Requirements
+
+22  An implementation shall document the set of values that a user-defined
+Allocate procedure needs to accept for the Alignment parameter. An
+implementation shall document how the standard storage pool is chosen, and how
+storage is allocated by standard storage pools.
+
+
+                            Implementation Advice
+
+23  An implementation should document any cases in which it dynamically
+allocates heap storage for a purpose other than the evaluation of an
+allocator.
+
+24  A default (implementation-provided) storage pool for an access-to-constant
+type should not have overhead to support deallocation of individual objects.
+
+25/2 The storage pool used for an allocator of an anonymous access type should
+be determined as follows:
+
+25.1/2   * If the allocator is defining a coextension (see 3.10.2) of an
+        object being created by an outer allocator, then the storage pool used
+        for the outer allocator should also be used for the coextension;
+
+25.2/2   * For other access discriminants and access parameters, the storage
+        pool should be created at the point of the allocator, and be reclaimed
+        when the allocated object becomes inaccessible;
+
+25.3/3   * If the allocator defines the result of a function with an access
+        result, the storage pool is determined as though the allocator were in
+        place of the call of the function. If the call is the operand of a
+        type conversion, the storage pool is that of the target access type of
+        the conversion. If the call is itself defining the result of a
+        function with an access result, this rule is applied recursively;
+
+25.4/2   * Otherwise, a default storage pool should be created at the point
+        where the anonymous access type is elaborated; such a storage pool
+        need not support deallocation of individual objects.
+
+        NOTES
+
+26      27  A user-defined storage pool type can be obtained by extending the
+        Root_Storage_Pool type, and overriding the primitive subprograms
+        Allocate, Deallocate, and Storage_Size. A user-defined storage pool
+        can then be obtained by declaring an object of the type extension. The
+        user can override Initialize and Finalize if there is any need for
+        nontrivial initialization and finalization for a user-defined pool
+        type. For example, Finalize might reclaim blocks of storage that are
+        allocated separately from the pool object itself.
+
+27      28  The writer of the user-defined allocation and deallocation
+        procedures, and users of allocators for the associated access type,
+        are responsible for dealing with any interactions with tasking. In
+        particular:
+
+28        * If the allocators are used in different tasks, they require mutual
+            exclusion.
+
+29        * If they are used inside protected objects, they cannot block.
+
+30        * If they are used by interrupt handlers (see C.3, "
+            Interrupt Support"), the mutual exclusion mechanism has to work
+            properly in that context.
+
+31      29  The primitives Allocate, Deallocate, and Storage_Size are declared
+        as abstract (see 3.9.3), and therefore they have to be overridden when
+        a new (nonabstract) storage pool type is declared.
+
+
+                                  Examples
+
+32  To associate an access type with a storage pool object, the user first
+declares a pool object of some type derived from Root_Storage_Pool. Then, the
+user defines its Storage_Pool attribute, as follows:
+
+33      Pool_Object : Some_Storage_Pool_Type;
+
+34      type T is access Designated;
+        for T'Storage_Pool use Pool_Object;
+
+35  Another access type may be added to an existing storage pool, via:
+
+36      for T2'Storage_Pool use T'Storage_Pool;
+
+37  The semantics of this is implementation defined for a standard storage
+pool.
+
+38/3 As usual, a derivative of Root_Storage_Pool may define additional
+operations. For example, consider the Mark_Release_Pool_Type defined in
+13.11.6, that has two additional operations, Mark and Release, the following
+is a possible use:
+
+39/3    type Mark_Release_Pool_Type
+           (Pool_Size : Storage_Elements.Storage_Count)
+                is new Subpools.Root_Storage_Pool_With_Subpools with private;
+                   -- As defined in package MR_Pool, see 13.11.6
+
+40      ...
+
+41/3    Our_Pool : Mark_Release_Pool_Type (Pool_Size => 2000);
+        My_Mark : MR_Pool.Subpool_Handle; -- See 13.11.6
+
+42/3    type Acc is access ...;
+        for Acc'Storage_Pool use Our_Pool;
+        ...
+
+43/3    My_Mark := Mark(Our_Pool);
+        ... -- Allocate objects using "new (My_Mark) Designated(...)".
+        Release(My_Mark); -- Finalize objects and reclaim storage.
+
+
+13.11.1 Storage Allocation Attributes
+
+
+1/3 The Max_Size_In_Storage_Elements and Max_Alignment_For_Allocation
+attributes may be useful in writing user-defined pool types.
+
+
+                              Static Semantics
+
+2/3 For every subtype S, the following attributes are defined:
+
+3/3 S'Max_Size_In_Storage_Elements
+                Denotes the maximum value for Size_In_Storage_Elements that
+                could be requested by the implementation via Allocate for an
+                access type whose designated subtype is S. The value of this
+                attribute is of type universal_integer.
+
+4/3 S'Max_Alignment_For_Allocation
+                Denotes the maximum value for Alignment that could be
+                requested by the implementation via Allocate for an access
+                type whose designated subtype is S. The value of this
+                attribute is of type universal_integer.
+
+5/3 For a type with access discriminants, if the implementation allocates
+space for a coextension in the same pool as that of the object having the
+access discriminant, then these attributes account for any calls on Allocate
+that could be performed to provide space for such coextensions.
+
+
+13.11.2 Unchecked Storage Deallocation
+
+
+1   Unchecked storage deallocation of an object designated by a value of an
+access type is achieved by a call to an instance of the generic procedure
+Unchecked_Deallocation.
+
+
+                              Static Semantics
+
+2   The following language-defined generic library procedure exists:
+
+3/3     generic
+           type Object(<>) is limited private;
+           type Name   is access  Object;
+        procedure Ada.Unchecked_Deallocation(X : in out Name)
+           with Convention => Intrinsic;
+        pragma Preelaborate(Ada.Unchecked_Deallocation);
+
+
+                               Legality Rules
+
+3.1/3 A call on an instance of Unchecked_Deallocation is illegal if the actual
+access type of the instance is a type for which the Storage_Size has been
+specified by a static expression with value zero or is defined by the language
+to be zero. In addition to the places where Legality Rules normally apply (see
+12.3), this rule applies also in the private part of an instance of a generic
+unit.
+
+
+                              Dynamic Semantics
+
+4   Given an instance of Unchecked_Deallocation declared as follows:
+
+5       procedure Free is
+            new Ada.Unchecked_Deallocation(
+                object_subtype_name, access_to_variable_subtype_name);
+
+6   Procedure Free has the following effect:
+
+7   1.  After executing Free(X), the value of X is null.
+
+8   2.  Free(X), when X is already equal to null, has no effect.
+
+9/3 3.  Free(X), when X is not equal to null first performs finalization of
+        the object designated by X (and any coextensions of the object - see
+        3.10.2), as described in 7.6.1. It then deallocates the storage
+        occupied by the object designated by X (and any coextensions). If the
+        storage pool is a user-defined object, then the storage is deallocated
+        by calling Deallocate as described in 13.11. There is one exception:
+        if the object being freed contains tasks, the object might not be
+        deallocated.
+
+10/4 After the finalization step of Free(X), the object designated by X, and
+any subcomponents (and coextensions) thereof, no longer exist; their storage
+can be reused for other purposes.
+
+
+                          Bounded (Run-Time) Errors
+
+11  It is a bounded error to free a discriminated, unterminated task object.
+The possible consequences are:
+
+12    * No exception is raised.
+
+13    * Program_Error or Tasking_Error is raised at the point of the
+        deallocation.
+
+14    * Program_Error or Tasking_Error is raised in the task the next time it
+        references any of the discriminants.
+
+15  In the first two cases, the storage for the discriminants (and for any
+enclosing object if it is designated by an access discriminant of the task) is
+not reclaimed prior to task termination.
+
+15.1/4 An access value that designates a nonexistent object is called a
+dangling reference.
+
+15.2/4 If a dangling reference is dereferenced (implicitly or explicitly),
+execution is erroneous (see below). If there is no explicit or implicit
+dereference, then it is a bounded error to evaluate an expression whose result
+is a dangling reference. If the error is detected, either Constraint_Error or
+Program_Error is raised. Otherwise, execution proceeds normally, but with the
+possibility that the access value designates some other existing object.
+
+
+                             Erroneous Execution
+
+16/3 Evaluating a name that denotes a nonexistent object, or a protected
+subprogram or subprogram renaming whose associated object (if any) is
+nonexistent, is erroneous. The execution of a call to an instance of
+Unchecked_Deallocation is erroneous if the object was created other than by an
+allocator for an access type whose pool is Name'Storage_Pool.
+
+
+                            Implementation Advice
+
+17  For a standard storage pool, Free should actually reclaim the storage.
+
+17.1/3 A call on an instance of Unchecked_Deallocation with a nonnull access
+value should raise Program_Error if the actual access type of the instance is
+a type for which the Storage_Size has been specified to be zero or is defined
+by the language to be zero.
+
+        NOTES
+
+18      30  The rules here that refer to Free apply to any instance of
+        Unchecked_Deallocation.
+
+19      31  Unchecked_Deallocation cannot be instantiated for an
+        access-to-constant type. This is implied by the rules of 12.5.4.
+
+
+13.11.3 Default Storage Pools
+
+
+1/4 Pragma and aspect Default_Storage_Pool specify the storage pool that will
+be used in the absence of an explicit specification of a storage pool or
+storage size for an access type.
+
+
+                                   Syntax
+
+2/3     The form of a pragma Default_Storage_Pool is as follows:
+
+3/3       pragma Default_Storage_Pool (storage_pool_indicator);
+
+3.1/4   storage_pool_indicator ::= storage_pool_name | null | Standard
+
+3.2/3   A pragma Default_Storage_Pool is allowed immediately within the
+        visible part of a package_specification, immediately within a
+        declarative_part, or as a configuration pragma.
+
+
+                            Name Resolution Rules
+
+3.3/3 The storage_pool_name is expected to be of type Root_Storage_Pool'Class.
+
+
+                               Legality Rules
+
+4/3 The storage_pool_name shall denote a variable.
+
+4.1/4 The Standard storage_pool_indicator is an identifier specific to a
+pragma (see 2.8) and does not denote any declaration. If the
+storage_pool_indicator is Standard, then there shall not be a declaration with
+defining_identifier Standard that is immediately visible at the point of the
+pragma, other than package Standard itself.
+
+4.2/4 If the pragma is used as a configuration pragma, the
+storage_pool_indicator shall be either null or Standard, and it defines the
+default pool to be the given storage_pool_indicator within all applicable
+compilation units (see 10.1.5), except within the immediate scope of another
+pragma Default_Storage_Pool. Otherwise, the pragma occurs immediately within a
+sequence of declarations, and it defines the default pool within the immediate
+scope of the pragma to be the given storage_pool_indicator, except within the
+immediate scope of a later pragma Default_Storage_Pool. Thus, an inner pragma
+overrides an outer one.
+
+4.3/4 A pragma Default_Storage_Pool shall not be used as a configuration
+pragma that applies to a compilation unit that is within the immediate scope
+of another pragma Default_Storage_Pool.
+
+
+                              Static Semantics
+
+5/4 The language-defined aspect Default_Storage_Pool may be specified for a
+generic instance; it defines the default pool for access types within an
+instance. .
+
+5.1/4 The Default_Storage_Pool aspect may be specified as Standard, which is
+an identifier specific to an aspect (see 13.1.1) and defines the default pool
+to be Standard. In this case, there shall not be a declaration with
+defining_identifier Standard that is immediately visible at the point of the
+aspect specification, other than package Standard itself.
+
+5.2/4 Otherwise, the expected type for the Default_Storage_Pool aspect is
+Root_Storage_Pool'Class and the aspect_definition shall be a name that denotes
+a variable. This aspect overrides any Default_Storage_Pool pragma that might
+apply to the generic unit; if the aspect is not specified, the default pool of
+the instance is that defined for the generic unit.
+
+5.3/4 The effect of specifying the aspect Default_Storage_Pool on an instance
+of a language-defined generic unit is implementation-defined.
+
+6/3 For nonderived access types declared in places where the default pool is
+defined by the pragma or aspect, their Storage_Pool or Storage_Size attribute
+is determined as follows, unless Storage_Pool or Storage_Size is specified for
+the type:
+
+6.1/3   * If the default pool is null, the Storage_Size attribute is defined
+        by the language to be zero. Therefore, an allocator for such a type is
+        illegal.
+
+6.2/4   * If the default pool is neither null nor Standard, the Storage_Pool
+        attribute is that pool.
+
+6.3/4 Otherwise (including when the default pool is specified as Standard),
+the standard storage pool is used for the type as described in 13.11.
+
+7/3 This paragraph was deleted.
+
+
+                         Implementation Permissions
+
+8/3 An object created by an allocator that is passed as the actual parameter
+to an access parameter may be allocated on the stack, and automatically
+reclaimed, regardless of the default pool.
+
+        NOTES
+
+9/3     32  Default_Storage_Pool may be used with restrictions No_Coextensions
+        and No_Access_Parameter_Allocators (see H.4) to ensure that all
+        allocators use the default pool.
+
+
+13.11.4 Storage Subpools
+
+
+1/3 This subclause defines a package to support the partitioning of a storage
+pool into subpools. A subpool may be specified as the default to be used for
+allocation from the associated storage pool, or a particular subpool may be
+specified as part of an allocator (see 4.8).
+
+
+                              Static Semantics
+
+2/3 The following language-defined library package exists:
+
+3/3     package System.Storage_Pools.Subpools is
+           pragma Preelaborate (Subpools);
+
+4/3        type Root_Storage_Pool_With_Subpools is
+              abstract new Root_Storage_Pool with private;
+
+5/3        type Root_Subpool is abstract tagged limited private;
+
+6/3        type Subpool_Handle is access all Root_Subpool'Class;
+           for Subpool_Handle'Storage_Size use 0;
+
+7/3        function Create_Subpool
+         (Pool : in out Root_Storage_Pool_With_Subpools)
+              return not null Subpool_Handle is abstract;
+
+8/3        -- The following operations are intended for pool implementers:
+
+9/3        function Pool_of_Subpool (Subpool : not null Subpool_Handle)
+              return access Root_Storage_Pool_With_Subpools'Class;
+
+10/3       procedure Set_Pool_of_Subpool (
+              Subpool : in not null Subpool_Handle;
+              To : in out Root_Storage_Pool_With_Subpools'Class);
+
+11/3       procedure Allocate_From_Subpool (
+              Pool : in out Root_Storage_Pool_With_Subpools;
+              Storage_Address : out Address;
+              Size_In_Storage_Elements : in Storage_Elements.Storage_Count;
+              Alignment : in Storage_Elements.Storage_Count;
+              Subpool : in not null Subpool_Handle) is abstract
+                 with Pre'Class => Pool_of_Subpool(Subpool) = Pool'Access;
+
+12/3       procedure Deallocate_Subpool (
+              Pool : in out Root_Storage_Pool_With_Subpools;
+              Subpool : in out Subpool_Handle) is abstract
+                 with Pre'Class => Pool_of_Subpool(Subpool) = Pool'Access;
+
+13/3       function Default_Subpool_for_Pool (
+              Pool : in out Root_Storage_Pool_With_Subpools)
+                 return not null Subpool_Handle;
+
+14/3       overriding
+           procedure Allocate (
+              Pool : in out Root_Storage_Pool_With_Subpools;
+              Storage_Address : out Address;
+              Size_In_Storage_Elements : in Storage_Elements.Storage_Count;
+              Alignment : in Storage_Elements.Storage_Count);
+
+15/3       overriding
+           procedure Deallocate (
+              Pool : in out Root_Storage_Pool_With_Subpools;
+              Storage_Address : in Address;
+              Size_In_Storage_Elements : in Storage_Elements.Storage_Count;
+              Alignment : in Storage_Elements.Storage_Count) is null;
+
+16/3       overriding
+           function Storage_Size (Pool : Root_Storage_Pool_With_Subpools)
+              return Storage_Elements.Storage_Count
+                  is (Storage_Elements.Storage_Count'Last);
+
+17/3    private
+           ... -- not specified by the language
+        end System.Storage_Pools.Subpools;
+
+18/3 A subpool is a separately reclaimable portion of a storage pool,
+identified by an object of type Subpool_Handle (a subpool handle). A subpool
+handle also identifies the enclosing storage pool, a storage pool that
+supports subpools, which is a storage pool whose type is descended from
+Root_Storage_Pool_With_Subpools. A subpool is created by calling
+Create_Subpool or a similar constructor; the constructor returns the subpool
+handle.
+
+19/3 A subpool object is an object of a type descended from Root_Subpool.
+Typically, subpool objects are managed by the containing storage pool; only
+the handles need be exposed to clients of the storage pool. Subpool objects
+are designated by subpool handles, and are the run-time representation of a
+subpool.
+
+20/4 Each subpool belongs to a single storage pool (which will always be a
+pool that supports subpools). An access to the pool that a subpool belongs to
+can be obtained by calling Pool_of_Subpool with the subpool handle.
+Set_Pool_of_Subpool causes the subpool of the subpool handle to belong to the
+given pool; this is intended to be called from subpool constructors like
+Create_Subpool. Set_Pool_of_Subpool propagates Program_Error if the subpool
+already belongs to a pool. If Set_Pool_of_Subpool has not yet been called for
+a subpool, Pool_of_Subpool returns null.
+
+21/3 When an allocator for a type whose storage pool supports subpools is
+evaluated, a call is made on Allocate_From_Subpool passing in a
+Subpool_Handle, in addition to the parameters as defined for calls on Allocate
+(see 13.11). The subpool designated by the subpool_handle_name is used, if
+specified in an allocator. Otherwise, Default_Subpool_for_Pool of the Pool is
+used to provide a subpool handle. All requirements on the Allocate procedure
+also apply to Allocate_from_Subpool.
+
+
+                               Legality Rules
+
+22/3 If a storage pool that supports subpools is specified as the Storage_Pool
+for an access type, the access type is called a subpool access type. A subpool
+access type shall be a pool-specific access type.
+
+23/3 The accessibility level of a subpool access type shall not be statically
+deeper than that of the storage pool object. If the specified storage pool
+object is a storage pool that supports subpools, then the name that denotes
+the object shall not denote part of a formal parameter, nor shall it denote
+part of a dereference of a value of a non-library-level general access type.
+In addition to the places where Legality Rules normally apply (see 12.3),
+these rules also apply in the private part of an instance of a generic unit.
+
+
+                              Dynamic Semantics
+
+24/3 When an access type with a specified storage pool is frozen (see 13.14),
+if the tag of the storage pool object identifies a storage pool that supports
+subpools, the following checks are made:
+
+25/3   * the name used to specify the storage pool object does not denote part
+        of a formal parameter nor part of a dereference of a value of a
+        non-library-level general access type; and
+
+26/3   * the accessibility level of the access type is not deeper than that of
+        the storage pool object.
+
+27/3 Program_Error is raised if either of these checks fail.
+
+28/3 A call to Subpools.Allocate(P, Addr, Size, Align) does the following:
+
+29/3    Allocate_From_Subpool
+          (Root_Storage_Pool_With_Subpools'Class(P),
+           Addr, Size, Align,
+           Subpool => Default_Subpool_for_Pool
+                        (Root_Storage_Pool_With_Subpools'Class(P)));
+
+30/3 An allocator that allocates in a subpool raises Program_Error if the
+allocated object has task parts.
+
+31/3 Unless overridden, Default_Subpool_for_Pool propagates Program_Error.
+
+
+                             Erroneous Execution
+
+31.1/4 If Allocate_From_Subpool does not meet one or more of the requirements
+on the Allocate procedure as given in the Erroneous Execution rules of 13.11,
+then the program execution is erroneous.
+
+
+                         Implementation Permissions
+
+32/3 When an allocator for a type whose storage pool is of type
+Root_Storage_Pool'Class is evaluated, but supports subpools, the
+implementation may call Allocate rather than Allocate_From_Subpool. This will
+have the same effect, so long as Allocate has not been overridden.
+
+        NOTES
+
+33/3    33  A user-defined storage pool type that supports subpools can be
+        implemented by extending the Root_Storage_Pool_With_Subpools type, and
+        overriding the primitive subprograms Create_Subpool,
+        Allocate_From_Subpool, and Deallocate_Subpool. Create_Subpool should
+        call Set_Pool_Of_Subpool before returning the subpool handle. To make
+        use of such a pool, a user would declare an object of the type
+        extension, use it to define the Storage_Pool attribute of one or more
+        access types, and then call Create_Subpool to obtain subpool handles
+        associated with the pool.
+
+34/3    34  A user-defined storage pool type that supports subpools may define
+        additional subpool constructors similar to Create_Subpool (these
+        typically will have additional parameters).
+
+35/3    35  The pool implementor should override Default_Subpool_For_Pool if
+        the pool is to support a default subpool for the pool. The implementor
+        can override Deallocate if individual object reclamation is to be
+        supported, and can override Storage_Size if there is some limit on the
+        total size of the storage pool. The implementor can override
+        Initialize and Finalize if there is any need for nontrivial
+        initialization and finalization for the pool as a whole. For example,
+        Finalize might reclaim blocks of storage that are allocated over and
+        above the space occupied by the pool object itself. The pool
+        implementor may extend the Root_Subpool type as necessary to carry
+        additional information with each subpool provided by Create_Subpool.
+
+
+13.11.5 Subpool Reclamation
+
+
+1/3 A subpool may be explicitly deallocated using
+Unchecked_Deallocate_Subpool.
+
+
+                              Static Semantics
+
+2/3 The following language-defined library procedure exists:
+
+3/3     with System.Storage_Pools.Subpools;
+        procedure Ada.Unchecked_Deallocate_Subpool
+           (Subpool : in out System.Storage_Pools.Subpools.Subpool_Handle);
+
+4/3 If Subpool is null, a call on Unchecked_Deallocate_Subpool has no effect.
+Otherwise, the subpool is finalized, and Subpool is set to null.
+
+5/3 Finalization of a subpool has the following effects:
+
+6/3   * The subpool no longer belongs to any pool;
+
+7/3   * Any of the objects allocated from the subpool that still exist are
+        finalized in an arbitrary order;
+
+7.1/4   * All of the objects allocated from the subpool cease to exist;
+
+8/3   * The following dispatching call is then made:
+
+9/3        Deallocate_Subpool(Pool_of_Subpool(Subpool).all, Subpool);
+
+10/3 Finalization of a Root_Storage_Pool_With_Subpools object finalizes all
+subpools that belong to that pool that have not yet been finalized.
+
+
+13.11.6 Storage Subpool Example
+
+
+
+                                  Examples
+
+1/3 The following example is a simple but complete implementation of the
+classic Mark/Release pool using subpools:
+
+2/3     with System.Storage_Pools.Subpools;
+        with System.Storage_Elements;
+        with Ada.Unchecked_Deallocate_Subpool;
+        package MR_Pool is
+
+3/3        use System.Storage_Pools;
+              -- For uses of Subpools.
+           use System.Storage_Elements;
+              -- For uses of Storage_Count and Storage_Array.
+
+4/3        -- Mark and Release work in a stack fashion, and allocations are not allowed
+           -- from a subpool other than the one at the top of the stack. This is also
+           -- the default pool.
+
+5/3        subtype Subpool_Handle is Subpools.Subpool_Handle;
+
+6/3        type Mark_Release_Pool_Type (Pool_Size : Storage_Count) is new
+              Subpools.Root_Storage_Pool_With_Subpools with private;
+
+7/3        function Mark (Pool : in out Mark_Release_Pool_Type)
+              return not null Subpool_Handle;
+
+8/3        procedure Release (Subpool : in out Subpool_Handle) renames
+              Ada.Unchecked_Deallocate_Subpool;
+
+9/3     private
+
+10/3       type MR_Subpool is new Subpools.Root_Subpool with record
+              Start : Storage_Count;
+           end record;
+           subtype Subpool_Indexes is Positive range 1 .. 10;
+           type Subpool_Array is array (Subpool_Indexes) of aliased MR_Subpool;
+
+11/4       type Mark_Release_Pool_Type (Pool_Size : Storage_Count) is new
+              Subpools.Root_Storage_Pool_With_Subpools with record
+              Storage         : Storage_Array (0 .. Pool_Size);
+              Next_Allocation : Storage_Count := 0;
+              Markers         : Subpool_Array;
+              Current_Pool    : Subpool_Indexes := 1;
+           end record;
+
+12/3       overriding
+           function Create_Subpool (Pool : in out Mark_Release_Pool_Type)
+              return not null Subpool_Handle;
+
+13/3       function Mark (Pool : in out Mark_Release_Pool_Type)
+              return not null Subpool_Handle renames Create_Subpool;
+
+14/3       overriding
+           procedure Allocate_From_Subpool (
+              Pool : in out Mark_Release_Pool_Type;
+              Storage_Address : out System.Address;
+              Size_In_Storage_Elements : in Storage_Count;
+              Alignment : in Storage_Count;
+              Subpool : not null Subpool_Handle);
+
+15/3       overriding
+           procedure Deallocate_Subpool (
+              Pool : in out Mark_Release_Pool_Type;
+              Subpool : in out Subpool_Handle);
+
+16/3       overriding
+           function Default_Subpool_for_Pool (Pool : in out Mark_Release_Pool_Type)
+              return not null Subpool_Handle;
+
+17/3       overriding
+           procedure Initialize (Pool : in out Mark_Release_Pool_Type);
+
+18/3       -- We don't need Finalize.
+
+19/3    end MR_Pool;
+
+20/3    package body MR_Pool is
+
+21/3       use type Subpool_Handle;
+
+22/3       procedure Initialize (Pool : in out Mark_Release_Pool_Type) is
+              -- Initialize the first default subpool.
+           begin
+              Pool.Markers(1).Start := 1;
+              Subpools.Set_Pool_of_Subpool
+                 (Pool.Markers(1)'Unchecked_Access, Pool);
+           end Initialize;
+
+23/3       function Create_Subpool (Pool : in out Mark_Release_Pool_Type)
+              return not null Subpool_Handle is
+              -- Mark the current allocation location.
+           begin
+              if Pool.Current_Pool = Subpool_Indexes'Last then
+                 raise Storage_Error; -- No more subpools.
+              end if;
+              Pool.Current_Pool := Pool.Current_Pool + 1; -- Move to the next subpool
+
+24/3          return Result : constant not null Subpool_Handle :=
+                 Pool.Markers(Pool.Current_Pool)'Unchecked_Access
+              do
+                 Pool.Markers(Pool.Current_Pool).Start := Pool.Next_Allocation;
+                 Subpools.Set_Pool_of_Subpool (Result, Pool);
+              end return;
+           end Create_Subpool;
+
+25/3       procedure Deallocate_Subpool (
+              Pool : in out Mark_Release_Pool_Type;
+              Subpool : in out Subpool_Handle) is
+           begin
+              if Subpool /= Pool.Markers(Pool.Current_Pool)'Unchecked_Access then
+                 raise Program_Error; -- Only the last marked subpool can be released.
+              end if;
+              if Pool.Current_Pool /= 1 then
+                 Pool.Next_Allocation := Pool.Markers(Pool.Current_Pool).Start;
+                 Pool.Current_Pool := Pool.Current_Pool - 1; -- Move to the previous subpool
+              else -- Reinitialize the default subpool:
+                 Pool.Next_Allocation := 1;
+                 Subpools.Set_Pool_of_Subpool
+                    (Pool.Markers(1)'Unchecked_Access, Pool);
+              end if;
+           end Deallocate_Subpool;
+
+26/3       function Default_Subpool_for_Pool (Pool : in out Mark_Release_Pool_Type)
+              return not null Subpool_Handle is
+           begin
+              return Pool.Markers(Pool.Current_Pool)'Unchecked_Access;
+           end Default_Subpool_for_Pool;
+
+27/3       procedure Allocate_From_Subpool (
+              Pool : in out Mark_Release_Pool_Type;
+              Storage_Address : out System.Address;
+              Size_In_Storage_Elements : in Storage_Count;
+              Alignment : in Storage_Count;
+              Subpool : not null Subpool_Handle) is
+           begin
+              if Subpool /= Pool.Markers(Pool.Current_Pool)'Unchecked_Access then
+                 raise Program_Error; -- Only the last marked subpool can be used for allocations.
+              end if;
+
+28/4          -- Check for the maximum supported alignment, which is the alignment of the storage area:
+              if Alignment > Pool.Storage'Alignment then
+                 raise Program_Error;
+              end if;
+              -- Correct the alignment if necessary:
+              Pool.Next_Allocation := Pool.Next_Allocation +
+                 ((-Pool.Next_Allocation) mod Alignment);
+              if Pool.Next_Allocation + Size_In_Storage_Elements >
+                 Pool.Pool_Size then
+                 raise Storage_Error; -- Out of space.
+              end if;
+              Storage_Address := Pool.Storage (Pool.Next_Allocation)'Address;
+              Pool.Next_Allocation :=
+                 Pool.Next_Allocation + Size_In_Storage_Elements;
+           end Allocate_From_Subpool;
+
+29/3    end MR_Pool;
+
+
+13.12 Pragma Restrictions and Pragma Profile
+
+
+1/3 A pragma Restrictions expresses the user's intent to abide by certain
+restrictions. A pragma Profile expresses the user's intent to abide by a set
+of Restrictions or other specified run-time policies. These may facilitate the
+construction of simpler run-time environments.
+
+
+                                   Syntax
+
+2       The form of a pragma Restrictions is as follows:
+
+3         pragma Restrictions(restriction{, restriction});
+
+4/2     restriction ::= restriction_identifier
+            | restriction_parameter_identifier
+         => restriction_parameter_argument
+
+4.1/2   restriction_parameter_argument ::= name | expression
+
+
+                            Name Resolution Rules
+
+5   Unless otherwise specified for a particular restriction, the expression is
+expected to be of any integer type.
+
+
+                               Legality Rules
+
+6   Unless otherwise specified for a particular restriction, the expression
+shall be static, and its value shall be nonnegative.
+
+Paragraph 7 was deleted.
+
+
+                           Post-Compilation Rules
+
+8/3 A pragma Restrictions is a configuration pragma. If a pragma Restrictions
+applies to any compilation unit included in the partition, this may impose
+either (or both) of two kinds of requirements, as specified for the particular
+restriction:
+
+8.1/3   * A restriction may impose requirements on some or all of the units
+        comprising the partition. Unless otherwise specified for a particular
+        restriction, such a requirement applies to all of the units comprising
+        the partition and is enforced via a post-compilation check.
+
+8.2/3   * A restriction may impose requirements on the run-time behavior of
+        the program, as indicated by the specification of run-time behavior
+        associated with a violation of the requirement.
+
+8.3/1 For the purpose of checking whether a partition contains constructs that
+violate any restriction (unless specified otherwise for a particular
+restriction):
+
+8.4/1   * Generic instances are logically expanded at the point of
+        instantiation;
+
+8.5/1   * If an object of a type is declared or allocated and not explicitly
+        initialized, then all expressions appearing in the definition for the
+        type and any of its ancestors are presumed to be used;
+
+8.6/1   * A default_expression for a formal parameter or a generic formal
+        object is considered to be used if and only if the corresponding
+        actual parameter is not provided in a given call or instantiation.
+
+
+                         Implementation Permissions
+
+8.7/3 An implementation may provide implementation-defined restrictions; the
+identifier for an implementation-defined restriction shall differ from those
+of the language-defined restrictions.
+
+9   An implementation may place limitations on the values of the expression
+that are supported, and limitations on the supported combinations of
+restrictions. The consequences of violating such limitations are
+implementation defined.
+
+9.1/1 An implementation is permitted to omit restriction checks for code that
+is recognized at compile time to be unreachable and for which no code is
+generated.
+
+9.2/1 Whenever enforcement of a restriction is not required prior to
+execution, an implementation may nevertheless enforce the restriction prior to
+execution of a partition to which the restriction applies, provided that every
+execution of the partition would violate the restriction.
+
+
+                                   Syntax
+
+10/3    The form of a pragma Profile is as follows:
+
+11/3      pragma Profile (profile_identifier {,
+        profile_pragma_argument_association});
+
+
+                               Legality Rules
+
+12/3 The profile_identifier shall be the name of a usage profile. The
+semantics of any profile_pragma_argument_associations are defined by the usage
+profile specified by the profile_identifier.
+
+
+                              Static Semantics
+
+13/3 A profile is equivalent to the set of configuration pragmas that is
+defined for each usage profile.
+
+
+                           Post-Compilation Rules
+
+14/3 A pragma Profile is a configuration pragma. There may be more than one
+pragma Profile for a partition.
+
+
+                         Implementation Permissions
+
+15/3 An implementation may provide implementation-defined usage profiles; the
+identifier for an implementation-defined usage profile shall differ from those
+of the language-defined usage profiles.
+
+        NOTES
+
+16/2    36  Restrictions intended to facilitate the construction of efficient
+        tasking run-time systems are defined in D.7. Restrictions intended for
+        use when constructing high integrity systems are defined in H.4.
+
+17      37  An implementation has to enforce the restrictions in cases where
+        enforcement is required, even if it chooses not to take advantage of
+        the restrictions in terms of efficiency.
+
+
+13.12.1 Language-Defined Restrictions and Profiles
+
+
+
+                              Static Semantics
+
+1/2 The following restriction_identifiers are language defined (additional
+restrictions are defined in the Specialized Needs Annexes):
+
+1.1/3 No_Implementation_Aspect_Specifications
+                There are no implementation-defined aspects specified by an
+                aspect_specification. This restriction applies only to the
+                current compilation or environment, not the entire partition.
+
+2/2 No_Implementation_Attributes
+                There are no implementation-defined attributes. This
+                restriction applies only to the current compilation or
+                environment, not the entire partition.
+
+2.1/3 No_Implementation_Identifiers
+                There are no usage names that denote declarations with
+                implementation-defined identifiers that occur within
+                language-defined packages or instances of language-defined
+                generic packages. Such identifiers can arise as follows:
+
+2.2/3             * The following language-defined packages and generic
+                    packages allow implementation-defined identifiers:
+
+2.3/3                 * package System (see 13.7);
+
+2.4/3                 * package Standard (see A.1);
+
+2.5/3                 * package Ada.Command_Line (see A.15);
+
+2.6/3                 * package Interfaces.C (see B.3);
+
+2.7/3                 * package Interfaces.C.Strings (see B.3.1);
+
+2.8/3                 * package Interfaces.C.Pointers (see B.3.2);
+
+2.9/3                 * package Interfaces.COBOL (see B.4);
+
+2.10/3                * package Interfaces.Fortran (see B.5);
+
+2.11/3            * The following language-defined packages contain only
+                    implementation-defined identifiers:
+
+2.12/3                * package System.Machine_Code (see 13.8);
+
+2.13/3                * package Ada.Directories.Information (see A.16);
+
+2.14/3                * nested Implementation packages of the Queue containers
+                        (see A.18.28-31);
+
+2.15/3                * package Interfaces (see B.2);
+
+2.16/3                * package Ada.Interrupts.Names (see C.3.2).
+
+2.17/3          For package Standard, Standard.Long_Integer and
+                Standard.Long_Float are considered language-defined
+                identifiers, but identifiers such as
+                Standard.Short_Short_Integer are considered
+                implementation-defined.
+
+2.18/3          This restriction applies only to the current compilation or
+                environment, not the entire partition.
+
+3/2 No_Implementation_Pragmas
+                There are no implementation-defined pragmas or pragma
+                arguments. This restriction applies only to the current
+                compilation or environment, not the entire partition.
+
+3.1/3 No_Implementation_Units
+                There is no mention in the context_clause of any
+                implementation-defined descendants of packages Ada,
+                Interfaces, or System. This restriction applies only to the
+                current compilation or environment, not the entire partition.
+
+4/3 No_Obsolescent_Features
+                There is no use of language features defined in Annex J. It is
+                implementation defined whether uses of the renamings of J.1
+                and of the pragmas of J.15 are detected by this restriction.
+                This restriction applies only to the current compilation or
+                environment, not the entire partition.
+
+5/3 The following restriction_parameter_identifiers are language defined:
+
+6/2 No_Dependence
+                Specifies a library unit on which there are no semantic
+                dependences.
+
+6.1/3 No_Specification_of_Aspect
+                Identifies an aspect for which no aspect_specification,
+                attribute_definition_clause, or pragma is given.
+
+6.2/3 No_Use_Of_Attribute
+                Identifies an attribute for which no attribute_reference or
+                attribute_definition_clause is given.
+
+6.3/3 No_Use_Of_Pragma
+                Identifies a pragma which is not to be used.
+
+
+                               Legality Rules
+
+7/2 The restriction_parameter_argument of a No_Dependence restriction shall be
+a name; the name shall have the form of a full expanded name of a library
+unit, but need not denote a unit present in the environment.
+
+7.1/3 The restriction_parameter_argument of a No_Specification_of_Aspect
+restriction shall be an identifier; this is an identifier specific to a pragma
+(see 2.8) and does not denote any declaration.
+
+7.2/3 The restriction_parameter_argument of a No_Use_Of_Attribute restriction
+shall be an identifier or one of the reserved words Access, Delta, Digits,
+Mod, or Range; this is an identifier specific to a pragma.
+
+7.3/3 The restriction_parameter_argument of a No_Use_Of_Pragma restriction
+shall be an identifier or the reserved word Interface; this is an identifier
+specific to a pragma.
+
+
+                           Post-Compilation Rules
+
+8/3 No compilation unit included in the partition shall depend semantically on
+the library unit identified by the name of a No_Dependence restriction.
+
+
+                              Static Semantics
+
+9/3 The following profile_identifier is language defined:
+
+10/3 No_Implementation_Extensions
+                
+
+11/3 For usage profile No_Implementation_Extensions, there shall be no
+profile_pragma_argument_associations.
+
+12/3 The No_Implementation_Extensions usage profile is equivalent to the
+following restrictions:
+
+13/3    No_Implementation_Aspect_Specifications,
+        No_Implementation_Attributes,
+        No_Implementation_Identifiers,
+        No_Implementation_Pragmas,
+        No_Implementation_Units.
+
+
+13.13 Streams
+
+
+1   A stream is a sequence of elements comprising values from possibly
+different types and allowing sequential access to these values. A stream type
+is a type in the class whose root type is Streams.Root_Stream_Type. A stream
+type may be implemented in various ways, such as an external sequential file,
+an internal buffer, or a network channel.
+
+
+13.13.1 The Package Streams
+
+
+
+                              Static Semantics
+
+1   The abstract type Root_Stream_Type is the root type of the class of stream
+types. The types in this class represent different kinds of streams. A new
+stream type is defined by extending the root type (or some other stream type),
+overriding the Read and Write operations, and optionally defining additional
+primitive subprograms, according to the requirements of the particular kind of
+stream. The predefined stream-oriented attributes like T'Read and T'Write make
+dispatching calls on the Read and Write procedures of the Root_Stream_Type.
+(User-defined T'Read and T'Write attributes can also make such calls, or can
+call the Read and Write attributes of other types.)
+
+2       package Ada.Streams is
+            pragma Pure(Streams);
+
+3/2         type Root_Stream_Type is abstract tagged limited private;
+            pragma Preelaborable_Initialization(Root_Stream_Type);
+
+4/1         type Stream_Element is mod implementation-defined;
+            type Stream_Element_Offset is range implementation-defined;
+            subtype Stream_Element_Count is
+                Stream_Element_Offset range 0..Stream_Element_Offset'Last;
+            type Stream_Element_Array is
+                array(Stream_Element_Offset range <>) of aliased Stream_Element;
+
+5           procedure Read(
+              Stream : in out Root_Stream_Type;
+              Item   : out Stream_Element_Array;
+              Last   : out Stream_Element_Offset) is abstract;
+
+6           procedure Write(
+              Stream : in out Root_Stream_Type;
+              Item   : in Stream_Element_Array) is abstract;
+
+7       private
+           ... -- not specified by the language
+        end Ada.Streams;
+
+8/2 The Read operation transfers stream elements from the specified stream to
+fill the array Item. Elements are transferred until Item'Length elements have
+been transferred, or until the end of the stream is reached. If any elements
+are transferred, the index of the last stream element transferred is returned
+in Last. Otherwise, Item'First - 1 is returned in Last. Last is less than
+Item'Last only if the end of the stream is reached.
+
+9   The Write operation appends Item to the specified stream.
+
+
+                         Implementation Permissions
+
+9.1/1 If Stream_Element'Size is not a multiple of System.Storage_Unit, then
+the components of Stream_Element_Array need not be aliased.
+
+        NOTES
+
+10      38  See A.12.1, "The Package Streams.Stream_IO" for an example of
+        extending type Root_Stream_Type.
+
+11/2    39  If the end of stream has been reached, and Item'First is
+        Stream_Element_Offset'First, Read will raise Constraint_Error.
+
+
+13.13.2 Stream-Oriented Attributes
+
+
+1/3 The type-related operational attributes Write, Read, Output, and Input
+convert values to a stream of elements and reconstruct values from a stream.
+
+
+                              Static Semantics
+
+1.1/2 For every subtype S of an elementary type T, the following
+representation attribute is defined:
+
+1.2/3 S'Stream_Size
+                Denotes the number of bits read from or written to a stream by
+                the default implementations of S'Read and S'Write. Hence, the
+                number of stream elements required per item of elementary type
+                T is:
+
+1.3/2               T'Stream_Size / Ada.Streams.Stream_Element'Size
+
+1.4/2           The value of this attribute is of type universal_integer and
+                is a multiple of Stream_Element'Size.
+
+1.5/2           Stream_Size may be specified for first subtypes via an
+                attribute_definition_clause; the expression of such a clause
+                shall be static, nonnegative, and a multiple of
+                Stream_Element'Size.
+
+
+                            Implementation Advice
+
+1.6/2 If not specified, the value of Stream_Size for an elementary type should
+be the number of bits that corresponds to the minimum number of stream
+elements required by the first subtype of the type, rounded up to the nearest
+factor or multiple of the word size that is also a multiple of the stream
+element size.
+
+1.7/2 The recommended level of support for the Stream_Size attribute is:
+
+1.8/2   * A Stream_Size clause should be supported for a discrete or fixed
+        point type T if the specified Stream_Size is a multiple of
+        Stream_Element'Size and is no less than the size of the first subtype
+        of T, and no greater than the size of the largest type of the same
+        elementary class (signed integer, modular integer, enumeration,
+        ordinary fixed point, or decimal fixed point).
+
+
+                              Static Semantics
+
+2   For every subtype S of a specific type T, the following attributes are
+defined.
+
+3   S'Write     S'Write denotes a procedure with the following specification:
+
+4/2                 procedure S'Write(
+                       Stream : not null access Ada.Streams.Root_Stream_Type'Class;
+                       Item : in T)
+
+5               S'Write writes the value of Item to Stream.
+
+6   S'Read      S'Read denotes a procedure with the following specification:
+
+7/2                 procedure S'Read(
+                       Stream : not null access Ada.Streams.Root_Stream_Type'Class;
+                       Item : out T)
+
+8               S'Read reads the value of Item from Stream.
+
+8.1/3 For an untagged derived type, the Write (resp. Read) attribute is
+inherited according to the rules given in 13.1 if the attribute is specified
+and available for the parent type at the point where T is declared. For a
+tagged derived type, these attributes are not inherited, but rather the
+default implementations are used.
+
+8.2/2 The default implementations of the Write and Read attributes, where
+available, execute as follows:
+
+9/3 For elementary types, Read reads (and Write writes) the number of stream
+elements implied by the Stream_Size for the type T; the representation of
+those stream elements is implementation defined. For composite types, the
+Write or Read attribute for each component is called in canonical order, which
+is last dimension varying fastest for an array (unless the convention of the
+array is Fortran, in which case it is first dimension varying fastest), and
+positional aggregate order for a record. Bounds are not included in the stream
+if T is an array type. If T is a discriminated type, discriminants are
+included only if they have defaults. If T is a tagged type, the tag is not
+included. For type extensions, the Write or Read attribute for the parent type
+is called, followed by the Write or Read attribute of each component of the
+extension part, in canonical order. For a limited type extension, if the
+attribute of the parent type or any progenitor type of T is available anywhere
+within the immediate scope of T, and the attribute of the parent type or the
+type of any of the extension components is not available at the freezing point
+of T, then the attribute of T shall be directly specified.
+
+9.1/3 If T is a discriminated type and its discriminants have defaults, then
+S'Read first reads the discriminants from the stream without modifying Item.
+S'Read then creates an object of type T constrained by these discriminants.
+The value of this object is then converted to the subtype of Item and is
+assigned to Item. Finally, the Read attribute for each nondiscriminant
+component of Item is called in canonical order as described above. Normal
+default initialization and finalization take place for the created object.
+
+9.2/3 Constraint_Error is raised by the predefined Write attribute if the
+value of the elementary item is outside the range of values representable
+using Stream_Size bits. For a signed integer type, an enumeration type, or a
+fixed point type, the range is unsigned only if the integer code for the lower
+bound of the first subtype is nonnegative, and a (symmetric) signed range that
+covers all values of the first subtype would require more than Stream_Size
+bits; otherwise, the range is signed.
+
+10  For every subtype S'Class of a class-wide type T'Class:
+
+11  S'Class'Write
+                S'Class'Write denotes a procedure with the following
+                specification:
+
+12/2                procedure S'Class'Write(
+                       Stream : not null access Ada.Streams.Root_Stream_Type'Class;
+                       Item   : in T'Class)
+
+13              Dispatches to the subprogram denoted by the Write attribute of
+                the specific type identified by the tag of Item.
+
+14  S'Class'Read
+                S'Class'Read denotes a procedure with the following
+                specification:
+
+15/2                procedure S'Class'Read(
+                       Stream : not null access Ada.Streams.Root_Stream_Type'Class;
+                       Item : out T'Class)
+
+16              Dispatches to the subprogram denoted by the Read attribute of
+                the specific type identified by the tag of Item.
+
+Paragraph 17 was deleted.
+
+
+                              Static Semantics
+
+18  For every subtype S of a specific type T, the following attributes are
+defined.
+
+19  S'Output    S'Output denotes a procedure with the following specification:
+
+20/2                procedure S'Output(
+                       Stream : not null access Ada.Streams.Root_Stream_Type'Class;
+                       Item : in T)
+
+21              S'Output writes the value of Item to Stream, including any
+                bounds or discriminants.
+
+22  S'Input     S'Input denotes a function with the following specification:
+
+23/2                function S'Input(
+                       Stream : not null access Ada.Streams.Root_Stream_Type'Class)
+                       return T
+
+24              S'Input reads and returns one value from Stream, using any
+                bounds or discriminants written by a corresponding S'Output to
+                determine how much to read.
+
+25/3 For an untagged derived type, the Output (resp. Input) attribute is
+inherited according to the rules given in 13.1 if the attribute is specified
+and available for the parent type at the point where T is declared. For a
+tagged derived type, these attributes are not inherited, but rather the
+default implementations are used.
+
+25.1/2 The default implementations of the Output and Input attributes, where
+available, execute as follows:
+
+26/3   * If T is an array type, S'Output first writes the bounds, and S'Input
+        first reads the bounds. If T has discriminants without defaults,
+        S'Output first writes the discriminants (using the Write attribute of
+        the discriminant type for each), and S'Input first reads the
+        discriminants (using the Read attribute of the discriminant type for
+        each).
+
+27/3   * S'Output then calls S'Write to write the value of Item to the stream.
+        S'Input then creates an object of type T, with the bounds or (when
+        without defaults) the discriminants, if any, taken from the stream,
+        passes it to S'Read, and returns the value of the object. If T has
+        discriminants, then this object is unconstrained if and only the
+        discriminants have defaults. Normal default initialization and
+        finalization take place for this object (see 3.3.1, 7.6, and 7.6.1).
+
+27.1/2 If T is an abstract type, then S'Input is an abstract function.
+
+28  For every subtype S'Class of a class-wide type T'Class:
+
+29  S'Class'Output
+                S'Class'Output denotes a procedure with the following
+                specification:
+
+30/2                procedure S'Class'Output(
+                       Stream : not null access Ada.Streams.Root_Stream_Type'Class;
+                       Item   : in T'Class)
+
+31/2            First writes the external tag of Item to Stream (by calling
+                String'Output(Stream, Tags.External_Tag(Item'Tag)) - see 3.9)
+                and then dispatches to the subprogram denoted by the Output
+                attribute of the specific type identified by the tag.
+                Tag_Error is raised if the tag of Item identifies a type
+                declared at an accessibility level deeper than that of S.
+
+32  S'Class'Input
+                S'Class'Input denotes a function with the following
+                specification:
+
+33/2                function S'Class'Input(
+                       Stream : not null access Ada.Streams.Root_Stream_Type'Class)
+                       return T'Class
+
+34/3            First reads the external tag from Stream and determines the
+                corresponding internal tag (by calling
+                Tags.Descendant_Tag(String'Input(Stream), S'Tag) which might
+                raise Tag_Error - see 3.9) and then dispatches to the
+                subprogram denoted by the Input attribute of the specific type
+                identified by the internal tag; returns that result. If the
+                specific type identified by the internal tag is abstract,
+                Constraint_Error is raised.
+
+35/3 In the default implementation of Read and Input for a composite type, for
+each scalar component that is a discriminant or that has an implicit initial
+value, a check is made that the value returned by Read for the component
+belongs to its subtype. Constraint_Error is raised if this check fails. For
+other scalar components, no check is made. For each component that is of an
+access type, if the implementation can detect that the value returned by Read
+for the component is not a value of its subtype, Constraint_Error is raised.
+If the value is not a value of its subtype and this error is not detected, the
+component has an abnormal value, and erroneous execution can result (see
+13.9.1). In the default implementation of Read for a composite type with
+defaulted discriminants, if the actual parameter of Read is constrained, a
+check is made that the discriminants read from the stream are equal to those
+of the actual parameter. Constraint_Error is raised if this check fails.
+
+36/2 It is unspecified at which point and in which order these checks are
+performed. In particular, if Constraint_Error is raised due to the failure of
+one of these checks, it is unspecified how many stream elements have been read
+from the stream.
+
+37/1 In the default implementation of Read and Input for a type, End_Error is
+raised if the end of the stream is reached before the reading of a value of
+the type is completed.
+
+38/4 The stream-oriented attributes may be specified for any type via an
+attribute_definition_clause. Alternatively, each of the specific
+stream-oriented attributes may be specified using an aspect_specification on
+any type_declaration, with the aspect name being the corresponding attribute
+name. Each of the class-wide stream-oriented attributes may be specified using
+an aspect_specification for a tagged type T using the name of the
+stream-oriented attribute followed by 'Class; such class-wide aspects do not
+apply to other descendants of T.
+
+38.1/4 The subprogram name given in such an attribute_definition_clause or
+aspect_specification shall statically denote a subprogram that is not an
+abstract subprogram. Furthermore, if a specific stream-oriented attribute is
+specified for an interface type, the subprogram name given in the
+attribute_definition_clause or aspect_specification shall statically denote a
+null procedure.
+
+39/2 A stream-oriented attribute for a subtype of a specific type T is
+available at places where one of the following conditions is true:
+
+40/2   * T is nonlimited.
+
+41/2   * The attribute_designator is Read (resp. Write) and T is a limited
+        record extension, and the attribute Read (resp. Write) is available
+        for the parent type of T and for the types of all of the extension
+        components.
+
+42/2   * T is a limited untagged derived type, and the attribute was inherited
+        for the type.
+
+43/2   * The attribute_designator is Input (resp. Output), and T is a limited
+        type, and the attribute Read (resp. Write) is available for T.
+
+44/2   * The attribute has been specified via an attribute_definition_clause,
+        and the attribute_definition_clause is visible.
+
+45/2 A stream-oriented attribute for a subtype of a class-wide type T'Class is
+available at places where one of the following conditions is true:
+
+46/2   * T is nonlimited;
+
+47/2   * the attribute has been specified via an attribute_definition_clause,
+        and the attribute_definition_clause is visible; or
+
+48/2   * the corresponding attribute of T is available, provided that if T has
+        a partial view, the corresponding attribute is available at the end of
+        the visible part where T is declared.
+
+49/4 An attribute_reference for one of the stream-oriented attributes is
+illegal unless the attribute is available at the place of the
+attribute_reference. Furthermore, an attribute_reference for T'Input is
+illegal if T is an abstract type. In addition to the places where
+Legality Rules normally apply (see 12.3), these rules also apply in the
+private part of an instance of a generic unit.
+
+49.1/4 Unless inherited from a parent type, if any, for an untagged type
+having a task, protected, or explicitly limited record part, the default
+implementation of each of the Read, Write, Input, and Output attributes raises
+Program_Error and performs no other action.
+
+50/3 In the parameter_and_result_profiles for the default implementations of
+the stream-oriented attributes, the subtype of the Item parameter is the base
+subtype of T if T is a scalar type, and the first subtype otherwise. The same
+rule applies to the result of the Input attribute.
+
+51/3 For an attribute_definition_clause specifying one of these attributes,
+the subtype of the Item parameter shall be the first subtype or the base
+subtype if scalar, and the first subtype if not scalar. The same rule applies
+to the result of the Input function.
+
+52/3 A type is said to support external streaming if Read and Write attributes
+are provided for sending values of such a type between active partitions, with
+Write marshalling the representation, and Read unmarshalling the
+representation. A limited type supports external streaming only if it has
+available Read and Write attributes. A type with a part that is of a nonremote
+access type supports external streaming only if that access type or the type
+of some part that includes the access type component, has Read and Write
+attributes that have been specified via an attribute_definition_clause, and
+that attribute_definition_clause is visible. An anonymous access type does not
+support external streaming. All other types (including remote access types,
+see E.2.2) support external streaming.
+
+
+                             Erroneous Execution
+
+53/2 If the internal tag returned by Descendant_Tag to T'Class'Input
+identifies a type that is not library-level and whose tag has not been
+created, or does not exist in the partition at the time of the call, execution
+is erroneous.
+
+
+                         Implementation Requirements
+
+54/1 For every subtype S of a language-defined nonlimited specific type T, the
+output generated by S'Output or S'Write shall be readable by S'Input or
+S'Read, respectively. This rule applies across partitions if the
+implementation conforms to the Distributed Systems Annex.
+
+55/3 If Constraint_Error is raised during a call to Read because of failure of
+one the above checks, the implementation shall ensure that the discriminants
+of the actual parameter of Read are not modified.
+
+
+                         Implementation Permissions
+
+56/3 The number of calls performed by the predefined implementation of the
+stream-oriented attributes on the Read and Write operations of the stream type
+is unspecified. An implementation may take advantage of this permission to
+perform internal buffering. However, all the calls on the Read and Write
+operations of the stream type needed to implement an explicit invocation of a
+stream-oriented attribute shall take place before this invocation returns. An
+explicit invocation is one appearing explicitly in the program text, possibly
+through a generic instantiation (see 12.3).
+
+56.1/3 If T is a discriminated type and its discriminants have defaults, then
+in two cases an execution of the default implementation of S'Read is not
+required to create an anonymous object of type T: If the discriminant values
+that are read in are equal to the corresponding discriminant values of Item,
+then no object of type T need be created and Item may be used instead. If they
+are not equal and Item is a constrained variable, then Constraint_Error may be
+raised at that point, before any further values are read from the stream and
+before the object of type T is created.
+
+56.2/3 A default implementation of S'Input that calls the default
+implementation of S'Read may create a constrained anonymous object with
+discriminants that match those in the stream.
+
+        NOTES
+
+57      40  For a definite subtype S of a type T, only T'Write and T'Read are
+        needed to pass an arbitrary value of the subtype through a stream. For
+        an indefinite subtype S of a type T, T'Output and T'Input will
+        normally be needed, since T'Write and T'Read do not pass bounds,
+        discriminants, or tags.
+
+58      41  User-specified attributes of S'Class are not inherited by other
+        class-wide types descended from S.
+
+
+                                  Examples
+
+59  Example of user-defined Write attribute:
+
+60/2    procedure My_Write(
+          Stream : not null access Ada.Streams.Root_Stream_Type'Class;
+          Item   : My_Integer'Base);
+        for My_Integer'Write use My_Write;
+
+
+13.14 Freezing Rules
+
+
+1/3 This subclause defines a place in the program text where each declared
+entity becomes "frozen." A use of an entity, such as a reference to it by
+name, or (for a type) an expression of the type, causes freezing of the entity
+in some contexts, as described below. The Legality Rules forbid certain kinds
+of uses of an entity in the region of text where it is frozen.
+
+2   The freezing of an entity occurs at one or more places (freezing points)
+in the program text where the representation for the entity has to be fully
+determined. Each entity is frozen from its first freezing point to the end of
+the program text (given the ordering of compilation units defined in 10.1.4).
+
+2.1/3 This subclause also defines a place in the program text where the
+profile of each declared callable entity becomes frozen. A use of a callable
+entity causes freezing of its profile in some contexts, as described below. At
+the place where the profile of a callable entity becomes frozen, the entity
+itself becomes frozen.
+
+3/4 The end of a declarative_part, protected_body, or a declaration of a
+library package or generic library package, causes freezing of each entity and
+profile declared within it except for incomplete types. A proper_body,
+body_stub, or entry_body causes freezing of each entity and profile declared
+before it within the same declarative_part that is not an incomplete type; it
+only causes freezing of an incomplete type if the body is within the immediate
+scope of the incomplete type.
+
+4/1 A construct that (explicitly or implicitly) references an entity can cause
+the freezing of the entity, as defined by subsequent paragraphs. At the place
+where a construct causes freezing, each name, expression,
+implicit_dereference, or range within the construct causes freezing:
+
+5/3   * The occurrence of a generic_instantiation causes freezing, except that
+        a name which is a generic actual parameter whose corresponding generic
+        formal parameter is a formal incomplete type (see 12.5.1) does not
+        cause freezing. In addition, if a parameter of the instantiation is
+        defaulted, the default_expression or default_name for that parameter
+        causes freezing.
+
+5.1/4   * At the occurrence of an expression_function_declaration that is a
+        completion, the return expression of the expression function causes
+        freezing.
+
+5.2/4   * At the occurrence of a renames-as-body whose callable_entity_name
+        denotes an expression function, the return expression of the
+        expression function causes freezing.
+
+6     * The occurrence of an object_declaration that has no corresponding
+        completion causes freezing.
+
+7     * The declaration of a record extension causes freezing of the parent
+        subtype.
+
+7.1/2   * The declaration of a record extension, interface type, task unit, or
+        protected unit causes freezing of any progenitor types specified in
+        the declaration.
+
+7.2/3   * At the freezing point of the entity associated with an
+        aspect_specification, any expressions or names within the
+        aspect_specification cause freezing. Any static expressions within an
+        aspect_specification also cause freezing at the end of the immediately
+        enclosing declaration list.
+
+8/4 A static expression (other than within an aspect_specification) causes
+freezing where it occurs. An object name or nonstatic expression causes
+freezing where it occurs, unless the name or expression is part of a
+default_expression, a default_name, the return expression of an expression
+function, an aspect_specification, or a per-object expression of a component's
+constraint, in which case, the freezing occurs later as part of another
+construct or at the freezing point of an associated entity.
+
+8.1/3 An implicit call freezes the same entities and profiles that would be
+frozen by an explicit call. This is true even if the implicit call is removed
+via implementation permissions.
+
+8.2/1 If an expression is implicitly converted to a type or subtype T, then at
+the place where the expression causes freezing, T is frozen.
+
+9   The following rules define which entities are frozen at the place where a
+construct causes freezing:
+
+10    * At the place where an expression causes freezing, the type of the
+        expression is frozen, unless the expression is an enumeration literal
+        used as a discrete_choice of the array_aggregate of an enumeration_-
+        representation_clause.
+
+10.1/4   * At the place where a function call causes freezing, the profile of
+        the function is frozen. Furthermore, if a parameter of the call is
+        defaulted, the default_expression for that parameter causes freezing.
+        If the function call is to an expression function, the return
+        expression of the expression function causes freezing.
+
+10.2/4   * At the place where a generic_instantiation causes freezing of a
+        callable entity, the profile of that entity is frozen unless the
+        formal subprogram corresponding to the callable entity has a parameter
+        or result of a formal untagged incomplete type; if the callable entity
+        is an expression function, the return expression of the expression
+        function causes freezing.
+
+10.3/4   * At the place where a use of the Access or Unchecked_Access
+        attribute whose prefix denotes an expression function causes freezing,
+        the return expression of the expression function causes freezing.
+
+11    * At the place where a name causes freezing, the entity denoted by the
+        name is frozen, unless the name is a prefix of an expanded name; at
+        the place where an object name causes freezing, the nominal subtype
+        associated with the name is frozen.
+
+11.1/1   * At the place where an implicit_dereference causes freezing, the
+        nominal subtype associated with the implicit_dereference is frozen.
+
+12    * At the place where a range causes freezing, the type of the range is
+        frozen.
+
+13    * At the place where an allocator causes freezing, the designated
+        subtype of its type is frozen. If the type of the allocator is a
+        derived type, then all ancestor types are also frozen.
+
+14/3   * At the place where a profile is frozen, each subtype of the profile
+        is frozen. If the corresponding callable entity is a member of an
+        entry family, the index subtype of the family is frozen.
+
+15    * At the place where a subtype is frozen, its type is frozen. At the
+        place where a type is frozen, any expressions or names within the full
+        type definition cause freezing; the first subtype, and any component
+        subtypes, index subtypes, and parent subtype of the type are frozen as
+        well. For a specific tagged type, the corresponding class-wide type is
+        frozen as well. For a class-wide type, the corresponding specific type
+        is frozen as well.
+
+15.1/3   * At the place where a specific tagged type is frozen, the primitive
+        subprograms of the type are frozen. At the place where a type is
+        frozen, any subprogram named in an attribute_definition_clause for the
+        type is frozen.
+
+
+                               Legality Rules
+
+16  The explicit declaration of a primitive subprogram of a tagged type shall
+occur before the type is frozen (see 3.9.2).
+
+17  A type shall be completely defined before it is frozen (see 3.11.1 and
+7.3).
+
+18  The completion of a deferred constant declaration shall occur before the
+constant is frozen (see 7.4).
+
+19/1 An operational or representation item that directly specifies an aspect
+of an entity shall appear before the entity is frozen (see 13.1).
+
+
+                              Dynamic Semantics
+
+20/2 The tag (see 3.9) of a tagged type T is created at the point where T is
+frozen.
+
