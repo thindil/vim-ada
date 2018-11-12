@@ -33,47 +33,47 @@ Introduction |ada-foreword-introduction|
     2.9 Reserved Words |ada-lexical-reserved|
 
 3. Declarations and Types |ada-declarations|
-    3.1 Declarations
-    3.2 Types and Subtypes
-        3.2.1 Type Declarations
-        3.2.2 Subtype Declarations
-        3.2.3 Classification of Operations
-        3.2.4 Subtype Predicates
-    3.3 Objects and Named Numbers
-        3.3.1 Object Declarations
-        3.3.2 Number Declarations
-    3.4 Derived Types and Classes
-        3.4.1 Derivation Classes
-    3.5 Scalar Types
-        3.5.1 Enumeration Types
-        3.5.2 Character Types
-        3.5.3 Boolean Types
-        3.5.4 Integer Types
-        3.5.5 Operations of Discrete Types
-        3.5.6 Real Types
-        3.5.7 Floating Point Types
-        3.5.8 Operations of Floating Point Types
-        3.5.9 Fixed Point Types
-        3.5.10 Operations of Fixed Point Types
-    3.6 Array Types
-        3.6.1 Index Constraints and Discrete Ranges
-        3.6.2 Operations of Array Types
-        3.6.3 String Types
-    3.7 Discriminants
-        3.7.1 Discriminant Constraints
-        3.7.2 Operations of Discriminated Types
-    3.8 Record Types
-        3.8.1 Variant Parts and Discrete Choices
-    3.9 Tagged Types and Type Extensions
-        3.9.1 Type Extensions
-        3.9.2 Dispatching Operations of Tagged Types
-        3.9.3 Abstract Types and Subprograms
-        3.9.4 Interface Types
-    3.10 Access Types
-        3.10.1 Incomplete Type Declarations
-        3.10.2 Operations of Access Types
-    3.11 Declarative Parts
-        3.11.1 Completions of Declarations
+    3.1 Declarations |ada-declarations-declarations|
+    3.2 Types and Subtypes |ada-declarations-types|
+        3.2.1 Type Declarations |ada-declarations-type|
+        3.2.2 Subtype Declarations |ada-declarations-subtype|
+        3.2.3 Classification of Operations |ada-declarations-classification|
+        3.2.4 Subtype Predicates |ada-declarations-predicates|
+    3.3 Objects and Named Numbers |ada-declarations-objects|
+        3.3.1 Object Declarations |ada-declarations-object|
+        3.3.2 Number Declarations |ada-declarations-number|
+    3.4 Derived Types and Classes |ada-declarations-derived|
+        3.4.1 Derivation Classes |ada-declarations-derivation|
+    3.5 Scalar Types |ada-declarations-scalar|
+        3.5.1 Enumeration Types |ada-declarations-enumeration|
+        3.5.2 Character Types |ada-declarations-character|
+        3.5.3 Boolean Types |ada-declarations-boolean|
+        3.5.4 Integer Types |ada-declarations-integer|
+        3.5.5 Operations of Discrete Types |ada-declarations-operations|
+        3.5.6 Real Types |ada-declarations-real|
+        3.5.7 Floating Point Types |ada-declarations-floating|
+        3.5.8 Operations of Floating Point Types |ada-declarations-operations-floating|
+        3.5.9 Fixed Point Types |ada-declarations-fixed|
+        3.5.10 Operations of Fixed Point Types |ada-declarations-operations-fixed|
+    3.6 Array Types |ada-declarations-array|
+        3.6.1 Index Constraints and Discrete Ranges |ada-declarations-index|
+        3.6.2 Operations of Array Types |ada-declarations-operations-array|
+        3.6.3 String Types |ada-declarations-string|
+    3.7 Discriminants |ada-declarations-discriminants|
+        3.7.1 Discriminant Constraints |ada-declarations-discriminant|
+        3.7.2 Operations of Discriminated Types |ada-declarations-operations-discriminated|
+    3.8 Record Types |ada-declarations-record|
+        3.8.1 Variant Parts and Discrete Choices |ada-declarations-variant|
+    3.9 Tagged Types and Type Extensions |ada-declarations-tagged|
+        3.9.1 Type Extensions |ada-declarations-type-extensions|
+        3.9.2 Dispatching Operations of Tagged Types |ada-declarations-dispatching|
+        3.9.3 Abstract Types and Subprograms |ada-declarations-abstract|
+        3.9.4 Interface Types |ada-declarations-interface|
+    3.10 Access Types |ada-declarations-access|
+        3.10.1 Incomplete Type Declarations |ada-declarations-incomplete|
+        3.10.2 Operations of Access Types |ada-declarations-operations-access|
+    3.11 Declarative Parts |ada-declarations-delcarative|
+        3.11.1 Completions of Declarations |ada-declarations-completions|
 
 4. Names and Expressions |ada-names|
     4.1 Names

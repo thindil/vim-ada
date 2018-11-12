@@ -7,7 +7,7 @@
 declaring constants, variables, and named numbers.
 
 
-3.1 Declarations
+3.1 Declarations *ada-declarations-declarations*
 
 
 1   The language defines several kinds of named entities that are declared by
@@ -21,7 +21,7 @@ declaration defined as follows.
 
                                    Syntax
 
-3/3     basic_declaration ::= 
+3/3     basic_declaration ::=
              type_declaration           | subtype_declaration
            | object_declaration         | number_declaration
            | subprogram_declaration     | abstract_subprogram_declaration
@@ -99,7 +99,7 @@ has a run-time effect.
         At run time, the elaboration of the declaration creates the entity.
 
 
-3.2 Types and Subtypes
+3.2 Types and Subtypes *ada-declarations-types*
 
 
 
@@ -227,7 +227,7 @@ characteristics).
         the above strictly hierarchical picture.
 
 
-3.2.1 Type Declarations
+3.2.1 Type Declarations *ada-declarations-type*
 
 
 1   A type_declaration declares a type and its first subtype.
@@ -240,14 +240,14 @@ characteristics).
            | private_type_declaration
            | private_extension_declaration
 
-3/3     full_type_declaration ::= 
+3/3     full_type_declaration ::=
              type defining_identifier [known_discriminant_part
         ] is type_definition
                 [aspect_specification];
            | task_type_declaration
            | protected_type_declaration
 
-4/2     type_definition ::= 
+4/2     type_definition ::=
              enumeration_type_definition   | integer_type_definition
            | real_type_definition          | array_type_definition
            | record_type_definition        | access_type_definition
@@ -330,7 +330,7 @@ distinct type and its first subtype.
         it has no nameable subtypes.
 
 
-3.2.2 Subtype Declarations
+3.2.2 Subtype Declarations *ada-declarations-subtype*
 
 
 1   A subtype_declaration declares a subtype of some previously declared type,
@@ -339,7 +339,7 @@ as defined by a subtype_indication.
 
                                    Syntax
 
-2/3     subtype_declaration ::= 
+2/3     subtype_declaration ::=
            subtype defining_identifier is subtype_indication
                 [aspect_specification];
 
@@ -349,10 +349,10 @@ as defined by a subtype_indication.
 
 5       constraint ::= scalar_constraint | composite_constraint
 
-6       scalar_constraint ::= 
+6       scalar_constraint ::=
              range_constraint | digits_constraint | delta_constraint
 
-7       composite_constraint ::= 
+7       composite_constraint ::=
              index_constraint | discriminant_constraint
 
 
@@ -407,7 +407,7 @@ of compatibility fails.
         subtype Binop_Ref is not null Binop_Ptr;             --  see 3.10
 
 
-3.2.3 Classification of Operations
+3.2.3 Classification of Operations *ada-declarations-classification*
 
 
 
@@ -448,7 +448,7 @@ the type, plus any user-defined primitive subprograms.
 primitive operator.
 
 
-3.2.4 Subtype Predicates
+3.2.4 Subtype Predicates *ada-declarations-predicates*
 
 
 1/3 The language-defined predicate aspects Static_Predicate and
@@ -707,7 +707,7 @@ exceptional conditions as follows:
 51/4       -- Similarly for all of the other input and output subprograms.
 
 
-3.3 Objects and Named Numbers
+3.3 Objects and Named Numbers *ada-declarations-objects*
 
 
 1   Objects are created at run time and contain a value of a given type. An
@@ -853,7 +853,7 @@ It is declared by a number_declaration.
         is constrained, then so is the actual subtype.
 
 
-3.3.1 Object Declarations
+3.3.1 Object Declarations *ada-declarations-object*
 
 
 1/3 An object_declaration declares a stand-alone object with a given nominal
@@ -865,7 +865,7 @@ object.
 
                                    Syntax
 
-2/3     object_declaration ::= 
+2/3     object_declaration ::=
             defining_identifier_list
          : [aliased] [constant] subtype_indication [:= expression]
                 [aspect_specification];
@@ -878,7 +878,7 @@ object.
           | single_task_declaration
           | single_protected_declaration
 
-3       defining_identifier_list ::= 
+3       defining_identifier_list ::=
           defining_identifier {, defining_identifier}
 
 
@@ -1039,7 +1039,7 @@ subtype (see 13.9.1 and H.1).
 
 25  Example of a multiple object declaration:
 
-26      --  the multiple object declaration 
+26      --  the multiple object declaration
 
 27/2    John, Paul : not null Person_Name := new Person(Sex => M);  --  see 3.10.1
 
@@ -1066,7 +1066,7 @@ subtype (see 13.9.1 and H.1).
         Hello_Msg : constant access String := Hello'Access; -- see 3.10.2
 
 
-3.3.2 Number Declarations
+3.3.2 Number Declarations *ada-declarations-number*
 
 
 1   A number_declaration declares a named number.
@@ -1074,7 +1074,7 @@ subtype (see 13.9.1 and H.1).
 
                                    Syntax
 
-2       number_declaration ::= 
+2       number_declaration ::=
              defining_identifier_list : constant := static_expression;
 
 
@@ -1118,7 +1118,7 @@ static_expression, converted to the corresponding universal type.
         One, Un, Eins : constant := 1;                     -- three different names for 1
 
 
-3.4 Derived Types and Classes
+3.4 Derived Types and Classes *ada-declarations-derived*
 
 
 1/2 A derived_type_definition defines a derived type (and its first subtype)
@@ -1137,7 +1137,7 @@ interface are all categories of types, but not classes of types.
 
                                    Syntax
 
-2/2     derived_type_definition ::= 
+2/2     derived_type_definition ::=
             [abstract] [limited] new parent_subtype_indication
          [[and interface_list] record_extension_part]
 
@@ -1353,15 +1353,15 @@ record_component_association_list.
 
 37      type Local_Coordinate is new Coordinate;   --  two different types
         type Midweek is new Day range Tue .. Thu;  --  see 3.5.1
-        type Counter is new Positive;              --  same range as Positive 
+        type Counter is new Positive;              --  same range as Positive
 
 38      type Special_Key is new Key_Manager.Key;   --  see 7.3.1
-          -- the inherited subprograms have the following specifications: 
+          -- the inherited subprograms have the following specifications:
           --         procedure Get_Key(K : out Special_Key);
           --         function "<"(X,Y : Special_Key) return Boolean;
 
 
-3.4.1 Derivation Classes
+3.4.1 Derivation Classes *ada-declarations-derivation*
 
 
 1   In addition to the various language-defined classes of types, types can be
@@ -1464,7 +1464,7 @@ back to the given ancestor.
         other specific integer types, thereby resolving the ambiguity.
 
 
-3.5 Scalar Types
+3.5 Scalar Types *ada-declarations-scalar*
 
 
 1   Scalar types comprise enumeration types, integer types, and real types.
@@ -1865,7 +1865,7 @@ aspect is the type defined by the full_type_declaration on which it appears.
         range S'First+1 .. S'Last-1
 
 
-3.5.1 Enumeration Types
+3.5.1 Enumeration Types *ada-declarations-enumeration*
 
 
 1   An enumeration_type_definition defines an enumeration type.
@@ -1873,7 +1873,7 @@ aspect is the type defined by the full_type_declaration on which it appears.
 
                                    Syntax
 
-2       enumeration_type_definition ::= 
+2       enumeration_type_definition ::=
            (enumeration_literal_specification
          {, enumeration_literal_specification})
 
@@ -1949,7 +1949,7 @@ literal returns the corresponding value of the enumeration type.
         subtype Rainbow is Color range Red .. Blue;  --  the Color Red, not the Light
 
 
-3.5.2 Character Types
+3.5.2 Character Types *ada-declaration-character*
 
 
 
@@ -2011,7 +2011,7 @@ Paragraphs 6 and 7 were deleted.
 11      type Roman_Digit is ('I', 'V', 'X', 'L', 'C', 'D', 'M');
 
 
-3.5.3 Boolean Types
+3.5.3 Boolean Types *ada-declarations-boolean*
 
 
 
@@ -2023,7 +2023,7 @@ and True ordered with the relation False < True. Any descendant of the
 predefined type Boolean is called a boolean type.
 
 
-3.5.4 Integer Types
+3.5.4 Integer Types *ada-declarations-integer*
 
 
 1   An integer_type_definition defines an integer type; it defines either a
@@ -2233,7 +2233,7 @@ support a nonbinary modulus up to Integer'Last.
         type Hash_Index  is mod 97;  -- modulus is prime
 
 
-3.5.5 Operations of Discrete Types
+3.5.5 Operations of Discrete Types *ada-declarations-operations*
 
 
 
@@ -2319,7 +2319,7 @@ an enumeration_representation_clause.
 14  Examples of attributes of discrete subtypes:
 
 15      --  For the types and subtypes declared in subclause 3.5.1
-         the following hold: 
+         the following hold:
 
 16      --  Color'First   = White,   Color'Last   = Black
         --  Rainbow'First = Red,     Rainbow'Last = Blue
@@ -2329,7 +2329,7 @@ an enumeration_representation_clause.
         --  Color'Val(0)     = Rainbow'Val(0)     = White
 
 
-3.5.6 Real Types
+3.5.6 Real Types *ada-declarations-real*
 
 
 1   Real types provide approximations to the real numbers, with relative
@@ -2339,7 +2339,7 @@ point types.
 
                                    Syntax
 
-2       real_type_definition ::= 
+2       real_type_definition ::=
            floating_point_definition | fixed_point_definition
 
 
@@ -2399,7 +2399,7 @@ explicit_generic_actual_parameters for formal scalar types - see 12.5.2.
         universal_real whenever a real type is expected.
 
 
-3.5.7 Floating Point Types
+3.5.7 Floating Point Types *ada-declaration-floating*
 
 
 1   For floating point types, the error bound is specified as a relative
@@ -2408,10 +2408,10 @@ precision by giving the required minimum number of significant decimal digits.
 
                                    Syntax
 
-2       floating_point_definition ::= 
+2       floating_point_definition ::=
           digits static_expression [real_range_specification]
 
-3       real_range_specification ::= 
+3       real_range_specification ::=
           range static_simple_expression .. static_simple_expression
 
 
@@ -2532,7 +2532,7 @@ package Interfaces (see B.2).
 22      subtype Probability is Real range 0.0 .. 1.0;   --   a subtype with a smaller range
 
 
-3.5.8 Operations of Floating Point Types
+3.5.8 Operations of Floating Point Types *ada-declarations-operations-floating*
 
 
 
@@ -2565,7 +2565,7 @@ package Interfaces (see B.2).
         types are defined in A.5.3.
 
 
-3.5.9 Fixed Point Types
+3.5.9 Fixed Point Types *ada-declarations-fixed*
 
 
 1   A fixed point type is either an ordinary fixed point type, or a decimal
@@ -2578,14 +2578,14 @@ absolute value, called the delta of the fixed point type.
 2       fixed_point_definition ::= ordinary_fixed_point_definition
          | decimal_fixed_point_definition
 
-3       ordinary_fixed_point_definition ::= 
+3       ordinary_fixed_point_definition ::=
            delta static_expression  real_range_specification
 
-4       decimal_fixed_point_definition ::= 
+4       decimal_fixed_point_definition ::=
            delta static_expression digits static_expression
          [real_range_specification]
 
-5/4     digits_constraint ::= 
+5/4     digits_constraint ::=
            digits static_simple_expression [range_constraint]
 
 
@@ -2698,7 +2698,7 @@ with digits up to at least 18.
         given in a natural way, such as:
 
 23             type Fraction is delta 2.0**(-15) range -1.0 .. 1.0;
-              
+
 
 24      With 2's complement hardware, such a type could have a signed 16-bit
         representation, using 1 bit for the sign and 15 bits for fraction,
@@ -2721,7 +2721,7 @@ with digits up to at least 18.
           -- Money'Last = 10.0**13 - 0.01, Salary'Last = 10.0**8 - 0.01
 
 
-3.5.10 Operations of Fixed Point Types
+3.5.10 Operations of Fixed Point Types *ada-declarations-operations-fixed*
 
 
 
@@ -2812,7 +2812,7 @@ point subtype S:
         are defined in A.5.4.
 
 
-3.6 Array Types
+3.6 Array Types *ada-declarations-array*
 
 
 1   An array object is a composite object consisting of components which all
@@ -2823,22 +2823,22 @@ object is a composite value consisting of the values of the components.
 
                                    Syntax
 
-2       array_type_definition ::= 
+2       array_type_definition ::=
            unconstrained_array_definition | constrained_array_definition
 
-3       unconstrained_array_definition ::= 
+3       unconstrained_array_definition ::=
            array(index_subtype_definition {, index_subtype_definition
         }) of component_definition
 
 4       index_subtype_definition ::= subtype_mark range <>
 
-5       constrained_array_definition ::= 
+5       constrained_array_definition ::=
            array (discrete_subtype_definition
          {, discrete_subtype_definition}) of component_definition
 
 6       discrete_subtype_definition ::= discrete_subtype_indication | range
 
-7/2     component_definition ::= 
+7/2     component_definition ::=
            [aliased] subtype_indication
          | [aliased] access_definition
 
@@ -2996,7 +2996,7 @@ by the full_type_declaration on which it appears.
             -- Page is constrained by its initial value to (1..50)
 
 
-3.6.1 Index Constraints and Discrete Ranges
+3.6.1 Index Constraints and Discrete Ranges *ada-declarations-index*
 
 
 1   An index_constraint determines the range of possible values for every
@@ -3064,7 +3064,7 @@ range.
 
 12      Board     : Matrix(1 .. 8,  1 .. 8);  --  see 3.6
         Rectangle : Matrix(1 .. 20, 1 .. 30);
-        Inverse   : Matrix(1 .. N,  1 .. N);  --  N need not be static 
+        Inverse   : Matrix(1 .. N,  1 .. N);  --  N need not be static
 
 13      Filter    : Bit_Vector(0 .. 31);
 
@@ -3082,7 +3082,7 @@ range.
 18      Null_Line : Var_Line(0);  --  Null_Line.Image is a null array
 
 
-3.6.2 Operations of Array Types
+3.6.2 Operations of Array Types *ada-declarations-operations-array*
 
 
 
@@ -3168,7 +3168,7 @@ multidimensional array type, then column-major order should be used instead
         --  Rectangle'Last(1) =  20   Rectangle'Last(2) =  30
 
 
-3.6.3 String Types
+3.6.3 String Types *ada-declarations-string*
 
 
 
@@ -3186,7 +3186,7 @@ these are declared in the visible part of package Standard:
 4/2     type String is array(Positive range <>) of Character;
         type Wide_String is array(Positive range <>) of Wide_Character;
         type Wide_Wide_String is array(Positive range <>) of Wide_Wide_Character;
-        
+
 
         NOTES
 
@@ -3204,18 +3204,18 @@ these are declared in the visible part of package Standard:
 
 7       Stars      : String(1 .. 120) := (1 .. 120 => '*' );
         Question   : constant String  := "How many characters?";
-                                                                     
+
         -- Question'First = 1, Question'Last = 20
-                                                                     
+
         -- Question'Length = 20 (the number of characters)
 
-8       Ask_Twice  : String  := Question & Question;                 
+8       Ask_Twice  : String  := Question & Question;
         -- constrained to (1..40)
-        Ninety_Six : constant Roman   := "XCVI";                     
+        Ninety_Six : constant Roman   := "XCVI";
         -- see 3.5.2 and 3.6
 
 
-3.7 Discriminants
+3.7 Discriminants *ada-declarations-discriminants*
 
 
 1/2 A composite type (other than an array or interface type) can have
@@ -3234,10 +3234,10 @@ all subtypes of such a view are indefinite subtypes.
 
 3       unknown_discriminant_part ::= (<>)
 
-4       known_discriminant_part ::= 
+4       known_discriminant_part ::=
            (discriminant_specification {; discriminant_specification})
 
-5/2     discriminant_specification ::= 
+5/2     discriminant_specification ::=
            defining_identifier_list : [null_exclusion] subtype_mark
          [:= default_expression]
          | defining_identifier_list : access_definition
@@ -3412,7 +3412,7 @@ assignment that initializes the enclosing object.
         end Worker;
 
 
-3.7.1 Discriminant Constraints
+3.7.1 Discriminant Constraints *ada-declarations-discriminant*
 
 
 1   A discriminant_constraint specifies the values of the discriminants for a
@@ -3421,10 +3421,10 @@ given discriminated type.
 
                                    Syntax
 
-2       discriminant_constraint ::= 
+2       discriminant_constraint ::=
            (discriminant_association {, discriminant_association})
 
-3       discriminant_association ::= 
+3       discriminant_association ::=
            [discriminant_selector_name {| discriminant_selector_name
         } =>] expression
 
@@ -3503,7 +3503,7 @@ discriminant.
         Illegal : Square;       --  illegal, a Square has to be constrained
 
 
-3.7.2 Operations of Discriminated Types
+3.7.2 Operations of Discriminated Types *ada-declarations-operations-discriminated*
 
 
 1   If a discriminated type has default_expressions for its discriminants,
@@ -3532,7 +3532,7 @@ execution between evaluating the name and the last use (within this execution)
 of the subcomponent denoted by the name.
 
 
-3.8 Record Types
+3.8 Record Types *ada-declarations-record*
 
 
 1   A record object is a composite object consisting of named components. The
@@ -3542,23 +3542,23 @@ components.
 
                                    Syntax
 
-2       record_type_definition ::= 
+2       record_type_definition ::=
         [[abstract] tagged] [limited] record_definition
 
-3       record_definition ::= 
+3       record_definition ::=
             record
                component_list
             end record
           | null record
 
-4       component_list ::= 
+4       component_list ::=
               component_item {component_item}
            | {component_item} variant_part
            |  null;
 
 5/1     component_item ::= component_declaration | aspect_clause
 
-6/3     component_declaration ::= 
+6/3     component_declaration ::=
            defining_identifier_list : component_definition
          [:= default_expression]
                 [aspect_specification];
@@ -3706,10 +3706,10 @@ subtype is created.
 30      Tomorrow, Yesterday : Date;
         A, B, C : Complex;
 
-31      -- both components of A, B, and C are implicitly initialized to zero 
+31      -- both components of A, B, and C are implicitly initialized to zero
 
 
-3.8.1 Variant Parts and Discrete Choices
+3.8.1 Variant Parts and Discrete Choices *ada-declarations-variant*
 
 
 1   A record type with a variant_part specifies alternative lists of
@@ -3719,13 +3719,13 @@ discriminant covered by its discrete_choice_list.
 
                                    Syntax
 
-2       variant_part ::= 
+2       variant_part ::=
            case discriminant_direct_name is
                variant
               {variant}
            end case;
 
-3       variant ::= 
+3       variant ::=
            when discrete_choice_list =>
               component_list
 
@@ -3855,7 +3855,7 @@ component_list of each variant in the order in which they appear.
         Archive  : Disk_Unit;
 
 
-3.9 Tagged Types and Type Extensions
+3.9 Tagged Types and Type Extensions *ada-declarations-tagged*
 
 
 1   Tagged types and type extensions support object-oriented programming,
@@ -4123,7 +4123,7 @@ innermost master is a master of the point of the function call.
           -- Components will be added by each extension
 
 
-3.9.1 Type Extensions
+3.9.1 Type Extensions *ada-declarations-type-extensions*
 
 
 1/2 Every type extension is a tagged type, and is a record extension or a
@@ -4225,7 +4225,7 @@ the record_definition.
                  Right => new Literal'(Value => 7.0)));
 
 
-3.9.2 Dispatching Operations of Tagged Types
+3.9.2 Dispatching Operations of Tagged Types *ada-declarations-dispatching*
 
 
 1/2 The primitive subprograms of a tagged type, the subprograms declared by
@@ -4424,7 +4424,7 @@ operation of the specific type identified by the controlling tag value:
         the renaming itself is the declaration of a primitive subprogram.
 
 
-3.9.3 Abstract Types and Subprograms
+3.9.3 Abstract Types and Subprograms *ada-declarations-abstract*
 
 
 1/2 An abstract type is a tagged type intended for use as an ancestor of other
@@ -4437,7 +4437,7 @@ some overriding body.
 
                                    Syntax
 
-1.1/3   abstract_subprogram_declaration ::= 
+1.1/3   abstract_subprogram_declaration ::=
             [overriding_indicator]
             subprogram_specification is abstract
                 [aspect_specification];
@@ -4554,7 +4554,7 @@ abstract subprogram.
         another might use a hash table, trading off space for flexibility.
 
 
-3.9.4 Interface Types
+3.9.4 Interface Types *ada-declarations-interface*
 
 
 1/2 An interface type is an abstract tagged type that provides a restricted
@@ -4564,7 +4564,7 @@ have one or more interface types as ancestors.
 
                                    Syntax
 
-2/2     interface_type_definition ::= 
+2/2     interface_type_definition ::=
             [limited | task | protected | synchronized] interface [and interface_list
         ]
 
@@ -4734,7 +4734,7 @@ Append and Remove_First for type Fast_Food_Queue.
 intended to be implemented by task entries (see 9.1).
 
 
-3.10 Access Types
+3.10 Access Types *ada-declarations-access*
 
 
 1   A value of an access type (an access value) provides indirect access to
@@ -4745,22 +4745,22 @@ more generally aliased objects of an appropriate type.
 
                                    Syntax
 
-2/2     access_type_definition ::= 
+2/2     access_type_definition ::=
             [null_exclusion] access_to_object_definition
           | [null_exclusion] access_to_subprogram_definition
 
-3       access_to_object_definition ::= 
+3       access_to_object_definition ::=
             access [general_access_modifier] subtype_indication
 
 4       general_access_modifier ::= all | constant
 
-5       access_to_subprogram_definition ::= 
+5       access_to_subprogram_definition ::=
             access [protected] procedure parameter_profile
           | access [protected] function  parameter_and_result_profile
 
 5.1/2   null_exclusion ::= not null
 
-6/2     access_definition ::= 
+6/2     access_definition ::=
             [null_exclusion] access [constant] subtype_mark
           | [null_exclusion] access [protected] procedure parameter_profile
           | [null_exclusion
@@ -4913,7 +4913,7 @@ elaboration of the subtype_indication, which creates the designated subtype.
         Give_Message.all;                 -- call with no parameters
 
 
-3.10.1 Incomplete Type Declarations
+3.10.1 Incomplete Type Declarations *ada-declarations-incomplete*
 
 
 1   There are no particular limitations on the designated type of an access
@@ -5098,7 +5098,7 @@ Paragraph 11 was deleted.
         George.Vehicle := Your_Car;
 
 
-3.10.2 Operations of Access Types
+3.10.2 Operations of Access Types *ada-declarations-operations-access*
 
 
 1/3 The attribute Access is used to create access values designating aliased
@@ -5530,7 +5530,7 @@ accessibility.
         George.Vehicle := Cars(2)'Access;
 
 
-3.11 Declarative Parts
+3.11 Declarative Parts *ada-declarations-declarative*
 
 
 1   A declarative_part contains declarative_items (possibly none).
@@ -5540,15 +5540,15 @@ accessibility.
 
 2       declarative_part ::= {declarative_item}
 
-3       declarative_item ::= 
+3       declarative_item ::=
             basic_declarative_item | body
 
-4/1     basic_declarative_item ::= 
+4/1     basic_declarative_item ::=
             basic_declaration | aspect_clause | use_clause
 
 5       body ::= proper_body | body_stub
 
-6       proper_body ::= 
+6       proper_body ::=
             subprogram_body | package_body | task_body | protected_body
 
 
@@ -5596,7 +5596,7 @@ is performed, as follows:
 14  The exception Program_Error is raised if any of these checks fails.
 
 
-3.11.1 Completions of Declarations
+3.11.1 Completions of Declarations *ada-declarations-completions*
 
 
 1/3 Declarations sometimes come in two parts. A declaration that requires a
