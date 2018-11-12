@@ -76,33 +76,33 @@ Introduction |ada-foreword-introduction|
         3.11.1 Completions of Declarations |ada-declarations-completions|
 
 4. Names and Expressions |ada-names|
-    4.1 Names
-        4.1.1 Indexed Components
-        4.1.2 Slices
-        4.1.3 Selected Components
-        4.1.4 Attributes
-        4.1.5 User-Defined References
-        4.1.6 User-Defined Indexing
-    4.2 Literals
-    4.3 Aggregates
-        4.3.1 Record Aggregates
-        4.3.2 Extension Aggregates
-        4.3.3 Array Aggregates
-    4.4 Expressions
-    4.5 Operators and Expression Evaluation
-        4.5.1 Logical Operators and Short-circuit Control Forms
-        4.5.2 Relational Operators and Membership Tests
-        4.5.3 Binary Adding Operators
-        4.5.4 Unary Adding Operators
-        4.5.5 Multiplying Operators
-        4.5.6 Highest Precedence Operators
-        4.5.7 Conditional Expressions
-        4.5.8 Quantified Expressions
-    4.6 Type Conversions
-    4.7 Qualified Expressions
-    4.8 Allocators
-    4.9 Static Expressions and Static Subtypes
-        4.9.1 Statically Matching Constraints and Subtypes
+    4.1 Names |ada-names-names|
+        4.1.1 Indexed Components |ada-names-indexed|
+        4.1.2 Slices |ada-names-slices|
+        4.1.3 Selected Components |ada-names-selected|
+        4.1.4 Attributes |ada-names-attributes|
+        4.1.5 User-Defined References |ada-names-user-defined-references|
+        4.1.6 User-Defined Indexing |ada-names-user-defined-indexing|
+    4.2 Literals |ada-names-literals|
+    4.3 Aggregates |ada-names-aggregates|
+        4.3.1 Record Aggregates |ada-names-record|
+        4.3.2 Extension Aggregates |ada-names-extension|
+        4.3.3 Array Aggregates |ada-names-array|
+    4.4 Expressions |ada-names-expressions|
+    4.5 Operators and Expression Evaluation |ada-names-operators|
+        4.5.1 Logical Operators and Short-circuit Control Forms |ada-names-logical|
+        4.5.2 Relational Operators and Membership Tests |ada-names-relational|
+        4.5.3 Binary Adding Operators |ada-names-binary|
+        4.5.4 Unary Adding Operators |ada-names-unary|
+        4.5.5 Multiplying Operators |ada-names-multiplying|
+        4.5.6 Highest Precedence Operators |ada-names-highest|
+        4.5.7 Conditional Expressions |ada-names-conditional|
+        4.5.8 Quantified Expressions |ada-names-quantified|
+    4.6 Type Conversions |ada-names-type|
+    4.7 Qualified Expressions |ada-names-qualified|
+    4.8 Allocators |ada-names-allocators|
+    4.9 Static Expressions and Static Subtypes |ada-names-static|
+        4.9.1 Statically Matching Constraints and Subtypes |ada-names-statically|
 
 5. Statements |ada-statements|
     5.1 Simple and Compound Statements - Sequences of Statements

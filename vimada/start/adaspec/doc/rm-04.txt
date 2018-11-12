@@ -7,7 +7,7 @@
 their evaluation, are given in this clause.
 
 
-4.1 Names
+4.1 Names *ada-names-names*
 
 
 1   Names can denote declared entities, whether declared explicitly or
@@ -20,7 +20,7 @@ can denote attributes of any of the foregoing.
 
                                    Syntax
 
-2/3     name ::= 
+2/3     name ::=
              direct_name          | explicit_dereference
            | indexed_component    | slice
            | selected_component   | attribute_reference
@@ -96,15 +96,15 @@ the object or subprogram designated by the value of the name.
 
 16  Examples of dereferences:
 
-17      Next_Car.all          
+17      Next_Car.all
         --  explicit dereference denoting the object designated by
                               --  the access variable Next_Car (see 3.10.1)
-        Next_Car.Owner        
+        Next_Car.Owner
         --  selected component with implicit dereference;
                               --  same as Next_Car.all.Owner
 
 
-4.1.1 Indexed Components
+4.1.1 Indexed Components *ada-names-indexed*
 
 
 1   An indexed_component denotes either a component of an array or an entry in
@@ -151,17 +151,17 @@ fails.
 
 8   Examples of indexed components:
 
-9        My_Schedule(Sat)     --  a component of a one-dimensional array               
+9        My_Schedule(Sat)     --  a component of a one-dimensional array
         (see 3.6.1)
-         Page(10)             --  a component of a one-dimensional array               
+         Page(10)             --  a component of a one-dimensional array
         (see 3.6)
-         Board(M, J + 1)      --  a component of a two-dimensional array               
+         Board(M, J + 1)      --  a component of a two-dimensional array
         (see 3.6.1)
-         Page(10)(20)         --  a component of a component                           
+         Page(10)(20)         --  a component of a component
         (see 3.6)
-         Request(Medium)      --  an entry in a family of entries                      
+         Request(Medium)      --  an entry in a family of entries
         (see 9.1)
-         Next_Frame(L)(M, N)  --  a component of a function call                       
+         Next_Frame(L)(M, N)  --  a component of a function call
         (see 6.1)
 
         NOTES
@@ -174,7 +174,7 @@ fails.
         returning an access value that designates a two-dimensional array.
 
 
-4.1.2 Slices
+4.1.2 Slices *ada-names-slices*
 
 
 1   A slice denotes a one-dimensional array formed by a sequence of
@@ -230,22 +230,22 @@ the prefix. Constraint_Error is raised if this check fails.
 
 10  Examples of slices:
 
-11        Stars(1 .. 15)        --  a slice of 15 characters                   
+11        Stars(1 .. 15)        --  a slice of 15 characters
         (see 3.6.3)
-          Page(10 .. 10 + Size) --  a slice of 1 + Size components             
+          Page(10 .. 10 + Size) --  a slice of 1 + Size components
         (see 3.6)
-          Page(L)(A .. B)       --  a slice of the array Page(L)               
+          Page(L)(A .. B)       --  a slice of the array Page(L)
         (see 3.6)
-          Stars(1 .. 0)         --  a null slice                               
+          Stars(1 .. 0)         --  a null slice
         (see 3.6.3)
-          My_Schedule(Weekday)  --  bounds given by subtype                    
+          My_Schedule(Weekday)  --  bounds given by subtype
         (see 3.6.1 and 3.5.1)
-          Stars(5 .. 15)(K)     --  same as Stars(K)                           
+          Stars(5 .. 15)(K)     --  same as Stars(K)
         (see 3.6.3)
                                 --  provided that K is in 5 .. 15
 
 
-4.1.3 Selected Components
+4.1.3 Selected Components *ada-names-selected*
 
 
 1   Selected_components are used to denote components (including
@@ -357,42 +357,42 @@ raised if this check fails.
 
 16  Examples of selected components:
 
-17/2      Tomorrow.Month     --  a record component                               
+17/2      Tomorrow.Month     --  a record component
         (see 3.8)
-          Next_Car.Owner     --  a record component                               
+          Next_Car.Owner     --  a record component
         (see 3.10.1)
-          Next_Car.Owner.Age --  a record component                               
+          Next_Car.Owner.Age --  a record component
         (see 3.10.1)
                              --  the previous two lines involve implicit dereferences
-          Writer.Unit        --  a record component (a discriminant)              
+          Writer.Unit        --  a record component (a discriminant)
         (see 3.8.1)
-          Min_Cell(H).Value  --  a record component of the result                 
+          Min_Cell(H).Value  --  a record component of the result
         (see 6.1)
                              --  of the function call Min_Cell(H)
-          Cashier.Append     --  a prefixed view of a procedure                   
+          Cashier.Append     --  a prefixed view of a procedure
         (see 3.9.4)
-          Control.Seize      --  an entry of a protected object                   
+          Control.Seize      --  an entry of a protected object
         (see 9.4)
-          Pool(K).Write      --  an entry of the task Pool(K)                     
+          Pool(K).Write      --  an entry of the task Pool(K)
         (see 9.4)
 
 18  Examples of expanded names:
 
-19        Key_Manager."<"      --  an operator of the visible part of a package           
+19        Key_Manager."<"      --  an operator of the visible part of a package
         (see 7.3.1)
-          Dot_Product.Sum      --  a variable declared in a function body                 
+          Dot_Product.Sum      --  a variable declared in a function body
         (see 6.1)
-          Buffer.Pool          --  a variable declared in a protected unit                
+          Buffer.Pool          --  a variable declared in a protected unit
         (see 9.11)
-          Buffer.Read          --  an entry of a protected unit                           
+          Buffer.Read          --  an entry of a protected unit
         (see 9.11)
-          Swap.Temp            --  a variable declared in a block statement               
+          Swap.Temp            --  a variable declared in a block statement
         (see 5.6)
-          Standard.Boolean     --  the name of a predefined type                          
+          Standard.Boolean     --  the name of a predefined type
         (see A.1)
 
 
-4.1.4 Attributes
+4.1.4 Attributes *ada-names-attributes*
 
 
 1   An attribute is a characteristic of an entity that can be queried via an
@@ -403,7 +403,7 @@ attribute_reference or a range_attribute_reference.
 
 2       attribute_reference ::= prefix'attribute_designator
 
-3/2     attribute_designator ::= 
+3/2     attribute_designator ::=
             identifier[(static_expression)]
           | Access | Delta | Digits | Mod
 
@@ -488,25 +488,25 @@ previous edition of this International Standard.
 
 15  Examples of attributes:
 
-16      Color'First        -- minimum value of the enumeration type Color              
+16      Color'First        -- minimum value of the enumeration type Color
         (see 3.5.1)
-        Rainbow'Base'First -- same as Color'First                                      
+        Rainbow'Base'First -- same as Color'First
         (see 3.5.1)
-        Real'Digits        -- precision of the type Real                               
+        Real'Digits        -- precision of the type Real
         (see 3.5.7)
-        Board'Last(2)      -- upper bound of the second dimension of Board             
+        Board'Last(2)      -- upper bound of the second dimension of Board
         (see 3.6.1)
-        Board'Range(1)     -- index range of the first dimension of Board              
+        Board'Range(1)     -- index range of the first dimension of Board
         (see 3.6.1)
-        Pool(K)'Terminated -- True if task Pool(K) is terminated                       
+        Pool(K)'Terminated -- True if task Pool(K) is terminated
         (see 9.1)
-        Date'Size          -- number of bits for records of type Date                  
+        Date'Size          -- number of bits for records of type Date
         (see 3.8)
-        Message'Address    -- address of the record variable Message                   
+        Message'Address    -- address of the record variable Message
         (see 3.7.1)
 
 
-4.1.5 User-Defined References
+4.1.5 User-Defined References *ada-names-user-defined-references*
 
 
 
@@ -590,7 +590,7 @@ of the reference discriminant of the named reference object.
         Find (B, "grape").Data.all := Element'(...);
 
 
-4.1.6 User-Defined Indexing
+4.1.6 User-Defined Indexing *ada-names-user-defined-indexing*
 
 
 
@@ -693,7 +693,7 @@ prefix of the prefixed view.
         IB      ("pear").Data.all := Element'(...); -- Implicit indexing only
 
 
-4.2 Literals
+4.2 Literals *ada-names-literals*
 
 
 1   A literal represents a value literally, that is, by means of notation
@@ -772,10 +772,10 @@ fails.
 14      3.14159_26536      --  a real literal
         1_345              --  an integer literal
         'A'                --  a character literal
-        "Some Text"        --  a string literal 
+        "Some Text"        --  a string literal
 
 
-4.3 Aggregates
+4.3 Aggregates *ada-names-aggregates*
 
 
 1   An aggregate combines component values into a composite value of an array
@@ -813,7 +813,7 @@ belongs to the first subtype of the type. Constraint_Error is raised if this
 check fails.
 
 
-4.3.1 Record Aggregates
+4.3.1 Record Aggregates *ada-names-record*
 
 
 1   In a record_aggregate, a value is specified for each component of the
@@ -825,15 +825,15 @@ association.
 
 2       record_aggregate ::= (record_component_association_list)
 
-3       record_component_association_list ::= 
+3       record_component_association_list ::=
             record_component_association {, record_component_association}
           | null record
 
-4/2     record_component_association ::= 
+4/2     record_component_association ::=
             [component_choice_list =>] expression
            | component_choice_list => <>
 
-5       component_choice_list ::= 
+5       component_choice_list ::=
              component_selector_name {| component_selector_name}
            | others
 
@@ -937,7 +937,7 @@ converted) once for each associated component.
 
 22  Example of a record aggregate with positional associations:
 
-23      (4, July, 1776)                                       --  see 3.8 
+23      (4, July, 1776)                                       --  see 3.8
 
 24  Examples of record aggregates with named associations:
 
@@ -949,12 +949,12 @@ converted) once for each associated component.
 
 27/2 Examples of component associations with several choices:
 
-28      (Value => 0, Succ|Pred => new Cell'(0, null, null))          
+28      (Value => 0, Succ|Pred => new Cell'(0, null, null))
         --  see 3.10.1
 
 29       --  The allocator is evaluated twice: Succ and Pred designate different cells
 
-29.1/2  (Value => 0, Succ|Pred => <>)                                
+29.1/2  (Value => 0, Succ|Pred => <>)
         --  see 3.10.1
 
 29.2/2   --  Succ and Pred will be set to null
@@ -966,7 +966,7 @@ converted) once for each associated component.
         Painted_Point'(0.0, Pi/2.0, Paint => Red)
 
 
-4.3.2 Extension Aggregates
+4.3.2 Extension Aggregates *ada-names-extension*
 
 
 1   An extension_aggregate specifies a value for a type that is a record
@@ -977,7 +977,7 @@ ancestor_part.
 
                                    Syntax
 
-2       extension_aggregate ::= 
+2       extension_aggregate ::=
             (ancestor_part with record_component_association_list)
 
 3       ancestor_part ::= expression | subtype_mark
@@ -1066,7 +1066,7 @@ this check fails.
                      -- presuming Binop is of type Binary_Operation
 
 
-4.3.3 Array Aggregates
+4.3.3 Array Aggregates *ada-names-array*
 
 
 1   In an array_aggregate, a value is specified for each component of an
@@ -1078,18 +1078,18 @@ components are identified by the values covered by the discrete_choices.
 
                                    Syntax
 
-2       array_aggregate ::= 
+2       array_aggregate ::=
           positional_array_aggregate | named_array_aggregate
 
-3/2     positional_array_aggregate ::= 
+3/2     positional_array_aggregate ::=
             (expression, expression {, expression})
           | (expression {, expression}, others => expression)
           | (expression {, expression}, others => <>)
 
-4       named_array_aggregate ::= 
+4       named_array_aggregate ::=
             (array_component_association {, array_component_association})
 
-5/2     array_component_association ::= 
+5/2     array_component_association ::=
             discrete_choice_list => expression
           | discrete_choice_list => <>
 
@@ -1252,7 +1252,7 @@ subaggregates that correspond to the same index have the same bounds.
 33  Examples of array aggregates with positional associations:
 
 34      (7, 9, 5, 1, 3, 2, 4, 8, 6, 0)
-        Table'(5, 8, 4, 1, others => 0)  --  see 3.6 
+        Table'(5, 8, 4, 1, others => 0)  --  see 3.6
 
 35  Examples of array aggregates with named associations:
 
@@ -1289,7 +1289,7 @@ applicable index constraint provided by an enclosing record aggregate:
 45/2    Buffer'(Size => 50, Pos => 1, Value => String'('x', others => <>))  -- see 3.7
 
 
-4.4 Expressions
+4.4 Expressions *ada-names-expressions*
 
 
 1/3 An expression is a formula that defines the computation or retrieval of a
@@ -1301,22 +1301,22 @@ term, factor, primary, conditional_expression, quantified_expression.
 
                                    Syntax
 
-2       expression ::= 
+2       expression ::=
              relation {and relation}  | relation {and then relation}
            | relation {or relation}  | relation {or else relation}
            | relation {xor relation}
 
-2.1/3   choice_expression ::= 
+2.1/3   choice_expression ::=
              choice_relation {and choice_relation}
            | choice_relation {or choice_relation}
            | choice_relation {xor choice_relation}
            | choice_relation {and then choice_relation}
            | choice_relation {or else choice_relation}
 
-2.2/3   choice_relation ::= 
+2.2/3   choice_relation ::=
              simple_expression [relational_operator simple_expression]
 
-3/4     relation ::= 
+3/4     relation ::=
              simple_expression [relational_operator simple_expression]
            | tested_simple_expression [not] in membership_choice_list
            | raise_expression
@@ -1333,7 +1333,7 @@ term, factor, primary, conditional_expression, quantified_expression.
 
 6       factor ::= primary [** primary] | abs primary | not primary
 
-7/3     primary ::= 
+7/3     primary ::=
            numeric_literal | null | string_literal | aggregate
          | name | allocator | (expression)
          | (conditional_expression) | (quantified_expression)
@@ -1376,7 +1376,7 @@ return the value of the object.
         Sine(X)            --  function call
         Color'(Blue)       --  qualified expression
         Real(M*N)          --  conversion
-        (Line_Count + 10)  --  parenthesized expression 
+        (Line_Count + 10)  --  parenthesized expression
 
 14  Examples of expressions:
 
@@ -1396,7 +1396,7 @@ return the value of the object.
         A**(B**C)                   -- expression (parentheses are required)
 
 
-4.5 Operators and Expression Evaluation
+4.5 Operators and Expression Evaluation *ada-names-operators*
 
 
 1   The language defines the following six categories of operators (given in
@@ -1409,7 +1409,7 @@ user-defined operators. See 6.6, "Overloading of Operators".
 
 2       logical_operator ::=                         and | or  | xor
 
-3       relational_operator ::=                     
+3       relational_operator ::=
          =   | /=  | <   | <= | > | >=
 
 4       binary_adding_operator ::=                   +   | -   | &
@@ -1485,10 +1485,10 @@ in either the left-to-right or chosen order of association.
         abs(1 + A) + B       --  same as (abs (1 + A)) + B
         Y**(-3)              --  parentheses are necessary
         A / B * C            --  same as (A/B)*C
-        A + (B + C)          --  evaluate B + C before adding it to A 
+        A + (B + C)          --  evaluate B + C before adding it to A
 
 
-4.5.1 Logical Operators and Short-circuit Control Forms
+4.5.1 Logical Operators and Short-circuit Control Forms *ada-names-logical*
 
 
 
@@ -1544,16 +1544,16 @@ raised if either of the above checks fails.
 9       13  The conventional meaning of the logical operators is given by the
         following truth table:
 
-10                A                   B                 (A and B)           
+10                A                   B                 (A and B)
             (A or B)                (A xor B)
-            
-                True                True                True                
+
+                True                True                True
             True                    False
-                True                False               False               
+                True                False               False
             True                    True
-                False               True                False               
+                False               True                False
             True                    True
-                False               False               False               
+                False               False               False
             False                   False
 
 
@@ -1562,7 +1562,7 @@ raised if either of the above checks fails.
 11  Examples of logical operators:
 
 12      Sunny or Warm
-        Filter(1 .. 10) and Filter(15 .. 24)   --   see 3.6.1 
+        Filter(1 .. 10) and Filter(15 .. 24)   --   see 3.6.1
 
 13  Examples of short-circuit control forms:
 
@@ -1570,7 +1570,7 @@ raised if either of the above checks fails.
         N = 0 or else A(N) = Hit_Value
 
 
-4.5.2 Relational Operators and Membership Tests
+4.5.2 Relational Operators and Membership Tests *ada-names-relational*
 
 
 1   The equality operators = (equals) and /= (not equals) are predefined for
@@ -1868,7 +1868,7 @@ tests:
         Tree.all in Addition'Class  -- class membership test (see 3.9.1)
 
 
-4.5.3 Binary Adding Operators
+4.5.3 Binary Adding Operators *ada-names-binary*
 
 
 
@@ -1935,14 +1935,14 @@ anonymous object, as for any function call (see 6.5).
 
 12  Examples of expressions involving binary adding operators:
 
-13      Z + 0.1      --  Z has to be of a real type 
+13      Z + 0.1      --  Z has to be of a real type
 
 14      "A" & "BCD"  --  concatenation of two string literals
         'A' & "BCD"  --  concatenation of a character literal and a string literal
-        'A' & 'A'    --  concatenation of two character literals 
+        'A' & 'A'    --  concatenation of two character literals
 
 
-4.5.4 Unary Adding Operators
+4.5.4 Unary Adding Operators *ada-names-unary*
 
 
 
@@ -1962,7 +1962,7 @@ the following specifications:
         operand from the modulus; for a zero operand, the result is zero.
 
 
-4.5.5 Multiplying Operators
+4.5.5 Multiplying Operators *ada-names-multiplying*
 
 
 
@@ -2095,7 +2095,7 @@ T'Machine_Overflows True, division by zero raises Constraint_Error.
                14     5    2       4        4       -14    5    -2      -4         1
 
 30             A      B   A/B   A rem B  A mod B     A     B    A/B   A rem B   A mod B
-            
+
                10    -5   -2       0        0       -10   -5     2       0         0
                11    -5   -2       1       -4       -11   -5     2      -1        -1
                12    -5   -2       2       -3       -12   -5     2      -2        -2
@@ -2118,26 +2118,26 @@ T'Machine_Overflows True, division by zero raises Constraint_Error.
         G : Fraction := 0.5;
 
 35      Expression            Value          Result Type
-        
+
         I*J                   2              same as I and J, that is, Integer
         K/J                   1              same as K and J, that is, Integer
         K mod J               1              same as K and J, that is, Integer
-        
+
         X/Y                   0.5            same as X and Y, that is, Real
         F/2                   0.125          same as F, that is, Fraction
-        
+
         3*F                   0.75           same as F, that is, Fraction
-        0.75*G                0.375          
+        0.75*G                0.375
         universal_fixed, implicitly convertible
                                              to any fixed point type
-        Fraction(F*G)         0.125          
+        Fraction(F*G)         0.125
         Fraction, as stated by the conversion
-        Real(J)*Y             4.0            
+        Real(J)*Y             4.0
         Real, the type of both operands after
                                              conversion of J
 
 
-4.5.6 Highest Precedence Operators
+4.5.6 Highest Precedence Operators *ada-names-highest*
 
 
 
@@ -2202,7 +2202,7 @@ approximation to the final result in this case would generally be 0.0.)
         Constraint_Error is raised if this check fails.
 
 
-4.5.7 Conditional Expressions
+4.5.7 Conditional Expressions *ada-names-conditional*
 
 
 1/3 A conditional_expression selects for evaluation at most one of the
@@ -2219,19 +2219,19 @@ selecting_expression.
 
 2/3     conditional_expression ::= if_expression | case_expression
 
-3/3     if_expression ::= 
+3/3     if_expression ::=
            if condition then dependent_expression
            {elsif condition then dependent_expression}
            [else dependent_expression]
 
 4/3     condition ::= boolean_expression
 
-5/3     case_expression ::= 
+5/3     case_expression ::=
             case selecting_expression is
             case_expression_alternative {,
             case_expression_alternative}
 
-6/3     case_expression_alternative ::= 
+6/3     case_expression_alternative ::=
             when discrete_choice_list =>
                 dependent_expression
 
@@ -2313,7 +2313,7 @@ discrete_choice_list, perhaps due to being outside the base range),
 Constraint_Error is raised.
 
 
-4.5.8 Quantified Expressions
+4.5.8 Quantified Expressions *ada-names-quantified*
 
 
 0.1/4 Quantified expressions provide a way to write universally and
@@ -2378,7 +2378,7 @@ can be written:
 13/3    pragma Assert (for some X in 2 .. N / 2 => N mod X = 0);
 
 
-4.6 Type Conversions
+4.6 Type Conversions *ada-names-type*
 
 
 1/3 Explicit type conversions, both value conversions and view conversions,
@@ -2389,7 +2389,7 @@ type, both explicit ones and those implicit in other constructs.
 
                                    Syntax
 
-2       type_conversion ::= 
+2       type_conversion ::=
             subtype_mark(expression)
           | subtype_mark(name)
 
@@ -2746,7 +2746,7 @@ an assignment operation.
         Y : B_Form;
 
 68      X := A_Form(Y);
-        Y := B_Form(X);  --  the reverse conversion 
+        Y := B_Form(X);  --  the reverse conversion
 
 69  Examples of conversions between array types:
 
@@ -2756,10 +2756,10 @@ an assignment operation.
 
 71      Sequence(Ledger)            --  bounds are those of Ledger
         Sequence(Ledger(31 .. 42))  --  bounds are 31 and 42
-        Dozen(Ledger(31 .. 42))     --  bounds are those of Dozen 
+        Dozen(Ledger(31 .. 42))     --  bounds are those of Dozen
 
 
-4.7 Qualified Expressions
+4.7 Qualified Expressions *ada-names-qualified*
 
 
 1   A qualified_expression is used to state explicitly the type, and to verify
@@ -2768,7 +2768,7 @@ the subtype, of an operand that is either an expression or an aggregate.
 
                                    Syntax
 
-2       qualified_expression ::= 
+2       qualified_expression ::=
            subtype_mark'(expression) | subtype_mark'aggregate
 
 
@@ -2811,16 +2811,16 @@ the value satifies the predicates of the subtype.
         type Code is (Fix, Cla, Dec, Tnz, Sub);
 
 8       Print (Mask'(Dec));  --  Dec is of type Mask
-        Print (Code'(Dec));  --  Dec is of type Code 
+        Print (Code'(Dec));  --  Dec is of type Code
 
 9       for J in Code'(Fix) .. Code'(Dec) loop ... -- qualification needed for either Fix or Dec
         for J in Code range Fix .. Dec loop ...    -- qualification unnecessary
         for J in Code'(Fix) .. Dec loop ...        -- qualification unnecessary for Dec
 
-10      Dozen'(1 | 3 | 5 | 7 => 2, others => 0) -- see 4.6 
+10      Dozen'(1 | 3 | 5 | 7 => 2, others => 0) -- see 4.6
 
 
-4.8 Allocators
+4.8 Allocators *ada-names_allocators*
 
 
 1   The evaluation of an allocator creates an object and yields an access
@@ -2829,7 +2829,7 @@ value that designates the object.
 
                                    Syntax
 
-2/3     allocator ::= 
+2/3     allocator ::=
            new [subpool_specification] subtype_indication
          | new [subpool_specification] qualified_expression
 
@@ -2991,7 +2991,7 @@ Program_Error is raised. Otherwise, the allocation proceeds normally.
         Expr_Ptr'(new Literal'(Expression with 3.5))      -- initialized explicitly
 
 
-4.9 Static Expressions and Static Subtypes
+4.9 Static Expressions and Static Subtypes *ada-names-static*
 
 
 1   Certain expressions of a scalar or string type are defined to be static.
@@ -3208,7 +3208,7 @@ rounding should be the same as the default rounding for the target system.
         Rad_To_Deg : constant := 1.0/Deg_To_Rad; -- equivalent to 1.0/((3.14159_26536/2)/90)
 
 
-4.9.1 Statically Matching Constraints and Subtypes
+4.9.1 Statically Matching Constraints and Subtypes *ada-names-statically*
 
 
 
