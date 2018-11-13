@@ -132,15 +132,15 @@ Introduction |ada-foreword-introduction|
     6.8 Expression Functions |ada-subprograms-expression|
 
 7. Packages |ada-packages|
-    7.1 Package Specifications and Declarations
-    7.2 Package Bodies
-    7.3 Private Types and Private Extensions
-        7.3.1 Private Operations
-        7.3.2 Type Invariants
-    7.4 Deferred Constants
-    7.5 Limited Types
-    7.6 Assignment and Finalization
-        7.6.1 Completion and Finalization
+    7.1 Package Specifications and Declarations |ada-packages-specifications|
+    7.2 Package Bodies |ada-packages-bodies|
+    7.3 Private Types and Private Extensions |ada-packages-private-types|
+        7.3.1 Private Operations |ada-packages-private-operations|
+        7.3.2 Type Invariants |ada-packages-type|
+    7.4 Deferred Constants |ada-packages-deferred|
+    7.5 Limited Types |ada-packages-limited|
+    7.6 Assignment and Finalization |ada-packages-assignment|
+        7.6.1 Completion and Finalization |ada-packages-completion|
 
 8. Visibility Rules |ada-visibility|
     8.1 Declarative Region

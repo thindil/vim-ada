@@ -10,7 +10,7 @@ of primitive subprograms of the type, which can be called from outside the
 package, while their inner workings remain hidden from outside users.
 
 
-7.1 Package Specifications and Declarations
+7.1 Package Specifications and Declarations *ada-packages-specification*
 
 
 1   A package is generally provided in two parts: a package_specification and
@@ -22,7 +22,7 @@ packages have a package_body.
 
 2       package_declaration ::= package_specification;
 
-3/3     package_specification ::= 
+3/3     package_specification ::=
             package defining_program_unit_name
                 [aspect_specification] is
               {basic_declarative_item}
@@ -101,7 +101,7 @@ its basic_declarative_items in the given order.
 language environment (see Annex A).
 
 
-7.2 Package Bodies
+7.2 Package Bodies *ada-packages-bodies*
 
 
 1   In contrast to the entities declared in the visible part of a package, the
@@ -114,7 +114,7 @@ entities.
 
                                    Syntax
 
-2/3     package_body ::= 
+2/3     package_body ::=
             package body defining_program_unit_name
                 [aspect_specification] is
                declarative_part
@@ -207,7 +207,7 @@ first elaborated, and its handled_sequence_of_statements is then executed.
 15      end Rational_Numbers;
 
 
-7.3 Private Types and Private Extensions
+7.3 Private Types and Private Extensions *ada-packages-private-types*
 
 
 1   The declaration (in the visible part of a package) of a type as a private
@@ -220,12 +220,12 @@ extensions.
 
                                    Syntax
 
-2/3     private_type_declaration ::= 
+2/3     private_type_declaration ::=
            type defining_identifier [discriminant_part
         ] is [[abstract] tagged] [limited] private
               [aspect_specification];
 
-3/3     private_extension_declaration ::= 
+3/3     private_extension_declaration ::=
            type defining_identifier [discriminant_part] is
              [abstract] [limited | synchronized] new ancestor_subtype_indication
              [and interface_list] with private
@@ -392,7 +392,7 @@ ancestor_subtype_indication, and creates a partial view of a type.
 24      type List is new Ada.Finalization.Controlled with private;
 
 
-7.3.1 Private Operations
+7.3.1 Private Operations *ada-packages-private-operations*
 
 
 1   For a type declared in the visible part of a package or generic package,
@@ -556,7 +556,7 @@ following attribute is defined:
         the NOTES of 7.2.)
 
 
-7.3.2 Type Invariants
+7.3.2 Type Invariants *ada-packages-type*
 
 
 1/4 For a private type, private extension, or interface, the following
@@ -725,7 +725,7 @@ as part of a call through an access-to-subprogram value.
         specific invariants of only type NT are performed.
 
 
-7.4 Deferred Constants
+7.4 Deferred Constants *ada-packages-deferred*
 
 
 1   Deferred constant declarations may be used to declare constants in the
@@ -801,7 +801,7 @@ imported constant) the array_type_definition.
                                       -- see B.1
 
 
-7.5 Limited Types
+7.5 Limited Types *ada-packages-limited*
 
 
 1/2 A limited type is (a view of) a type for which copying (such as for an
@@ -950,7 +950,7 @@ declared within the formal part of the generic unit.
         (see 6.2 and 6.5).
 
 
-7.6 Assignment and Finalization
+7.6 Assignment and Finalization *ada-packages-assignment*
 
 
 1   Three kinds of actions are fundamental to the manipulation of objects:
@@ -1149,7 +1149,7 @@ of a nonlimited controlled type provided that:
 calls have additional external effects.
 
 
-7.6.1 Completion and Finalization
+7.6.1 Completion and Finalization *ada-packages-completion*
 
 
 1   This subclause defines completion and leaving of the execution of
