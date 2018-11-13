@@ -117,19 +117,19 @@ Introduction |ada-foreword-introduction|
     5.8 Goto Statements |ada-statements-goto|
 
 6. Subprograms |ada-subprograms|
-    6.1 Subprogram Declarations
-        6.1.1 Preconditions and Postconditions
-    6.2 Formal Parameter Modes
-    6.3 Subprogram Bodies
-        6.3.1 Conformance Rules
-        6.3.2 Inline Expansion of Subprograms
-    6.4 Subprogram Calls
-        6.4.1 Parameter Associations
-    6.5 Return Statements
-        6.5.1 Nonreturning Procedures
-    6.6 Overloading of Operators
-    6.7 Null Procedures
-    6.8 Expression Functions
+    6.1 Subprogram Declarations |ada-subprograms-declarations|
+        6.1.1 Preconditions and Postconditions |ada-subprograms-preconditions|
+    6.2 Formal Parameter Modes |ada-subprograms-formal|
+    6.3 Subprogram Bodies |ada-subprograms-bodies|
+        6.3.1 Conformance Rules |ada-subprograms-conformance|
+        6.3.2 Inline Expansion of Subprograms |ada-subprograms-inline|
+    6.4 Subprogram Calls |ada-subprograms-calls|
+        6.4.1 Parameter Associations |ada-subprograms-parameter|
+    6.5 Return Statements |ada-subprograms-return|
+        6.5.1 Nonreturning Procedures |ada-subprograms-nonreturning|
+    6.6 Overloading of Operators |ada-subprograms-overloading|
+    6.7 Null Procedures |ada-subprograms-null|
+    6.8 Expression Functions |ada-subprograms-expression|
 
 7. Packages |ada-packages|
     7.1 Package Specifications and Declarations

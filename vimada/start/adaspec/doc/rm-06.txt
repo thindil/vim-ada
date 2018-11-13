@@ -17,7 +17,7 @@ callable construct is a construct that defines the action of a call upon a
 callable entity: a subprogram_body, entry_body, or accept_statement.
 
 
-6.1 Subprogram Declarations
+6.1 Subprogram Declarations *ada-subprograms-declarations*
 
 
 1   A subprogram_declaration declares a procedure or function.
@@ -25,14 +25,14 @@ callable entity: a subprogram_body, entry_body, or accept_statement.
 
                                    Syntax
 
-2/3     subprogram_declaration ::= 
+2/3     subprogram_declaration ::=
             [overriding_indicator]
             subprogram_specification
                 [aspect_specification];
 
 3/2     This paragraph was deleted.
 
-4/2     subprogram_specification ::= 
+4/2     subprogram_specification ::=
             procedure_specification
           | function_specification
 
@@ -64,14 +64,14 @@ callable entity: a subprogram_body, entry_body, or accept_statement.
 
 12      parameter_profile ::= [formal_part]
 
-13/2    parameter_and_result_profile ::= 
+13/2    parameter_and_result_profile ::=
             [formal_part] return [null_exclusion] subtype_mark
           | [formal_part] return access_definition
 
-14      formal_part ::= 
+14      formal_part ::=
            (parameter_specification {; parameter_specification})
 
-15/3    parameter_specification ::= 
+15/3    parameter_specification ::=
             defining_identifier_list : [aliased] mode [null_exclusion
         ] subtype_mark [:= default_expression]
           | defining_identifier_list : access_definition
@@ -219,7 +219,7 @@ intended. See 8.3.1, "Overriding Indicators".
                     Center : in Boolean := True);
 
 
-6.1.1 Preconditions and Postconditions
+6.1.1 Preconditions and Postconditions *ada-subprograms-preconditions*
 
 
 1/4 For a noninstance subprogram, a generic subprogram, or an entry, the
@@ -502,7 +502,7 @@ value.
         precondition need not hold within the subprogram or entry body.
 
 
-6.2 Formal Parameter Modes
+6.2 Formal Parameter Modes *ada-subprograms-formal*
 
 
 1   A parameter_specification declares a formal parameter of mode in, in out,
@@ -576,7 +576,7 @@ read, or some old value of the object is read.
         of the subprogram_body (see 6.4.1).
 
 
-6.3 Subprogram Bodies
+6.3 Subprogram Bodies *ada-subprograms-bodies*
 
 
 1   A subprogram_body specifies the execution of a subprogram.
@@ -584,7 +584,7 @@ read, or some old value of the object is read.
 
                                    Syntax
 
-2/3     subprogram_body ::= 
+2/3     subprogram_body ::=
             [overriding_indicator]
             subprogram_specification
                [aspect_specification] is
@@ -651,7 +651,7 @@ handled_sequence_of_statements is then executed.
         end Dot_Product;
 
 
-6.3.1 Conformance Rules
+6.3.1 Conformance Rules *ada-subprograms-conformance*
 
 
 1   When subprogram profiles are given in more than one place, they are
@@ -799,7 +799,7 @@ to match that of either an entry or a protected operation.
 library unit to be intrinsic.
 
 
-6.3.2 Inline Expansion of Subprograms
+6.3.2 Inline Expansion of Subprograms *ada-subprograms-inline*
 
 
 1   Subprograms may be expanded in line at the call site.
@@ -829,7 +829,7 @@ language-defined representation aspect may be specified:
 recommendation determined by the Inline aspect.
 
 
-6.4 Subprogram Calls
+6.4 Subprogram Calls *ada-subprograms-calls*
 
 
 1   A subprogram call is either a procedure_call_statement or a
@@ -840,18 +840,18 @@ parameters of the subprogram.
 
                                    Syntax
 
-2       procedure_call_statement ::= 
+2       procedure_call_statement ::=
             procedure_name;
           | procedure_prefix actual_parameter_part;
 
-3       function_call ::= 
+3       function_call ::=
             function_name
           | function_prefix actual_parameter_part
 
-4       actual_parameter_part ::= 
+4       actual_parameter_part ::=
             (parameter_association {, parameter_association})
 
-5       parameter_association ::= 
+5       parameter_association ::=
            [formal_parameter_selector_name =>] explicit_actual_parameter
 
 6       explicit_actual_parameter ::= expression | variable_name
@@ -972,7 +972,7 @@ result.
         --  denote a value either of type Color or of type Light
 
 
-6.4.1 Parameter Associations
+6.4.1 Parameter Associations *ada-subprograms-parameter*
 
 
 1   A parameter association defines the association between an actual
@@ -1187,7 +1187,7 @@ actual is changed while the formal parameter exists (that is, before leaving
 the corresponding callable construct).
 
 
-6.5 Return Statements
+6.5 Return Statements *ada-subprograms-return*
 
 
 1/2 A simple_return_statement or extended_return_statement (collectively
@@ -1199,11 +1199,11 @@ enclosing subprogram_body, entry_body, or accept_statement.
 
 2/2     simple_return_statement ::= return [expression];
 
-2.1/3   extended_return_object_declaration ::= 
+2.1/3   extended_return_object_declaration ::=
             defining_identifier
          : [aliased][constant] return_subtype_indication [:= expression]
 
-2.2/3   extended_return_statement ::= 
+2.2/3   extended_return_statement ::=
             return extended_return_object_declaration [do
                 handled_sequence_of_statements
             end return];
@@ -1385,7 +1385,7 @@ built in place into such an object:
         end return;
 
 
-6.5.1 Nonreturning Procedures
+6.5.1 Nonreturning Procedures *ada-subprograms-nonreturning*
 
 
 1/3 Specifying aspect No_Return to have the value True indicates that a
@@ -1444,7 +1444,7 @@ is raised at the point of the call.
            -- Inform compiler and reader that procedure never returns normally
 
 
-6.6 Overloading of Operators
+6.6 Overloading of Operators *ada-subprograms-overloading*
 
 
 1   An operator is a function whose designator is an operator_symbol.
@@ -1492,15 +1492,15 @@ declares an operator "/=" that gives the complementary result.
 
 9       function "+" (Left, Right : Matrix) return Matrix;
         function "+" (Left, Right : Vector) return Vector;
-        
+
         --  assuming that A, B, and C are of the type Vector
         --  the following two statements are equivalent:
-        
+
         A := B + C;
         A := "+"(B, C);
 
 
-6.7 Null Procedures
+6.7 Null Procedures *ada-subprograms-null*
 
 
 1/2 A null_procedure_declaration provides a shorthand to declare a procedure
@@ -1509,7 +1509,7 @@ with an empty body.
 
                                    Syntax
 
-2/3     null_procedure_declaration ::= 
+2/3     null_procedure_declaration ::=
            [overriding_indicator]
            procedure_specification is null
                [aspect_specification];
@@ -1547,7 +1547,7 @@ Elaboration_Check.
         -- By default, Simplify does nothing, but it may be overridden in extensions of Expression
 
 
-6.8 Expression Functions
+6.8 Expression Functions *ada-subprograms-expression*
 
 
 1/3 An expression_function_declaration provides a shorthand to declare a
@@ -1556,7 +1556,7 @@ function whose body consists of a single return statement.
 
                                    Syntax
 
-2/4     expression_function_declaration ::= 
+2/4     expression_function_declaration ::=
            [overriding_indicator]
            function_specification is
                (expression)
