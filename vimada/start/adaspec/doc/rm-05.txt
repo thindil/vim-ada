@@ -14,7 +14,7 @@ statements are described in 11, "Exceptions", and code_statements in 13. The
 remaining forms of statements are presented in this clause.
 
 
-5.1 Simple and Compound Statements - Sequences of Statements
+5.1 Simple and Compound Statements - Sequences of Statements *ada-statements-simple*
 
 
 1   A statement is either simple or compound. A simple_statement encloses no
@@ -26,7 +26,7 @@ compound_statements.
 
 2/3     sequence_of_statements ::= statement {statement} {label}
 
-3       statement ::= 
+3       statement ::=
            {label} simple_statement | {label} compound_statement
 
 4/2     simple_statement ::= null_statement
@@ -37,7 +37,7 @@ compound_statements.
            | abort_statement                 | raise_statement
            | code_statement
 
-5/2     compound_statement ::= 
+5/2     compound_statement ::=
              if_statement                    | case_statement
            | loop_statement                  | block_statement
            | extended_return_statement
@@ -116,7 +116,7 @@ individual statements in succession until the sequence_ is completed.
 19      <<After>> X := 1;
 
 
-5.2 Assignment Statements
+5.2 Assignment Statements *ada-statements-assignment*
 
 
 1   An assignment_statement replaces the current value of a variable with the
@@ -125,7 +125,7 @@ result of evaluating an expression.
 
                                    Syntax
 
-2       assignment_statement ::= 
+2       assignment_statement ::=
            variable_name := expression;
 
 3   The execution of an assignment_statement includes the evaluation of the
@@ -232,7 +232,7 @@ following two steps:
         12) = "tartartartar" would be incorrect.
 
 
-5.3 If Statements
+5.3 If Statements *ada-statements-if*
 
 
 1   An if_statement selects for execution at most one of the enclosed
@@ -242,7 +242,7 @@ corresponding conditions.
 
                                    Syntax
 
-2       if_statement ::= 
+2       if_statement ::=
             if condition then
               sequence_of_statements
            {elsif condition then
@@ -288,7 +288,7 @@ them is executed.
         end if;
 
 
-5.4 Case Statements
+5.4 Case Statements *ada-statements-case*
 
 
 1   A case_statement selects for execution one of a number of alternative
@@ -298,13 +298,13 @@ expression.
 
                                    Syntax
 
-2/3     case_statement ::= 
+2/3     case_statement ::=
            case selecting_expression is
                case_statement_alternative
               {case_statement_alternative}
            end case;
 
-3       case_statement_alternative ::= 
+3       case_statement_alternative ::=
            when discrete_choice_list =>
               sequence_of_statements
 
@@ -392,7 +392,7 @@ due to being outside the base range), Constraint_Error is raised.
         end case;
 
 
-5.5 Loop Statements
+5.5 Loop Statements *ada-statements-loop*
 
 
 1   A loop_statement includes a sequence_of_statements that is to be executed
@@ -401,7 +401,7 @@ repeatedly, zero or more times.
 
                                    Syntax
 
-2       loop_statement ::= 
+2       loop_statement ::=
            [loop_statement_identifier:]
               [iteration_scheme] loop
                  sequence_of_statements
@@ -411,7 +411,7 @@ repeatedly, zero or more times.
            | for loop_parameter_specification
            | for iterator_specification
 
-4       loop_parameter_specification ::= 
+4       loop_parameter_specification ::=
            defining_identifier in [reverse] discrete_subtype_definition
 
 5       If a loop_statement has a loop_statement_identifier, then the
@@ -509,7 +509,7 @@ iteration_scheme being for iterator_specification, see 5.5.2.
            end loop Summation;
 
 
-5.5.1 User-Defined Iterator Types
+5.5.1 User-Defined Iterator Types *ada-statements-user-defined*
 
 
 
@@ -611,7 +611,7 @@ shall denote exactly one function with the following properties:
 21/3 This function (if any) is the default variable indexing function for T.
 
 
-5.5.2 Generalized Loop Iteration
+5.5.2 Generalized Loop Iteration *ada-statements-generalized*
 
 
 1/3 Generalized forms of loop iteration are provided by an
@@ -620,7 +620,7 @@ iterator_specification.
 
                                    Syntax
 
-2/3     iterator_specification ::= 
+2/3     iterator_specification ::=
             defining_identifier in [reverse] iterator_name
           | defining_identifier [: subtype_indication
         ] of [reverse] iterable_name
@@ -764,7 +764,7 @@ statement.
 corresponding container packages in A.18.2 and A.18.3.
 
 
-5.6 Block Statements
+5.6 Block Statements *ada-statements-block*
 
 
 1   A block_statement encloses a handled_sequence_of_statements optionally
@@ -773,7 +773,7 @@ preceded by a declarative_part.
 
                                    Syntax
 
-2       block_statement ::= 
+2       block_statement ::=
            [block_statement_identifier:]
                [declare
                     declarative_part]
@@ -811,7 +811,7 @@ handled_sequence_of_statements.
            end Swap;
 
 
-5.7 Exit Statements
+5.7 Exit Statements *ada-statements-exit*
 
 
 1   An exit_statement is used to complete the execution of an enclosing
@@ -821,7 +821,7 @@ condition.
 
                                    Syntax
 
-2       exit_statement ::= 
+2       exit_statement ::=
            exit [loop_name] [when condition];
 
 
@@ -873,7 +873,7 @@ the value of the condition is False, no transfer of control takes place.
            end loop Main_Cycle;
 
 
-5.8 Goto Statements
+5.8 Goto Statements *ada-statements-goto*
 
 
 1   A goto_statement specifies an explicit transfer of control from this

@@ -105,16 +105,16 @@ Introduction |ada-foreword-introduction|
         4.9.1 Statically Matching Constraints and Subtypes |ada-names-statically|
 
 5. Statements |ada-statements|
-    5.1 Simple and Compound Statements - Sequences of Statements
-    5.2 Assignment Statements
-    5.3 If Statements
-    5.4 Case Statements
-    5.5 Loop Statements
-        5.5.1 User-Defined Iterator Types
-        5.5.2 Generalized Loop Iteration
-    5.6 Block Statements
-    5.7 Exit Statements
-    5.8 Goto Statements
+    5.1 Simple and Compound Statements - Sequences of Statements |ada-statements-simple|
+    5.2 Assignment Statements |ada-statements-assignment|
+    5.3 If Statements |ada-statements-if|
+    5.4 Case Statements |ada-statements-case|
+    5.5 Loop Statements |ada-statements-loop|
+        5.5.1 User-Defined Iterator Types |ada-statements-user-defined|
+        5.5.2 Generalized Loop Iteration |ada-statements-generalized|
+    5.6 Block Statements |ada-statements-block|
+    5.7 Exit Statements |ada-statements-exit|
+    5.8 Goto Statements |ada-statements-goto|
 
 6. Subprograms |ada-subprograms|
     6.1 Subprogram Declarations
