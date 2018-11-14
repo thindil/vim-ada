@@ -190,15 +190,15 @@ Introduction |ada-foreword-introduction|
         10.2.1 Elaboration Control |ada-program-elaboration|
 
 11. Exceptions |ada-exceptions|
-    11.1 Exception Declarations
-    11.2 Exception Handlers
-    11.3 Raise Statements and Raise Expressions
-    11.4 Exception Handling
-        11.4.1 The Package Exceptions
-        11.4.2 Pragmas Assert and Assertion_Policy
-        11.4.3 Example of Exception Handling
-    11.5 Suppressing Checks
-    11.6 Exceptions and Optimization
+    11.1 Exception Declarations |ada-exceptions-declarations|
+    11.2 Exception Handlers |ada-exceptions-handlers|
+    11.3 Raise Statements and Raise Expressions |ada-exceptions-raise|
+    11.4 Exception Handling |ada-exceptions-handling|
+        11.4.1 The Package Exceptions |ada-exceptions-package|
+        11.4.2 Pragmas Assert and Assertion_Policy |ada-exceptions-pragmas|
+        11.4.3 Example of Exception Handling |ada-exceptions-example|
+    11.5 Suppressing Checks |ada-exceptions-suppressing|
+    11.6 Exceptions and Optimization |ada-exceptions-optimization|
 
 12. Generic Units |ada-generic|
     12.1 Generic Declarations

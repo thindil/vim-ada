@@ -19,7 +19,7 @@ end of a handled_sequence_of_statements, or it can be propagated to a
 dynamically enclosing execution.
 
 
-11.1 Exception Declarations
+11.1 Exception Declarations *ada-exceptions-declarations*
 
 
 1   An exception_declaration declares a name for an exception.
@@ -64,7 +64,7 @@ execution of constructs is unspecified.
         Overflow, Underflow : exception;
 
 
-11.2 Exception Handlers
+11.2 Exception Handlers *ada-exceptions-handlers*
 
 
 1   The response to one or more exceptions is specified by an
@@ -73,13 +73,13 @@ exception_handler.
 
                                    Syntax
 
-2       handled_sequence_of_statements ::= 
+2       handled_sequence_of_statements ::=
              sequence_of_statements
           [exception
              exception_handler
             {exception_handler}]
 
-3       exception_handler ::= 
+3       exception_handler ::=
           when [choice_parameter_specification:] exception_choice
          {| exception_choice} =>
              sequence_of_statements
@@ -134,7 +134,7 @@ handle any exceptions that are propagated by the sequence_of_statements.
         end;
 
 
-11.3 Raise Statements and Raise Expressions
+11.3 Raise Statements and Raise Expressions *ada-exceptions-raise*
 
 
 1   A raise_statement raises an exception.
@@ -212,7 +212,7 @@ transfer of control to the innermost enclosing handler is raised again.
 7       raise;                                -- re-raise the current exception
 
 
-11.4 Exception Handling
+11.4 Exception Handling *ada-exceptions-handling*
 
 
 1   When an exception occurrence is raised, normal program execution is
@@ -259,7 +259,7 @@ abandoned portion of the execution of the sequence_of_statements.
         body.
 
 
-11.4.1 The Package Exceptions
+11.4.1 The Package Exceptions *ada-exceptions-package*
 
 
 
@@ -413,7 +413,7 @@ include the Exception_Name. Exception_Information should include both the
 Exception_Name and the Exception_Message.
 
 
-11.4.2 Pragmas Assert and Assertion_Policy
+11.4.2 Pragmas Assert and Assertion_Policy *ada-exceptions-pragmas*
 
 
 1/3 Pragma Assert is used to assert the truth of a boolean expression at a
@@ -587,7 +587,7 @@ expression had not been evaluated.
         will not affect normal operation of the program.
 
 
-11.4.3 Example of Exception Handling
+11.4.3 Example of Exception Handling *ada-exceptions-example*
 
 
 
@@ -663,7 +663,7 @@ clients of File_System might have different handlers, even though the
 exceptional situations arise from the same basic causes.
 
 
-11.5 Suppressing Checks
+11.5 Suppressing Checks *ada-exceptions-suppressing*
 
 
 1/2 Checking pragmas give instructions to an implementation on handling
@@ -866,7 +866,7 @@ been suppressed.
         pragma Unsuppress(Overflow_Check);
 
 
-11.6 Exceptions and Optimization
+11.6 Exceptions and Optimization *ada-exceptions-optimization*
 
 
 1/3 This subclause gives permission to the implementation to perform certain
