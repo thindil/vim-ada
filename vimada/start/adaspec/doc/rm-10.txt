@@ -21,7 +21,7 @@ Program Execution" discusses issues related to what is traditionally known as
 "link time" and "run time" - building and executing partitions.
 
 
-10.1 Separate Compilation
+10.1 Separate Compilation *ada-program-separate*
 
 
 1   A program unit is either a package, a task unit, a protected unit, a
@@ -48,7 +48,7 @@ grandchildren and so on, form a subsystem.
 compilations that contain multiple compilation_units.
 
 
-10.1.1 Compilation Units - Library Units
+10.1.1 Compilation Units - Library Units *ada-program-compilation*
 
 
 1   A library_item is a compilation unit that is the declaration, body, or
@@ -62,7 +62,7 @@ predefined library package Standard.
 
 2       compilation ::= {compilation_unit}
 
-3       compilation_unit ::= 
+3       compilation_unit ::=
             context_clause library_item
           | context_clause subunit
 
@@ -70,11 +70,11 @@ predefined library package Standard.
           | library_unit_body
           | [private] library_unit_renaming_declaration
 
-5       library_unit_declaration ::= 
+5       library_unit_declaration ::=
              subprogram_declaration   | package_declaration
            | generic_declaration      | generic_instantiation
 
-6       library_unit_renaming_declaration ::= 
+6       library_unit_renaming_declaration ::=
            package_renaming_declaration
          | generic_renaming_declaration
          | subprogram_renaming_declaration
@@ -277,7 +277,7 @@ no effect.
 separately.
 
 
-10.1.2 Context Clauses - With Clauses
+10.1.2 Context Clauses - With Clauses *ada-program-context*
 
 
 1   A context_clause is used to specify the library_items whose names are
@@ -433,7 +433,7 @@ body of the first unit. The compiler checks that no use is made of the second
 unit in the visible part of the first unit.
 
 
-10.1.3 Subunits of Compilation Units
+10.1.3 Subunits of Compilation Units *ada-program-subunits*
 
 
 1   Subunits are like child units, with these (important) differences:
@@ -448,20 +448,20 @@ within the subunits.
 2       body_stub ::= subprogram_body_stub | package_body_stub
          | task_body_stub | protected_body_stub
 
-3/3     subprogram_body_stub ::= 
+3/3     subprogram_body_stub ::=
            [overriding_indicator]
            subprogram_specification is separate
               [aspect_specification];
 
-4/3     package_body_stub ::= 
+4/3     package_body_stub ::=
            package body defining_identifier is separate
               [aspect_specification];
 
-5/3     task_body_stub ::= 
+5/3     task_body_stub ::=
            task body defining_identifier is separate
               [aspect_specification];
 
-6/3     protected_body_stub ::= 
+6/3     protected_body_stub ::=
            protected body defining_identifier is separate
               [aspect_specification];
 
@@ -558,7 +558,7 @@ package body as follows (with the declaration of Parent remaining the same):
         end Inner;
 
 
-10.1.4 The Compilation Process
+10.1.4 The Compilation Process *ada-program-compilation-process*
 
 
 1   Each compilation unit submitted to the compiler is compiled in the context
@@ -642,7 +642,7 @@ subprogram.
         instantiation.
 
 
-10.1.5 Pragmas and Program Units
+10.1.5 Pragmas and Program Units *ada-program-pragmas*
 
 
 1   This subclause discusses pragmas related to program units, library units,
@@ -722,7 +722,7 @@ library unit pragma should apply to each instance of the generic unit for
 which there is not an overriding pragma applied directly to the instance.
 
 
-10.1.6 Environment-Level Visibility Rules
+10.1.6 Environment-Level Visibility Rules *ada-program-environment*
 
 
 1   The normal visibility rules do not apply within a parent_unit_name or a
@@ -766,7 +766,7 @@ selector_name that denotes a child of that generic package. (The child is
 necessarily a generic unit; see 10.1.1.)
 
 
-10.2 Program Execution
+10.2 Program Execution *ada-program-program*
 
 
 1   An Ada program consists of a set of partitions, which can execute in
@@ -945,7 +945,7 @@ any dependent tasks.
         are defined in Annex E, "Distributed Systems".
 
 
-10.2.1 Elaboration Control
+10.2.1 Elaboration Control *ada-program-elaboration*
 
 
 1   This subclause defines pragmas that help control the elaboration order of
