@@ -143,18 +143,18 @@ Introduction |ada-foreword-introduction|
         7.6.1 Completion and Finalization |ada-packages-completion|
 
 8. Visibility Rules |ada-visibility|
-    8.1 Declarative Region
-    8.2 Scope of Declarations
-    8.3 Visibility
-        8.3.1 Overriding Indicators
-    8.4 Use Clauses
-    8.5 Renaming Declarations
-        8.5.1 Object Renaming Declarations
-        8.5.2 Exception Renaming Declarations
-        8.5.3 Package Renaming Declarations
-        8.5.4 Subprogram Renaming Declarations
-        8.5.5 Generic Renaming Declarations
-    8.6 The Context of Overload Resolution
+    8.1 Declarative Region |ada-visibility-declarative|
+    8.2 Scope of Declarations |ada-visibility-scope|
+    8.3 Visibility |ada-visibility-visibility|
+        8.3.1 Overriding Indicators |ada-visibility-overriding|
+    8.4 Use Clauses |ada-visibility-use|
+    8.5 Renaming Declarations |ada-visibility-renaming|
+        8.5.1 Object Renaming Declarations |ada-visibility-object|
+        8.5.2 Exception Renaming Declarations |ada-visibility-exception|
+        8.5.3 Package Renaming Declarations |ada-visibility-package|
+        8.5.4 Subprogram Renaming Declarations |ada-visibility-subprogram|
+        8.5.5 Generic Renaming Declarations |ada-visibility-generic|
+    8.6 The Context of Overload Resolution |ada-visibility-context|
 
 9. Tasks and Synchronization |ada-tasks|
     9.1 Task Units and Task Objects

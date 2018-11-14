@@ -17,7 +17,7 @@ names might denote two different views of the same entity; in this case they
 denote the same entity.
 
 
-8.1 Declarative Region
+8.1 Declarative Region *ada-visibility-declarative*
 
 
 
@@ -99,7 +99,7 @@ by a declaration that is global to the declarative region.
         parts of the declarative region.
 
 
-8.2 Scope of Declarations
+8.2 Scope of Declarations *ada-visibility-scope*
 
 
 1   For each declaration, the language rules define a certain portion of the
@@ -184,7 +184,7 @@ to the end of the declarative region immediately enclosing the pragma.
         made directly visible by a use_clause.
 
 
-8.3 Visibility
+8.3 Visibility *ada-visibility-visibility*
 
 
 1   The visibility rules, given below, determine which declarations are
@@ -382,7 +382,7 @@ declarations in the generic were not type conformant.
         rule, rather than using direct_name or selector_name.
 
 
-8.3.1 Overriding Indicators
+8.3.1 Overriding Indicators *ada-visibility-overriding*
 
 
 1/2 An overriding_indicator is used to declare that an operation is intended
@@ -449,7 +449,7 @@ implementation. Conversely, the declaration of Arrest guarantees that this is
 a new operation.
 
 
-8.4 Use Clauses
+8.4 Use Clauses *ada-visibility-use*
 
 
 1   A use_package_clause achieves direct visibility of declarations that
@@ -541,7 +541,7 @@ these naming-conflict cases:
         Two_Thirds: Rational_Numbers.Rational := 2/3;
 
 
-8.5 Renaming Declarations
+8.5 Renaming Declarations *ada-visibility-renaming*
 
 
 1   A renaming_declaration declares another name for an entity, such as an
@@ -552,7 +552,7 @@ subprogram_declaration.
 
                                    Syntax
 
-2       renaming_declaration ::= 
+2       renaming_declaration ::=
               object_renaming_declaration
             | exception_renaming_declaration
             | package_renaming_declaration
@@ -587,7 +587,7 @@ renaming_declaration denotes (a new view of) the renamed entity.
 7              subtype Mode is Ada.Text_IO.File_Mode;
 
 
-8.5.1 Object Renaming Declarations
+8.5.1 Object Renaming Declarations *ada-visibility-object*
 
 
 1   An object_renaming_declaration is used to rename an object.
@@ -595,7 +595,7 @@ renaming_declaration denotes (a new view of) the renamed entity.
 
                                    Syntax
 
-2/3     object_renaming_declaration ::= 
+2/3     object_renaming_declaration ::=
             defining_identifier : [null_exclusion] subtype_mark
          renames object_name
                 [aspect_specification];
@@ -674,7 +674,7 @@ ignored).
         end;
 
 
-8.5.2 Exception Renaming Declarations
+8.5.2 Exception Renaming Declarations *ada-visibility-exception*
 
 
 1   An exception_renaming_declaration is used to rename an exception.
@@ -705,7 +705,7 @@ exception.
 6       EOF : exception renames Ada.IO_Exceptions.End_Error; -- see A.13
 
 
-8.5.3 Package Renaming Declarations
+8.5.3 Package Renaming Declarations *ada-visibility-package*
 
 
 1   A package_renaming_declaration is used to rename a package.
@@ -745,7 +745,7 @@ denotes a limited view of the package (see 10.1.1).
 6       package TM renames Table_Manager;
 
 
-8.5.4 Subprogram Renaming Declarations
+8.5.4 Subprogram Renaming Declarations *ada-visibility-subprogram*
 
 
 1/3 A subprogram_renaming_declaration can serve as the completion of a
@@ -757,7 +757,7 @@ is called a renaming-as-declaration, and is used to rename a subprogram
 
                                    Syntax
 
-2/3     subprogram_renaming_declaration ::= 
+2/3     subprogram_renaming_declaration ::=
             [overriding_indicator]
             subprogram_specification renames callable_entity_name
                 [aspect_specification];
@@ -902,7 +902,7 @@ expression:
 21      function Minimum(L : Link := Head) return Cell renames Min_Cell; -- see 6.1
 
 
-8.5.5 Generic Renaming Declarations
+8.5.5 Generic Renaming Declarations *ada-visibility-generic*
 
 
 1   A generic_renaming_declaration is used to rename a generic unit.
@@ -910,7 +910,7 @@ expression:
 
                                    Syntax
 
-2/3     generic_renaming_declaration ::= 
+2/3     generic_renaming_declaration ::=
             generic package       defining_program_unit_name
          renames generic_package_name
                 [aspect_specification];
@@ -949,7 +949,7 @@ unit.
 7       generic package Enum_IO renames Ada.Text_IO.Enumeration_IO;  -- see A.10.10
 
 
-8.6 The Context of Overload Resolution
+8.6 The Context of Overload Resolution *ada-visibility-context*
 
 
 1/3 Because declarations can be overloaded, it is possible for an occurrence
