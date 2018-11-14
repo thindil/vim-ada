@@ -56,10 +56,10 @@ This is modified version of standard Ada support for Vim. Main changes:
 
 ### AdaSpec
 
-Webpage: none
+Webpage: http://www.ada-auth.org/arm.html
 
-At this moment very simple conversion of text version of Ada 2012 language
-specification to Vim documentation.
+Text version of Ada 2012 language specification with added some tags for
+Vim help.
 
 ### Airline
 
