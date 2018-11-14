@@ -61,7 +61,7 @@ competes for the available execution resources that it requires to run.
         way.
 
 
-9.1 Task Units and Task Objects
+9.1 Task Units and Task Objects *ada-tasks-units*
 
 
 1   A task unit is declared by a task declaration, which has a corresponding
@@ -73,19 +73,19 @@ well as declaring a named task object of that type.
 
                                    Syntax
 
-2/3     task_type_declaration ::= 
+2/3     task_type_declaration ::=
            task type defining_identifier [known_discriminant_part]
                 [aspect_specification] [is
              [new interface_list with]
              task_definition];
 
-3/3     single_task_declaration ::= 
-           task defining_identifier 
+3/3     single_task_declaration ::=
+           task defining_identifier
                 [aspect_specification][is
              [new interface_list with]
              task_definition];
 
-4       task_definition ::= 
+4       task_definition ::=
              {task_item}
           [ private
              {task_item}]
@@ -93,7 +93,7 @@ well as declaring a named task object of that type.
 
 5/1     task_item ::= entry_declaration | aspect_clause
 
-6/3     task_body ::= 
+6/3     task_body ::=
            task body defining_identifier
                 [aspect_specification] is
              declarative_part
@@ -255,7 +255,7 @@ corresponding type (see 9.2).
         Terminal : Keyboard := new Keyboard_Driver(Term_ID);
 
 
-9.2 Task Execution - Task Activation
+9.2 Task Execution - Task Activation *ada-tasks-execution*
 
 
 
@@ -335,7 +335,7 @@ coextensions immediately becomes terminated and is never activated.
         end;
 
 
-9.3 Task Dependence - Termination of Tasks
+9.3 Task Dependence - Termination of Tasks *ada-tasks-dependence*
 
 
 
@@ -441,7 +441,7 @@ completed.
         end;  --  await termination of A, B, and G.all
 
 
-9.4 Protected Units and Protected Objects
+9.4 Protected Units and Protected Objects *ada-tasks-protected*
 
 
 1   A protected object provides coordinated access to shared data, through
@@ -456,19 +456,19 @@ object of that type.
 
                                    Syntax
 
-2/3     protected_type_declaration ::= 
+2/3     protected_type_declaration ::=
           protected type defining_identifier [known_discriminant_part]
                 [aspect_specification] is
              [new interface_list with]
              protected_definition;
 
-3/3     single_protected_declaration ::= 
+3/3     single_protected_declaration ::=
           protected defining_identifier
                 [aspect_specification] is
              [new interface_list with]
              protected_definition;
 
-4       protected_definition ::= 
+4       protected_definition ::=
             { protected_operation_declaration }
         [ private
             { protected_element_declaration } ]
@@ -481,7 +481,7 @@ object of that type.
 6       protected_element_declaration ::= protected_operation_declaration
              | component_declaration
 
-7/3     protected_body ::= 
+7/3     protected_body ::=
           protected body defining_identifier
                 [aspect_specification] is
            { protected_operation_item }
@@ -699,7 +699,7 @@ queued forever.
         Flags    : array(1 .. 100) of Resource;
 
 
-9.5 Intertask Communication
+9.5 Intertask Communication *ada-tasks-intertask*
 
 
 1   The primary means for intertask communication is provided by calls on
@@ -817,7 +817,7 @@ unit.
         operation will not block.
 
 
-9.5.1 Protected Subprograms and Protected Actions
+9.5.1 Protected Subprograms and Protected Actions *ada-tasks-protected-subprograms*
 
 
 1   A protected subprogram is a subprogram declared immediately within a
@@ -960,7 +960,7 @@ nonblocking.
         Control.Release;
 
 
-9.5.2 Entries and Accept Statements
+9.5.2 Entries and Accept Statements *ada-tasks-entries*
 
 
 1   Entry_declarations, with the corresponding entry_bodies or
@@ -970,20 +970,20 @@ and protected objects.
 
                                    Syntax
 
-2/3     entry_declaration ::= 
+2/3     entry_declaration ::=
            [overriding_indicator]
            entry defining_identifier [(discrete_subtype_definition
         )] parameter_profile
               [aspect_specification];
 
-3       accept_statement ::= 
+3       accept_statement ::=
            accept entry_direct_name [(entry_index)] parameter_profile [do
              handled_sequence_of_statements
            end [entry_identifier]];
 
 4       entry_index ::= expression
 
-5       entry_body ::= 
+5       entry_body ::=
           entry defining_identifier  entry_body_formal_part  entry_barrier is
             declarative_part
           begin
@@ -1172,7 +1172,7 @@ entry_name of the selected entry call (or intermediate requeue_statement - see
         end Request;
 
 
-9.5.3 Entry Calls
+9.5.3 Entry Calls *ada-tasks-entry-calls*
 
 
 1   An entry_call_statement (an entry call) can appear in various contexts. A
@@ -1354,7 +1354,7 @@ allow the entry call to be selected in the interim.
         Flags(3).Seize;                       --  see 9.4
 
 
-9.5.4 Requeue Statements
+9.5.4 Requeue Statements *ada-tasks-requeue*
 
 
 1   A requeue_statement can be used to complete an accept_statement or
@@ -1496,7 +1496,7 @@ requeue_statement.
                             -- requeue on an entry of an array component, see 9.4
 
 
-9.6 Delay Statements, Duration, and Time
+9.6 Delay Statements, Duration, and Time *ada-tasks-delay*
 
 
 1   A delay_statement is used to block further execution until a specified
@@ -1546,7 +1546,7 @@ represents a time as reported by a corresponding clock.
 
 9   The following language-defined library package exists:
 
-10      
+10
         package Ada.Calendar is
           type Time is private;
 
@@ -1709,7 +1709,7 @@ not be the same time base as used for Calendar.Clock.
         end;
 
 
-9.6.1 Formatting, Time Zones, and other operations for Time
+9.6.1 Formatting, Time Zones, and other operations for Time *ada-tasks-formatting*
 
 
 
@@ -1729,7 +1729,7 @@ not be the same time base as used for Calendar.Clock.
 
 7/2     end Ada.Calendar.Time_Zones;
 
-8/2     
+8/2
         package Ada.Calendar.Arithmetic is
 
 9/2        -- Arithmetic on days:
@@ -1753,7 +1753,7 @@ not be the same time base as used for Calendar.Clock.
 
 14/2    end Ada.Calendar.Arithmetic;
 
-15/2    
+15/2
         with Ada.Calendar.Time_Zones;
         package Ada.Calendar.Formatting is
 
@@ -2143,7 +2143,7 @@ should raise Time_Error if Leap_Second is True.
         example, UTC_Time_Offset will generally be negative.
 
 
-9.7 Select Statements
+9.7 Select Statements *ada-tasks-select*
 
 
 1   There are four forms of the select_statement. One form provides a
@@ -2153,7 +2153,7 @@ conditional entry calls. The fourth provides asynchronous transfer of control.
 
                                    Syntax
 
-2       select_statement ::= 
+2       select_statement ::=
            selective_accept
           | timed_entry_call
           | conditional_entry_call
@@ -2172,7 +2172,7 @@ conditional entry calls. The fourth provides asynchronous transfer of control.
         end select;
 
 
-9.7.1 Selective Accept
+9.7.1 Selective Accept *ada-tasks-selective*
 
 
 1   This form of the select_statement allows a combination of waiting for, and
@@ -2182,7 +2182,7 @@ conditions associated with each alternative of the selective_accept.
 
                                    Syntax
 
-2       selective_accept ::= 
+2       selective_accept ::=
           select
            [guard]
              select_alternative
@@ -2195,15 +2195,15 @@ conditions associated with each alternative of the selective_accept.
 
 3       guard ::= when condition =>
 
-4       select_alternative ::= 
+4       select_alternative ::=
            accept_alternative
           | delay_alternative
           | terminate_alternative
 
-5       accept_alternative ::= 
+5       accept_alternative ::=
           accept_statement [sequence_of_statements]
 
-6       delay_alternative ::= 
+6       delay_alternative ::=
           delay_statement [sequence_of_statements]
 
 7       terminate_alternative ::= terminate;
@@ -2306,7 +2306,7 @@ there is no else part.
         end Server;
 
 
-9.7.2 Timed Entry Calls
+9.7.2 Timed Entry Calls *ada-tasks-timed*
 
 
 1/2 A timed_entry_call issues an entry call that is cancelled if the call (or
@@ -2317,17 +2317,17 @@ where the procedure might be implemented by an entry.
 
                                    Syntax
 
-2       timed_entry_call ::= 
+2       timed_entry_call ::=
           select
            entry_call_alternative
           or
            delay_alternative
           end select;
 
-3/2     entry_call_alternative ::= 
+3/2     entry_call_alternative ::=
           procedure_or_entry_call [sequence_of_statements]
 
-3.1/2   procedure_or_entry_call ::= 
+3.1/2   procedure_or_entry_call ::=
           procedure_call_statement | entry_call_statement
 
 
@@ -2372,7 +2372,7 @@ alternative is executed.
         end select;
 
 
-9.7.3 Conditional Entry Calls
+9.7.3 Conditional Entry Calls *ada-tasks-conditional*
 
 
 1/2 A conditional_entry_call issues an entry call that is then cancelled if it
@@ -2383,7 +2383,7 @@ for cases where the procedure might be implemented by an entry.
 
                                    Syntax
 
-2       conditional_entry_call ::= 
+2       conditional_entry_call ::=
           select
            entry_call_alternative
           else
@@ -2421,7 +2421,7 @@ the reserved word else.
         end;
 
 
-9.7.4 Asynchronous Transfer of Control
+9.7.4 Asynchronous Transfer of Control *ada-tasks-asynchronous*
 
 
 1   An asynchronous select_statement provides asynchronous transfer of control
@@ -2430,7 +2430,7 @@ upon completion of an entry call or the expiration of a delay.
 
                                    Syntax
 
-2       asynchronous_select ::= 
+2       asynchronous_select ::=
           select
            triggering_alternative
           then abort
@@ -2506,7 +2506,7 @@ of the triggering_alternative is executed after the abortable_part is left.
 within the execution of the abortable_part.
 
 
-9.8 Abort of a Task - Abort of a Sequence of Statements
+9.8 Abort of a Task - Abort of a Sequence of Statements *ada-tasks-abort*
 
 
 1   An abort_statement causes one or more tasks to become abnormal, thus
@@ -2617,7 +2617,7 @@ erroneous, as explained in 13.9.1.
         , "Preemptive Abort".
 
 
-9.9 Task and Entry Attributes
+9.9 Task and Entry Attributes *ada-tasks-attributes*
 
 
 
@@ -2664,7 +2664,7 @@ task unit.
         before and after queuing a given caller.
 
 
-9.10 Shared Variables
+9.10 Shared Variables *ada-tasks-shared*
 
 
 
@@ -2742,7 +2742,7 @@ following is true:
 that certain reads and updates are sequential - see C.6.
 
 
-9.11 Example of Tasking and Synchronization
+9.11 Example of Tasking and Synchronization *ada-tasks-example*
 
 
 

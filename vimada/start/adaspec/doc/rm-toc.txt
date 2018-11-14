@@ -157,26 +157,26 @@ Introduction |ada-foreword-introduction|
     8.6 The Context of Overload Resolution |ada-visibility-context|
 
 9. Tasks and Synchronization |ada-tasks|
-    9.1 Task Units and Task Objects
-    9.2 Task Execution - Task Activation
-    9.3 Task Dependence - Termination of Tasks
-    9.4 Protected Units and Protected Objects
-    9.5 Intertask Communication
-        9.5.1 Protected Subprograms and Protected Actions
-        9.5.2 Entries and Accept Statements
-        9.5.3 Entry Calls
-        9.5.4 Requeue Statements
-    9.6 Delay Statements, Duration, and Time
-        9.6.1 Formatting, Time Zones, and other operations for Time
-    9.7 Select Statements
-        9.7.1 Selective Accept
-        9.7.2 Timed Entry Calls
-        9.7.3 Conditional Entry Calls
-        9.7.4 Asynchronous Transfer of Control
-    9.8 Abort of a Task - Abort of a Sequence of Statements
-    9.9 Task and Entry Attributes
-    9.10 Shared Variables
-    9.11 Example of Tasking and Synchronization
+    9.1 Task Units and Task Objects |ada-tasks-units|
+    9.2 Task Execution - Task Activation |ada-tasks-execution|
+    9.3 Task Dependence - Termination of Tasks |ada-tasks-dependence|
+    9.4 Protected Units and Protected Objects |ada-tasks-protected|
+    9.5 Intertask Communication |ada-tasks-intertask|
+        9.5.1 Protected Subprograms and Protected Actions |ada-tasks-protected-subprograms|
+        9.5.2 Entries and Accept Statements |ada-tasks-entries|
+        9.5.3 Entry Calls |ada-tasks-entry-calls|
+        9.5.4 Requeue Statements |ada-tasks-requeue|
+    9.6 Delay Statements, Duration, and Time |ada-tasks-delay|
+        9.6.1 Formatting, Time Zones, and other operations for Time |ada-tasks-formatting|
+    9.7 Select Statements |ada-tasks-select|
+        9.7.1 Selective Accept |ada-tasks-selective|
+        9.7.2 Timed Entry Calls |ada-tasks-timed|
+        9.7.3 Conditional Entry Calls |ada-tasks-conditional|
+        9.7.4 Asynchronous Transfer of Control |ada-tasks-asynchronous|
+    9.8 Abort of a Task - Abort of a Sequence of Statements |ada-tasks-abort|
+    9.9 Task and Entry Attributes |ada-tasks-attributes|
+    9.10 Shared Variables |ada-tasks-shared|
+    9.11 Example of Tasking and Synchronization |ada-tasks-example|
 
 10. Program Structure and Compilation Issues |ada-program|
     10.1 Separate Compilation
