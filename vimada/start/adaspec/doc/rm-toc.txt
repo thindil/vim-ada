@@ -201,19 +201,19 @@ Introduction |ada-foreword-introduction|
     11.6 Exceptions and Optimization |ada-exceptions-optimization|
 
 12. Generic Units |ada-generic|
-    12.1 Generic Declarations
-    12.2 Generic Bodies
-    12.3 Generic Instantiation
-    12.4 Formal Objects
-    12.5 Formal Types
-        12.5.1 Formal Private and Derived Types
-        12.5.2 Formal Scalar Types
-        12.5.3 Formal Array Types
-        12.5.4 Formal Access Types
-        12.5.5 Formal Interface Types
-    12.6 Formal Subprograms
-    12.7 Formal Packages
-    12.8 Example of a Generic Package
+    12.1 Generic Declarations |ada-generic-declarations|
+    12.2 Generic Bodies |ada-generic-bodies|
+    12.3 Generic Instantiation |ada-generic-instantiation|
+    12.4 Formal Objects |ada-generic-formal-objects|
+    12.5 Formal Types |ada-generic-formal-types|
+        12.5.1 Formal Private and Derived Types |ada-generic-formal-private|
+        12.5.2 Formal Scalar Types |ada-generic-formal-scalar|
+        12.5.3 Formal Array Types |ada-generic-formal-array|
+        12.5.4 Formal Access Types |ada-generic-formal-access|
+        12.5.5 Formal Interface Types |ada-generic-formal-interface|
+    12.6 Formal Subprograms |ada-generic-formal-subprograms|
+    12.7 Formal Packages |ada-generic-formal-packages|
+    12.8 Example of a Generic Package |ada-generic-example|
 
 13. Representation Issues |ada-representation|
     13.1 Operational and Representation Aspects

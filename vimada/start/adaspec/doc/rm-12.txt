@@ -23,7 +23,7 @@ instance of a generic subprogram is a (nongeneric) subprogram; hence, this
 instance can be called but it cannot be used to produce further instances.
 
 
-12.1 Generic Declarations
+12.1 Generic Declarations *ada-generic-declarations*
 
 
 1   A generic_declaration declares a generic unit, which is either a generic
@@ -38,17 +38,17 @@ subprogram), it can be a type, a subprogram, or a package.
 2       generic_declaration ::= generic_subprogram_declaration
          | generic_package_declaration
 
-3/3     generic_subprogram_declaration ::= 
+3/3     generic_subprogram_declaration ::=
              generic_formal_part  subprogram_specification
                 [aspect_specification];
 
-4       generic_package_declaration ::= 
+4       generic_package_declaration ::=
              generic_formal_part  package_specification;
 
-5       generic_formal_part ::= 
+5       generic_formal_part ::=
         generic {generic_formal_parameter_declaration | use_clause}
 
-6       generic_formal_parameter_declaration ::= 
+6       generic_formal_parameter_declaration ::=
               formal_object_declaration
             | formal_type_declaration
             | formal_subprogram_declaration
@@ -103,10 +103,10 @@ integer type declaration."
 
 14  Examples of generic formal parts:
 
-15      generic     --  parameterless 
+15      generic     --  parameterless
 
 16      generic
-           Size : Natural;  --  formal object 
+           Size : Natural;  --  formal object
 
 17      generic
            Length : Integer := 200;          -- formal object with a default expression
@@ -117,7 +117,7 @@ integer type declaration."
            type Item  is private;                       -- formal type
            type Index is (<>);                          -- formal type
            type Row   is array(Index range <>) of Item; -- formal type
-           with function "<"(X, Y : Item) return Boolean;    -- formal subprogram 
+           with function "<"(X, Y : Item) return Boolean;    -- formal subprogram
 
 20  Examples of generic declarations declaring generic subprograms Exchange
 and Squaring:
@@ -146,7 +146,7 @@ and Squaring:
 
 
 
-12.2 Generic Bodies
+12.2 Generic Bodies *ada-generic-bodies*
 
 
 1   The body of a generic unit (a generic body) is a template for the instance
@@ -217,7 +217,7 @@ failing the Elaboration_Check.
         end On_Vectors;
 
 
-12.3 Generic Instantiation
+12.3 Generic Instantiation *ada-generic-instantiation*
 
 
 1   An instance of a generic unit is declared by a generic_instantiation.
@@ -225,7 +225,7 @@ failing the Elaboration_Check.
 
                                    Syntax
 
-2/3     generic_instantiation ::= 
+2/3     generic_instantiation ::=
              package defining_program_unit_name is
                  new generic_package_name [generic_actual_part]
                     [aspect_specification];
@@ -238,10 +238,10 @@ failing the Elaboration_Check.
                  new generic_function_name [generic_actual_part]
                     [aspect_specification];
 
-3       generic_actual_part ::= 
+3       generic_actual_part ::=
            (generic_association {, generic_association})
 
-4       generic_association ::= 
+4       generic_association ::=
            [generic_formal_parameter_selector_name
          =>] explicit_generic_actual_parameter
 
@@ -379,12 +379,12 @@ of mode in (see 12.4).
 23  Examples of generic instantiations (see 12.1):
 
 24      procedure Swap is new Exchange(Elem => Integer);
-        procedure Swap is new Exchange(Character);                  
-        --  Swap is overloaded 
-        function Square is new Squaring(Integer);                   
+        procedure Swap is new Exchange(Character);
+        --  Swap is overloaded
+        function Square is new Squaring(Integer);
         --  "*" of Integer used by default
         function Square is new Squaring(Item => Matrix, "*" => Matrix_Product);
-        function Square is new Squaring(Matrix, Matrix_Product); -- same as previous    
+        function Square is new Squaring(Matrix, Matrix_Product); -- same as previous
 
 25      package Int_Vectors is new On_Vectors(Integer, Table, "+");
 
@@ -401,7 +401,7 @@ of mode in (see 12.4).
         M : Integer := Sigma(T);  --  150
 
 
-12.4 Formal Objects
+12.4 Formal Objects *ada-generic-formal-objects*
 
 
 1   A generic formal object can be used to pass a value or variable to a
@@ -410,7 +410,7 @@ generic unit.
 
                                    Syntax
 
-2/3     formal_object_declaration ::= 
+2/3     formal_object_declaration ::=
             defining_identifier_list : mode [null_exclusion] subtype_mark
          [:= default_expression]
                 [aspect_specification];
@@ -508,7 +508,7 @@ object, including any value adjustment - see 7.6.
         declaration of such a formal object.
 
 
-12.5 Formal Types
+12.5 Formal Types *ada-generic-formal-types*
 
 
 1/2 A generic formal subtype can be used to pass to a generic unit a subtype
@@ -517,19 +517,19 @@ whose type is in a certain category of types.
 
                                    Syntax
 
-2/3     formal_type_declaration ::= 
+2/3     formal_type_declaration ::=
               formal_complete_type_declaration
             | formal_incomplete_type_declaration
 
-2.1/3   formal_complete_type_declaration ::= 
+2.1/3   formal_complete_type_declaration ::=
             type defining_identifier[discriminant_part
         ] is formal_type_definition
                 [aspect_specification];
 
-2.2/3   formal_incomplete_type_declaration ::= 
+2.2/3   formal_incomplete_type_declaration ::=
             type defining_identifier[discriminant_part] [is tagged];
 
-3/2     formal_type_definition ::= 
+3/2     formal_type_definition ::=
               formal_private_type_definition
             | formal_derived_type_definition
             | formal_discrete_type_definition
@@ -616,10 +616,10 @@ derived types are given in 12.5.1.
 16      generic
            type Rank is range <>;
            First  : Rank := Rank'First;
-           Second : Rank := First + 1;  --  the operator "+" of the type Rank  
+           Second : Rank := First + 1;  --  the operator "+" of the type Rank
 
 
-12.5.1 Formal Private and Derived Types
+12.5.1 Formal Private and Derived Types *ada-generic-formal-private*
 
 
 1/3 In its most general form, the category determined for a formal private
@@ -633,10 +633,10 @@ class rooted at the ancestor type.
 
                                    Syntax
 
-2       formal_private_type_definition ::= 
+2       formal_private_type_definition ::=
         [[abstract] tagged] [limited] private
 
-3/2     formal_derived_type_definition ::= 
+3/2     formal_derived_type_definition ::=
              [abstract] [limited | synchronized] new subtype_mark
          [[and interface_list]with private]
 
@@ -717,13 +717,13 @@ is a descendant of an untagged generic formal private or derived type.
 16/2 The category determined for a formal private type is as follows:
 
 17/2    Type Definition                        Determined Category
-        
+
         limited private                        the category of all types
-        private                                
+        private
         the category of all nonlimited types
-        tagged limited private                 
+        tagged limited private
         the category of all tagged types
-        tagged private                         
+        tagged private
         the category of all nonlimited tagged types
 
 18  The presence of the reserved word abstract determines whether the actual
@@ -804,7 +804,7 @@ actual type is a class-wide type T'Class:
         definite or indefinite. Otherwise, the actual has to be definite.
 
 
-12.5.2 Formal Scalar Types
+12.5.2 Formal Scalar Types *ada-generic-formal-scalar*
 
 
 1/2 A formal scalar type is one defined by any of the formal_type_definitions
@@ -841,7 +841,7 @@ numeric type.
         formal_modular_type_definition shall be a modular type.
 
 
-12.5.3 Formal Array Types
+12.5.3 Formal Array Types *ada-generic-formal-array*
 
 
 1/2 The category determined for a formal array type is the category of all
@@ -880,7 +880,7 @@ conditions:
 
 9   Example of formal array types:
 
-10      --  given the generic package 
+10      --  given the generic package
 
 11      generic
            type Item   is private;
@@ -891,12 +891,12 @@ conditions:
            ...
         end P;
 
-12      --  and the types 
+12      --  and the types
 
 13      type Mix    is array (Color range <>) of Boolean;
         type Option is array (Color) of Boolean;
 
-14      --  then Mix can match Vector and Option can match Table 
+14      --  then Mix can match Vector and Option can match Table
 
 15      package R is new P(Item   => Boolean, Index => Color,
                            Vector => Mix,     Table => Option);
@@ -904,7 +904,7 @@ conditions:
 16      --  Note that Mix cannot match Table and Option cannot match Vector
 
 
-12.5.4 Formal Access Types
+12.5.4 Formal Access Types *ada-generic-formal-access*
 
 
 1/2 The category determined for a formal access type is the category of all
@@ -935,7 +935,7 @@ formal and the actual shall be subtype conformant.
 
 6   Example of formal access types:
 
-7       --  the formal types of the generic package 
+7       --  the formal types of the generic package
 
 8       generic
            type Node is private;
@@ -944,7 +944,7 @@ formal and the actual shall be subtype conformant.
            ...
         end P;
 
-9       --  can be matched by the actual types 
+9       --  can be matched by the actual types
 
 10      type Car;
         type Car_Name is access Car;
@@ -956,12 +956,12 @@ formal and the actual shall be subtype conformant.
               Owner      : Person;
            end record;
 
-12      --  in the following generic instantiation 
+12      --  in the following generic instantiation
 
 13      package R is new P(Node => Car, Link => Car_Name);
 
 
-12.5.5 Formal Interface Types
+12.5.5 Formal Interface Types *ada-generic-formal-interface*
 
 
 1/2 The category determined for a formal interface type is the category of all
@@ -1001,7 +1001,7 @@ all tasks need to implement so they can be managed appropriately by an
 application-specific scheduler.
 
 
-12.6 Formal Subprograms
+12.6 Formal Subprograms *ada-generic-formal-subprograms*
 
 
 1   Formal subprograms can be used to pass callable entities to a generic
@@ -1010,15 +1010,15 @@ unit.
 
                                    Syntax
 
-2/2     formal_subprogram_declaration ::= 
+2/2     formal_subprogram_declaration ::=
         formal_concrete_subprogram_declaration
             | formal_abstract_subprogram_declaration
 
-2.1/3   formal_concrete_subprogram_declaration ::= 
+2.1/3   formal_concrete_subprogram_declaration ::=
              with subprogram_specification [is subprogram_default]
                 [aspect_specification];
 
-2.2/3   formal_abstract_subprogram_declaration ::= 
+2.2/3   formal_abstract_subprogram_declaration ::=
              with subprogram_specification is abstract [subprogram_default]
                 [aspect_specification];
 
@@ -1178,22 +1178,22 @@ with a controlling type T is a dispatching operation of type T.
                              is abstract Descriptor'Write;  -- see 13.13.2
         -- Dispatching operation on Descriptor with default
 
-19      --  given the generic procedure declaration 
+19      --  given the generic procedure declaration
 
 20      generic
            with procedure Action (X : in Item);
         procedure Iterate(Seq : in Item_Sequence);
 
-21      --  and the procedure 
+21      --  and the procedure
 
 22      procedure Put_Item(X : in Item);
 
-23      --  the following instantiation is possible 
+23      --  the following instantiation is possible
 
 24      procedure Put_List is new Iterate(Action => Put_Item);
 
 
-12.7 Formal Packages
+12.7 Formal Packages *ada-generic-formal-packages*
 
 
 1   Formal packages can be used to pass packages to a generic unit. The
@@ -1204,18 +1204,18 @@ instance of that generic package.
 
                                    Syntax
 
-2/3     formal_package_declaration ::= 
+2/3     formal_package_declaration ::=
             with package defining_identifier is new generic_package_name
           formal_package_actual_part
                 [aspect_specification];
 
-3/2     formal_package_actual_part ::= 
+3/2     formal_package_actual_part ::=
             ([others =>] <>)
           | [generic_actual_part]
           | (formal_package_association {, formal_package_association
         } [, others => <>])
 
-3.1/2   formal_package_association ::= 
+3.1/2   formal_package_association ::=
             generic_association
           | generic_formal_parameter_selector_name => <>
 
@@ -1349,7 +1349,7 @@ visible part of A.
 25/2    end Symbol_Package;
 
 
-12.8 Example of a Generic Package
+12.8 Example of a Generic Package *ada-generic-example*
 
 
 1   The following example provides a possible formulation of stacks by means
