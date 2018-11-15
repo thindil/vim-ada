@@ -216,37 +216,37 @@ Introduction |ada-foreword-introduction|
     12.8 Example of a Generic Package |ada-generic-example|
 
 13. Representation Issues |ada-representation|
-    13.1 Operational and Representation Aspects
-        13.1.1 Aspect Specifications
-    13.2 Packed Types
-    13.3 Operational and Representation Attributes
-    13.4 Enumeration Representation Clauses
-    13.5 Record Layout
-        13.5.1 Record Representation Clauses
-        13.5.2 Storage Place Attributes
-        13.5.3 Bit Ordering
-    13.6 Change of Representation
-    13.7 The Package System
-        13.7.1 The Package System.Storage_Elements
-        13.7.2 The Package System.Address_To_Access_Conversions
-    13.8 Machine Code Insertions
-    13.9 Unchecked Type Conversions
-        13.9.1 Data Validity
-        13.9.2 The Valid Attribute
-    13.10 Unchecked Access Value Creation
-    13.11 Storage Management
-        13.11.1 Storage Allocation Attributes
-        13.11.2 Unchecked Storage Deallocation
-        13.11.3 Default Storage Pools
-        13.11.4 Storage Subpools
-        13.11.5 Subpool Reclamation
-        13.11.6 Storage Subpool Example
-    13.12 Pragma Restrictions and Pragma Profile
-        13.12.1 Language-Defined Restrictions and Profiles
-    13.13 Streams
-        13.13.1 The Package Streams
-        13.13.2 Stream-Oriented Attributes
-    13.14 Freezing Rules
+    13.1 Operational and Representation Aspects |ada-representation-operational-aspects|
+        13.1.1 Aspect Specifications |ada-representation-aspect|
+    13.2 Packed Types |ada-representation-packed|
+    13.3 Operational and Representation Attributes |ada-representation-operational-attributes|
+    13.4 Enumeration Representation Clauses |ada-representation-enumeration|
+    13.5 Record Layout |ada-representation-record|
+        13.5.1 Record Representation Clauses |ada-representation-record-clauses|
+        13.5.2 Storage Place Attributes |ada-representation-storage-place|
+        13.5.3 Bit Ordering |ada-representation-bit|
+    13.6 Change of Representation |ada-representation-change|
+    13.7 The Package System |ada-representation-system|
+        13.7.1 The Package System.Storage_Elements |ada-representation-system-storage-elements|
+        13.7.2 The Package System.Address_To_Access_Conversions |ada-representation-system-address-to-access|
+    13.8 Machine Code Insertions |ada-representation-machine|
+    13.9 Unchecked Type Conversions |ada-representation-unchecked|
+        13.9.1 Data Validity  |ada-representation-data|
+        13.9.2 The Valid Attribute |ada-representation-valid|
+    13.10 Unchecked Access Value Creation |ada-representation-unchecked-access|
+    13.11 Storage Management |ada-representation-storage|
+        13.11.1 Storage Allocation Attributes |ada-representation-storage-allocation|
+        13.11.2 Unchecked Storage Deallocation |ada-representation-storage-unchecked|
+        13.11.3 Default Storage Pools |ada-representation-storage-default|
+        13.11.4 Storage Subpools |ada-representation-storage-subpools|
+        13.11.5 Subpool Reclamation |ada-representation-storage-reclamation|
+        13.11.6 Storage Subpool Example |ada-representation-storage-example|
+    13.12 Pragma Restrictions and Pragma Profile |ada-representation-pragma|
+        13.12.1 Language-Defined Restrictions and Profiles |ada-representation-language|
+    13.13 Streams |ada-representation-streams|
+        13.13.1 The Package Streams |ada-representation-package-streams|
+        13.13.2 Stream-Oriented Attributes |ada-representation-stream-oriented|
+    13.14 Freezing Rules |ada-representation-freezing|
 
 The Standard Libraries
 

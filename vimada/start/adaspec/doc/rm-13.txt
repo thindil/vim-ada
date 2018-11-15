@@ -7,7 +7,7 @@
 aspects of entities and for interfacing to hardware.
 
 
-13.1 Operational and Representation Aspects
+13.1 Operational and Representation Aspects *ada-representation-operational-aspects*
 
 
 0.1/3 Two kinds of aspects of entities can be specified: representation
@@ -268,7 +268,7 @@ that minimally aligned objects of this type might be declared at some point.
         International Standard, and are summarized in K.1.
 
 
-13.1.1 Aspect Specifications
+13.1.1 Aspect Specifications *ada-representation-aspect*
 
 
 1/3 Certain representation or operational aspects of an entity may be
@@ -279,7 +279,7 @@ the aspect_specification is termed the associated declaration.
 
                                    Syntax
 
-2/3     aspect_specification ::= 
+2/3     aspect_specification ::=
            with aspect_mark [=> aspect_definition] {,
                    aspect_mark [=> aspect_definition] }
 
@@ -475,7 +475,7 @@ implementation-defined syntax for the aspect_definition, and may follow
 implementation-defined legality and semantics rules.
 
 
-13.2 Packed Types
+13.2 Packed Types *ada-representation-packed*
 
 
 1/3 The Pack aspect having the value True specifies that storage minimization
@@ -531,7 +531,7 @@ calculations.
         requirements.
 
 
-13.3 Operational and Representation Attributes
+13.3 Operational and Representation Attributes *ada-representation-operational-attributes*
 
 
 1/1 The values of certain implementation-dependent characteristics can be
@@ -542,7 +542,7 @@ attribute_definition_clause.
 
                                    Syntax
 
-2       attribute_definition_clause ::= 
+2       attribute_definition_clause ::=
               for local_name'attribute_designator use expression;
             | for local_name'attribute_designator use name;
 
@@ -1073,7 +1073,7 @@ in the partition, the partition may be rejected.
         Short'Small <= 2**(-7).
 
 
-13.4 Enumeration Representation Clauses
+13.4 Enumeration Representation Clauses *ada-representation-enumeration*
 
 
 1   An enumeration_representation_clause specifies the internal codes for
@@ -1082,7 +1082,7 @@ enumeration literals.
 
                                    Syntax
 
-2       enumeration_representation_clause ::= 
+2       enumeration_representation_clause ::=
             for first_subtype_local_name use enumeration_aggregate;
 
 3       enumeration_aggregate ::= array_aggregate
@@ -1151,7 +1151,7 @@ is:
            (ADD => 1, SUB => 2, MUL => 3, LDA => 8, STA => 24, STZ =>33);
 
 
-13.5 Record Layout
+13.5 Record Layout *ada-representation-record*
 
 
 1   The (record) layout aspect of representation consists of the storage
@@ -1159,7 +1159,7 @@ places for some or all components, that is, storage place attributes of the
 components. The layout can be specified with a record_representation_clause.
 
 
-13.5.1 Record Representation Clauses
+13.5.1 Record Representation Clauses *ada-representation-record-clauses*
 
 
 1   A record_representation_clause specifies the storage representation of
@@ -1169,13 +1169,13 @@ components (including discriminants, if any).
 
                                    Syntax
 
-2       record_representation_clause ::= 
+2       record_representation_clause ::=
             for first_subtype_local_name use
               record [mod_clause]
                 {component_clause}
               end record;
 
-3       component_clause ::= 
+3       component_clause ::=
             component_local_name at position range first_bit .. last_bit;
 
 4       position ::= static_expression
@@ -1361,7 +1361,7 @@ representation_clause.
         type will have addresses divisible by eight.
 
 
-13.5.2 Storage Place Attributes
+13.5.2 Storage Place Attributes *ada-representation-storage-place*
 
 
 
@@ -1408,7 +1408,7 @@ discontiguously from the rest of the object, then a warning should be
 generated upon reference to one of its storage place attributes.
 
 
-13.5.3 Bit Ordering
+13.5.3 Bit Ordering *ada-representation-bit*
 
 
 1   The Bit_Order attribute specifies the interpretation of the storage place
@@ -1455,7 +1455,7 @@ according to the bit ordering of the type.
         exchange of data between such machines.
 
 
-13.6 Change of Representation
+13.6 Change of Representation *ada-representation-change*
 
 
 1/3 A type_conversion (see 4.6) can be used to convert between two different
@@ -1503,7 +1503,7 @@ change in representation.
 
 
 
-13.7 The Package System
+13.7 The Package System *ada-representation-system*
 
 
 1   For each implementation there is a library package called System which
@@ -1656,7 +1656,7 @@ children of System.
         defined elsewhere.
 
 
-13.7.1 The Package System.Storage_Elements
+13.7.1 The Package System.Storage_Elements *ada-representation-system-storage-elements*
 
 
 
@@ -1728,7 +1728,7 @@ machines, it makes sense for address arithmetic to "wrap around." Operations
 that do not make sense should raise Program_Error.
 
 
-13.7.2 The Package System.Address_To_Access_Conversions
+13.7.2 The Package System.Address_To_Access_Conversions *ada-representation-system-address-to-access*
 
 
 
@@ -1763,7 +1763,7 @@ null, returns Y.all'Address.
 Address_To_Access_Conversions.
 
 
-13.8 Machine Code Insertions
+13.8 Machine Code Insertions *ada-representation-machine*
 
 
 1   A machine code insertion can be achieved by a call to a subprogram whose
@@ -1841,7 +1841,7 @@ implementation is not required to provide package System.Machine_Code.
         end Set_Mask;
 
 
-13.9 Unchecked Type Conversions
+13.9 Unchecked Type Conversions *ada-representation-unchecked*
 
 
 1   An unchecked type conversion can be achieved by a call to an instance of
@@ -1923,7 +1923,7 @@ target environment.
         paragraph.
 
 
-13.9.1 Data Validity
+13.9.1 Data Validity *ada-representation-data*
 
 
 1   Certain actions that can potentially lead to erroneous execution are not
@@ -2022,7 +2022,7 @@ Unchecked_Conversion.
         generally considered directly erroneous, however.
 
 
-13.9.2 The Valid Attribute
+13.9.2 The Valid Attribute *ada-representation-valid*
 
 
 1   The Valid attribute can be used to check the validity of data produced by
@@ -2078,7 +2078,7 @@ dereference), the following attribute is defined:
         representation (see 13.9.1).
 
 
-13.10 Unchecked Access Value Creation
+13.10 Unchecked Access Value Creation *ada-representation-unchecked-access*
 
 
 1   The attribute Unchecked_Access is used to create access values in an
@@ -2109,7 +2109,7 @@ view of an object:
 5       26  There is no Unchecked_Access attribute for subprograms.
 
 
-13.11 Storage Management
+13.11 Storage Management *ada-representation-storage*
 
 
 1   Each access-to-object type has an associated storage pool. The storage
@@ -2388,7 +2388,7 @@ is a possible use:
         Release(My_Mark); -- Finalize objects and reclaim storage.
 
 
-13.11.1 Storage Allocation Attributes
+13.11.1 Storage Allocation Attributes *ada-representation-storage-allocation*
 
 
 1/3 The Max_Size_In_Storage_Elements and Max_Alignment_For_Allocation
@@ -2417,7 +2417,7 @@ access discriminant, then these attributes account for any calls on Allocate
 that could be performed to provide space for such coextensions.
 
 
-13.11.2 Unchecked Storage Deallocation
+13.11.2 Unchecked Storage Deallocation *ada-representation-storage-unchecked*
 
 
 1   Unchecked storage deallocation of an object designated by a value of an
@@ -2530,7 +2530,7 @@ by the language to be zero.
         access-to-constant type. This is implied by the rules of 12.5.4.
 
 
-13.11.3 Default Storage Pools
+13.11.3 Default Storage Pools *ada-representation-storage-default*
 
 
 1/4 Pragma and aspect Default_Storage_Pool specify the storage pool that will
@@ -2633,7 +2633,7 @@ reclaimed, regardless of the default pool.
         allocators use the default pool.
 
 
-13.11.4 Storage Subpools
+13.11.4 Storage Subpools *ada-representation-storage-subpools*
 
 
 1/3 This subclause defines a package to support the partitioning of a storage
@@ -2829,7 +2829,7 @@ have the same effect, so long as Allocate has not been overridden.
         additional information with each subpool provided by Create_Subpool.
 
 
-13.11.5 Subpool Reclamation
+13.11.5 Subpool Reclamation *ada-representation-storage-reclamation*
 
 
 1/3 A subpool may be explicitly deallocated using
@@ -2864,7 +2864,7 @@ Otherwise, the subpool is finalized, and Subpool is set to null.
 subpools that belong to that pool that have not yet been finalized.
 
 
-13.11.6 Storage Subpool Example
+13.11.6 Storage Subpool Example *ada-representation-storage-example*
 
 
 
@@ -3027,7 +3027,7 @@ classic Mark/Release pool using subpools:
 29/3    end MR_Pool;
 
 
-13.12 Pragma Restrictions and Pragma Profile
+13.12 Pragma Restrictions and Pragma Profile *ada-representation-pragma*
 
 
 1/3 A pragma Restrictions expresses the user's intent to abide by certain
@@ -3160,7 +3160,7 @@ of the language-defined usage profiles.
         the restrictions in terms of efficiency.
 
 
-13.12.1 Language-Defined Restrictions and Profiles
+13.12.1 Language-Defined Restrictions and Profiles *ada-representation-language*
 
 
 
@@ -3293,7 +3293,7 @@ the library unit identified by the name of a No_Dependence restriction.
 9/3 The following profile_identifier is language defined:
 
 10/3 No_Implementation_Extensions
-                
+
 
 11/3 For usage profile No_Implementation_Extensions, there shall be no
 profile_pragma_argument_associations.
@@ -3308,7 +3308,7 @@ following restrictions:
         No_Implementation_Units.
 
 
-13.13 Streams
+13.13 Streams *ada-representation-streams*
 
 
 1   A stream is a sequence of elements comprising values from possibly
@@ -3318,7 +3318,7 @@ type may be implemented in various ways, such as an external sequential file,
 an internal buffer, or a network channel.
 
 
-13.13.1 The Package Streams
+13.13.1 The Package Streams *ada-representation-package-streams*
 
 
 
@@ -3384,7 +3384,7 @@ the components of Stream_Element_Array need not be aliased.
         Stream_Element_Offset'First, Read will raise Constraint_Error.
 
 
-13.13.2 Stream-Oriented Attributes
+13.13.2 Stream-Oriented Attributes *ada-representation-stream-oriented*
 
 
 1/3 The type-related operational attributes Write, Read, Output, and Input
@@ -3776,7 +3776,7 @@ discriminants that match those in the stream.
         for My_Integer'Write use My_Write;
 
 
-13.14 Freezing Rules
+13.14 Freezing Rules *ada-representation-freezing*
 
 
 1/3 This subclause defines a place in the program text where each declared
