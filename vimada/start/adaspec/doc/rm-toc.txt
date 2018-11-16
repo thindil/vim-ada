@@ -316,39 +316,39 @@ A. Predefined Language Environment |ada-predefined|
         A.18.1 The Package Containers |ada-package-containers|
         A.18.2 The Generic Package Containers.Vectors |ada-package-containers-vectors|
         A.18.3 The Generic Package Containers.Doubly_Linked_Lists |ada-package-containers-doubly-linked-lists|
-        A.18.4 Maps
-        A.18.5 The Generic Package Containers.Hashed_Maps
-        A.18.6 The Generic Package Containers.Ordered_Maps
-        A.18.7 Sets
-        A.18.8 The Generic Package Containers.Hashed_Sets
-        A.18.9 The Generic Package Containers.Ordered_Sets
-        A.18.10 The Generic Package Containers.Multiway_Trees
-        A.18.11 The Generic Package Containers.Indefinite_Vectors
+        A.18.4 Maps |ada-predefined-maps|
+        A.18.5 The Generic Package Containers.Hashed_Maps |ada-package-containers-hashed-maps|
+        A.18.6 The Generic Package Containers.Ordered_Maps |ada-package-containers-ordered-maps|
+        A.18.7 Sets |ada-predefined-sets|
+        A.18.8 The Generic Package Containers.Hashed_Sets |ada-package-containers-hashed-sets|
+        A.18.9 The Generic Package Containers.Ordered_Sets |ada-package-containers-ordered-sets|
+        A.18.10 The Generic Package Containers.Multiway_Trees |ada-package-containers-multiway-trees|
+        A.18.11 The Generic Package Containers.Indefinite_Vectors |ada-package-containers-indefinite-vectors|
         A.18.12
- The Generic Package Containers.Indefinite_Doubly_Linked_Lists
-        A.18.13 The Generic Package Containers.Indefinite_Hashed_Maps
-        A.18.14 The Generic Package Containers.Indefinite_Ordered_Maps
-        A.18.15 The Generic Package Containers.Indefinite_Hashed_Sets
-        A.18.16 The Generic Package Containers.Indefinite_Ordered_Sets
-        A.18.17 The Generic Package Containers.Indefinite_Multiway_Trees
-        A.18.18 The Generic Package Containers.Indefinite_Holders
-        A.18.19 The Generic Package Containers.Bounded_Vectors
-        A.18.20 The Generic Package Containers.Bounded_Doubly_Linked_Lists
-        A.18.21 The Generic Package Containers.Bounded_Hashed_Maps
-        A.18.22 The Generic Package Containers.Bounded_Ordered_Maps
-        A.18.23 The Generic Package Containers.Bounded_Hashed_Sets
-        A.18.24 The Generic Package Containers.Bounded_Ordered_Sets
-        A.18.25 The Generic Package Containers.Bounded_Multiway_Trees
-        A.18.26 Array Sorting
+ The Generic Package Containers.Indefinite_Doubly_Linked_Lists |ada-package-containers-indefinite-doubly-linked-lists|
+        A.18.13 The Generic Package Containers.Indefinite_Hashed_Maps |ada-package-containers-indefinite-hashed-maps|
+        A.18.14 The Generic Package Containers.Indefinite_Ordered_Maps |ada-package-containers-indefinite-ordered-maps|
+        A.18.15 The Generic Package Containers.Indefinite_Hashed_Sets |ada-package-containers-indefinite-hashed-sets|
+        A.18.16 The Generic Package Containers.Indefinite_Ordered_Sets |ada-package-containers-indefinite-ordered-sets|
+        A.18.17 The Generic Package Containers.Indefinite_Multiway_Trees |ada-package-containers-indefinite-multiway-trees|
+        A.18.18 The Generic Package Containers.Indefinite_Holders |ada-package-containers-indefinite-holders|
+        A.18.19 The Generic Package Containers.Bounded_Vectors |ada-package-containers-bounded-vectors|
+        A.18.20 The Generic Package Containers.Bounded_Doubly_Linked_Lists |ada-package-containers-bouded-doubly-linked-lists|
+        A.18.21 The Generic Package Containers.Bounded_Hashed_Maps |ada-package-containers-bounded-hashed-maps|
+        A.18.22 The Generic Package Containers.Bounded_Ordered_Maps |ada-package-containers-bounded-ordered-maps|
+        A.18.23 The Generic Package Containers.Bounded_Hashed_Sets |ada-package-containers-bounded-hashed-sets|
+        A.18.24 The Generic Package Containers.Bounded_Ordered_Sets |ada-package-containers-bounded-ordered-sets|
+        A.18.25 The Generic Package Containers.Bounded_Multiway_Trees |ada-package-containers-bounded-multiway-trees|
+        A.18.26 Array Sorting |ada-predefined-array-sorting|
         A.18.27
- The Generic Package Containers.Synchronized_Queue_Interfaces
+ The Generic Package Containers.Synchronized_Queue_Interfaces |ada-package-containers-synchronized-queue-interfaces|
         A.18.28
- The Generic Package Containers.Unbounded_Synchronized_Queues
-        A.18.29 The Generic Package Containers.Bounded_Synchronized_Queues
-        A.18.30 The Generic Package Containers.Unbounded_Priority_Queues
-        A.18.31 The Generic Package Containers.Bounded_Priority_Queues
-        A.18.32 Example of Container Use
-    A.19 The Package Locales
+ The Generic Package Containers.Unbounded_Synchronized_Queues |ada-package-containers-unbound-synchronized-queues|
+        A.18.29 The Generic Package Containers.Bounded_Synchronized_Queues |ada-package-containers-bounded-synchronized-queues|
+        A.18.30 The Generic Package Containers.Unbounded_Priority_Queues |ada-package-containers-unbounded-priority-queues|
+        A.18.31 The Generic Package Containers.Bounded_Priority_Queues |ada-package-containers-bounded-priority-queues|
+        A.18.32 Example of Container Use |ada-predefined-example-container|
+    A.19 The Package Locales |ada-package-locales|
 
 B. Interface to Other Languages |ada-interface|
     B.1 Interfacing Aspects

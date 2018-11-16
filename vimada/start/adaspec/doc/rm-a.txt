@@ -10,8 +10,8 @@
 provided by every implementation. There are three root library units: Ada,
 Interfaces, and System; other library units are children of these:
 
-2/3  
- 
+2/3
+
 
         Standard - A.1
          Ada - A.2
@@ -411,121 +411,121 @@ information (such as implementation-defined).
            function "/=" (Left, Right: universal_access) return Boolean;
 
 35/3          -- The declaration of type Character is based on the standard ISO 8859-1 character set.
-        
+
               -- There are no character literals corresponding to the positions for control characters.
               -- They are indicated in italics in this definition. See 3.5.2.
-        
+
            type Character is
-             (nul,      soh,     stx,     etx,       eot,     enq,    ack,     
+             (nul,      soh,     stx,     etx,       eot,     enq,    ack,
         bel,   --0 (16#00#) .. 7 (16#07#)
-              bs,       ht,      lf,      vt,        ff,      cr,     so,      
+              bs,       ht,      lf,      vt,        ff,      cr,     so,
         si,    --8 (16#08#) .. 15 (16#0F#)
-        
-              dle,      dc1,     dc2,     dc3,       dc4,     nak,    syn,     
+
+              dle,      dc1,     dc2,     dc3,       dc4,     nak,    syn,
         etb,   --16 (16#10#) .. 23 (16#17#)
-              can,      em,      sub,     esc,       fs,      gs,     rs,      
+              can,      em,      sub,     esc,       fs,      gs,     rs,
         us,    --24 (16#18#) .. 31 (16#1F#)
-        
-              ' ',      '!',     '"',     '#',       '$',     '%',    '&',     
+
+              ' ',      '!',     '"',     '#',       '$',     '%',    '&',
         ''',   --32 (16#20#) .. 39 (16#27#)
-              '(',      ')',     '*',     '+',       ',',     '-',    '.',     
+              '(',      ')',     '*',     '+',       ',',     '-',    '.',
         '/',   --40 (16#28#) .. 47 (16#2F#)
-        
-              '0',      '1',     '2',     '3',       '4',     '5',    '6',     
+
+              '0',      '1',     '2',     '3',       '4',     '5',    '6',
         '7',   --48 (16#30#) .. 55 (16#37#)
-              '8',      '9',     ':',     ';',       '<',     '=',    '>',     
+              '8',      '9',     ':',     ';',       '<',     '=',    '>',
         '?',   --56 (16#38#) .. 63 (16#3F#)
-        
-              '@',      'A',     'B',     'C',       'D',     'E',    'F',     
+
+              '@',      'A',     'B',     'C',       'D',     'E',    'F',
         'G',   --64 (16#40#) .. 71 (16#47#)
-              'H',      'I',     'J',     'K',       'L',     'M',    'N',     
+              'H',      'I',     'J',     'K',       'L',     'M',    'N',
         'O',   --72 (16#48#) .. 79 (16#4F#)
-        
-              'P',      'Q',     'R',     'S',       'T',     'U',    'V',     
+
+              'P',      'Q',     'R',     'S',       'T',     'U',    'V',
         'W',   --80 (16#50#) .. 87 (16#57#)
-              'X',      'Y',     'Z',     '[',       '\',     ']',    '^',     
+              'X',      'Y',     'Z',     '[',       '\',     ']',    '^',
         '_',   --88 (16#58#) .. 95 (16#5F#)
-        
-              '`',      'a',     'b',     'c',       'd',     'e',    'f',     
+
+              '`',      'a',     'b',     'c',       'd',     'e',    'f',
         'g',   --96 (16#60#) .. 103 (16#67#)
-              'h',      'i',     'j',     'k',       'l',     'm',    'n',     
+              'h',      'i',     'j',     'k',       'l',     'm',    'n',
         'o',   --104 (16#68#) .. 111 (16#6F#)
-        
-              'p',      'q',     'r',     's',       't',     'u',    'v',     
+
+              'p',      'q',     'r',     's',       't',     'u',    'v',
         'w',   --112 (16#70#) .. 119 (16#77#)
-              'x',      'y',     'z',     '{',       '|',     '}',    '~',     
+              'x',      'y',     'z',     '{',       '|',     '}',    '~',
         del,   --120 (16#78#) .. 127 (16#7F#)
-        
-              reserved_128,      reserved_129,       bph,     nbh,                     
+
+              reserved_128,      reserved_129,       bph,     nbh,
         --128 (16#80#) .. 131 (16#83#)
-              reserved_132,      nel,     ssa,       esa,                              
+              reserved_132,      nel,     ssa,       esa,
         --132 (16#84#) .. 135 (16#87#)
-              hts,      htj,     vts,     pld,       plu,     ri,     ss2,     
+              hts,      htj,     vts,     pld,       plu,     ri,     ss2,
         ss3,   --136 (16#88#) .. 143 (16#8F#)
-        
-              dcs,      pu1,     pu2,     sts,       cch,     mw,     spa,     
+
+              dcs,      pu1,     pu2,     sts,       cch,     mw,     spa,
         epa,   --144 (16#90#) .. 151 (16#97#)
-              sos,      reserved_153,     sci,       csi,                              
+              sos,      reserved_153,     sci,       csi,
         --152 (16#98#) .. 155 (16#9B#)
-              st,       osc,     pm,      apc,                                         
+              st,       osc,     pm,      apc,
         --156 (16#9C#) .. 159 (16#9F#)
-        
-              ' ',      '¡',     '¢',     '£',       '¤',     '¥',    '¦',     
+
+              ' ',      '¡',     '¢',     '£',       '¤',     '¥',    '¦',
         '§',   --160 (16#A0#) .. 167 (16#A7#)
-              '¨',      '©',     'ª',     '«',                                         
+              '¨',      '©',     'ª',     '«',
         --168 (16#A8#) .. 171 (16#AB#)
-              ¬',       soft_hyphen,      '®',       '¯',                              
+              ¬',       soft_hyphen,      '®',       '¯',
         --172 (16#AC#) .. 175 (16#AF#)
-        
-              '°',      '±',     '²',     '³',       '´',     'µ',    '¶',     
+
+              '°',      '±',     '²',     '³',       '´',     'µ',    '¶',
         '·',   --176 (16#B0#) .. 183 (16#B7#)
-              '¸',      '¹',     'º',     '»',       '¼',     '½',    '¾',     
+              '¸',      '¹',     'º',     '»',       '¼',     '½',    '¾',
         '¿',   --184 (16#B8#) .. 191 (16#BF#)
-        
-              'À',      'Á',     'Â',     'Ã',       'Ä',     'Å',    'Æ',     
+
+              'À',      'Á',     'Â',     'Ã',       'Ä',     'Å',    'Æ',
         'Ç',   --192 (16#C0#) .. 199 (16#C7#)
-              'È',      'É',     'Ê',     'Ë',       'Ì',     'Í',    'Î',     
+              'È',      'É',     'Ê',     'Ë',       'Ì',     'Í',    'Î',
         'Ï',   --200 (16#C8#) .. 207 (16#CF#)
-        
-              'Ð',      'Ñ',     'Ò',     'Ó',       'Ô',     'Õ',    'Ö',     
+
+              'Ð',      'Ñ',     'Ò',     'Ó',       'Ô',     'Õ',    'Ö',
         '×',   --208 (16#D0#) .. 215 (16#D7#)
-              'Ø',      'Ù',     'Ú',     'Û',       'Ü',     'Ý',    'Þ',     
+              'Ø',      'Ù',     'Ú',     'Û',       'Ü',     'Ý',    'Þ',
         'ß',   --216 (16#D8#) .. 223 (16#DF#)
-        
-              'à',      'á',     'â',     'ã',       'ä',     'å',    'æ',     
+
+              'à',      'á',     'â',     'ã',       'ä',     'å',    'æ',
         'ç',   --224 (16#E0#) .. 231 (16#E7#)
-              'è',      'é',     'ê',     'ë',       'ì',     'í',    'î',     
+              'è',      'é',     'ê',     'ë',       'ì',     'í',    'î',
         'ï',   --232 (16#E8#) .. 239 (16#EF#)
-        
-              'ð',      'ñ',     'ò',     'ó',       'ô',     'õ',    'ö',     
+
+              'ð',      'ñ',     'ò',     'ó',       'ô',     'õ',    'ö',
         '÷',   --240 (16#F0#) .. 247 (16#F7#)
-              'ø',      'ù',     'ú',     'û',       'ü',     'ý',    'þ',     
+              'ø',      'ù',     'ú',     'û',       'ü',     'ý',    'þ',
         'ÿ');--248 (16#F8#) .. 255 (16#FF#)
 
 36         -- The predefined operators for the type Character are the same as for
            -- any enumeration type.
-        
+
 
 36.1/3     -- The declaration of type Wide_Character is based on the standard ISO/IEC 10646:2011 BMP character
            -- set. The first 256 positions have the same contents as type Character. See 3.5.2
         .
-        
+
            type Wide_Character is (nul, soh ... Hex_0000FFFE, Hex_0000FFFF);
 
 36.2/3     -- The declaration of type Wide_Wide_Character is based on the full
            -- ISO/IEC 10646:2011 character set. The first 65536 positions have the
            -- same contents as type Wide_Character. See 3.5.2.
-        
+
            type Wide_Wide_Character
          is (nul, soh ... Hex_7FFFFFFE, Hex_7FFFFFFF);
            for Wide_Wide_Character'Size use 32;
 
 36.3/2     package ASCII is ... end ASCII;  --Obsolescent; see J.5
-        
-        
+
+
 
 37/3       -- Predefined string types:
-        
+
            type String is array(Positive range <>) of Character
               with Pack;
 
@@ -1900,7 +1900,7 @@ operator. "-"(Left, Right) is equivalent to "and"(Left, "not"(Right)).
             character mapping.
 
 46      function To_Set (Sequence  : in Character_Sequence) return Character_Set;
-        
+
         function To_Set (Singleton : in Character)          return Character_Set;
 
 47          Sequence portrays the set of character values that it explicitly
@@ -2268,7 +2268,7 @@ control is provided by the string transformation procedures.
                         Going   : in Direction := Forward;
                         Mapping : in Maps.Character_Mapping := Maps.Identity)
            return Natural;
-        
+
         function Index (Source  : in String;
                         Pattern : in String;
                         From    : in Positive;
@@ -2295,7 +2295,7 @@ control is provided by the string transformation procedures.
                         Mapping  : in Maps.Character_Mapping
                                       := Maps.Identity)
            return Natural;
-        
+
         function Index (Source   : in String;
                         Pattern  : in String;
                         Going    : in Direction := Forward;
@@ -2359,7 +2359,7 @@ control is provided by the string transformation procedures.
                         Mapping  : in Maps.Character_Mapping
                                      := Maps.Identity)
            return Natural;
-        
+
         function Count (Source   : in String;
                         Pattern  : in String;
                         Mapping  : in Maps.Character_Mapping_Function)
@@ -2403,7 +2403,7 @@ control is provided by the string transformation procedures.
 69      function Translate (Source  : in String;
                             Mapping : in Maps.Character_Mapping)
            return String;
-        
+
         function Translate (Source  : in String;
                             Mapping : in Maps.Character_Mapping_Function)
            return String;
@@ -2414,7 +2414,7 @@ control is provided by the string transformation procedures.
 
 71      procedure Translate (Source  : in out String;
                              Mapping : in Maps.Character_Mapping);
-        
+
         procedure Translate (Source  : in out String;
                              Mapping : in Maps.Character_Mapping_Function);
 
@@ -2572,7 +2572,7 @@ control is provided by the string transformation procedures.
 
 105     function "*" (Left  : in Natural;
                       Right : in Character) return String;
-        
+
         function "*" (Left  : in Natural;
                       Right : in String) return String;
 
@@ -4541,7 +4541,7 @@ following declaration:
 
 3       generic
            type Float_Type is digits <>;
-        
+
         package Ada.Numerics.Generic_Elementary_Functions is
            pragma Pure(Generic_Elementary_Functions);
 
@@ -4851,7 +4851,7 @@ state.
 16  The generic library package Numerics.Discrete_Random has the following
 declaration:
 
-17      
+17
         generic
            type Result_Subtype is (<>);
         package Ada.Numerics.Discrete_Random is
@@ -7100,12 +7100,12 @@ reveal the layout and spaces.
            ...
         Get(N);
 
-13      --                        Characters at input  Sequence input  
+13      --                        Characters at input  Sequence input
         Value of N
-        
+
         --                        bb-12535b           -12535  -12535
         --                        bb12_535e1b         12_535e1  125350
-        --                        bb12_535e;          12_535e  
+        --                        bb12_535e;          12_535e
         (none) Data_Error raised
 
 14  Example of overridden width parameter:
@@ -7319,7 +7319,7 @@ Integer_IO and Modular_IO:
                       Item  : in Num;
                       Width : in Field := Default_Width;
                       Base  : in Number_Base := Default_Base);
-        
+
         procedure Put(Item  : in Num;
                       Width : in Field := Default_Width;
                       Base  : in Number_Base := Default_Base);
@@ -7469,7 +7469,7 @@ packages Fixed_IO and Decimal_IO, respectively:
                       Fore : in Field := Default_Fore;
                       Aft  : in Field := Default_Aft;
                       Exp  : in Field := Default_Exp);
-        
+
         procedure Put(Item : in Num;
                       Fore : in Field := Default_Fore;
                       Aft  : in Field := Default_Aft;
@@ -7624,7 +7624,7 @@ Enumeration_IO:
                       Item  : in Enum;
                       Width : in Field := Default_Width;
                       Set   : in Type_Set := Default_Setting);
-        
+
         procedure Put(Item  : in Enum;
                       Width : in Field := Default_Width;
                       Set   : in Type_Set := Default_Setting);
@@ -8353,7 +8353,7 @@ termination.
 10      private
           ... -- not specified by the language
         end Ada.Command_Line;
-        
+
 
 11      function Argument_Count return Natural;
 
@@ -11453,7 +11453,7 @@ operation.
         not a stable sort.
 
 
-A.18.4 Maps
+A.18.4 Maps *ada-predefined-maps*
 
 
 1/2 The language-defined generic packages Containers.Hashed_Maps and
@@ -11907,7 +11907,7 @@ data structures.
 lost, nor any elements removed from a map unless specified by the operation.
 
 
-A.18.5 The Generic Package Containers.Hashed_Maps
+A.18.5 The Generic Package Containers.Hashed_Maps *ada-package-containers-hashed-maps*
 
 
 
@@ -12207,7 +12207,7 @@ subprograms that take a cursor parameter should be O(1). The average time
 complexity of Reserve_Capacity should be O(N).
 
 
-A.18.6 The Generic Package Containers.Ordered_Maps
+A.18.6 The Generic Package Containers.Ordered_Maps *ada-package-containers-ordered_maps*
 
 
 
@@ -12573,7 +12573,7 @@ take a key parameter should be O((log N)**2) or better. The worst-case time
 complexity of the subprograms that take a cursor parameter should be O(1).
 
 
-A.18.7 Sets
+A.18.7 Sets *ada-predefined-sets*
 
 
 1/2 The language-defined generic packages Containers.Hashed_Sets and
@@ -13108,7 +13108,7 @@ data structures.
 lost, nor any elements removed from a set unless specified by the operation.
 
 
-A.18.8 The Generic Package Containers.Hashed_Sets
+A.18.8 The Generic Package Containers.Hashed_Sets *ada-package-containers-hashed-sets*
 
 
 
@@ -13483,7 +13483,7 @@ subprograms that take a cursor parameter should be O(1). The average time
 complexity of Reserve_Capacity should be O(N).
 
 
-A.18.9 The Generic Package Containers.Ordered_Sets
+A.18.9 The Generic Package Containers.Ordered_Sets *ada-package-containers-ordered-sets*
 
 
 
@@ -13926,7 +13926,7 @@ element parameter should be O((log N)**2) or better. The worst-case time
 complexity of the subprograms that take a cursor parameter should be O(1).
 
 
-A.18.10 The Generic Package Containers.Multiway_Trees
+A.18.10 The Generic Package Containers.Multiway_Trees *ada-package-containers-multiway-trees*
 
 
 1/3 The language-defined generic package Containers.Multiway_Trees provides
@@ -15007,7 +15007,7 @@ be lost, nor any elements removed from a tree unless specified by the
 operation.
 
 
-A.18.11 The Generic Package Containers.Indefinite_Vectors
+A.18.11 The Generic Package Containers.Indefinite_Vectors *ada-package-containers-indefinite-vectors*
 
 
 1/2 The language-defined generic package Containers.Indefinite_Vectors
@@ -15046,7 +15046,7 @@ Containers.Vectors except:
         indefinite insertion (see A.18).
 
 
-A.18.12 The Generic Package Containers.Indefinite_Doubly_Linked_Lists
+A.18.12 The Generic Package Containers.Indefinite_Doubly_Linked_Lists *ada-package-containers-indefinite-doubly-linked-lists*
 
 
 1/2 The language-defined generic package
@@ -15082,7 +15082,7 @@ Linked_Lists except:
         (see A.18).
 
 
-A.18.13 The Generic Package Containers.Indefinite_Hashed_Maps
+A.18.13 The Generic Package Containers.Indefinite_Hashed_Maps *ada-package-containers-indefinite-hashed-maps*
 
 
 1/2 The language-defined generic package Containers.Indefinite_Hashed_Maps
@@ -15119,7 +15119,7 @@ Containers.Hashed_Maps except:
         (see A.18).
 
 
-A.18.14 The Generic Package Containers.Indefinite_Ordered_Maps
+A.18.14 The Generic Package Containers.Indefinite_Ordered_Maps *ada-package-containers-indefinite-ordered-maps*
 
 
 1/2 The language-defined generic package Containers.Indefinite_Ordered_Maps
@@ -15156,7 +15156,7 @@ Containers.Ordered_Maps except:
         (see A.18).
 
 
-A.18.15 The Generic Package Containers.Indefinite_Hashed_Sets
+A.18.15 The Generic Package Containers.Indefinite_Hashed_Sets *ada-package-containers-indefinite-hashed-sets*
 
 
 1/2 The language-defined generic package Containers.Indefinite_Hashed_Sets
@@ -15182,7 +15182,7 @@ Containers.Hashed_Sets except:
         insertion (see A.18).
 
 
-A.18.16 The Generic Package Containers.Indefinite_Ordered_Sets
+A.18.16 The Generic Package Containers.Indefinite_Ordered_Sets *ada-package-containers-indefinite-ordered-sets*
 
 
 1/2 The language-defined generic package Containers.Indefinite_Ordered_Sets
@@ -15208,7 +15208,7 @@ Containers.Ordered_Sets except:
         insertion (see A.18).
 
 
-A.18.17 The Generic Package Containers.Indefinite_Multiway_Trees
+A.18.17 The Generic Package Containers.Indefinite_Multiway_Trees *ada-package-containers-indefinite-multiway-trees*
 
 
 1/3 The language-defined generic package Containers.Indefinite_Multiway_Trees
@@ -15244,7 +15244,7 @@ Containers.Multiway_Trees except:
         perform indefinite insertion (see A.18).
 
 
-A.18.18 The Generic Package Containers.Indefinite_Holders
+A.18.18 The Generic Package Containers.Indefinite_Holders *ada-package-containers-indefinite-holders*
 
 
 1/3 The language-defined generic package Containers.Indefinite_Holders
@@ -15520,7 +15520,7 @@ be lost, nor should the element be removed from a holder container unless
 specified by the operation.
 
 
-A.18.19 The Generic Package Containers.Bounded_Vectors
+A.18.19 The Generic Package Containers.Bounded_Vectors *ada-package-containers-bounded-vectors*
 
 
 1/3 The language-defined generic package Containers.Bounded_Vectors provides a
@@ -15600,7 +15600,7 @@ dynamic allocation.
 apply.
 
 
-A.18.20 The Generic Package Containers.Bounded_Doubly_Linked_Lists
+A.18.20 The Generic Package Containers.Bounded_Doubly_Linked_Lists *ada-package-containers-bounded-doubly-linked-lists*
 
 
 1/3 The language-defined generic package
@@ -15692,7 +15692,7 @@ dynamic allocation.
 apply.
 
 
-A.18.21 The Generic Package Containers.Bounded_Hashed_Maps
+A.18.21 The Generic Package Containers.Bounded_Hashed_Maps *ada-package-containers-bounded-hashed-maps*
 
 
 1/3 The language-defined generic package Containers.Bounded_Hashed_Maps
@@ -15795,7 +15795,7 @@ pointers or dynamic allocation.
 apply.
 
 
-A.18.22 The Generic Package Containers.Bounded_Ordered_Maps
+A.18.22 The Generic Package Containers.Bounded_Ordered_Maps *ada-package-containers-bounded-ordered-maps*
 
 
 1/3 The language-defined generic package Containers.Bounded_Ordered_Maps
@@ -15883,7 +15883,7 @@ pointers or dynamic allocation.
 apply.
 
 
-A.18.23 The Generic Package Containers.Bounded_Hashed_Sets
+A.18.23 The Generic Package Containers.Bounded_Hashed_Sets *ada-package-containers-bounded-hashed-sets*
 
 
 1/3 The language-defined generic package Containers.Bounded_Hashed_Sets
@@ -15983,7 +15983,7 @@ pointers or dynamic allocation.
 apply.
 
 
-A.18.24 The Generic Package Containers.Bounded_Ordered_Sets
+A.18.24 The Generic Package Containers.Bounded_Ordered_Sets *ada-package-containers-bounded-ordered-sets*
 
 
 1/3 The language-defined generic package Containers.Bounded_Ordered_Sets
@@ -16069,7 +16069,7 @@ pointers or dynamic allocation.
 apply.
 
 
-A.18.25 The Generic Package Containers.Bounded_Multiway_Trees
+A.18.25 The Generic Package Containers.Bounded_Multiway_Trees *ada-package-containers-bounded-multiway-trees*
 
 
 1/3 The language-defined generic package Containers.Bounded_Multiway_Trees
@@ -16163,7 +16163,7 @@ dynamic allocation.
 apply.
 
 
-A.18.26 Array Sorting
+A.18.26 Array Sorting *ada-predefined-array-sorting*
 
 
 1/3 The language-defined generic procedures Containers.Generic_Array_Sort,
@@ -16276,7 +16276,7 @@ the Last and First parameters plus 1.
 13/3 Containers.Generic_Sort should minimize calls to the generic formal Swap.
 
 
-A.18.27 The Generic Package Containers.Synchronized_Queue_Interfaces
+A.18.27 The Generic Package Containers.Synchronized_Queue_Interfaces *ada-packages-containers-synchornized-queue-interfaces*
 
 
 1/3 The language-defined generic package
@@ -16350,7 +16350,7 @@ the following declaration:
         access type that designates the indefinite type.
 
 
-A.18.28 The Generic Package Containers.Unbounded_Synchronized_Queues
+A.18.28 The Generic Package Containers.Unbounded_Synchronized_Queues *ada-package-containers-unbounded-synchronized-queues*
 
 
 
@@ -16402,7 +16402,7 @@ the interface type Containers.Synchronized_Queue_Interfaces.Queue.
 12/3 The capacity for instances of type Queue is unbounded.
 
 
-A.18.29 The Generic Package Containers.Bounded_Synchronized_Queues
+A.18.29 The Generic Package Containers.Bounded_Synchronized_Queues *ada-package-containers-bounded-synchronized-queues*
 
 
 
@@ -16463,7 +16463,7 @@ the interface type Containers.Synchronized_Queue_Interfaces.Queue.
 dynamic allocation.
 
 
-A.18.30 The Generic Package Containers.Unbounded_Priority_Queues
+A.18.30 The Generic Package Containers.Unbounded_Priority_Queues *ada-package-containers-unbouned-priority-queues*
 
 
 
@@ -16547,7 +16547,7 @@ then E is assigned to Element and then removed from the queue, and Success is
 set to True; otherwise, Success is set to False and Element is unchanged.
 
 
-A.18.31 The Generic Package Containers.Bounded_Priority_Queues
+A.18.31 The Generic Package Containers.Bounded_Priority_Queues *ada-package-containers-bounded-priority-queues*
 
 
 
@@ -16619,7 +16619,7 @@ Containers.Synchronized_Queue_Interfaces.Queue.
 pointers or dynamic allocation.
 
 
-A.18.32 Example of Container Use
+A.18.32 Example of Container Use *ada-predefined-example-container*
 
 
 
@@ -16774,7 +16774,7 @@ the Implicit_Dereference aspect (on type Reference_Type) is that
         end;
 
 
-A.19 The Package Locales
+A.19 The Package Locales *ada-package-locales*
 
 
 1/3 A locale identifies a geopolitical place or region and its associated
