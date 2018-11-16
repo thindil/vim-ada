@@ -284,38 +284,38 @@ A. Predefined Language Environment |ada-predefined|
         A.8.1 The Generic Package Sequential_IO |ada-package-sequential-io|
         A.8.2 File Management |ada-predefined-file-management|
         A.8.3 Sequential Input-Output Operations |ada-predefined-sequential-io|
-        A.8.4 The Generic Package Direct_IO
-        A.8.5 Direct Input-Output Operations
-    A.9 The Generic Package Storage_IO
-    A.10 Text Input-Output
-        A.10.1 The Package Text_IO
-        A.10.2 Text File Management
-        A.10.3 Default Input, Output, and Error Files
-        A.10.4 Specification of Line and Page Lengths
-        A.10.5 Operations on Columns, Lines, and Pages
-        A.10.6 Get and Put Procedures
-        A.10.7 Input-Output of Characters and Strings
-        A.10.8 Input-Output for Integer Types
-        A.10.9 Input-Output for Real Types
-        A.10.10 Input-Output for Enumeration Types
-        A.10.11 Input-Output for Bounded Strings
-        A.10.12 Input-Output for Unbounded Strings
-    A.11 Wide Text Input-Output and Wide Wide Text Input-Output
-    A.12 Stream Input-Output
-        A.12.1 The Package Streams.Stream_IO
-        A.12.2 The Package Text_IO.Text_Streams
-        A.12.3 The Package Wide_Text_IO.Text_Streams
-        A.12.4 The Package Wide_Wide_Text_IO.Text_Streams
-    A.13 Exceptions in Input-Output
-    A.14 File Sharing
-    A.15 The Package Command_Line
-    A.16 The Package Directories
-        A.16.1 The Package Directories.Hierarchical_File_Names
-    A.17 The Package Environment_Variables
-    A.18 Containers
-        A.18.1 The Package Containers
-        A.18.2 The Generic Package Containers.Vectors
-        A.18.3 The Generic Package Containers.Doubly_Linked_Lists
+        A.8.4 The Generic Package Direct_IO |ada-package-direct-io|
+        A.8.5 Direct Input-Output Operations |ada-predefined-direct-input|
+    A.9 The Generic Package Storage_IO |ada-package-storage-io|
+    A.10 Text Input-Output |ada-predefined-text-input|
+        A.10.1 The Package Text_IO |ada-package-text-io|
+        A.10.2 Text File Management |ada-predefined-text-file|
+        A.10.3 Default Input, Output, and Error Files |ada-predefined-default-input|
+        A.10.4 Specification of Line and Page Lengths |ada-predefined-specification-line|
+        A.10.5 Operations on Columns, Lines, and Pages |ada-predefined-operations-columns|
+        A.10.6 Get and Put Procedures |ada-predefined-get-put|
+        A.10.7 Input-Output of Characters and Strings |ada-predefined-input-output-characters|
+        A.10.8 Input-Output for Integer Types |ada-predefined-input-output-integer|
+        A.10.9 Input-Output for Real Types |ada-predefined-input-output-real|
+        A.10.10 Input-Output for Enumeration Types |ada-predefined-input-output-enumeration|
+        A.10.11 Input-Output for Bounded Strings |ada-predefined-input-output-bounded|
+        A.10.12 Input-Output for Unbounded Strings |ada-predefined-input-output-unbounded|
+    A.11 Wide Text Input-Output and Wide Wide Text Input-Output |ada-predefined-input-output-wide-text|
+    A.12 Stream Input-Output |ada-predefined-stream-input|
+        A.12.1 The Package Streams.Stream_IO |ada-package-streams-stream-io|
+        A.12.2 The Package Text_IO.Text_Streams |ada-package-text-io-text-streams|
+        A.12.3 The Package Wide_Text_IO.Text_Streams |ada-package-wide-text-io-text-streams|
+        A.12.4 The Package Wide_Wide_Text_IO.Text_Streams |ada-package-wide-wide-text-io-text-streams|
+    A.13 Exceptions in Input-Output |ada-predefined-exceptions-input|
+    A.14 File Sharing |ada-predefined-file-sharing|
+    A.15 The Package Command_Line |ada-package-command-line|
+    A.16 The Package Directories |ada-package-directories|
+        A.16.1 The Package Directories.Hierarchical_File_Names |ada-package-directories-hierarchical-file-names|
+    A.17 The Package Environment_Variables |ada-package-environment-variables|
+    A.18 Containers |ada-predefined-containers|
+        A.18.1 The Package Containers |ada-package-containers|
+        A.18.2 The Generic Package Containers.Vectors |ada-package-containers-vectors|
+        A.18.3 The Generic Package Containers.Doubly_Linked_Lists |ada-package-containers-doubly-linked-lists|
         A.18.4 Maps
         A.18.5 The Generic Package Containers.Hashed_Maps
         A.18.6 The Generic Package Containers.Ordered_Maps
