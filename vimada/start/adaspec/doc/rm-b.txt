@@ -25,7 +25,7 @@ identified by the implementation before run time or shall raise an exception
 at run time.
 
 
-B.1 Interfacing Aspects
+B.1 Interfacing Aspects *ada-interface-aspects*
 
 
 0.1/3 An interfacing aspect is a representation aspect that is one of the
@@ -269,7 +269,7 @@ within the range 0 .. 2**15-1.
         end Fortran_Library;
 
 
-B.2 The Package Interfaces
+B.2 The Package Interfaces *ada-package-interfaces*
 
 
 1   Package Interfaces is the parent of several library packages that declare
@@ -282,7 +282,7 @@ one language (in particular for interfacing to assembly language).
 
 2   The library package Interfaces has the following skeletal declaration:
 
-3       
+3
         package Interfaces is
            pragma Pure(Interfaces);
 
@@ -352,7 +352,7 @@ provide the corresponding package or packages described in the following
 subclauses.
 
 
-B.3 Interfacing with C and C++
+B.3 Interfacing with C and C++ *ada-interface-c*
 
 
 1/4 The facilities relevant to interfacing with the C language and the
@@ -410,7 +410,7 @@ to the corresponding entity in C++.
 
 17         type long_double is digits implementation-defined;
 
-18         -- Characters and Strings 
+18         -- Characters and Strings
 
 19         type char is <implementation-defined character type>;
 
@@ -570,7 +570,7 @@ depending on the C implementation.
 
 49      function To_C   (Item : in String;     Append_Nul : in Boolean := True)
            return char_array;
-        
+
         function To_Ada (Item : in char_array; Trim_Nul   : in Boolean := True)
            return String;
 
@@ -595,7 +595,7 @@ depending on the C implementation.
                         Target     : out char_array;
                         Count      : out size_t;
                         Append_Nul : in  Boolean := True);
-        
+
         procedure To_Ada (Item     : in  char_array;
                           Target   : out String;
                           Count    : out Natural;
@@ -630,16 +630,16 @@ depending on the C implementation.
 59      function To_C   (Item       : in Wide_String;
                          Append_Nul : in Boolean := True)
            return wchar_array;
-        
+
         function To_Ada (Item     : in wchar_array;
                          Trim_Nul : in Boolean := True)
            return Wide_String;
-        
+
         procedure To_C (Item       : in  Wide_String;
                         Target     : out wchar_array;
                         Count      : out size_t;
                         Append_Nul : in  Boolean := True);
-        
+
         procedure To_Ada (Item     : in  wchar_array;
                           Target   : out Wide_String;
                           Count    : out Natural;
@@ -664,16 +664,16 @@ depending on the C implementation.
 60.5/2  function To_C (Item       : in Wide_String;
                        Append_Nul : in Boolean := True)
            return char16_array;
-        
+
         function To_Ada (Item     : in char16_array;
                          Trim_Nul : in Boolean := True)
            return Wide_String;
-        
+
         procedure To_C (Item       : in  Wide_String;
                         Target     : out char16_array;
                         Count      : out size_t;
                         Append_Nul : in  Boolean := True);
-        
+
         procedure To_Ada (Item     : in  char16_array;
                           Target   : out Wide_String;
                           Count    : out Natural;
@@ -698,16 +698,16 @@ depending on the C implementation.
 60.11/2 function To_C (Item       : in Wide_Wide_String;
                        Append_Nul : in Boolean := True)
            return char32_array;
-        
+
         function To_Ada (Item     : in char32_array;
                          Trim_Nul : in Boolean := True)
            return Wide_Wide_String;
-        
+
         procedure To_C (Item       : in  Wide_Wide_String;
                         Target     : out char32_array;
                         Count      : out size_t;
                         Append_Nul : in  Boolean := True);
-        
+
         procedure To_Ada (Item     : in  char32_array;
                           Target   : out Wide_Wide_String;
                           Count    : out Natural;
@@ -848,7 +848,7 @@ between Ada and C.
            -- Call <string.h>strcpy:
            -- C definition of strcpy:  char *strcpy(char *s1, const char *s2);
            --    This function copies the string pointed to by s2 (including the terminating null character)
-           --     into the array pointed to by s1. If copying takes place between objects that overlap, 
+           --     into the array pointed to by s1. If copying takes place between objects that overlap,
            --     the behavior is undefined. The strcpy function returns the value of s1.
 
 78/3       -- Note: since the C function's return value is of no interest, the Ada interface is a procedure
@@ -871,7 +871,7 @@ between Ada and C.
 84      end Test;
 
 
-B.3.1 The Package Interfaces.C.Strings
+B.3.1 The Package Interfaces.C.Strings *ada-package-interfaces-c-strings*
 
 
 1/3 The package Interfaces.C.Strings declares types and subprograms allowing
@@ -1071,7 +1071,7 @@ equal to True would have propagated Update_Error.
             of Free, not by a called C function.
 
 
-B.3.2 The Generic Package Interfaces.C.Pointers
+B.3.2 The Generic Package Interfaces.C.Pointers *ada-package-interfaces-c-pointers*
 
 
 1   The generic package Interfaces.C.Pointers allows the Ada programmer to
@@ -1293,7 +1293,7 @@ array containing the Element designated by Target.
         end Test_Pointers;
 
 
-B.3.3 Unchecked Union Types
+B.3.3 Unchecked Union Types *ada-interface-unchecked-union*
 
 
 1/3 Specifying aspect Unchecked_Union to have the value True defines an
@@ -1436,7 +1436,7 @@ Paragraph 29 was deleted.
             Y : Integer := X.F2; -- erroneous
 
 
-B.4 Interfacing with COBOL
+B.4 Interfacing with COBOL *ada-interface-cobol*
 
 
 1/3 The facilities relevant to interfacing with the COBOL language are the
@@ -1732,7 +1732,7 @@ High_Order_First or Low_Order_First, depending on the implementation.
             Length(Format), and the lower bound is 1.
 
 88      function To_Decimal (Item : in Binary)      return Num;
-        
+
         function To_Decimal (Item : in Long_Binary) return Num;
 
 89          These functions convert from COBOL binary format to a
@@ -1740,7 +1740,7 @@ High_Order_First or Low_Order_First, depending on the implementation.
             propagated if Item is too large for Num.
 
 90      function To_Binary      (Item : in Num)  return Binary;
-        
+
         function To_Long_Binary (Item : in Num)  return Long_Binary;
 
 91          These functions convert from Ada decimal to COBOL binary format.
@@ -1907,7 +1907,7 @@ correspondences between Ada and COBOL.
         end Test_External_Formats;
 
 
-B.5 Interfacing with Fortran
+B.5 Interfacing with Fortran *ada-interface-fortran*
 
 
 1/3 The facilities relevant to interfacing with the Fortran language are the

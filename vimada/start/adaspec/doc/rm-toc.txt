@@ -351,14 +351,14 @@ A. Predefined Language Environment |ada-predefined|
     A.19 The Package Locales |ada-package-locales|
 
 B. Interface to Other Languages |ada-interface|
-    B.1 Interfacing Aspects
-    B.2 The Package Interfaces
-    B.3 Interfacing with C and C++
-        B.3.1 The Package Interfaces.C.Strings
-        B.3.2 The Generic Package Interfaces.C.Pointers
-        B.3.3 Unchecked Union Types
-    B.4 Interfacing with COBOL
-    B.5 Interfacing with Fortran
+    B.1 Interfacing Aspects |ada-interface-aspects|
+    B.2 The Package Interfaces |ada-package-interfaces|
+    B.3 Interfacing with C and C++ |ada-interface-c|
+        B.3.1 The Package Interfaces.C.Strings |ada-package-interfaces-c-strings|
+        B.3.2 The Generic Package Interfaces.C.Pointers |ada-package-interfaces-c-pointers|
+        B.3.3 Unchecked Union Types |ada-interface-unchecked-union|
+    B.4 Interfacing with COBOL |ada-interface-cobol|
+    B.5 Interfacing with Fortran |ada-interface-fortran|
 
 C. Systems Programming |ada-systems|
     C.1 Access to Machine Operations
