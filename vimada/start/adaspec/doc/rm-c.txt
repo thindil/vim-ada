@@ -11,7 +11,7 @@ for low-level programming. These capabilities are also required in many
 real-time, embedded, distributed, and information systems.
 
 
-C.1 Access to Machine Operations
+C.1 Access to Machine Operations *ada-systems-access*
 
 
 1/3 This subclause specifies rules regarding access to machine instructions
@@ -86,7 +86,7 @@ constructs. Examples of such instructions include:
 16    * Direct operations on I/O ports.
 
 
-C.2 Required Representation Support
+C.2 Required Representation Support *ada-systems-required*
 
 
 1/3 This subclause specifies minimal requirements on the support for
@@ -99,7 +99,7 @@ representation items and related features.
 recommended levels of support in Clause 13.
 
 
-C.3 Interrupt Support
+C.3 Interrupt Support *ada-systems-interrupt*
 
 
 1/3 This subclause specifies the language-defined model for hardware
@@ -257,7 +257,7 @@ finer-grained control of interrupt blocking.
         task bodies.
 
 
-C.3.1 Protected Procedure Handlers
+C.3.1 Protected Procedure Handlers *ada-systems-protected*
 
 
 Paragraphs 1 through 6 were moved to Annex J, "Obsolescent Features".
@@ -399,7 +399,7 @@ implementation-defined restrictions before run time.
         protected procedure that is an interrupt handler.
 
 
-C.3.2 The Package Interrupts
+C.3.2 The Package Interrupts *ada-package-interrupts*
 
 
 
@@ -543,7 +543,7 @@ predefined package Interrupts.
 28/3    Device_Priority : constant
           array (1..5) of System.Interrupt_Priority := ( ... );
         protected type Device_Interface
-          (Int_Id : Ada.Interrupts.Interrupt_Id) 
+          (Int_Id : Ada.Interrupts.Interrupt_Id)
              with Interrupt_Priority => Device_Priority(Int_Id) is
           procedure Handler
              with Attach_Handler => Int_Id;
@@ -556,7 +556,7 @@ predefined package Interrupts.
           ...
 
 
-C.4 Preelaboration Requirements
+C.4 Preelaboration Requirements *ada-systems-preelaboration*
 
 
 1/3 This subclause specifies additional implementation and documentation
@@ -619,7 +619,7 @@ elaboration of entities not already covered by the
 Implementation Requirements.
 
 
-C.5 Aspect Discard_Names
+C.5 Aspect Discard_Names *ada-systems-discard-names*
 
 
 1/4 Specifying the aspect Discard_Names can be used to request a reduction in
@@ -693,7 +693,7 @@ should reduce the amount of storage used for storing names associated with
 that entity.
 
 
-C.6 Shared Variable Control
+C.6 Shared Variable Control *ada-systems-shared*
 
 
 1/3 This subclause defines representation aspects that control the use of
@@ -855,7 +855,7 @@ implemented by a single load or store instruction.
         specifying an Atomic or Atomic_Components aspect.
 
 
-C.7 Task Information
+C.7 Task Information *ada-systems-tasks*
 
 
 1/3 This subclause describes operations and attributes that can be used to
@@ -864,7 +864,7 @@ user-defined information with a task is defined. Finally, a package that
 associates termination procedures with a task or set of tasks is defined.
 
 
-C.7.1 The Package Task_Identification
+C.7.1 The Package Task_Identification *ada-package-task-identifiaction*
 
 
 
@@ -975,7 +975,7 @@ an entry body or interrupt handler.
         Task_Id value that identifies the environment task.
 
 
-C.7.2 The Package Task_Attributes
+C.7.2 The Package Task_Attributes *ada-package-task-attributes*
 
 
 
@@ -1164,7 +1164,7 @@ should be performed as soon as possible after task termination.
         program execution erroneous.
 
 
-C.7.3 The Package Task_Termination
+C.7.3 The Package Task_Termination *ada-package-task-termination*
 
 
 

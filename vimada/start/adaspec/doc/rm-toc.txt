@@ -361,18 +361,18 @@ B. Interface to Other Languages |ada-interface|
     B.5 Interfacing with Fortran |ada-interface-fortran|
 
 C. Systems Programming |ada-systems|
-    C.1 Access to Machine Operations
-    C.2 Required Representation Support
-    C.3 Interrupt Support
-        C.3.1 Protected Procedure Handlers
-        C.3.2 The Package Interrupts
-    C.4 Preelaboration Requirements
-    C.5 Aspect Discard_Names
-    C.6 Shared Variable Control
-    C.7 Task Information
-        C.7.1 The Package Task_Identification
-        C.7.2 The Package Task_Attributes
-        C.7.3 The Package Task_Termination
+    C.1 Access to Machine Operations |ada-systems-access|
+    C.2 Required Representation Support |ada-systems-required|
+    C.3 Interrupt Support |ada-systems-interrupt|
+        C.3.1 Protected Procedure Handlers |ada-systems-protected|
+        C.3.2 The Package Interrupts |ada-package-interrupts|
+    C.4 Preelaboration Requirements |ada-systems-preelaboration|
+    C.5 Aspect Discard_Names |ada-systems-discard-names|
+    C.6 Shared Variable Control |ada-systems-shared|
+    C.7 Task Information |ada-systems-task|
+        C.7.1 The Package Task_Identification |ada-package-task-identification|
+        C.7.2 The Package Task_Attributes |ada-package-task-attributes|
+        C.7.3 The Package Task_Termination |ada-package-task-termination|
 
 D. Real-Time Systems |ada-realtime|
     D.1 Task Priorities
