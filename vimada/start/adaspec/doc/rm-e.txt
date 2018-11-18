@@ -50,7 +50,7 @@ distributed system be homogeneous.
         equivalent single partition program.
 
 
-E.1 Partitions
+E.1 Partitions *ada-distributed-partitions*
 
 
 1   The partitions of a distributed program are classified as either active or
@@ -144,7 +144,7 @@ and are later reinvoked.
         information about the partition.
 
 
-E.2 Categorization of Library Units
+E.2 Categorization of Library Units *ada-distributed-categorization*
 
 
 1   Library units can be categorized according to the role they play in a
@@ -214,7 +214,7 @@ Paragraph 13 was deleted.
 14  Implementations are allowed to define other categorization pragmas.
 
 
-E.2.1 Shared Passive Library Units
+E.2.1 Shared Passive Library Units *ada-distributed-shared*
 
 
 1   A shared passive library unit is used for managing global data shared
@@ -274,7 +274,7 @@ units on which it depends semantically to be included in that same partition;
 they will typically reside in separate passive partitions.
 
 
-E.2.2 Remote Types Library Units
+E.2.2 Remote Types Library Units *ada-distributed-remote-types*
 
 
 1   A remote types library unit supports the definition of types intended for
@@ -394,7 +394,7 @@ declared in the visible part of a remote types package.
         protected, or task interface type.
 
 
-E.2.3 Remote Call Interface Library Units
+E.2.3 Remote Call Interface Library Units *ada-distributed-remote-call*
 
 
 1   A remote call interface library unit can be used as an interface for
@@ -493,7 +493,7 @@ aspect nor the All_Calls_Remote pragma. Explicit message-based communication
 between active partitions can be supported as an alternative to RPC.
 
 
-E.3 Consistency of a Distributed System
+E.3 Consistency of a Distributed System *ada-distributed-consistency*
 
 
 1/3 This subclause defines attributes and rules associated with verifying the
@@ -539,7 +539,7 @@ be raised in one or both partitions during elaboration; in any case, the
 partitions become inaccessible to one another.
 
 
-E.4 Remote Subprogram Calls
+E.4 Remote Subprogram Calls *ada-distributed-remove-subprogram*
 
 
 1   A remote subprogram call is a subprogram call that invokes the execution
@@ -668,7 +668,7 @@ the next action of the calling task (see 9.10).
         a third partition.
 
 
-E.4.1 Asynchronous Remote Calls
+E.4.1 Asynchronous Remote Calls *ada-distributed-asynchronous*
 
 
 1/3 This subclause introduces the aspect Asynchronous which can be specified
@@ -725,7 +725,7 @@ formal parameters of the procedure are all of mode in.
 corresponding body executes at most once as a result of the call.
 
 
-E.4.2 Example of Use of a Remote Access-to-Class-Wide Type
+E.4.2 Example of Use of a Remote Access-to-Class-Wide Type *ada-distributed-example*
 
 
 
@@ -827,7 +827,7 @@ binding across active partitions:
         from dereferencing the controlling operands T1 and T2.
 
 
-E.5 Partition Communication Subsystem
+E.5 Partition Communication Subsystem *ada-distributed-partition-communication*
 
 
 1/2 The Partition Communication Subsystem (PCS) provides facilities for

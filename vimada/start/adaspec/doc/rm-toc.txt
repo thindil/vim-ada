@@ -406,16 +406,16 @@ D. Real-Time Systems |ada-realtime|
         D.16.1 Multiprocessor Dispatching Domains |ada-realtime-multiprocessor-dispatching|
 
 E. Distributed Systems |ada-distributed|
-    E.1 Partitions
-    E.2 Categorization of Library Units
-        E.2.1 Shared Passive Library Units
-        E.2.2 Remote Types Library Units
-        E.2.3 Remote Call Interface Library Units
-    E.3 Consistency of a Distributed System
-    E.4 Remote Subprogram Calls
-        E.4.1 Asynchronous Remote Calls
-        E.4.2 Example of Use of a Remote Access-to-Class-Wide Type
-    E.5 Partition Communication Subsystem
+    E.1 Partitions |ada-distributed-partitions|
+    E.2 Categorization of Library Units |ada-distributed-categorization|
+        E.2.1 Shared Passive Library Units |ada-distributed-shared|
+        E.2.2 Remote Types Library Units |ada-distributed-remote-types|
+        E.2.3 Remote Call Interface Library Units |ada-distributed-remote-call|
+    E.3 Consistency of a Distributed System |ada-distributed-consistency|
+    E.4 Remote Subprogram Calls |ada-distributed-remote-subprogram|
+        E.4.1 Asynchronous Remote Calls |ada-distributed-asynchronous|
+        E.4.2 Example of Use of a Remote Access-to-Class-Wide Type |ada-distributed-example|
+    E.5 Partition Communication Subsystem |ada-distributed-partition-communication|
 
 F. Information Systems |ada-information|
     F.1 Machine_Radix Attribute Definition Clause
