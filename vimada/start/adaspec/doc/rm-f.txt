@@ -40,7 +40,7 @@ for the Convention aspect (see Annex B), thus allowing Ada programs to
 interface with programs written in that language.
 
 
-F.1 Machine_Radix Attribute Definition Clause
+F.1 Machine_Radix Attribute Definition Clause *ada-information-machine-radix*
 
 
 
@@ -66,7 +66,7 @@ of subtype S when S'Machine_Radix = 10.
         for Money'Machine_Radix use 10;
 
 
-F.2 The Package Decimal
+F.2 The Package Decimal *ada-package-decimal*
 
 
 
@@ -139,7 +139,7 @@ exactly.
         expression Dividend/Divisor.
 
 
-F.3 Edited Output for Decimal Types
+F.3 Edited Output for Decimal Types *ada-information-edited-output*
 
 
 1/2 The child packages Text_IO.Editing, Wide_Text_IO.Editing, and
@@ -239,7 +239,7 @@ provide text input and nonedited text output for decimal types.
         Text_IO.Editing, Wide_Text_IO.Editing, and Wide_Wide_Text_IO.Editing.
 
 
-F.3.1 Picture String Formation
+F.3.1 Picture String Formation *ada-information-picture-string*
 
 
 1/3 A well-formed picture String, or simply picture String, is a String value
@@ -256,55 +256,55 @@ replication conventions specified in this subclause.
          | fixed_#_picture_string
          | floating_currency_picture_string
          | non_currency_picture_string
-        
+
 
 4       fixed_$_picture_string ::=
            [fixed_LHS_sign] fixed_$_char {direct_insertion} [zero_suppression]
              number [RHS_sign]
-        
+
          | [fixed_LHS_sign {direct_insertion}] [zero_suppression]
              number fixed_$_char {direct_insertion} [RHS_sign]
-        
+
          | floating_LHS_sign number fixed_$_char {direct_insertion} [RHS_sign]
-        
+
          | [fixed_LHS_sign] fixed_$_char {direct_insertion}
              all_zero_suppression_number {direct_insertion}  [RHS_sign]
-        
+
          | [fixed_LHS_sign {direct_insertion}] all_zero_suppression_number {direct_insertion}
              fixed_$_char {direct_insertion} [RHS_sign]
-        
+
          | all_sign_number {direct_insertion} fixed_$_char {direct_insertion} [RHS_sign]
-        
+
 
 5       fixed_#_picture_string ::=
            [fixed_LHS_sign] single_#_currency {direct_insertion}
              [zero_suppression] number [RHS_sign]
-        
+
          | [fixed_LHS_sign] multiple_#_currency {direct_insertion}
              zero_suppression number [RHS_sign]
-        
+
          | [fixed_LHS_sign {direct_insertion}] [zero_suppression]
              number fixed_#_currency {direct_insertion} [RHS_sign]
-        
+
          | floating_LHS_sign number fixed_#_currency {direct_insertion} [RHS_sign]
-        
+
          | [fixed_LHS_sign] single_#_currency {direct_insertion}
              all_zero_suppression_number {direct_insertion} [RHS_sign]
-        
+
          | [fixed_LHS_sign] multiple_#_currency {direct_insertion}
              all_zero_suppression_number {direct_insertion} [RHS_sign]
-        
+
          | [fixed_LHS_sign {direct_insertion}] all_zero_suppression_number {direct_insertion}
              fixed_#_currency {direct_insertion} [RHS_sign]
-        
+
          | all_sign_number {direct_insertion} fixed_#_currency {direct_insertion} [RHS_sign]
-        
+
 
 6       floating_currency_picture_string ::=
            [fixed_LHS_sign] {direct_insertion} floating_$_currency number [RHS_sign]
          | [fixed_LHS_sign] {direct_insertion} floating_#_currency number [RHS_sign]
          | [fixed_LHS_sign] {direct_insertion} all_currency_number {direct_insertion} [RHS_sign]
-        
+
 
 7       non_currency_picture_string ::=
            [fixed_LHS_sign {direct_insertion}] zero_suppression number [RHS_sign]
@@ -313,28 +313,28 @@ replication conventions specified in this subclause.
              [RHS_sign]
          | all_sign_number {direct_insertion}
          | fixed_LHS_sign direct_insertion {direct_insertion} number [RHS_sign]
-        
+
 
 8       fixed_LHS_sign ::=  LHS_Sign
 
 9       LHS_Sign ::=  + | - | <
-        
+
 
 10      fixed_$_char ::= $
-        
+
 
 11      direct_insertion ::=  simple_insertion
 
 12      simple_insertion ::=  _ | B | 0 | /
-        
+
 
 13      zero_suppression ::=  Z {Z | context_sensitive_insertion} | fill_string
 
 14      context_sensitive_insertion ::=  simple_insertion
-        
+
 
 15      fill_string ::=  * {* | context_sensitive_insertion}
-        
+
 
 16      number ::=
            fore_digits [radix [aft_digits] {direct_insertion}]
@@ -345,30 +345,30 @@ replication conventions specified in this subclause.
 18      aft_digits ::=  {9 | direct_insertion} 9
 
 19      radix ::= . | V
-        
+
 
 20      RHS_sign ::= + | - | > | CR | DB
-        
+
 
 21      floating_LHS_sign ::=
            LHS_Sign {context_sensitive_insertion} LHS_Sign {LHS_Sign | context_sensitive_insertion}
-        
+
 
 22      single_#_currency ::= #
 
 23      multiple_#_currency ::= ## {#}
-        
+
 
 24      fixed_#_currency ::= single_#_currency | multiple_#_currency
-        
+
 
 25      floating_$_currency ::=
            $ {context_sensitive_insertion} $ {$ | context_sensitive_insertion}
-        
+
 
 26      floating_#_currency ::=
            # {context_sensitive_insertion} # {# | context_sensitive_insertion}
-        
+
 
 27      all_sign_number ::=  all_sign_fore [radix [all_sign_aft]] [>]
 
@@ -376,11 +376,11 @@ replication conventions specified in this subclause.
            sign_char {context_sensitive_insertion} sign_char {sign_char | context_sensitive_insertion}
 
 29      all_sign_aft ::= {all_sign_aft_char} sign_char
-        
+
         all_sign_aft_char ::=  sign_char | context_sensitive_insertion
 
 30      sign_char ::= + | - | <
-        
+
 
 31      all_currency_number ::=  all_currency_fore [radix [all_currency_aft]]
 
@@ -389,11 +389,11 @@ replication conventions specified in this subclause.
              currency_char {currency_char | context_sensitive_insertion}
 
 33      all_currency_aft ::= {all_currency_aft_char} currency_char
-        
+
         all_currency_aft_char ::= currency_char | context_sensitive_insertion
 
 34      currency_char ::= $ | #
-        
+
 
 35      all_zero_suppression_number ::=  all_zero_suppression_fore [ radix [all_zero_suppression_aft]]
 
@@ -401,7 +401,7 @@ replication conventions specified in this subclause.
            zero_suppression_char {zero_suppression_char | context_sensitive_insertion}
 
 37      all_zero_suppression_aft ::= {all_zero_suppression_aft_char} zero_suppression_char
-        
+
         all_zero_suppression_aft_char ::=  zero_suppression_char | context_sensitive_insertion
 
 38      zero_suppression_char ::= Z | *
@@ -454,7 +454,7 @@ replications.
         right of the number is in a fixed position.
 
 
-F.3.2 Edited Output Generation
+F.3.2 Edited Output Generation *ada-information-edited-output-generation*
 
 
 
@@ -522,25 +522,25 @@ edited output string is produced.
 
           Table F-1: Edited Output for Sign Control Symbols
 
-          Sign Control Symbol                                              
+          Sign Control Symbol
           Edited Output for
-          Nonnegative Number                                               
+          Nonnegative Number
           Edited Output for
           Negative Number
 
-          '+'                                                              '+' 
+          '+'                                                              '+'
           '-'
-          '-'                                                              'b' 
+          '-'                                                              'b'
           '-'
-          '<'                                                              'b' 
+          '<'                                                              'b'
           '('
-          '>'                                                              'b' 
+          '>'                                                              'b'
           ')'
-          "CR"                                                             
-          "bb"                                                             
           "CR"
-          "DB"                                                             
-          "bb"                                                             
+          "bb"
+          "CR"
+          "DB"
+          "bb"
           "DB"
 20  An instance of fixed_LHS_sign maps to a character as shown in Table F-1.
 
@@ -745,7 +745,7 @@ character.
                      Result:  "bbCHF12,345.67"   (currency = "CHF")
 
 
-F.3.3 The Package Text_IO.Editing
+F.3.3 The Package Text_IO.Editing *ada-package-text-io-editing*
 
 
 1   The package Text_IO.Editing provides a private type Picture with
@@ -859,7 +859,7 @@ the Put procedures is invoked with a null string for Currency.
             Blank_When_Zero).
 
 22      function Pic_String      (Pic : in Picture) return String;
-        
+
         function Blank_When_Zero (Pic : in Picture) return Boolean;
 
 23          If Pic is To_Picture(String_Item, Boolean_Item) for some
@@ -927,7 +927,7 @@ the Put procedures is invoked with a null string for Currency.
                        Fill       : in Character := Default_Fill;
                        Separator  : in Character := Default_Separator;
                        Radix_Mark : in Character := Default_Radix_Mark);
-        
+
         procedure Put (Item       : in Num;
                        Pic        : in Picture;
                        Currency   : in String    := Default_Currency;
@@ -987,7 +987,7 @@ any of the Put procedures.
 52.1    The value of 30 for Max_Picture_Length is the same limit as in COBOL.
 
 
-F.3.4 The Package Wide_Text_IO.Editing
+F.3.4 The Package Wide_Text_IO.Editing *ada-package-wide-text-io-editing*
 
 
 
@@ -1012,7 +1012,7 @@ Text_IO.Editing, except that:
         subtype, since a picture String is not localizable.
 
 
-F.3.5 The Package Wide_Wide_Text_IO.Editing
+F.3.5 The Package Wide_Wide_Text_IO.Editing *ada-package-wide-wide-text-io-editing*
 
 
 

@@ -418,14 +418,14 @@ E. Distributed Systems |ada-distributed|
     E.5 Partition Communication Subsystem |ada-distributed-partition-communication|
 
 F. Information Systems |ada-information|
-    F.1 Machine_Radix Attribute Definition Clause
-    F.2 The Package Decimal
-    F.3 Edited Output for Decimal Types
-        F.3.1 Picture String Formation
-        F.3.2 Edited Output Generation
-        F.3.3 The Package Text_IO.Editing
-        F.3.4 The Package Wide_Text_IO.Editing
-        F.3.5 The Package Wide_Wide_Text_IO.Editing
+    F.1 Machine_Radix Attribute Definition Clause |ada-information-machine-radix|
+    F.2 The Package Decimal |ada-package-decimal|
+    F.3 Edited Output for Decimal Types |ada-information-edited-output|
+        F.3.1 Picture String Formation |ada-information-picture-string|
+        F.3.2 Edited Output Generation |ada-information-edited-output-generation|
+        F.3.3 The Package Text_IO.Editing |ada-package-text-io-editing|
+        F.3.4 The Package Wide_Text_IO.Editing |ada-package-wide-text-io-editing|
+        F.3.5 The Package Wide_Wide_Text_IO.Editing |ada-package-wide-wide-text-io-editing|
 
 G. Numerics |ada-numerics|
     G.1 Complex Arithmetic
