@@ -56,7 +56,7 @@ that the metric is unbounded.
         particular real-time application.
 
 
-D.1 Task Priorities
+D.1 Task Priorities *ada-realtime-task*
 
 
 1/3 This subclause specifies the priority model for real-time systems. In
@@ -197,14 +197,14 @@ condition calling for the inheritance no longer exists.
         inherit priorities under conditions other than those specified above.
 
 
-D.2 Priority Scheduling
+D.2 Priority Scheduling *ada-realtime-priority*
 
 
 1/3 This subclause describes the rules that determine which task is selected
 for execution when more than one task is ready (see 9).
 
 
-D.2.1 The Task Dispatching Model
+D.2.1 The Task Dispatching Model *ada-realtime-task-dispatching*
 
 
 1/2 The task dispatching model specifies task scheduling, based on conceptual
@@ -317,7 +317,7 @@ delay_statement always corresponds to at least one task dispatching point.
         while the affected task performs a protected action.
 
 
-D.2.2 Task Dispatching Pragmas
+D.2.2 Task Dispatching Pragmas *ada-realtime-task-dispatching-pragmas*
 
 
 1/3 This subclause allows a single task dispatching policy to be defined for
@@ -439,7 +439,7 @@ if it is infeasible to support it in the target environment.
         Paragraphs 19 through 21 were deleted.
 
 
-D.2.3 Preemptive Dispatching
+D.2.3 Preemptive Dispatching *ada-realtime-preemptive*
 
 
 1/3 This subclause defines a preemptive task dispatching policy.
@@ -518,7 +518,7 @@ lower priority task. The implementation shall document:
         whether the active priority of the task actually changes.
 
 
-D.2.4 Non-Preemptive Dispatching
+D.2.4 Non-Preemptive Dispatching *ada-realtime-non-preemptive*
 
 
 1/3 This subclause defines a non-preemptive task dispatching policy.
@@ -597,7 +597,7 @@ than the active priority of the task) when determining whether to preempt the
 task.
 
 
-D.2.5 Round Robin Dispatching
+D.2.5 Round Robin Dispatching *ada-realtime-round-robin*
 
 
 1/3 This subclause defines the task dispatching policy
@@ -694,7 +694,7 @@ exhaustion of the budget of a task.
         not be subject to round robin dispatching.
 
 
-D.2.6 Earliest Deadline First Dispatching
+D.2.6 Earliest Deadline First Dispatching *ada-realtime-earliest*
 
 
 1/2 The deadline of a task is an indication of the urgency of the task; it
@@ -867,7 +867,7 @@ delayed later than what is specified for a single processor.
         object follows the existing rules for ceiling locking.
 
 
-D.3 Priority Ceiling Locking
+D.3 Priority Ceiling Locking *ada-realtime-priority-ceiling*
 
 
 1/3 This subclause specifies the interactions between priority task scheduling
@@ -1024,7 +1024,7 @@ implementation-defined locking policies.
         calls another protected operation on the same protected object).
 
 
-D.4 Entry Queuing Policies
+D.4 Entry Queuing Policies *ada-realtime-entry*
 
 
 1/3 This subclause specifies a mechanism for a user to choose an entry queuing
@@ -1117,14 +1117,14 @@ is not practical to reorder the queue immediately.
 implementation-defined queuing policies.
 
 
-D.5 Dynamic Priorities
+D.5 Dynamic Priorities *ada-realtime-dynamic-priorities*
 
 
 1/3 This subclause describes how the priority of an entity can be modified or
 queried at run time.
 
 
-D.5.1 Dynamic Priorities for Tasks
+D.5.1 Dynamic Priorities for Tasks *ada-realtime-dynamic-priorities-tasks*
 
 
 1/3 This subclause describes how the base priority of a task can be modified
@@ -1230,7 +1230,7 @@ delayed later than what is specified for a single processor.
         without being preempted by any of the affected tasks.
 
 
-D.5.2 Dynamic Priorities for Protected Objects
+D.5.2 Dynamic Priorities for Protected Objects *ada-realtime-dynamic-priorities-protected*
 
 
 1/3 This subclause specifies how the priority of a protected object can be
@@ -1296,7 +1296,7 @@ Program_Error is raised.
         completion of the protected action in which it is executed.
 
 
-D.6 Preemptive Abort
+D.6 Preemptive Abort *ada-realtime-preemptive-abort*
 
 
 1/3 This subclause specifies requirements on the immediacy with which an
@@ -1368,7 +1368,7 @@ if necessary, to achieve this.
         deferral of abortion during finalization and in protected actions.
 
 
-D.7 Tasking Restrictions
+D.7 Tasking Restrictions *ada-realtime-tasking*
 
 
 1/3 This subclause defines restrictions that can be used with a pragma
@@ -1570,7 +1570,7 @@ restrictions to produce a more efficient implementation.
 22      34  The above Storage_Checks can be suppressed with pragma Suppress.
 
 
-D.8 Monotonic Time
+D.8 Monotonic Time *ada-realtime-monotonic*
 
 
 1/3 This subclause specifies a high-resolution, monotonic clock package.
@@ -1809,7 +1809,7 @@ accuracy or largest range.
         that these be the same.
 
 
-D.9 Delay Accuracy
+D.9 Delay Accuracy *ada-realtime-delay*
 
 
 1/3 This subclause specifies performance requirements for the
@@ -1890,7 +1890,7 @@ Real_Time.Clock, that causes the task to actually be blocked.
         time that the task resumes execution following this statement.
 
 
-D.10 Synchronous Task Control
+D.10 Synchronous Task Control *ada-realtime-synchronous-task*
 
 
 1/3 This subclause describes a language-defined private semaphore (suspension
@@ -1965,7 +1965,7 @@ in the Interrupt_Priority range.
         when Set_True is called, can be programmed using a protected object.
 
 
-D.10.1 Synchronous Barriers
+D.10.1 Synchronous Barriers *ada-realtime-synchronous-barriers*
 
 
 1/3 This subclause introduces a language-defined package to synchronously
@@ -2030,7 +2030,7 @@ is raised. Otherwise, the call proceeds normally, which may leave a task
 blocked forever.
 
 
-D.11 Asynchronous Task Control
+D.11 Asynchronous Task Control *ada-realtime-asynchronous-task*
 
 
 1/3 This subclause introduces a language-defined package to do asynchronous
@@ -2131,7 +2131,7 @@ infeasible to support it in the target environment.
             body executes.
 
 
-D.12 Other Optimizations and Determinism Rules
+D.12 Other Optimizations and Determinism Rules *ada-realtime-other-optimizations*
 
 
 1/3 This subclause describes various requirements for improving the response
@@ -2205,7 +2205,7 @@ each case.
         tasks executing on other processors.
 
 
-D.13 The Ravenscar Profile
+D.13 The Ravenscar Profile *ada-realtime-ravenscar*
 
 
 1/3 This subclause defines the Ravenscar profile.
@@ -2288,7 +2288,7 @@ queues.
         CPUs.
 
 
-D.14 Execution Time
+D.14 Execution Time *ada-realtime-execution-time*
 
 
 1/3 This subclause describes a language-defined package to measure execution
@@ -2454,7 +2454,7 @@ need not support the full range and granularity of the CPU_Time type.
 to change the value of CPU_Tick.
 
 
-D.14.1 Execution Time Timers
+D.14.1 Execution Time Timers *ada-realtime-execution-time-timers*
 
 
 1/3 This subclause describes a language-defined package that provides a
@@ -2591,7 +2591,7 @@ each task. If this limit is exceeded, then Timer_Resource_Error is raised.
 29/2    45  A Timer_Handler can be associated with several Timer objects.
 
 
-D.14.2 Group Execution Time Budgets
+D.14.2 Group Execution Time Budgets *ada-realtime-group-execution*
 
 
 1/3 This subclause describes a language-defined package to assign execution
@@ -2768,7 +2768,7 @@ execution of the handler.
         objects.
 
 
-D.14.3 Execution Time of Interrupt Handlers
+D.14.3 Execution Time of Interrupt Handlers *ada-realtime-execution-time-interrupt*
 
 
 1/3 This subclause describes a language-defined package to measure the
@@ -2810,7 +2810,7 @@ returns False, the function Clock(Interrupt) will return a value equal to
 Ada.Execution_Time.Time_Of(0).
 
 
-D.15 Timing Events
+D.15 Timing Events *ada-realtime-timing-events*
 
 
 1/3 This subclause describes a language-defined package to allow user-defined
@@ -2936,7 +2936,7 @@ real-time clock interrupt mechanism.
         objects.
 
 
-D.16 Multiprocessor Implementation
+D.16 Multiprocessor Implementation *ada-realtime-multiprocessor*
 
 
 1/3 This subclause allows implementations on multiprocessor platforms to be
@@ -3001,7 +3001,7 @@ System.Multiprocessors.CPU_Range or is greater than Number_Of_CPUs the task is
 defined to have failed, and it becomes a completed task (see 9.2).
 
 
-D.16.1 Multiprocessor Dispatching Domains
+D.16.1 Multiprocessor Dispatching Domains *ada-realtime-multiprocessor-dispatching*
 
 
 1/3 This subclause allows implementations on multiprocessor platforms to be

@@ -375,35 +375,35 @@ C. Systems Programming |ada-systems|
         C.7.3 The Package Task_Termination |ada-package-task-termination|
 
 D. Real-Time Systems |ada-realtime|
-    D.1 Task Priorities
-    D.2 Priority Scheduling
-        D.2.1 The Task Dispatching Model
-        D.2.2 Task Dispatching Pragmas
-        D.2.3 Preemptive Dispatching
-        D.2.4 Non-Preemptive Dispatching
-        D.2.5 Round Robin Dispatching
-        D.2.6 Earliest Deadline First Dispatching
-    D.3 Priority Ceiling Locking
-    D.4 Entry Queuing Policies
-    D.5 Dynamic Priorities
-        D.5.1 Dynamic Priorities for Tasks
-        D.5.2 Dynamic Priorities for Protected Objects
-    D.6 Preemptive Abort
-    D.7 Tasking Restrictions
-    D.8 Monotonic Time
-    D.9 Delay Accuracy
-    D.10 Synchronous Task Control
-        D.10.1 Synchronous Barriers
-    D.11 Asynchronous Task Control
-    D.12 Other Optimizations and Determinism Rules
-    D.13 The Ravenscar Profile
-    D.14 Execution Time
-        D.14.1 Execution Time Timers
-        D.14.2 Group Execution Time Budgets
-        D.14.3 Execution Time of Interrupt Handlers
-    D.15 Timing Events
-    D.16 Multiprocessor Implementation
-        D.16.1 Multiprocessor Dispatching Domains
+    D.1 Task Priorities |ada-realtime-task|
+    D.2 Priority Scheduling |ada-realtime-priority|
+        D.2.1 The Task Dispatching Model |ada-realtime-task-dispatching|
+        D.2.2 Task Dispatching Pragmas |ada-realtime-task-dispatching-pragmas|
+        D.2.3 Preemptive Dispatching |ada-realtime-preemptive|
+        D.2.4 Non-Preemptive Dispatching |ada-realtime-non-preemptive|
+        D.2.5 Round Robin Dispatching |ada-realtime-round-robin|
+        D.2.6 Earliest Deadline First Dispatching |ada-realtime-earliest|
+    D.3 Priority Ceiling Locking |ada-realtime-priority-ceiling|
+    D.4 Entry Queuing Policies |ada-realtime-entry|
+    D.5 Dynamic Priorities |ada-realtime-dynamic-priorities|
+        D.5.1 Dynamic Priorities for Tasks |ada-realtime-dynamic-priorities-tasks|
+        D.5.2 Dynamic Priorities for Protected Objects |ada-realtime-dynamic-priorities-protected|
+    D.6 Preemptive Abort |ada-realtime-preemptive-abort|
+    D.7 Tasking Restrictions |ada-realtime-tasking|
+    D.8 Monotonic Time |ada-realtime-monotonic|
+    D.9 Delay Accuracy |ada-realtime-delay|
+    D.10 Synchronous Task Control |ada-realtime-synchronous-task|
+        D.10.1 Synchronous Barriers |ada-realtime-synchronous-barriers|
+    D.11 Asynchronous Task Control |ada-realtime-asynchronous-task|
+    D.12 Other Optimizations and Determinism Rules |ada-realtime-other-optimizations|
+    D.13 The Ravenscar Profile |ada-realtime-ravenscar|
+    D.14 Execution Time |ada-realtime-execution-time|
+        D.14.1 Execution Time Timers |ada-realtime-execution-time-timers|
+        D.14.2 Group Execution Time Budgets |ada-realtime-group-execution|
+        D.14.3 Execution Time of Interrupt Handlers |ada-realtime-execution-time-interrupt
+    D.15 Timing Events |ada-realtime-timing-events|
+    D.16 Multiprocessor Implementation |ada-realtime-multiprocessor|
+        D.16.1 Multiprocessor Dispatching Domains |ada-realtime-multiprocessor-dispatching|
 
 E. Distributed Systems |ada-distributed|
     E.1 Partitions
