@@ -16,7 +16,7 @@ documentation of whether implementation advice is followed. The following
 subclauses provide summaries of these documentation requirements.
 
 
-M.1 Specific Documentation Requirements
+M.1 Specific Documentation Requirements *ada-summary-documentation*
 
 
 1/2 In addition to implementation-defined characteristics, each Ada
@@ -185,7 +185,7 @@ implementation must document various properties of the implementation:
 53/2   * The type of entry call invoked for an interrupt entry. See J.7.1(13).
 
 
-M.2 Implementation-Defined Characteristics
+M.2 Implementation-Defined Characteristics *ada-summary-implementaation*
 
 
 1/2 The Ada language allows for certain machine dependences in a controlled
@@ -710,7 +710,7 @@ characteristics:
         Partition_Elaboration_Policy. See H.6(4/2).
 
 
-M.3 Implementation Advice
+M.3 Implementation Advice *ada-summary-implementation-advice*
 
 
 1/2 This International Standard sometimes gives advice about handling certain

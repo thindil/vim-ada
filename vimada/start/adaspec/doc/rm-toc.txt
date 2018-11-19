@@ -493,9 +493,9 @@ K. Language-Defined Aspects and Attributes |ada-aspects|
 L. Language-Defined Pragmas |ada-pragmas|
 
 M. Summary of Documentation Requirements |ada-summary|
-    M.1 Specific Documentation Requirements
-    M.2 Implementation-Defined Characteristics
-    M.3 Implementation Advice
+    M.1 Specific Documentation Requirements |ada-summary-documentation|
+    M.2 Implementation-Defined Characteristics |ada-summary-implementation|
+    M.3 Implementation Advice |ada-summary-implementation-advice|
 
 N. Glossary |ada-glossary|
 
