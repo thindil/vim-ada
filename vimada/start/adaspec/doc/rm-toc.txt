@@ -487,8 +487,8 @@ J. Obsolescent Features |ada-obsolescent|
         J.15.13 Pragma Asynchronous |ada-obsolescent-asynchronous|
 
 K. Language-Defined Aspects and Attributes |ada-aspects|
-    K.1 Language-Defined Aspects
-    K.2 Language-Defined Attributes
+    K.1 Language-Defined Aspects |ada-aspects-aspects|
+    K.2 Language-Defined Attributes |ada-aspects-attributes|
 
 L. Language-Defined Pragmas |ada-pragmas|
 

@@ -11,7 +11,7 @@ language-defined aspects and attributes. Some aspects have corresponding
 attributes, as noted.
 
 
-K.1 Language-Defined Aspects
+K.1 Language-Defined Aspects *ada-aspects-aspects*
 
 
 1/3 This subclause summarizes the definitions given elsewhere of the
@@ -281,7 +281,7 @@ specified using an aspect_specification.
                 type associated with a given type. See 13.13.2.
 
 
-K.2 Language-Defined Attributes
+K.2 Language-Defined Attributes *ada-aspects-attributes*
 
 
 1/3 This subclause summarizes the definitions given elsewhere of the
