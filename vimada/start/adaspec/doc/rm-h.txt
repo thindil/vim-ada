@@ -32,7 +32,7 @@ addressed by this Annex.
         have values outside their declared range constraints.
 
 
-H.1 Pragma Normalize_Scalars
+H.1 Pragma Normalize_Scalars *ada-integrity-pragma-normalize-scalars*
 
 
 1   This pragma ensures that an otherwise uninitialized scalar object is set
@@ -83,7 +83,7 @@ be an invalid representation (see 13.9.1).
         H.4).
 
 
-H.2 Documentation of Implementation Decisions
+H.2 Documentation of Implementation Decisions *ada-integrity-documentation*
 
 
 
@@ -105,14 +105,14 @@ unit or partition. See also 1.1.3, and 1.1.2.
         involves extended range or extra precision.
 
 
-H.3 Reviewable Object Code
+H.3 Reviewable Object Code *ada-integrity-reviewable*
 
 
 1   Object code review and validation are supported by pragmas Reviewable and
 Inspection_Point.
 
 
-H.3.1 Pragma Reviewable
+H.3.1 Pragma Reviewable *ada-pragma-revewable*
 
 
 1   This pragma directs the implementation to provide information to
@@ -200,7 +200,7 @@ in an appropriate numeric format (such as hexadecimal or octal).
         in the absence of pragma Reviewable (see 10.2).
 
 
-H.3.2 Pragma Inspection_Point
+H.3.2 Pragma Inspection_Point *ada-pragma-inspection_point*
 
 
 1   An occurrence of a pragma Inspection_Point identifies a set of objects
@@ -269,7 +269,7 @@ locations or registers) from which the object's value can be obtained.
         listing, in human-readable or tool-processable form.
 
 
-H.4 High Integrity Restrictions
+H.4 High Integrity Restrictions *ada-integrity-restrictions*
 
 
 1/3 This subclause defines restrictions that can be used with pragma
@@ -418,7 +418,7 @@ of a subprogram by a task, another task invokes the same subprogram.
         high-integrity systems.
 
 
-H.5 Pragma Detect_Blocking
+H.5 Pragma Detect_Blocking *ada-pragma-detect-blocking*
 
 
 1/2 The following pragma forces an implementation to detect potentially
@@ -456,7 +456,7 @@ protected subprogram.
         not be detected.
 
 
-H.6 Pragma Partition_Elaboration_Policy
+H.6 Pragma Partition_Elaboration_Policy *ada-pragma-partition-elaboration-policy*
 
 
 1/3 This subclause defines a pragma for user control over elaboration policy.

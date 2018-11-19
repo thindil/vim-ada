@@ -446,14 +446,14 @@ G. Numerics |ada-numerics|
         G.3.2 Complex Vectors and Matrices |ada-numerics-complex-vectors|
 
 H. High Integrity Systems |ada-integrity|
-    H.1 Pragma Normalize_Scalars
-    H.2 Documentation of Implementation Decisions
-    H.3 Reviewable Object Code
-        H.3.1 Pragma Reviewable
-        H.3.2 Pragma Inspection_Point
-    H.4 High Integrity Restrictions
-    H.5 Pragma Detect_Blocking
-    H.6 Pragma Partition_Elaboration_Policy
+    H.1 Pragma Normalize_Scalars |ada-pragma-normalize-scalars|
+    H.2 Documentation of Implementation Decisions |ada-integrity-documentation|
+    H.3 Reviewable Object Code |ada-integrity-reviewable|
+        H.3.1 Pragma Reviewable |ada-pragma-reviewable|
+        H.3.2 Pragma Inspection_Point |ada-pragma-inspection_point|
+    H.4 High Integrity Restrictions |ada-integrity-restrictions|
+    H.5 Pragma Detect_Blocking |ada-pragma-detect-blocking|
+    H.6 Pragma Partition_Elaboration_Policy |ada-pragma-partition-elaboration-policy|
 
 J. Obsolescent Features |ada-obsolescent|
     J.1 Renamings of Library Units
