@@ -456,35 +456,35 @@ H. High Integrity Systems |ada-integrity|
     H.6 Pragma Partition_Elaboration_Policy |ada-pragma-partition-elaboration-policy|
 
 J. Obsolescent Features |ada-obsolescent|
-    J.1 Renamings of Library Units
-    J.2 Allowed Replacements of Characters
-    J.3 Reduced Accuracy Subtypes
-    J.4 The Constrained Attribute
-    J.5 ASCII
-    J.6 Numeric_Error
-    J.7 At Clauses
-        J.7.1 Interrupt Entries
-    J.8 Mod Clauses
-    J.9 The Storage_Size Attribute
-    J.10 Specific Suppression of Checks
-    J.11 The Class Attribute of Untagged Incomplete Types
-    J.12 Pragma Interface
-    J.13 Dependence Restriction Identifiers
-    J.14 Character and Wide_Character Conversion Functions
-    J.15 Aspect-related Pragmas
-        J.15.1 Pragma Inline
-        J.15.2 Pragma No_Return
-        J.15.3 Pragma Pack
-        J.15.4 Pragma Storage_Size
-        J.15.5 Interfacing Pragmas
-        J.15.6 Pragma Unchecked_Union
-        J.15.7 Pragmas Interrupt_Handler and Attach_Handler
-        J.15.8 Shared Variable Pragmas
-        J.15.9 Pragma CPU
-        J.15.10 Pragma Dispatching_Domain
-        J.15.11 Pragmas Priority and Interrupt_Priority
-        J.15.12 Pragma Relative_Deadline
-        J.15.13 Pragma Asynchronous
+    J.1 Renamings of Library Units |ada-obsolescent-renaming|
+    J.2 Allowed Replacements of Characters |ada-obsolescent-allowed|
+    J.3 Reduced Accuracy Subtypes |ada-obsolescent-reduced|
+    J.4 The Constrained Attribute |ada-obsolescent-constrained|
+    J.5 ASCII |ada-obsolescent-ascii|
+    J.6 Numeric_Error |ada-obsolescent-numeric|
+    J.7 At Clauses |ada-obsolescent-at-clauses|
+        J.7.1 Interrupt Entries |ada-obsolescent-interrupt|
+    J.8 Mod Clauses |ada-obsolescent-mod|
+    J.9 The Storage_Size Attribute |ada-obsolescent-storage-size|
+    J.10 Specific Suppression of Checks |ada-obsolescent-suppression|
+    J.11 The Class Attribute of Untagged Incomplete Types |ada-obsolescent-class-attribute|
+    J.12 Pragma Interface |ada-obsolescent-pragma-interface|
+    J.13 Dependence Restriction Identifiers |ada-obsolescent-dependence|
+    J.14 Character and Wide_Character Conversion Functions |ada-obsolescent-character|
+    J.15 Aspect-related Pragmas |ada-obsolescent-aspect-pragmas|
+        J.15.1 Pragma Inline |ada-obsolescent-pragma-inline|
+        J.15.2 Pragma No_Return |ada-obsolescent-pragma-no-return|
+        J.15.3 Pragma Pack |ada-obsolescent-pragma-pack|
+        J.15.4 Pragma Storage_Size |ada-obsolescent-pragma-storage-size|
+        J.15.5 Interfacing Pragmas |ada-obsolescent-interfacing-pragmas|
+        J.15.6 Pragma Unchecked_Union |ada-obsolescent-pragma-unchecked-union|
+        J.15.7 Pragmas Interrupt_Handler and Attach_Handler |ada-obsolescent-pragma-interrupt-handler|
+        J.15.8 Shared Variable Pragmas |ada-obsolescent-shared|
+        J.15.9 Pragma CPU |ada-obsolescent-pragma-cpu|
+        J.15.10 Pragma Dispatching_Domain |ada-obsolescent-dispatching-domain|
+        J.15.11 Pragmas Priority and Interrupt_Priority |ada-obsolescent-pragma-priority|
+        J.15.12 Pragma Relative_Deadline |ada-obsolescent-pragma-relative_deadline|
+        J.15.13 Pragma Asynchronous |ada-obsolescent-asynchronous|
 
 K. Language-Defined Aspects and Attributes |ada-aspects|
     K.1 Language-Defined Aspects

@@ -13,7 +13,7 @@ written programs. Use of these features can be prevented by using pragma
 Restrictions (No_Obsolescent_Features), see 13.12.1.
 
 
-J.1 Renamings of Library Units
+J.1 Renamings of Library Units *ada-obsolescent-renamings*
 
 
 
@@ -51,7 +51,7 @@ J.1 Renamings of Library Units
 10  The implementation shall allow the user to replace these renamings.
 
 
-J.2 Allowed Replacements of Characters
+J.2 Allowed Replacements of Characters *ada-obsolescent-allowed*
 
 
 
@@ -78,7 +78,7 @@ J.2 Allowed Replacements of Characters
 5       These replacements do not change the meaning of the program.
 
 
-J.3 Reduced Accuracy Subtypes
+J.3 Reduced Accuracy Subtypes *ada-obsolescent-reduced*
 
 
 1   A digits_constraint may be used to define a floating point subtype with a
@@ -144,7 +144,7 @@ the subtype.
 range_constraint, if any.
 
 
-J.4 The Constrained Attribute
+J.4 The Constrained Attribute *ada-obsolescent-constrainded*
 
 
 
@@ -162,7 +162,7 @@ J.4 The Constrained Attribute
                 the predefined subtype Boolean.
 
 
-J.5 ASCII
+J.5 ASCII *ada-obsolescent-ascii*
 
 
 
@@ -174,61 +174,61 @@ J.5 ASCII
 
 3         --  Control characters:
 
-4         NUL   : constant Character := nul;                     
+4         NUL   : constant Character := nul;
         SOH   : constant Character := soh;
-          STX   : constant Character := stx;                     
+          STX   : constant Character := stx;
         ETX   : constant Character := etx;
-          EOT   : constant Character := eot;                     
+          EOT   : constant Character := eot;
         ENQ   : constant Character := enq;
-          ACK   : constant Character := ack;                     
+          ACK   : constant Character := ack;
         BEL   : constant Character := bel;
-          BS    : constant Character := bs;                      
+          BS    : constant Character := bs;
         HT    : constant Character := ht;
-          LF    : constant Character := lf;                      
+          LF    : constant Character := lf;
         VT    : constant Character := vt;
-          FF    : constant Character := ff;                      
+          FF    : constant Character := ff;
         CR    : constant Character := cr;
-          SO    : constant Character := so;                      
+          SO    : constant Character := so;
         SI    : constant Character := si;
-          DLE   : constant Character := dle;                     
+          DLE   : constant Character := dle;
         DC1   : constant Character := dc1;
-          DC2   : constant Character := dc2;                     
+          DC2   : constant Character := dc2;
         DC3   : constant Character := dc3;
-          DC4   : constant Character := dc4;                     
+          DC4   : constant Character := dc4;
         NAK   : constant Character := nak;
-          SYN   : constant Character := syn;                     
+          SYN   : constant Character := syn;
         ETB   : constant Character := etb;
-          CAN   : constant Character := can;                     
+          CAN   : constant Character := can;
         EM    : constant Character := em;
-          SUB   : constant Character := sub;                     
+          SUB   : constant Character := sub;
         ESC   : constant Character := esc;
-          FS    : constant Character := fs;                      
+          FS    : constant Character := fs;
         GS    : constant Character := gs;
-          RS    : constant Character := rs;                      
+          RS    : constant Character := rs;
         US    : constant Character := us;
           DEL   : constant Character := del;
 
 5         -- Other characters:
 
-6         Exclam   : constant Character:= '!';                   
+6         Exclam   : constant Character:= '!';
         Quotation : constant Character:= '"';
-          Sharp    : constant Character:= '#';                   
+          Sharp    : constant Character:= '#';
         Dollar    : constant Character:= '$';
-          Percent  : constant Character:= '%';                   
+          Percent  : constant Character:= '%';
         Ampersand : constant Character:= '&';
-          Colon    : constant Character:= ':';                   
+          Colon    : constant Character:= ':';
         Semicolon : constant Character:= ';';
-          Query    : constant Character:= '?';                   
+          Query    : constant Character:= '?';
         At_Sign   : constant Character:= '@';
-          L_Bracket: constant Character:= '[';                   
+          L_Bracket: constant Character:= '[';
         Back_Slash: constant Character:= '\';
-          R_Bracket: constant Character:= ']';                   
+          R_Bracket: constant Character:= ']';
         Circumflex: constant Character:= '^';
-          Underline: constant Character:= '_';                   
+          Underline: constant Character:= '_';
         Grave     : constant Character:= '`';
-          L_Brace  : constant Character:= '{';                   
+          L_Brace  : constant Character:= '{';
         Bar       : constant Character:= '|';
-          R_Brace  : constant Character:= '}';                   
+          R_Brace  : constant Character:= '}';
         Tilde     : constant Character:= '~';
 
 7         -- Lower case letters:
@@ -240,7 +240,7 @@ J.5 ASCII
 9       end ASCII;
 
 
-J.6 Numeric_Error
+J.6 Numeric_Error *ada-obsolescent-numeric_error*
 
 
 
@@ -251,7 +251,7 @@ J.6 Numeric_Error
 2       Numeric_Error : exception renames Constraint_Error;
 
 
-J.7 At Clauses
+J.7 At Clauses *ada-obsolescent-at-clauses*
 
 
 
@@ -266,7 +266,7 @@ J.7 At Clauses
 attribute_definition_clause of the form "for x'Address use y;".
 
 
-J.7.1 Interrupt Entries
+J.7.1 Interrupt Entries *ada-obsolescent-interrupt*
 
 
 1   Implementations are permitted to allow the attachment of task entries to
@@ -382,7 +382,7 @@ terminate_alternative in addition to those given in 9.3.
         end Interrupt_Handler;
 
 
-J.8 Mod Clauses
+J.8 Mod Clauses *ada-obsolescent-mod*
 
 
 
@@ -409,7 +409,7 @@ J.8 Mod Clauses
             end record;
 
 
-J.9 The Storage_Size Attribute
+J.9 The Storage_Size Attribute *ada-obsolescent-storage-size*
 
 
 
@@ -428,7 +428,7 @@ J.9 The Storage_Size Attribute
                 to be the value of the given expression.
 
 
-J.10 Specific Suppression of Checks
+J.10 Specific Suppression of Checks *ada-obsolescent-suppression*
 
 
 1/2 Pragma Suppress can be used to suppress checks on specific entities.
@@ -474,7 +474,7 @@ pragmas.
         Unsuppress (see 11.5).
 
 
-J.11 The Class Attribute of Untagged Incomplete Types
+J.11 The Class Attribute of Untagged Incomplete Types *ada-obsolescent-class-attribute*
 
 
 
@@ -490,7 +490,7 @@ defined:
                 unit as the incomplete_type_declaration.
 
 
-J.12 Pragma Interface
+J.12 Pragma Interface *ada-obsolescent-interface*
 
 
 
@@ -501,7 +501,7 @@ J.12 Pragma Interface
         this International Standard.
 
 
-J.13 Dependence Restriction Identifiers
+J.13 Dependence Restriction Identifiers *ada-obsolescent-dependence*
 
 
 1/2 The following restrictions involve dependence on specific language-defined
@@ -526,7 +526,7 @@ for this purpose.
                 Unchecked_Deallocation is not allowed.
 
 
-J.14 Character and Wide_Character Conversion Functions
+J.14 Character and Wide_Character Conversion Functions *ada-obsolescent-character*
 
 
 
@@ -557,14 +557,14 @@ Ada.Characters.Handling:
               renames Conversions.To_Wide_String;
 
 
-J.15 Aspect-related Pragmas
+J.15 Aspect-related Pragmas *ada-obsolescent-aspect-pragmas*
 
 
 1/3 Pragmas can be used as an alternative to aspect_specifications to specify
 certain aspects.
 
 
-J.15.1 Pragma Inline
+J.15.1 Pragma Inline *ada-obsolescent-pragma-inline*
 
 
 
@@ -600,7 +600,7 @@ a direct_name denoting a subprogram_body of the same declarative_part.
         entities.
 
 
-J.15.2 Pragma No_Return
+J.15.2 Pragma No_Return *ada-obsolescent-pragma-no-return*
 
 
 
@@ -625,7 +625,7 @@ instance of a generic unit.
 procedure denoted by each local_name given in the pragma has the value True.
 
 
-J.15.3 Pragma Pack
+J.15.3 Pragma Pack *ada-obsolescent-pragma-pack*
 
 
 
@@ -649,7 +649,7 @@ subtype.
 by first_subtype_local_name has the value True.
 
 
-J.15.4 Pragma Storage_Size
+J.15.4 Pragma Storage_Size *ada-obsolescent-pragma-storage-size*
 
 
 
@@ -676,7 +676,7 @@ type defined by the immediately enclosing task_definition to the value of the
 expression of the pragma.
 
 
-J.15.5 Interfacing Pragmas
+J.15.5 Interfacing Pragmas *ada-obsolescent-interfacing-pragmas*
 
 
 
@@ -749,7 +749,7 @@ the local_name as follows:
         link_name_string_expression.
 
 
-J.15.6 Pragma Unchecked_Union
+J.15.6 Pragma Unchecked_Union *ada-obsolescent-unchecked-union*
 
 
 
@@ -773,7 +773,7 @@ unconstrained discriminated record subtype having a variant_part.
 B.3.3) for the type denoted by first_subtype_local_name has the value True.
 
 
-J.15.7 Pragmas Interrupt_Handler and Attach_Handler
+J.15.7 Pragmas Interrupt_Handler and Attach_Handler *ada-obsolescent-pragma-interrupt-handler*
 
 
 
@@ -818,7 +818,7 @@ the protected procedure handler_name to have the value of the given
 expression as evaluated at object creation time.
 
 
-J.15.8 Shared Variable Pragmas
+J.15.8 Shared Variable Pragmas *ada-obsolescent-shared*
 
 
 
@@ -866,7 +866,7 @@ object, or component denoted by its argument is True.
 may have the similarly named aspect specified.
 
 
-J.15.9 Pragma CPU
+J.15.9 Pragma CPU *ada-obsolescent-pragma-cpu*
 
 
 
@@ -902,7 +902,7 @@ expression is associated with the aspect for the subprogram that contains the
 pragma.
 
 
-J.15.10 Pragma Dispatching_Domain
+J.15.10 Pragma Dispatching_Domain *ada-obsolescent-dispatching-domain*
 
 
 
@@ -933,7 +933,7 @@ expression is associated with the aspect for the task type or
 single_task_declaration that contains the pragma.
 
 
-J.15.11 Pragmas Priority and Interrupt_Priority
+J.15.11 Pragmas Priority and Interrupt_Priority *ada-obsolescent-pragma-priority*
 
 
 
@@ -988,7 +988,7 @@ specifies the value of the Interrupt_Priority aspect as follows:
 Interrupt_Priority aspect has the value Interrupt_Priority'Last.
 
 
-J.15.12 Pragma Relative_Deadline
+J.15.12 Pragma Relative_Deadline *ada-obsolescent-pragma-relative-deadline*
 
 
 
@@ -1021,7 +1021,7 @@ otherwise, the expression is associated with the aspect for the subprogram
 that contains the pragma.
 
 
-J.15.13 Pragma Asynchronous
+J.15.13 Pragma Asynchronous *ada-obsolescent-pragma-asynchronous*
 
 
 
