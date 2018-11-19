@@ -40,7 +40,7 @@ C) for the Convention aspect (see Annex B), thus allowing Ada programs to
 interface with programs written in that language.
 
 
-G.1 Complex Arithmetic
+G.1 Complex Arithmetic *ada-numerics-complex-arithmetic*
 
 
 1   Types and arithmetic operations for complex arithmetic are provided in
@@ -53,7 +53,7 @@ equivalents of these generic packages for each of the predefined floating
 point types are also provided as children of Numerics.
 
 
-G.1.1 Complex Types
+G.1.1 Complex Types *ada-numerics-complex-types*
 
 
 
@@ -368,7 +368,7 @@ parameter has a value of zero and the Modulus parameter has a nonnegative
 (resp., negative) value.
 
 
-G.1.2 Complex Elementary Functions
+G.1.2 Complex Elementary Functions *ada-numerics-complex-elementary*
 
 
 
@@ -621,7 +621,7 @@ is opposite that of a parameter component at the origin, or is always positive
 or always negative.
 
 
-G.1.3 Complex Input-Output
+G.1.3 Complex Input-Output *ada-numerics-complex-input*
 
 
 1   The generic package Text_IO.Complex_IO defines procedures for the
@@ -812,7 +812,7 @@ preceding procedures in the appropriate circumstances, as for the
 corresponding procedures of Text_IO.Float_IO.
 
 
-G.1.4 The Package Wide_Text_IO.Complex_IO
+G.1.4 The Package Wide_Text_IO.Complex_IO *ada-package-wide-text-io-complex-io*
 
 
 
@@ -826,7 +826,7 @@ additionally replacing references to particular characters (commas,
 parentheses, etc.) by those for the corresponding wide characters.
 
 
-G.1.5 The Package Wide_Wide_Text_IO.Complex_IO
+G.1.5 The Package Wide_Wide_Text_IO.Complex_IO *ada-package-wide-wide-text-io-complex-io*
 
 
 
@@ -840,7 +840,7 @@ additionally replacing references to particular characters (commas,
 parentheses, etc.) by those for the corresponding wide wide characters.
 
 
-G.2 Numeric Performance Requirements
+G.2 Numeric Performance Requirements *ada-numerics-numeric*
 
 
 
@@ -863,7 +863,7 @@ opposing mode, which is known as the relaxed mode.
 3   The two modes need not actually be different.
 
 
-G.2.1 Model of Floating Point Arithmetic
+G.2.1 Model of Floating Point Arithmetic *ada-numeric-model-floating*
 
 
 1   In the strict mode, the predefined operations of a floating point type
@@ -953,7 +953,7 @@ multiplication by a reciprocal, the result interval for division (and
 exponentiation by a negative exponent) is implementation defined.
 
 
-G.2.2 Model-Oriented Attributes of Floating Point Types
+G.2.2 Model-Oriented Attributes of Floating Point Types *ada-numerics-model-oriented*
 
 
 1   In implementations that support the Numerics Annex, the model-oriented
@@ -1040,7 +1040,7 @@ S'Safe_First minimized, by the implementation as follows:
         S'Model_Emin.
 
 
-G.2.3 Model of Fixed Point Arithmetic
+G.2.3 Model of Fixed Point Arithmetic *ada-numerics-model-fixed*
 
 
 1   In the strict mode, the predefined arithmetic operations of a fixed point
@@ -1178,7 +1178,7 @@ results; otherwise,
 27    * if T'Machine_Overflows is False, the result is implementation defined.
 
 
-G.2.4 Accuracy Requirements for the Elementary Functions
+G.2.4 Accuracy Requirements for the Elementary Functions *ada-numerics-accuracy-elementary*
 
 
 1   In the strict mode, the performance of
@@ -1250,60 +1250,60 @@ the indicated sign.
 
           Table G-1: Tightly Approximated Elementary Function Results
 
-          Function                                                               
-          Value of X                                                             
-          Value of Y                                                             
+          Function
+          Value of X
+          Value of Y
           Exact Result
           when Cycle
-          Specified                                                              
+          Specified
           Exact Result
           when Cycle
           Omitted
 
-          Arcsin                                                                 
-          1.0                                                                    
-          n.a.                                                                   
-          Cycle/4.0                                                              
+          Arcsin
+          1.0
+          n.a.
+          Cycle/4.0
           PI/2.0
-          Arcsin                                                                 
-          -1.0                                                                   
-          n.a.                                                                   
-          -Cycle/4.0                                                             
+          Arcsin
+          -1.0
+          n.a.
+          -Cycle/4.0
           -PI/2.0
-          Arccos                                                                 
-          0.0                                                                    
-          n.a.                                                                   
-          Cycle/4.0                                                              
+          Arccos
+          0.0
+          n.a.
+          Cycle/4.0
           PI/2.0
-          Arccos                                                                 
-          -1.0                                                                   
-          n.a.                                                                   
-          Cycle/2.0                                                              
+          Arccos
+          -1.0
+          n.a.
+          Cycle/2.0
           PI
-          Arctan and Arccot                                                      
-          0.0                                                                    
-          positive                                                               
-          Cycle/4.0                                                              
+          Arctan and Arccot
+          0.0
+          positive
+          Cycle/4.0
           PI/2.0
-          Arctan and Arccot                                                      
-          0.0                                                                    
-          negative                                                               
-          -Cycle/4.0                                                             
+          Arctan and Arccot
+          0.0
+          negative
+          -Cycle/4.0
           -PI/2.0
-          Arctan and Arccot                                                      
-          negative                                                               
-          +0.0                                                                   
-          Cycle/2.0                                                              
+          Arctan and Arccot
+          negative
+          +0.0
+          Cycle/2.0
           PI
-          Arctan and Arccot                                                      
-          negative                                                               
-          -0.0                                                                   
-          -Cycle/2.0                                                             
+          Arctan and Arccot
+          negative
+          -0.0
+          -Cycle/2.0
           -PI
-          Arctan and Arccot                                                      
-          negative                                                               
-          0.0                                                                    
-          Cycle/2.0                                                              
+          Arctan and Arccot
+          negative
+          0.0
+          Cycle/2.0
           PI
 14  The amount by which the result of an inverse trigonometric function is
 allowed to spill over into a quadrant adjacent to the one corresponding to the
@@ -1335,7 +1335,7 @@ Log without a Base parameter should not be implemented by calling the
 corresponding version with a Base parameter of Numerics.e.
 
 
-G.2.5 Performance Requirements for Random Number Generation
+G.2.5 Performance Requirements for Random Number Generation *ada-numerics-performance*
 
 
 1   In the strict mode, the performance of Numerics.Float_Random and
@@ -1368,7 +1368,7 @@ freedom, measurement categories are combined whenever the expected counts are
 fewer than 5.
 
 
-G.2.6 Accuracy Requirements for Complex Arithmetic
+G.2.6 Accuracy Requirements for Complex Arithmetic *ada-numerics-accuracy-complex*
 
 
 1   In the strict mode, the performance of Numerics.Generic_Complex_Types and
@@ -1418,64 +1418,64 @@ CT.Real'Model_Epsilon.
 
           Table G-2: Error Bounds for Particular Complex Functions
 
-          Function or Operator                                                 
+          Function or Operator
           Nature of
-          Result                                                               
+          Result
           Nature of
-          Bound                                                                
+          Bound
           Error Bound
 
-          Modulus                                                              
-          real                                                                 
-          max. rel. error                                                      
+          Modulus
+          real
+          max. rel. error
           3.0
-          Argument                                                             
-          real                                                                 
-          max. rel. error                                                      
+          Argument
+          real
+          max. rel. error
           4.0
-          Compose_From_Polar                                                   
-          complex                                                              
-          max. rel. error                                                      
+          Compose_From_Polar
+          complex
+          max. rel. error
           3.0
-          "*" (both operands complex)                                          
-          complex                                                              
-          max. box error                                                       
+          "*" (both operands complex)
+          complex
+          max. box error
           5.0
-          "/" (right operand complex)                                          
-          complex                                                              
-          max. box error                                                       
+          "/" (right operand complex)
+          complex
+          max. box error
           13.0
-          Sqrt                                                                 
-          complex                                                              
-          max. rel. error                                                      
+          Sqrt
+          complex
+          max. rel. error
           6.0
-          Log                                                                  
-          complex                                                              
-          max. box error                                                       
+          Log
+          complex
+          max. box error
           13.0
-          Exp (complex parameter)                                              
-          complex                                                              
-          max. rel. error                                                      
+          Exp (complex parameter)
+          complex
+          max. rel. error
           7.0
-          Exp (imaginary parameter)                                            
-          complex                                                              
-          max. rel. error                                                      
+          Exp (imaginary parameter)
+          complex
+          max. rel. error
           2.0
-          Sin, Cos, Sinh, and Cosh                                             
-          complex                                                              
-          max. rel. error                                                      
+          Sin, Cos, Sinh, and Cosh
+          complex
+          max. rel. error
           11.0
-          Tan, Cot, Tanh, and Coth                                             
-          complex                                                              
-          max. rel. error                                                      
+          Tan, Cot, Tanh, and Coth
+          complex
+          max. rel. error
           35.0
-          inverse trigonometric                                                
-          complex                                                              
-          max. rel. error                                                      
+          inverse trigonometric
+          complex
+          max. rel. error
           14.0
-          inverse hyperbolic                                                   
-          complex                                                              
-          max. rel. error                                                      
+          inverse hyperbolic
+          complex
+          max. rel. error
           14.0
 8   The maximum relative error given above applies throughout the domain of
 the Compose_From_Polar function when the Cycle parameter is specified. When
@@ -1534,7 +1534,7 @@ parameter of 2.0*Numerics.Pi, since this will not provide the required
 accuracy in some portions of the domain.
 
 
-G.3 Vector and Matrix Manipulation
+G.3 Vector and Matrix Manipulation *ada-numerics-vector*
 
 
 1/2 Types and operations for the manipulation of real vectors and matrices are
@@ -1546,7 +1546,7 @@ Nongeneric equivalents of these packages for each of the predefined floating
 point types are also provided as children of Numerics.
 
 
-G.3.1 Real Vectors and Matrices
+G.3.1 Real Vectors and Matrices *ada-numerics-real-vectors*
 
 
 
@@ -1917,7 +1917,7 @@ equality operator to compare the relevant components.
 algorithm used for Eigenvalues and Eigensystem fails to converge.
 
 
-G.3.2 Complex Vectors and Matrices
+G.3.2 Complex Vectors and Matrices *ada-numerics-complex-vectors*
 
 
 

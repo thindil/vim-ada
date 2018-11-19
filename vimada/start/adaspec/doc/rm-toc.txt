@@ -428,22 +428,22 @@ F. Information Systems |ada-information|
         F.3.5 The Package Wide_Wide_Text_IO.Editing |ada-package-wide-wide-text-io-editing|
 
 G. Numerics |ada-numerics|
-    G.1 Complex Arithmetic
-        G.1.1 Complex Types
-        G.1.2 Complex Elementary Functions
-        G.1.3 Complex Input-Output
-        G.1.4 The Package Wide_Text_IO.Complex_IO
-        G.1.5 The Package Wide_Wide_Text_IO.Complex_IO
-    G.2 Numeric Performance Requirements
-        G.2.1 Model of Floating Point Arithmetic
-        G.2.2 Model-Oriented Attributes of Floating Point Types
-        G.2.3 Model of Fixed Point Arithmetic
-        G.2.4 Accuracy Requirements for the Elementary Functions
-        G.2.5 Performance Requirements for Random Number Generation
-        G.2.6 Accuracy Requirements for Complex Arithmetic
-    G.3 Vector and Matrix Manipulation
-        G.3.1 Real Vectors and Matrices
-        G.3.2 Complex Vectors and Matrices
+    G.1 Complex Arithmetic |ada-numerics-complex-arithmetic|
+        G.1.1 Complex Types |ada-numerics-complex-types|
+        G.1.2 Complex Elementary Functions |ada-numerics-complex-elementary|
+        G.1.3 Complex Input-Output |ada-numerics-complex-input|
+        G.1.4 The Package Wide_Text_IO.Complex_IO |ada-package-wide-text-io-complex-io|
+        G.1.5 The Package Wide_Wide_Text_IO.Complex_IO |ada-package-wide-wide-text-io-complex-io|
+    G.2 Numeric Performance Requirements |ada-numerics-numeric|
+        G.2.1 Model of Floating Point Arithmetic |ada-numerics-model-floating|
+        G.2.2 Model-Oriented Attributes of Floating Point Types |ada-numerics-model-oriented|
+        G.2.3 Model of Fixed Point Arithmetic |ada-numerics-model-fixed|
+        G.2.4 Accuracy Requirements for the Elementary Functions |ada-numerics-accuracy-elementary|
+        G.2.5 Performance Requirements for Random Number Generation |ada-numerics-performance|
+        G.2.6 Accuracy Requirements for Complex Arithmetic |ada-numerics-accuracy-complex|
+    G.3 Vector and Matrix Manipulation |ada-numerics-vector|
+        G.3.1 Real Vectors and Matrices |ada-numerics-real-vectors|
+        G.3.2 Complex Vectors and Matrices |ada-numerics-complex-vectors|
 
 H. High Integrity Systems |ada-integrity|
     H.1 Pragma Normalize_Scalars
