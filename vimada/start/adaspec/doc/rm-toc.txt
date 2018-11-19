@@ -502,11 +502,11 @@ N. Glossary |ada-glossary|
 P. Syntax Summary |ada-syntax|
 
 Q. Language-Defined Entities |ada-entities|
-    Q.1 Language-Defined Packages
-    Q.2 Language-Defined Types and Subtypes
-    Q.3 Language-Defined Subprograms
-    Q.4 Language-Defined Exceptions
-    Q.5 Language-Defined Objects
+    Q.1 Language-Defined Packages |ada-entities-packages|
+    Q.2 Language-Defined Types and Subtypes |ada-entities-types|
+    Q.3 Language-Defined Subprograms |ada-entities-subprograms|
+    Q.4 Language-Defined Exceptions |ada-entities-exceptions|
+    Q.5 Language-Defined Objects |ada-entities-objects|
 
 Index |ada-index|
 
