@@ -90,6 +90,14 @@ added, modified, or removed. You can also preview, stage, and undo individual
 hunks. The plugin also provides a hunk text object. This plugin wasn't
 modified but have some custom configuration in `.vimrc` file.
 
+### IndentLine
+
+Webpage: https://github.com/Yggdroot/indentLine
+
+This plugin is used for displaying thin vertical lines at each indentation
+level for code indented with spaces. This plugin wasn't modified but have some
+custom configuration in `.vimrc` file.
+
 ### Rainbow Parentheses Improved
 
 Webpage: https://github.com/luochen1990/rainbow
