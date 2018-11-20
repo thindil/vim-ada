@@ -26,6 +26,7 @@ set noshowmode                                              " Don't show mode in
 set tags=./tags;/                                           " Where to search for tags file (from current directory up)
 set grepprg=grep\ -nre                                      " Show line number for standard :grep command
 set updatetime=100                                          " Amount of millisecs between saves of swap file to disk. Needed for some plugins
+set cursorline                                              " Highlight line with cursor
 let g:gitgutter_signs = 0                                   " Disable gitgutter signs
 let g:airline_powerline_fonts = 1                           " Use special patched fonts
 let g:airline#extensions#tabline#enabled = 1                " Show list of buffers
@@ -35,6 +36,8 @@ let g:rainbow_active = 1                                    " Enable colouring b
 let g:syntastic_ada_compiler = "gnatmake"                   " Set syntastic checker
 let g:syntastic_enable_signs = 0                            " Disable syntastic signs
 let g:syntastic_enable_balloons = 0                         " Disable syntastic error balloons
+let g:syntastic_always_populate_loc_list = 1                " Always update errors list
+let g:indentLine_setColors = 0                              " Use default theme color for showing indent level
 set background=dark                                         " Set dark background
 colorscheme PaperColor                                      " Set color scheme
 if has("gui_running")                                       " GUI specific settings
