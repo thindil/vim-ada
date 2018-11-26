@@ -549,7 +549,7 @@ function ada#Map_Menu (Text, Keys, Command)
    if a:Keys[0] == ':'
       execute
 	\ "50amenu " .
-	\ "Ada."     . escape(a:Text, ' ') .
+	\ "&Ada."     . escape(a:Text, ' ') .
 	\ "<Tab>"    . a:Keys .
 	\ " :"	     . a:Command . "<CR>"
       execute
@@ -559,7 +559,7 @@ function ada#Map_Menu (Text, Keys, Command)
    elseif a:Keys[0] == '<'
       execute
 	\ "50amenu " .
-	\ "Ada."     . escape(a:Text, ' ') .
+	\ "&Ada."     . escape(a:Text, ' ') .
 	\ "<Tab>"    . a:Keys .
 	\ " :"	     . a:Command . "<CR>"
       execute
@@ -578,7 +578,7 @@ function ada#Map_Menu (Text, Keys, Command)
       endif
       execute
 	\ "50amenu " .
-	\ "Ada."  . escape(a:Text, ' ') .
+	\ "&Ada."  . escape(a:Text, ' ') .
 	\ "<Tab>" . escape(l:leader . "a" . a:Keys , '\') .
 	\ " :"	  . a:Command . "<CR>"
       execute
