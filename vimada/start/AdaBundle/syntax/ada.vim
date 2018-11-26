@@ -35,6 +35,7 @@ endif
 
 let b:current_syntax = "ada"
 
+
 " Section: Ada is entirely case-insensitive. {{{1
 "
 syntax   case ignore
@@ -91,6 +92,10 @@ syntax match    adaOperator "="
 " Handle the box, <>, specially:
 "
 syntax keyword  adaSpecial	    <>
+
+" Section: parenthesis {{{1
+"
+syntax match adaSpecial  "[:;().,]"
 
 " Section: := {{{1
 "
