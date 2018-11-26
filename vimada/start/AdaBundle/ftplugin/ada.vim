@@ -182,10 +182,6 @@ call ada#Map_Menu (
    \ ':AdaLines',
    \'call ada#Switch_Syntax_Option (''line_errors'')')
 call ada#Map_Menu (
-   \'Highlight.Toggle Rainbow Color',
-   \ ':AdaRainbow',
-   \'call ada#Switch_Syntax_Option (''rainbow_color'')')
-call ada#Map_Menu (
    \'Highlight.Toggle Standard Types',
    \ ':AdaTypes',
    \'call ada#Switch_Syntax_Option (''standard_types'')')

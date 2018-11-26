@@ -29,7 +29,6 @@ finish " 1}}}
    let   g:ada_folding		       = 'i'
 "  let   g:ada_folding		       = 'gibxp'
 "  let   g:ada_folding		       = 'spftc'
-   let   g:ada_rainbow_color	       = 1
    let   g:ada_space_errors	       = 1
    let   g:ada_standard_types	       = 1
    let   g:ada_with_gnat_project_files = 1

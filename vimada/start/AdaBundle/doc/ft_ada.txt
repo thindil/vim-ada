@@ -95,7 +95,7 @@ and can run on files which currently do not compile.
 
 There are also lots of other Vim-tools which use exuberant Ctags.
 
-Recommended version is Universal Ctags which has full Ada support. Such a 
+Recommended version is Universal Ctags which has full Ada support. Such a
 version is available from (https://ctags.io).
 
 ==============================================================================
@@ -226,11 +226,6 @@ g:ada_line_errors	  bool (true when exists)
 		Highlight lines which are to long. Note: This highlighting
 		option is quite CPU intensive.
 
-							 *g:ada_rainbow_color*
-g:ada_rainbow_color	  bool (true when exists)
-		Use rainbow colours for '(' and ')'. You need the
-		rainbow_parenthesis for this to work
-
 							       *g:ada_folding*
 g:ada_folding		  set ('sigpft')
 		Use folding for Ada sources.
@@ -313,10 +308,6 @@ set makes no difference.
 ------------------------------------------------------------------------------
 5.3 Commands ~
 							     *ft-ada-commands*
-
-:AdaRainbow							 *:AdaRainbow*
-		Toggles rainbow colour (|g:ada_rainbow_color|) mode for
-		'(' and ')'
 
 :AdaLines							   *:AdaLines*
 		Toggles line error (|g:ada_line_errors|) display

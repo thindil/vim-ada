@@ -92,16 +92,6 @@ syntax match    adaOperator "="
 "
 syntax keyword  adaSpecial	    <>
 
-" Section: rainbow color {{{1
-"
-if exists("g:ada_rainbow_color")
-    syntax match	adaSpecial	 "[:;.,]"
-    call rainbow_main#load()
-else
-    syntax match	adaSpecial	 "[:;().,]"
-    call rainbow_main#clear()
-endif
-
 " Section: := {{{1
 "
 " We won't map "adaAssignment" by default, but we need to map ":=" to
