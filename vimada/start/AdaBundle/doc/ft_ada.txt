@@ -22,11 +22,10 @@ ADA								      *ada.vim*
 1. Syntax Highlighting ~
 							       *ft-ada-syntax*
 
-This mode is designed for the 2005 edition of Ada ("Ada 2005"), which includes
+This mode is designed for the 2012 edition of Ada ("Ada 2012"), which includes
 support for objected-programming, protected types, and so on.  It handles code
-written for the original Ada language ("Ada83", "Ada87", "Ada95") as well,
-though code which uses Ada 2005-only keywords will be wrongly colored (such
-code should be fixed anyway).  For more information about Ada, see
+written for the original Ada language ("Ada83", "Ada87", "Ada95", "Ada05") as
+well. For more information about Ada, see
 http://www.adapower.com.
 
 The Ada mode handles a number of situations cleanly.
