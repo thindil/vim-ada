@@ -10,7 +10,6 @@ ADA								      *ada.vim*
 3.  Omni Completion			    |ft-ada-omni|
 4.  Compiler Support			    |ada-compiler|
     4.1 GNAT					|compiler-gnat|
-    4.1 Dec Ada					|compiler-decada|
 5.  References				    |ada-reference|
     5.1 Options					|ft-ada-options|
     5.2 Functions				|ft-ada-functions|
@@ -162,40 +161,6 @@ g:gnat.Pretty_Program	string
 g:gnat.Error_Format	string
 		Error format (|'errorformat'|)
 
-------------------------------------------------------------------------------
-4.2 Dec Ada ~
-					    *compiler-hpada* *compiler-decada*
-					*compiler-vaxada* *compiler-compaqada*
-
-Dec Ada (also known by - in chronological order - VAX Ada, Dec Ada, Compaq Ada
-and HP Ada) is a fairly dated Ada 83 compiler. Support is basic: <F7> will
-compile the current unit.
-
-The Dec Ada compiler expects the package name and not the file name to be
-passed a parameter. The compiler plug-in supports the usual file name
-convention to convert the file into a unit name. For separates both '-' and
-'__' are allowed.
-
-							      *decada_members*
-DEC ADA OBJECT ~
-
-							     *g:decada.Make()*
-g:decada.Make()		function
-		Calls|g:decada.Make_Command|and displays the result inside a
-               |quickfix| window.
-
-							*g:decada.Unit_Name()*
-g:decada.Unit_Name()	function
-		Get the Unit name for the current file.
-
-						       *g:decada.Make_Command*
-g:decada.Make_Command	string
-		External command used for|g:decadat.Make()| (|'makeprg'|).
-
-						       *g:decada.Error_Format*
-g:decada.Error_Format|	string
-		Error format (|'errorformat'|).
-
 ==============================================================================
 5. References ~
 							       *ada-reference*
@@ -298,8 +263,7 @@ g:ada_with_gnat_project_files	 bool (true when exists)
 
 						      *g:ada_default_compiler*
 g:ada_default_compiler	  string
-		set default compiler. Currently supported is 'gnat' and
-		'decada'.
+		set default compiler. Currently supported is 'gnat'.
 
 An "exists" type is a boolean is considered true when the variable is defined
 and false when the variable is undefined. The value which the variable is
@@ -337,13 +301,6 @@ g:gnat			    object
 		is created when the first Ada source code is loaded provided
 		that |g:ada_default_compiler|is set to 'gnat'. See|gnat_members|
 		for details.
-
-								    *g:decada*
-g:decada		      object
-		Control object which manages Dec Ada compiles.	The object
-		is created when the first Ada source code is loaded provided
-		that |g:ada_default_compiler|is set to 'decada'. See
-	       |decada_members|for details.
 
 ------------------------------------------------------------------------------
 5.4 Constants ~
