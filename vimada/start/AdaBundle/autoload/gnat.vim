@@ -60,6 +60,9 @@ function gnat#Set_Project_File (...) dict			     " {{{1
 
    if strlen (self.Project_File) > 0
       let g:syntastic_ada_compiler_options = "-P " . self.Project_File
+      let self.Make_Command = "gnatmake -P " . self.Project_File . "  -F -gnatef"
+      let self.Pretty_Command = '"gnatpp -P " . self.Project_File'
+      let &l:makeprg  = "gnatmake -P " . self.Project_File . "  -F -gnatef"
    endif
 
    return
@@ -86,8 +89,8 @@ function gnat#New ()						     " {{{1
       \ 'Set_Session'      : function ('gnat#Set_Session'),
       \ 'Get_Command'      : function ('gnat#Get_Command'),
       \ 'Project_File'     : '',
-      \ 'Make_Command'     : '"gnatmake -P " . self.Project_File . "  -F -gnatef  "',
-      \ 'Pretty_Command'   : '"gnatpp -P " . self.Project_File . " "',
+      \ 'Make_Command'     : '"gnatmake -F -gnatef " . expand("%:p")',
+      \ 'Pretty_Command'   : '"gnatpp " . expand("%:p")' ,
       \ 'Error_Format'     : '%f:%l:%c: %trror: %m,'   .
 			   \ '%f:%l:%c: %tarning: %m,' .
 			   \ '%f:%l:%c: (%ttyle) %m'}
