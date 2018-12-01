@@ -53,6 +53,7 @@ This is modified version of standard Ada support for Vim. Main changes:
 - Removed some tags commands which are now in base Vim (like jump to tag).
 - Added support for Syntastic plugin (included in this pack too).
 - Updated help file.
+- Removed support for Dec Ada compiler.
 
 ### AdaSpec
 
