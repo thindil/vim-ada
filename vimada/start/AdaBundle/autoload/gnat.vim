@@ -60,7 +60,7 @@ function gnat#Set_Project_File (...) dict			     " {{{1
 
    if strlen (self.Project_File) > 0
       let g:syntastic_ada_compiler_options = "-P " . self.Project_File
-      let self.Make_Command = "gnatmake -P " . self.Project_File . "  -F -gnatef"
+      let self.Make_Command = '"gnatmake -P " . self.Project_File . "  -F -gnatef"'
       let self.Pretty_Command = '"gnatpp -P " . self.Project_File'
       let &l:makeprg  = "gnatmake -P " . self.Project_File . "  -F -gnatef"
    endif
