@@ -91,6 +91,16 @@ added, modified, or removed. You can also preview, stage, and undo individual
 hunks. The plugin also provides a hunk text object. This plugin wasn't
 modified but have some custom configuration in `.vimrc` file.
 
+### GutenTags
+
+Webpage: https://github.com/ludovicchabant/vim-gutentags
+
+Gutentags is a plugin that takes care of the much needed management of tags
+files in Vim. It will (re)generate tag files as you work while staying
+completely out of your way. It will even do its best to keep those tag files
+out of your way too. It has no dependencies and just works. This plugin wasn't
+modified.
+
 ### IndentLine
 
 Webpage: https://github.com/Yggdroot/indentLine
