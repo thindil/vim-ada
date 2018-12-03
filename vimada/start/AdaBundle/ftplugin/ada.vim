@@ -136,15 +136,15 @@ endif
 " Section: Commands, Mapping, Menus {{{1
 "
 call ada#Map_Menu (
-   \'Highlight.Toggle Space Errors',
+   \'Toggle Space Errors',
    \ ':AdaSpaces',
    \'call ada#Switch_Syntax_Option (''space_errors'')')
 call ada#Map_Menu (
-   \'Highlight.Toggle Lines Errors',
+   \'Toggle Lines Errors',
    \ ':AdaLines',
    \'call ada#Switch_Syntax_Option (''line_errors'')')
 call ada#Map_Menu (
-   \'Highlight.Toggle Standard Types',
+   \'Toggle Standard Types',
    \ ':AdaTypes',
    \'call ada#Switch_Syntax_Option (''standard_types'')')
 
