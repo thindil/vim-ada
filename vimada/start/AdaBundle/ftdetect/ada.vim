@@ -22,11 +22,7 @@ endif
 
 let s:loaded_ftdetect_ada=45
 
-if has("vms")
-   autocmd BufNewFile,BufRead *.gpr,*.ada_m,*.adc setfiletype ada
-else
-   autocmd BufNewFile,BufRead *.gpr setfiletype ada
-endif
+autocmd BufNewFile,BufRead *.gpr setfiletype ada
 
 finish " 1}}}
 

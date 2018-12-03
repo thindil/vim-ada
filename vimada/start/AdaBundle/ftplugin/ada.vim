@@ -55,27 +55,6 @@ setlocal ignorecase
 "
 setlocal formatoptions+=ron
 
-" Section: Tagging {{{1
-"
-if exists ("g:ada_extended_tagging")
-   " Make local tag mappings for this buffer (if not already set)
-   if g:ada_extended_tagging == 'jump'
-      if mapcheck('<C-]>','n') == ''
-	 nnoremap <unique> <buffer> <C-]>    :call ada#Jump_Tag ('', 'tjump')<cr>
-      endif
-      if mapcheck('g<C-]>','n') == ''
-	 nnoremap <unique> <buffer> g<C-]>   :call ada#Jump_Tag ('','stjump')<cr>
-      endif
-   elseif g:ada_extended_tagging == 'list'
-      if mapcheck('<C-]>','n') == ''
-	 nnoremap <unique> <buffer> <C-]>    :call ada#List_Tag ()<cr>
-      endif
-      if mapcheck('g<C-]>','n') == ''
-	 nnoremap <unique> <buffer> g<C-]>   :call ada#List_Tag ()<cr>
-      endif
-   endif
-endif
-
 " Section: Completion {{{1
 "
 setlocal completefunc=ada#User_Complete
@@ -119,11 +98,7 @@ endif
 " Section: Compiler {{{1
 "
 if ! exists("g:ada_default_compiler")
-   if has("vms")
-      let g:ada_default_compiler = 'decada'
-   else
-      let g:ada_default_compiler = 'gnat'
-   endif
+   let g:ada_default_compiler = 'gnat'
 endif
 
 if ! exists("current_compiler")			||
@@ -160,19 +135,6 @@ endif
 
 " Section: Commands, Mapping, Menus {{{1
 "
-call ada#Map_Popup (
-   \ 'Tag.List',
-   \  'l',
-   \ 'call ada#List_Tag ()')
-call ada#Map_Menu (
-   \'Tag.Create File',
-   \':AdaTagFile',
-   \'call ada#Create_Tags (''file'')')
-call ada#Map_Menu (
-   \'Tag.Create Dir',
-   \':AdaTagDir',
-   \'call ada#Create_Tags (''dir'')')
-
 call ada#Map_Menu (
    \'Highlight.Toggle Space Errors',
    \ ':AdaSpaces',

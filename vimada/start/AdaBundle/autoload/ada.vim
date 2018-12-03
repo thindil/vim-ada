@@ -278,72 +278,6 @@ function ada#Word (...)
    return substitute (l:Match_String, '\s\+', '', 'g')
 endfunction ada#Word
 
-" Section: ada#List_Tag (...) {{{1
-"
-"  List tags in quickfix window
-"
-function ada#List_Tag (...)
-   if a:0 > 1
-      let l:Tag_Word = ada#Word (a:1, a:2)
-   elseif a:0 > 0
-      let l:Tag_Word = a:1
-   else
-      let l:Tag_Word = ada#Word ()
-   endif
-
-   echo "Searching for" l:Tag_Word
-
-   let l:Pattern = '^' . l:Tag_Word . '$'
-   let l:Tag_List = taglist (l:Pattern)
-   let l:Error_List = []
-   "
-   " add symbols
-   "
-   for Tag_Item in l:Tag_List
-      if l:Tag_Item['kind'] == ''
-	 let l:Tag_Item['kind'] = 's'
-      endif
-
-      let l:Error_List += [
-	 \ l:Tag_Item['filename'] . '|' .
-	 \ l:Tag_Item['cmd']	  . '|' .
-	 \ l:Tag_Item['kind']	  . "\t" .
-	 \ l:Tag_Item['name'] ]
-   endfor
-   set errorformat=%f\|%l\|%m
-   cexpr l:Error_List
-   cwindow
-endfunction ada#List_Tag
-
-" Section: ada#Jump_Tag (Word, Mode) {{{1
-"
-" Word tag - include '.' and if Ada make uppercase
-"
-function ada#Jump_Tag (Word, Mode)
-   if a:Word == ''
-      " Get current word
-      let l:Word = ada#Word()
-      if l:Word == ''
-	 throw "NOT_FOUND: no identifier found."
-      endif
-   else
-      let l:Word = a:Word
-   endif
-
-   echo "Searching for " . l:Word
-
-   try
-      execute a:Mode l:Word
-   catch /.*:E426:.*/
-      let ignorecase = &ignorecase
-      set ignorecase
-      execute a:Mode l:Word
-      let &ignorecase = ignorecase
-   endtry
-
-   return
-endfunction ada#Jump_Tag
-
 " Section: ada#Insert_Backspace () {{{1
 "
 " Backspace at end of line after auto-inserted commentstring '-- ' wipes it
@@ -414,22 +348,6 @@ function ada#Completion_End ()
    set iskeyword-=46
    return ''
 endfunction ada#Completion_End
-
-" Section: ada#Create_Tags {{{1
-"
-function ada#Create_Tags (option)
-   if a:option == 'file'
-      let l:Filename = fnamemodify (bufname ('%'), ':p')
-   elseif a:option == 'dir'
-      let l:Filename =
-	 \ fnamemodify (bufname ('%'), ':p:h') . "*.ada " .
-	 \ fnamemodify (bufname ('%'), ':p:h') . "*.adb " .
-	 \ fnamemodify (bufname ('%'), ':p:h') . "*.ads"
-   else
-      let l:Filename = a:option
-   endif
-   execute '!ctags --excmd=number ' . l:Filename
-endfunction ada#Create_Tags
 
 " Section: ada#Switch_Session {{{1
 "
@@ -592,24 +510,6 @@ function ada#Map_Menu (Text, Keys, Command)
    endif
    return
 endfunction
-
-" Section: ada#Map_Popup {{{2
-"
-function ada#Map_Popup (Text, Keys, Command)
-   if exists("g:mapleader")
-      let l:leader = g:mapleader
-   else
-      let l:leader = '\'
-   endif
-   execute
-     \ "50amenu " .
-     \ "PopUp."   . escape(a:Text, ' ') .
-     \ "<Tab>"	  . escape(l:leader . "a" . a:Keys , '\') .
-     \ " :"	  . a:Command . "<CR>"
-
-   call ada#Map_Menu (a:Text, a:Keys, a:Command)
-   return
-endfunction ada#Map_Popup
 
 " }}}1
 
