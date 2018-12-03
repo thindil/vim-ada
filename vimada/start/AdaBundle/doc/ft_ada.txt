@@ -278,12 +278,6 @@ set makes no difference.
 :AdaSpaces							  *:AdaSpaces*
 		Toggles space error (|g:ada_space_errors|) display.
 
-:AdaTagDir							  *:AdaTagDir*
-		Creates tags file for the directory of the current file.
-
-:AdaTagFile							 *:AdaTagFile*
-		Creates tags file for the current file.
-
 :AdaTypes							   *:AdaTypes*
 		Toggles standard types (|g:ada_standard_types|) colour.
 
@@ -337,20 +331,6 @@ g:ada#Ctags_Kinds	dictionary of lists
 ada#Word([{line}, {col}])					  *ada#Word()*
 		Return full name of Ada entity under the cursor (or at given
 		line/column), stripping white space/newlines as necessary.
-
-ada#List_Tag([{line}, {col}])				      *ada#Listtags()*
-		List all occurrences of the Ada entity under the cursor (or at
-		given line/column) inside the quick-fix window
-
-ada#Jump_Tag ({ident}, {mode})				      *ada#Jump_Tag()*
-		List all occurrences of the Ada entity under the cursor (or at
-		given line/column) in the tag jump list. Mode can either be
-		'tjump' or 'stjump'.
-
-ada#Create_Tags ({option})				   *ada#Create_Tags()*
-		Creates tag file using Ctags. The option can either be 'file'
-		for the current file, 'dir' for the directory of the current
-		file or a file name.
 
 ada#Switch_Syntax_Option ({option})		  *ada#Switch_Syntax_Option()*
 		Toggles highlighting options on or off. Used for the Ada menu.
