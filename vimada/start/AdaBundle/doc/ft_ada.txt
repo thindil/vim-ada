@@ -114,8 +114,8 @@ environment.
 GNAT is the only free (beer and speech) Ada compiler available. There are
 several version available which differentiate in the licence terms used.
 
-The GNAT compiler plug-in will perform a compile on pressing <F7> and then
-immediately shows the result. You can set the project file to be used by
+The GNAT compiler plug-in will perform a compile on standard command *:make* and
+then immediately shows the result. You can set the project file to be used by
 setting:
  >
  > call g:gnat.Set_Project_File ('my_project.gpr')
