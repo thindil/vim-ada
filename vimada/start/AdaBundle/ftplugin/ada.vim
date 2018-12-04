@@ -135,6 +135,7 @@ endif
 
 " Section: Commands, Mapping, Menus {{{1
 "
+execute "50amenu &Ada.-sep- :<CR>"
 call ada#Map_Menu (
    \'Toggle Space Errors',
    \ ':AdaSpaces',
