@@ -135,7 +135,7 @@ endif
 
 " Section: Commands, Mapping, Menus {{{1
 "
-execute "50amenu &Ada.-sep- :<CR>"
+execute "50amenu &Ada.-sep- :"
 call ada#Map_Menu (
    \'Toggle Space Errors',
    \ ':AdaSpaces',
@@ -148,6 +148,11 @@ call ada#Map_Menu (
    \'Toggle Standard Types',
    \ ':AdaTypes',
    \'call ada#Switch_Syntax_Option (''standard_types'')')
+execute "50amenu &Ada.-sep2- :"
+execute "50amenu &Ada.". escape('Specification Table of Contents', ' ') .
+	 \" :help ada-toc<CR>"
+execute "50amenu &Ada.". escape('Specification Index', ' ') .
+	 \" :help ada-index<CR>"
 
 " 1}}}
 " Reset cpoptions
