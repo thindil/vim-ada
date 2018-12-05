@@ -459,7 +459,9 @@ function ada#Switch_Syntax_Option (option)
       echo  a:option . 'now on'
    endif
    syntax on
-   call rainbow_main#load()
+   if (exists('g:rainbow_active') && g:rainbow_active)
+      call rainbow_main#load()
+   endif
 endfunction ada#Switch_Syntax_Option
 
 " Section: ada#Map_Menu {{{2
