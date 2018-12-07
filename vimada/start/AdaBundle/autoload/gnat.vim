@@ -54,15 +54,14 @@ function gnat#Set_Project_File (...) dict			     " {{{1
       let self.Project_File = browse (0, 'GNAT Project File?', '', 'default.gpr')
    endif
 
-   if strlen (v:this_session) > 0
-      execute 'mksession! ' . v:this_session
-   endif
-
    if strlen (self.Project_File) > 0
       let g:syntastic_ada_compiler_options = "-P " . self.Project_File
       let self.Make_Command = '"gnatmake -P " . self.Project_File . "  -F -gnatef"'
       let self.Pretty_Command = '"gnatpp -P " . self.Project_File'
       let &l:makeprg  = "gnatmake -P " . self.Project_File . "  -F -gnatef"
+      if exists("g:ada_create_session")
+	 call ada#Switch_Session(self.Project_File . '.vim')
+      endif
    endif
 
    return

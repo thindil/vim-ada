@@ -372,19 +372,15 @@ function ada#Switch_Session (New_Session)
 
 	 let v:this_session = a:New_Session
 
-	 "if filereadable (v:this_session)
-	    "execute 'source ' . v:this_session
-	 "endif
+	 if filereadable (v:this_session)
+	    execute 'source ' . v:this_session
+	 endif
 
 	 augroup ada_session
 	    autocmd!
 	    autocmd VimLeavePre * execute 'mksession! ' . v:this_session
 	 augroup END
 	 
-	 "if exists ("g:Tlist_Auto_Open") && g:Tlist_Auto_Open
-	    "TlistOpen
-	 "endif
-
       endif
    finally
       let &sessionoptions=l:sessionoptions
