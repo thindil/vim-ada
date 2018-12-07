@@ -54,6 +54,8 @@ This is modified version of standard Ada support for Vim. Main changes:
 - Added support for Syntastic plugin (included in this pack too).
 - Updated help file.
 - Removed support for Dec Ada compiler.
+- Fixed and extended support for vim sessions on loading GNAT project files
+  (it is possible to enable or disable it).
 
 ### AdaSpec
 
