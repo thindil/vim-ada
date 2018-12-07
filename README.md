@@ -46,8 +46,6 @@ Webpage: https://www.vim.org/scripts/script.php?script_id=1609
 
 This is modified version of standard Ada support for Vim. Main changes:
 
-- Removed support for gnatxref (too problematic and too complicated,
-  especially that here is very good support for Ada in ctags)
 - Changed support from Rainbow Parenthesis to Rainbow Parentheses Improved
   plugin (which is included in this pack too).
 - Removed all tags commands which are now in base Vim (like jump to tag).
