@@ -1,4 +1,4 @@
-*ft_ada.txt*	    Ada File type Plug-ins	      Last change: 2018 Sep 12
+*ft_ada.txt*	    Ada File type Plug-ins	      Last change: 2018 Dec 07
 
 
 		    ADA FILE TYPE PLUG-INS REFERENCE MANUAL~
@@ -262,7 +262,11 @@ g:ada_with_gnat_project_files	 bool (true when exists)
 
 						      *g:ada_default_compiler*
 g:ada_default_compiler	  string
-		set default compiler. Currently supported is 'gnat'.
+		Set default compiler. Currently supported is 'gnat'.
+
+							*g:ada_create_session*
+g:ada_create_session    bool (true when exists)
+		Create and recover vim session on load GNAT project file.
 
 An "exists" type is a boolean is considered true when the variable is defined
 and false when the variable is undefined. The value which the variable is
