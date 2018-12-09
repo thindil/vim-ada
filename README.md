@@ -54,6 +54,7 @@ This is modified version of standard Ada support for Vim. Main changes:
 - Removed support for Dec Ada compiler.
 - Fixed and extended support for vim sessions on loading GNAT project files
   (it is possible to enable or disable it).
+- Added support for Ada 2012.
 
 ### AdaSpec
 
