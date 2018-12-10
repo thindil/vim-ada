@@ -38,6 +38,8 @@ let g:syntastic_enable_signs = 0                            " Disable syntastic 
 let g:syntastic_enable_balloons = 0                         " Disable syntastic error balloons
 let g:syntastic_always_populate_loc_list = 1                " Always update errors list
 let g:indentLine_setColors = 0                              " Use default theme color for showing indent level
+let g:ada_with_gnat_project_files = 1                       " Add syntax support for GNAT project files
+let g:ada_gnat_extensions = 1                               " Add highlighting for GNAT extensions (attributes, pragmas, etc)
 set background=dark                                         " Set dark background
 colorscheme PaperColor                                      " Set color scheme
 if has("gui_running")                                       " GUI specific settings
