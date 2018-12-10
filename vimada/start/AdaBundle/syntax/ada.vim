@@ -58,6 +58,9 @@ for b:Item in g:ada#Keywords
    if b:Item['kind'] == "a"
       execute 'syntax match adaAttribute "\V' . b:Item['word'] . '"'
    endif
+   if b:Item['kind'] == "p"
+      execute "syntax keyword adaPreProc " . b:Item['word']
+   endif
    " We don't normally highlight types in package Standard
    " (Integer, Character, Float, etc.).  I don't think it looks good
    " with the other type keywords, and many Ada programs define
