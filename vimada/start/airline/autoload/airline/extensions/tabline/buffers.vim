@@ -33,9 +33,13 @@ function! airline#extensions#tabline#buffers#off()
 endfunction
 
 function! airline#extensions#tabline#buffers#on()
+  let terminal_event = has("nvim") ? 'TermOpen' : 'TerminalOpen'
   augroup airline_tabline_buffers
     autocmd!
     autocmd BufDelete * call airline#extensions#tabline#buflist#clean()
+    if exists("##".terminal_event)
+      exe 'autocmd '. terminal_event. ' * call airline#extensions#tabline#buflist#clean()'
+    endif
     autocmd User BufMRUChange call airline#extensions#tabline#buflist#clean()
   augroup END
 endfunction
@@ -207,7 +211,7 @@ function! airline#extensions#tabline#buffers#clickbuf(minwid, clicks, button, mo
       elseif a:button is# 'm'
         " middle button - delete buffer
 
-        if get(g:, 'airline#extensions#tabline#middle_click_preserves_windows', 0) == 0
+        if get(g:, 'airline#extensions#tabline#middle_click_preserves_windows', 0) == 0 || winnr('$') == 1
           " just simply delete the clicked buffer. This will cause windows
           " associated with the clicked buffer to be closed.
           silent execute 'bdelete' a:minwid

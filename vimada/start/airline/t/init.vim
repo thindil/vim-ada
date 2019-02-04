@@ -74,6 +74,8 @@ describe 'init sections'
     Expect airline#parts#get('windowswap').raw == ''
     Expect airline#parts#get('ycm_error_count').raw == ''
     Expect airline#parts#get('ycm_warning_count').raw == ''
+    Expect airline#parts#get('languageclient_error_count').raw == ''
+    Expect airline#parts#get('languageclient_warning_count').raw == ''
   end
 end
 
@@ -84,4 +86,3 @@ describe 'init parts'
     Expect g:airline_section_z =~ 'bar'
   end
 end
-

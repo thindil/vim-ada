@@ -33,6 +33,11 @@ function! s:toggle_off()
 endfunction
 
 function! s:toggle_on()
+  if get(g:, 'airline_statusline_ontop', 0)
+    call airline#extensions#tabline#enable()
+    let &tabline='%!airline#statusline('.winnr().')'
+    return
+  endif
   call airline#extensions#tabline#autoshow#on()
   call airline#extensions#tabline#tabs#on()
   call airline#extensions#tabline#buffers#on()
@@ -48,8 +53,6 @@ function! s:update_tabline()
     return
   endif
   let match = expand('<afile>')
-  let ignore_bufadd_pat = get(g:, 'airline#extensions#tabline#ignore_bufadd_pat',
-        \ '\c\vgundo|undotree|vimfiler|tagbar|nerd_tree|startify')
   if pumvisible()
     return
   elseif !get(g:, 'airline#extensions#tabline#enabled', 0)
@@ -59,10 +62,27 @@ function! s:update_tabline()
         \ || isdirectory(expand("<afile>"))
     return
   endif
-  doautocmd User BufMRUChange
+  call airline#util#doautocmd('BufMRUChange')
+  call airline#extensions#tabline#redraw()
+endfunction
+
+function! airline#extensions#tabline#redraw()
   " sometimes, the tabline is not correctly updated see #1580
   " so force redraw here
-  let &tabline = &tabline
+  if exists(":redrawtabline") == 2
+    redrawtabline
+  else
+  " Have to set a property equal to itself to get airline to re-eval.
+  " Setting `let &tabline=&tabline` destroys the cursor position so we
+  " need something less invasive.
+    let &ro = &ro
+  endif
+endfunction
+
+function! airline#extensions#tabline#enable()
+  if &lines > 3
+    set showtabline=2
+  endif
 endfunction
 
 function! airline#extensions#tabline#load_theme(palette)
