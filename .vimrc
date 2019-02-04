@@ -24,7 +24,7 @@ set encoding=utf-8                                          " Default character 
 set laststatus=2                                            " Always show status line (for airline)
 set noshowmode                                              " Don't show mode in last line
 set tags=./tags;/                                           " Where to search for tags file (from current directory up)
-set grepprg=grep\ -nre                                      " Show line number for standard :grep command
+set grepprg=grep\ -nre                                      " Show line number, go recursive and use regular expressions for :grep command
 set updatetime=100                                          " Amount of millisecs between saves of swap file to disk. Needed for some plugins
 set cursorline                                              " Highlight line with cursor
 let g:gitgutter_signs = 0                                   " Disable gitgutter signs
