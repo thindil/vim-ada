@@ -102,6 +102,13 @@ completely out of your way. It will even do its best to keep those tag files
 out of your way too. It has no dependencies and just works. This plugin wasn't
 modified.
 
+### Header
+
+Webpage: https://github.com/alpertuna/vim-header
+
+Easily adds brief author info and license headers. This plugin have added Ada
+support and have some custom configuration in `.vimrc` file.
+
 ### IndentLine
 
 Webpage: https://github.com/Yggdroot/indentLine
