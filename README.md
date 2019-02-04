@@ -125,7 +125,8 @@ Webpage: https://github.com/mhinz/vim-startify
 This plugin provides a start screen for Vim. It provides dynamically created
 headers or footers and uses configurable lists to show recently used or
 bookmarked files and persistent sessions. All of this can be accessed in a
-simple to use menu that even allows to open multiple entries at once.
+simple to use menu that even allows to open multiple entries at once. This
+plugin wasn't modified.
 
 ### Syntastic
 
