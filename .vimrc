@@ -40,6 +40,9 @@ let g:syntastic_always_populate_loc_list = 1                " Always update erro
 let g:indentLine_setColors = 0                              " Use default theme color for showing indent level
 let g:ada_with_gnat_project_files = 1                       " Add syntax support for GNAT project files
 let g:ada_gnat_extensions = 1                               " Add highlighting for GNAT extensions (attributes, pragmas, etc)
+let g:header_field_author = 'Your name'                     " Name used in files headers
+let g:header_field_author_email = 'your@email.org'          " Email address used in files headers
+let g:header_auto_add_header = 0                            " Disable auto adding headers to new or edited files
 set background=dark                                         " Set dark background
 colorscheme PaperColor                                      " Set color scheme
 if has("gui_running")                                       " GUI specific settings
