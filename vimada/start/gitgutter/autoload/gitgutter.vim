@@ -41,7 +41,7 @@ function! gitgutter#process_buffer(bufnr, force) abort
 
       let diff = ''
       try
-        let diff = gitgutter#diff#run_diff(a:bufnr, 0)
+        let diff = gitgutter#diff#run_diff(a:bufnr, 'index', 0)
       catch /gitgutter not tracked/
         call gitgutter#debug#log('Not tracked: '.gitgutter#utility#file(a:bufnr))
       catch /gitgutter diff failed/
@@ -82,6 +82,27 @@ function! gitgutter#toggle() abort
     call gitgutter#disable()
   else
     call gitgutter#enable()
+  endif
+endfunction
+
+
+function! gitgutter#buffer_disable() abort
+  let bufnr = bufnr('')
+  call gitgutter#utility#setbufvar(bufnr, 'enabled', 0)
+  call s:clear(bufnr)
+endfunction
+
+function! gitgutter#buffer_enable() abort
+  let bufnr = bufnr('')
+  call gitgutter#utility#setbufvar(bufnr, 'enabled', 1)
+  call gitgutter#process_buffer(bufnr, 1)
+endfunction
+
+function! gitgutter#buffer_toggle() abort
+  if gitgutter#utility#getbufvar(bufnr(''), 'enabled', 1)
+    call gitgutter#buffer_disable()
+  else
+    call gitgutter#buffer_enable()
   endif
 endfunction
 
