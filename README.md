@@ -15,7 +15,7 @@ changes are in public domain.
 
 ![Light background](screens/light.png)
 
-## Installation
+## Installation or upgrading
 
 Just copy directory `vimada` to your Vim `runtimepath` directory (on Unix
 systems it is often `$HOME/.vim`) to directory `pack` (so, full path on Unix
@@ -27,8 +27,8 @@ is maintained and have full support for Ada language) from https://ctags.io
 Additionally, you can put included `.vimrc` file as a configuration file (or
 source it from your configuration file).
 
-After installation, it is recommended to run inside Vim command `:helptags
-ALL` to generate help tags.
+After installation or upgrading, it is recommended to run inside Vim command
+`:helptags ALL` to regenerate help tags.
 
 ## Plugins
 
