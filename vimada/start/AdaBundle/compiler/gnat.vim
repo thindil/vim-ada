@@ -31,11 +31,11 @@ if !exists("g:gnat")
    call ada#Map_Menu (
       \ 'Pretty Print',
       \ ':GnatPretty',
-      \ 'call gnat.Pretty ()')
+      \ 'call gnat.Pretty')
    call ada#Map_Menu (
       \ 'Set Project file\.\.\.',
       \ ':SetProject',
-      \ 'call gnat.Set_Project_File ()')
+      \ 'call gnat.Set_Project_File')
 
    call g:gnat.Set_Session ()
 endif

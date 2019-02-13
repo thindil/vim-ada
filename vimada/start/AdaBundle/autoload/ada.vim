@@ -469,46 +469,12 @@ function ada#Map_Menu (Text, Keys, Command)
 	\ "50amenu " .
 	\ "&Ada."     . escape(a:Text, ' ') .
 	\ "<Tab>"    . a:Keys .
-	\ " :"	     . a:Command . "<CR>"
+	\ " :"	     . a:Command . "()<CR>"
       execute
-	\ "command -buffer " .
+	\ "command -buffer -nargs=* " .
 	\ a:Keys[1:] .
-	\" :" . a:Command . "<CR>"
-   elseif a:Keys[0] == '<'
-      execute
-	\ "50amenu " .
-	\ "&Ada."     . escape(a:Text, ' ') .
-	\ "<Tab>"    . a:Keys .
-	\ " :"	     . a:Command . "<CR>"
-      execute
-	\ "nnoremap <buffer> "	 .
-	\ a:Keys		 .
-	\" :" . a:Command . "<CR>"
-      execute
-	\ "inoremap <buffer> "	 .
-	\ a:Keys		 .
-	\" <C-O>:" . a:Command . "<CR>"
-   else
-      if exists("g:mapleader")
-         let l:leader = g:mapleader
-      else
-         let l:leader = '\'
-      endif
-      execute
-	\ "50amenu " .
-	\ "&Ada."  . escape(a:Text, ' ') .
-	\ "<Tab>" . escape(l:leader . "a" . a:Keys , '\') .
-	\ " :"	  . a:Command . "<CR>"
-      execute
-	\ "nnoremap <buffer>" .
-	\ escape(l:leader . "a" . a:Keys , '\') .
-	\" :" . a:Command
-      execute
-	\ "inoremap <buffer>" .
-	\ escape(l:leader . "a" . a:Keys , '\') .
-	\" <C-O>:" . a:Command
+	\" :" . a:Command . "(<f-args>)"
    endif
-   return
 endfunction
 
 " }}}1
