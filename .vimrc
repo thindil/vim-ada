@@ -49,3 +49,16 @@ if has("gui_running")                                       " GUI specific setti
    set guioptions=aegimLt                                   " Show only menu, hide buttons, etc
    nnoremap <F11> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
 endif
+if has("nvim")                                              " Neovim specific settings
+   set clipboard+=unnamedplus                               " By default, use standard clipboard
+   :au BufReadPost *                                        " Go to last visited line in file
+   \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+   \ |   exe "normal! g`\""
+   \ | endif
+endif
+" Abbreviation for open/close NERDTree
+cnoreabbrev nt NERDTreeToggle
+" Abbreviation for open/close TagBar
+cnoreabbrev tb TagbarToggle
+" No more unknown command during saving files
+cnoreabbrev W w
