@@ -117,6 +117,16 @@ This plugin is used for displaying thin vertical lines at each indentation
 level for code indented with spaces. This plugin wasn't modified but have some
 custom configuration in `.vimrc` file.
 
+### NERDTree
+
+Webpage: https://github.com/scrooloose/nerdtree
+
+The NERDTree is a file system explorer for the Vim editor. Using this plugin,
+users can visually browse complex directory hierarchies, quickly open files
+for reading or editing, and perform basic file system operations. This plugin
+can also be extended with custom mappings using a special API. This plugin
+wasn't modified but have some custom configuration in `.vimrc` file.
+
 ### Rainbow Parentheses Improved
 
 Webpage: https://github.com/luochen1990/rainbow
@@ -151,6 +161,17 @@ plugin have changes to Ada support:
 
 Additionally, this plugin have some custom configuration in `.vimrc` file
 which is required to proper work of plugin.
+
+### TagBar
+
+Webpage: https://github.com/majutsushi/tagbar
+
+Tagbar is a Vim plugin that provides an easy way to browse the tags of the
+current file and get an overview of its structure. It does this by creating a
+sidebar that displays the ctags-generated tags of the current file, ordered by
+their scope. This means that for example methods in C++ are displayed under
+the class they are defined in. This plugin wasn't modified but have some
+custom configuration in `.vimrc` file.
 
 ### Xml
 
