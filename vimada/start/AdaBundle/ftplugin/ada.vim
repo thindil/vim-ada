@@ -139,15 +139,18 @@ execute "50amenu &Ada.-sep- :"
 call ada#Map_Menu (
    \'Toggle Space Errors',
    \ ':AdaSpaces',
-   \'call ada#Switch_Syntax_Option (''space_errors'')')
+   \'call ada#Switch_Syntax_Option',
+   \ '''space_errors''')
 call ada#Map_Menu (
    \'Toggle Lines Errors',
    \ ':AdaLines',
-   \'call ada#Switch_Syntax_Option (''line_errors'')')
+   \'call ada#Switch_Syntax_Option',
+   \ '''line_errors''')
 call ada#Map_Menu (
    \'Toggle Standard Types',
    \ ':AdaTypes',
-   \'call ada#Switch_Syntax_Option (''standard_types'')')
+   \'call ada#Switch_Syntax_Option',
+   \'''standard_types''')
 if exists("g:adaspec")
    execute "50amenu &Ada.-sep2- :"
    execute "50amenu &Ada.". escape('Specification Table of Contents', ' ') .

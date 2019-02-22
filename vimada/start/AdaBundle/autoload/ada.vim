@@ -463,17 +463,27 @@ endfunction ada#Switch_Syntax_Option
 
 " Section: ada#Map_Menu {{{2
 "
-function ada#Map_Menu (Text, Keys, Command)
-   if a:Keys[0] == ':'
+function ada#Map_Menu (Text, Keys, Command, Args)
+   if a:Args == ''
       execute
 	\ "50amenu " .
 	\ "&Ada."     . escape(a:Text, ' ') .
 	\ "<Tab>"    . a:Keys .
 	\ " :"	     . a:Command . "()<CR>"
       execute
-	\ "command -buffer -nargs=* " .
+	\ "command! -nargs=* " .
 	\ a:Keys[1:] .
 	\" :" . a:Command . "(<f-args>)"
+   else
+      execute
+	\ "50amenu " .
+	\ "&Ada."     . escape(a:Text, ' ') .
+	\ "<Tab>"    . a:Keys .
+	\ " :"	     . a:Command . "(" . a:Args . ")<CR>"
+      execute
+	\ "command! " .
+	\ a:Keys[1:] .
+	\" :" . a:Command . "(" . a:Args . ")"
    endif
 endfunction
 
