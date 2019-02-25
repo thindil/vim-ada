@@ -188,9 +188,17 @@ Comes in two versions: dark (default if you use included `.vimrc`
 configuration file) and light (default for no configuration). It is unmodified,
 only some custom configuration is in `.vimrc` file.
 
+### Gruvbox
+
+Webpage: https://github.com/morhetz/gruvbox
+
+Another theme available with this pack. More informations about this theme,
+configuring and enabling it, you can find at it webpage. This version of
+Gruvbox have added support for Ada syntax.
+
 -------
 
 That's probably all, feel free to use project Issues if you have any
-problems, questions, ideas, bug reports about this pack.
+problems, questions, ideas or bug reports about this pack.
 
 Bartek thindil Jasicki
