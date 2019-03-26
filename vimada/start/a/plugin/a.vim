@@ -793,7 +793,7 @@ function! <SID>FindOrCreateBuffer(fileName, doSplit, findSimilar)
         elseif (splitType == "t")
            silent! execute ":tab sbuffer " . FILENAME
         else
-           silent! execute ":buffer".bang." " . FILENAME
+           silent! execute ":e".bang." " . FILENAME
         endif
         if (v:errmsg != "")
            echo v:errmsg
