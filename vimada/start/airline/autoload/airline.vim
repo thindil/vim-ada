@@ -1,4 +1,4 @@
-" MIT License. Copyright (c) 2013-2018 Bailey Ling et al.
+" MIT License. Copyright (c) 2013-2019 Bailey Ling et al.
 " vim: et ts=2 sts=2 sw=2
 
 scriptencoding utf-8
@@ -195,7 +195,7 @@ function! airline#statusline(winnr)
   return ''
 endfunction
 
-" Check if mode as changed
+" Check if mode has changed
 function! airline#check_mode(winnr)
   if !has_key(s:contexts, a:winnr)
     return ''
@@ -264,4 +264,18 @@ function! airline#check_mode(winnr)
   endif
 
   return ''
+endfunction
+
+function! airline#update_tabline()
+  if get(g:, 'airline_statusline_ontop', 0)
+    call airline#extensions#tabline#redraw()
+  endif
+endfunction
+
+function! airline#mode_changed()
+  " airline#visual_active
+  " Boolean: for when to get visual wordcount
+  " needed for the wordcount extension
+  let g:airline#visual_active = (mode() =~? '[vs]')
+  call airline#update_tabline()
 endfunction

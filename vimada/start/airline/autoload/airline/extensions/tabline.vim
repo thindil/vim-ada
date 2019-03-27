@@ -1,8 +1,7 @@
-" MIT License. Copyright (c) 2013-2018 Bailey Ling et al.
+" MIT License. Copyright (c) 2013-2019 Bailey Ling et al.
 " vim: et ts=2 sts=2 sw=2
 
 scriptencoding utf-8
-
 
 let s:taboo = get(g:, 'airline#extensions#taboo#enabled', 1) && get(g:, 'loaded_taboo', 0)
 if s:taboo
@@ -227,5 +226,11 @@ function! airline#extensions#tabline#add_label(dict, type)
   if get(g:, 'airline#extensions#tabline#show_tab_type', 1)
     call a:dict.add_section_spaced('airline_tablabel',
           \ get(g:, 'airline#extensions#tabline#'.a:type.'_label', a:type))
+  endif
+endfunction
+
+function! airline#extensions#tabline#add_tab_label(dict)
+  if get(g:, 'airline#extensions#tabline#show_tab_count', 1) && tabpagenr('$') > 1
+    call a:dict.add_section_spaced('airline_tabmod', printf('%s %d/%d', "tab", tabpagenr(), tabpagenr('$')))
   endif
 endfunction

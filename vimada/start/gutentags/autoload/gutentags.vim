@@ -188,7 +188,7 @@ function! gutentags#get_project_root(path) abort
     let l:path = gutentags#stripslash(a:path)
     let l:previous_path = ""
     let l:markers = g:gutentags_project_root[:]
-    if exists('g:ctrlp_root_markers')
+    if g:gutentags_add_ctrlp_root_markers && exists('g:ctrlp_root_markers')
         for crm in g:ctrlp_root_markers
             if index(l:markers, crm) < 0
                 call add(l:markers, crm)
@@ -271,6 +271,10 @@ function! gutentags#setup_gutentags() abort
         endif
         if !exists('b:gutentags_root')
             let b:gutentags_root = gutentags#get_project_root(l:buf_dir)
+        endif
+        if !len(b:gutentags_root)
+            call gutentags#trace("no valid project root.. no gutentags support.")
+            return
         endif
         if filereadable(b:gutentags_root . '/.notags')
             call gutentags#trace("'.notags' file found... no gutentags support.")

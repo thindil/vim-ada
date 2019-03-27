@@ -11,12 +11,12 @@
                                                              \/__/
   by Marco Hinz~
 >
-  If you use any of my plugins, please star them on github. It's a great way
+  If you use any of my plugins, please star them on GitHub. It's a great way
   of getting feedback and gives me the kick to put more time into their
   development.
 
-  If you encounter any bugs or have feature requests, just open an issue
-  report on Github.
+  If you encounter any bugs or have feature requests, just open an issue on
+  GitHub.
 
   Thank you for flying mhi^ airlines. Get the Vim on!
 <
@@ -882,6 +882,7 @@ FAQ                                                               *startify-faq*
     |startify-faq-15|  Startify is cluttered with help files!
     |startify-faq-16|  How to disable single mappings?
     |startify-faq-17|  Run Startify for each new tab!
+    |startify-faq-18|  Files from remote file system slow down startup!
 
 ------------------------------------------------------------------------------
                                                                *startify-faq-01*
@@ -1112,6 +1113,25 @@ Run Startify for each new tab!~
             \   Startify |
             \ endif
     endif
+<
+NOTE: I do not recommend this. It can lead to all kinds of issues, so you
+should know exactly what the above code does. E.g. any plugin using |:tabnew|
+is probably expecting an empty buffer afterwards, but it won't be empty, it
+will be filled with the Startify buffer and fail. I suggest mapping
+`:Startify` to something convenient instead.
+
+------------------------------------------------------------------------------
+                                                               *startify-faq-18*
+Files from remote file system slow down startup!~
+
+I/O actions like resolving symbolic links or checking if a file is readable
+can be very slow on some remote file systems (Samba, NFS, FUSE, etc.) Even
+more so when done for many files.
+
+In that case it is often better to add the mount point of the remote file
+system to |g:startify_skiplist|:
+>
+    let g:startify_skiplist = ['^/mnt/nfs']
 <
 ==============================================================================
 EXAMPLE                                                       *startify-example*

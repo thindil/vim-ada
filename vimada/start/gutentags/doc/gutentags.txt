@@ -333,7 +333,7 @@ g:gutentags_project_root
                         A list of default markers will be appended to the
                         user-defined ones unless
                         |gutentags_add_default_project_roots| is set to 0.
-                        
+
                                             *gutentags_add_default_project_roots*
 g:gutentags_add_default_project_roots
                         Defines whether Gutentags should always define some
@@ -342,6 +342,14 @@ g:gutentags_add_default_project_roots
                         when Gutentags searches for a project root.
                         The default markers are:
                         `['.git', '.hg', '.bzr', '_darcs', '_darcs', '_FOSSIL_', '.fslckout']`
+
+                                            *gutentags_add_ctrlp_root_markers*
+g:gutentags_add_ctrlp_root_markers
+                        If Gutentags finds `g:ctrlp_root_markers` (used by the
+                        CtrlP plugin), it will append those root markers to
+                        the existing ones (see |g:gutentags_project_root|).
+                        Set this to 0 to stop it from happening.
+                        Defaults to 1.
 
                                                 *gutentags_exclude_filetypes*
 g:gutentags_exclude_filetypes
@@ -628,12 +636,26 @@ g:gutentags_cscope_executable
                         to use to generate the code database.
                         Defaults to `"cscope"`.
 
+                                                *gutentags_scopefile*
+g:gutentags_scopefile
+                        Specifies the name of the scope file to create. This
+                        will be appended to the project's root. See
+                        |gutentags_project_root| for how Gutentags locates the
+                        project.
+                        Defaults to `"cscope.out"`.
+
                                                 *gutentags_auto_add_cscope*
 g:gutentags_auto_add_cscope
                         If set to 1, Gutentags will automatically add the
                         generated code database to Vim by running `:cs add`
                         (see |:cscope|).
                         Defaults to 1.
+
+                                                *gutentags_cscope_build_inverted_index*
+g:gutentags_cscope_build_inverted_index
+                        If set to 1, Gutentags will make `cscope` build an
+                        inverted index.
+                        Defaults to 0.
 
 
 The following settings are valid for the `gtags_cscope` module.
@@ -642,7 +664,20 @@ The following settings are valid for the `gtags_cscope` module.
 g:gutentags_gtags_executable
                         Specifies the name or path of the `gtags` executable
                         to use to generate the code database.
-                        Default to `"gtags"`.
+                        Defaults to `"gtags"`.
+
+                                                *gutentags_gtags_cscope_executable*
+g:gutentags_gtags_cscope_executable
+                        Specifies the name or path of the `gtags-cscope`
+                        executable to use to generate the code database.
+                        Defaults to `"gtags-cscope"`.
+
+                                                *gutentags_gtags_dbpath*
+g:gutentags_gtags_dbpath
+                        Path from the cache directory (|gutentags_cache_dir|
+                        or project root) to the folder containing the
+                        definition database file (usually called `GTAGS`).
+                        Defaults to `""`.
 
                                                 *gutentags_gtags_options_file*
 g:gutentags_gtags_options_file
@@ -660,9 +695,9 @@ g:gutentags_auto_add_gtags_cscope
 
 People using `cscope` or `gtags_cscope` across multiple projects in the same
 Vim instance might be interested in the `gutentags_plus` plugin, which handles
-switching databases automatically before performing a query. 
+switching databases automatically before performing a query.
 See https://github.com/skywind3000/gutentags_plus.
-      
+
 =============================================================================
 5. Project Settings                             *gutentags-project-settings*
 

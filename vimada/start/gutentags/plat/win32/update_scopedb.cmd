@@ -10,6 +10,7 @@ set CSCOPE_ARGS=
 set DB_FILE=cscope.out
 set FILE_LIST_CMD=
 set LOG_FILE=
+set BUILD_INVERTED_INDEX=0
 
 :ParseArgs
 if [%1]==[] goto :DoneParseArgs
@@ -38,6 +39,10 @@ if [%1]==[-l] (
     shift
     goto :LoopParseArgs
 )
+if [%1]==[-I] (
+    set BUILD_INVERTED_INDEX=1
+    goto :LoopParseArgs
+)
 echo Invalid Argument: %1
 goto :Usage
 
@@ -60,15 +65,18 @@ echo locked > "%DB_FILE%.lock"
 echo Running cscope >> %LOG_FILE%
 if NOT ["%FILE_LIST_CMD%"]==[""] (
     if ["%PROJECT_ROOT%"]==["."] (
-        call %FILE_LIST_CMD% > %DB_FILE%.files
+        for /F "usebackq delims=" %%F in (`%FILE_LIST_CMD%`) do @echo "%%F">%DB_FILE%.files
     ) else (
         rem Potentially useful:
         rem http://stackoverflow.com/questions/9749071/cmd-iterate-stdin-piped-from-another-command
-        %FILE_LIST_CMD% | for /F "usebackq delims=" %%F in (`findstr "."`) do @echo %PROJECT_ROOT%\%%F > %DB_FILE%.files
+        for /F "usebackq delims=" %%F in (`%FILE_LIST_CMD%`) do @echo "%PROJECT_ROOT%\%%F">%DB_FILE%.files
     )
-    set CSCOPE_ARGS=%CSCOPE_ARGS% -i %TAGS_FILE%.files
 ) ELSE (
-    set CSCOPE_ARGS=%CSCOPE_ARGS% -R
+    for /F "usebackq delims=" %%F in (`dir /S /B /A-D .`) do @echo "%%F">%DB_FILE%.files
+)
+set CSCOPE_ARGS=%CSCOPE_ARGS% -i %DB_FILE%.files
+if ["%BUILD_INVERTED_INDEX%"]==["1"] (
+    set CSCOPE_ARGS=%CSCOPE_ARGS% -q
 )
 "%CSCOPE_EXE%" %CSCOPE_ARGS% -b -k -f "%DB_FILE%"
 if ERRORLEVEL 1 (
@@ -94,10 +102,11 @@ rem ==========================================
 echo Usage:
 echo    %~n0 ^<options^>
 echo.
-echo    -e [exe=cscope]:     The cscope executable to run
-echo    -f [file=scope.out]: The path to the database file to create
-echo    -p [dir=]:           The path to the project root
-echo    -L [cmd=]:           The file list command to run
-echo    -l [log=]:           The log file to output to
+echo    -e [exe=cscope]:             The cscope executable to run
+echo    -f [file=cscope.out]:        The path to the database file to create
+echo    -p [dir=]:                   The path to the project root
+echo    -L [cmd=]:                   The file list command to run
+echo    -l [log=]:                   The log file to output to
+echo    -I:                          Builds an inverted index
 echo.
 

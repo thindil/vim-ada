@@ -46,6 +46,8 @@ function! startify#insane_in_the_membrane(on_vimenter) abort
   silent! setlocal
         \ bufhidden=wipe
         \ colorcolumn=
+        \ foldcolumn=0
+        \ matchpairs=
         \ nobuflisted
         \ nocursorcolumn
         \ nocursorline
@@ -54,7 +56,7 @@ function! startify#insane_in_the_membrane(on_vimenter) abort
         \ norelativenumber
         \ nospell
         \ noswapfile
-        \ matchpairs=
+        \ signcolumn=no
   if empty(&statusline)
     setlocal statusline=\ startify
   endif
@@ -550,6 +552,11 @@ function! s:filter_oldfiles(path_prefix, path_format, use_env) abort
       break
     endif
 
+    if s:is_in_skiplist(fname)
+      " https://github.com/mhinz/vim-startify/issues/353
+      continue
+    endif
+
     let absolute_path = fnamemodify(resolve(fname), ":p")
     " filter duplicates, bookmarks and entries from the skiplist
     if has_key(entries, absolute_path)
@@ -586,7 +593,7 @@ function! s:filter_oldfiles(path_prefix, path_format, use_env) abort
   endif
 
   return oldfiles
-endfun
+endfunction
 
 " Function: s:filter_oldfiles_unsafe {{{1
 function! s:filter_oldfiles_unsafe(path_prefix, path_format, use_env) abort
@@ -599,6 +606,11 @@ function! s:filter_oldfiles_unsafe(path_prefix, path_format, use_env) abort
   for fname in v:oldfiles
     if counter <= 0
       break
+    endif
+
+    if s:is_in_skiplist(fname)
+      " https://github.com/mhinz/vim-startify/issues/353
+      continue
     endif
 
     let absolute_path = glob(fnamemodify(fname, ":p"))
@@ -617,7 +629,7 @@ function! s:filter_oldfiles_unsafe(path_prefix, path_format, use_env) abort
   endfor
 
   return oldfiles
-endfun
+endfunction
 
 " Function: s:show_dir {{{1
 function! s:show_dir() abort
@@ -663,7 +675,8 @@ function! s:show_sessions() abort
   for i in range(len(sfiles))
     let index = s:get_index_as_string()
     let fname = fnamemodify(sfiles[i], ':t')
-    call append('$', s:padding_left .'['. index .']'. repeat(' ', (3 - strlen(index))) . fname)
+    let dname = sfiles[i] ==# v:this_session ? fname.' (*)' : fname
+    call append('$', s:padding_left .'['. index .']'. repeat(' ', (3 - strlen(index))) . dname)
     if has('win32')
       let fname = substitute(fname, '\[', '\[[]', 'g')
     endif
@@ -1021,13 +1034,15 @@ function! s:get_session_path() abort
   if exists('g:startify_session_dir')
     let path = g:startify_session_dir
   elseif has('nvim')
-    let path = stdpath('data') . s:sep . 'session'
-  else
-    if has('win32')
-      let path = '$HOME\vimfiles\session'
-    else
-      let path = '~/.vim/session'
-    endif
+    let path = has('nvim-0.3.1')
+          \ ? stdpath('data').'/session'
+          \ : has('win32')
+          \   ? '~/AppData/Local/nvim-data/session'
+          \   : '~/.local/share/nvim/session'
+  else " Vim
+    let path = has('win32')
+          \ ? '~/vimfiles/session'
+          \ : '~/.vim/session'
   endif
 
   return resolve(expand(path))
