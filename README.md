@@ -56,18 +56,6 @@ This is modified version of standard Ada support for Vim. Main changes:
   (it is possible to enable or disable it).
 - Added support for Ada 2012.
 
-### AdaSpec
-
-Webpage: http://www.ada-auth.org/arm.html
-
-Text version of Ada 2012 language specification with added some tags for
-Vim help. This plugin adds one command `Adasearch` to search for text
-(via `vimgrep`) inside Ada 2012 language specification. For example:
-`Adasearch Put_Line`. This command first search for the text in Table
-of Content of specification. If nothing is found, it search for the text in
-specification index. If still nothing is found, it search entire Ada
-specification.
-
 ### Airline
 
 Webpage: https://github.com/vim-airline/vim-airline
