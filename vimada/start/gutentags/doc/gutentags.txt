@@ -341,7 +341,7 @@ g:gutentags_add_default_project_roots
                         This can be useful to prevent unnecessary disk access
                         when Gutentags searches for a project root.
                         The default markers are:
-                        `['.git', '.hg', '.bzr', '_darcs', '_darcs', '_FOSSIL_', '.fslckout']`
+                        `['.git', '.hg', '.svn', '.bzr', '_darcs', '_darcs', '_FOSSIL_', '.fslckout']`
 
                                             *gutentags_add_ctrlp_root_markers*
 g:gutentags_add_ctrlp_root_markers
@@ -384,8 +384,11 @@ g:gutentags_project_root_finder
                         argument (the path to the current buffer's file) and
                         returns a string value (the project's root directory).
                         Defaults to `''`.
-                        Note: when set, the called implementation will most 
-                        likely ignore |g:gutentags_project_root|.
+                        Note: when set, the called implementation will
+                        possibly ignore |g:gutentags_project_root|.
+                        Note: an implementation can fallback to the default
+                        behaviour by calling
+                        `gutentags#default_get_project_root`.
 
                                                 *gutentags_generate_on_missing*
 g:gutentags_generate_on_missing

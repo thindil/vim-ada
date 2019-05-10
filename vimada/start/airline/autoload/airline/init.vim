@@ -86,7 +86,7 @@ function! airline#init#bootstrap()
     call s:check_defined('g:airline_left_alt_sep', "\ue0b1")  " 
     call s:check_defined('g:airline_right_sep', "\ue0b2")     " 
     call s:check_defined('g:airline_right_alt_sep', "\ue0b3") " 
-    " ro=, ws=☲, lnr=☰, mlnr=, br=, nx=Ɇ, crypt=🔒
+    " ro=, ws=☲, lnr=☰, mlnr=, br=, nx=Ɇ, crypt=🔒, dirty=⚡
     call extend(g:airline_symbols, {
           \ 'readonly': "\ue0a2",
           \ 'whitespace': "\u2632",
@@ -94,6 +94,7 @@ function! airline#init#bootstrap()
           \ 'maxlinenr': " \ue0a1",
           \ 'branch': "\ue0a0",
           \ 'notexists': "\u0246",
+          \ 'dirty': "\u26a1",
           \ 'crypt': nr2char(0x1F512),
           \ }, 'keep')
   elseif &encoding==?'utf-8' && !get(g:, "airline_symbols_ascii", 0)
@@ -111,6 +112,7 @@ function! airline#init#bootstrap()
           \ 'branch': "\u16A0",
           \ 'notexists': "\u0246",
           \ 'crypt': nr2char(0x1F512),
+          \ 'dirty': '!',
           \ }, 'keep')
   else
     " Symbols for ASCII terminals
@@ -126,6 +128,7 @@ function! airline#init#bootstrap()
           \ 'branch': '',
           \ 'notexists': '?',
           \ 'crypt': 'cr',
+          \ 'dirty': '!',
           \ }, 'keep')
   endif
 
@@ -156,12 +159,13 @@ function! airline#init#bootstrap()
         \ 'minwidth': 100})
   call airline#parts#define('branch', {
         \ 'raw': '',
-        \ 'minwidth': 120})
+        \ 'minwidth': 80})
   call airline#parts#define_empty(['obsession', 'tagbar', 'syntastic-warn',
         \ 'syntastic-err', 'eclim', 'whitespace','windowswap',
         \ 'ycm_error_count', 'ycm_warning_count', 'neomake_error_count',
         \ 'neomake_warning_count', 'ale_error_count', 'ale_warning_count',
         \ 'languageclient_error_count', 'languageclient_warning_count'])
+  call airline#parts#define_text('bookmark', '')
   call airline#parts#define_text('capslock', '')
   call airline#parts#define_text('gutentags', '')
   call airline#parts#define_text('grepper', '')
@@ -194,13 +198,13 @@ function! airline#init#sections()
     let g:airline_section_gutter = airline#section#create(['%='])
   endif
   if !exists('g:airline_section_x')
-    let g:airline_section_x = airline#section#create_right(['tagbar', 'gutentags', 'grepper', 'filetype'])
+    let g:airline_section_x = airline#section#create_right(['bookmark', 'tagbar', 'gutentags', 'grepper', 'filetype'])
   endif
   if !exists('g:airline_section_y')
     let g:airline_section_y = airline#section#create_right(['ffenc'])
   endif
   if !exists('g:airline_section_z')
-    if airline#util#winwidth() > 80
+    if airline#util#winwidth() > 79
       let g:airline_section_z = airline#section#create(['windowswap', 'obsession', '%3p%%'.spc, 'linenr', 'maxlinenr', spc.':%3v'])
     else
       let g:airline_section_z = airline#section#create(['%3p%%'.spc, 'linenr',  ':%3v'])
