@@ -21,8 +21,18 @@ Just copy directory `vimada` to your Vim `runtimepath` directory (on Unix
 systems it is often `$HOME/.vim`) to directory `pack` (so, full path on Unix
 will be looks like `$HOME/.vim/pack/vimada`).
 
-To enable all options, you been need to install Universal Ctags (this version
-is maintained and have full support for Ada language) from https://ctags.io
+To enable all options, you been need to install:
+
+* Universal Ctags (this version is maintained and have full support for Ada
+  language) from https://ctags.io
+* Other dependency is Zeal from https://zealdocs.org/. Additionally, for Ada
+    documentation, you will be need to download Ada specification docset. You
+    can do this in few ways: a) Download Docset Feed from
+    https://zealusercontributions.herokuapp.com/ (recommended way).
+    There you will find detailed information how to install docset.
+    b) Download from https://www.laeran.pl/download/Ada.docset.zip.
+    c) Build it alone: look at https://github.com/thindil/ada-docset for
+    instructions and code needed to build Ada docset.
 
 Additionally, you can put included `.vimrc` file as a configuration file (or
 source it from your configuration file).
@@ -171,6 +181,14 @@ custom configuration in `.vimrc` file.
 Webpage: none
 
 This is just one line setting to enable spellchecking in XML files too.
+
+### Zeavim
+
+Webpage: https://github.com/KabbAmine/zeavim.vim
+
+Zeavim allows to use the offline documentation browser [Zeal](http://zealdocs.org/)
+from Vim. This plugin wasn't modified but have some custom configuration in
+`.vimrc` file.
 
 ### PaperColor
 
