@@ -43,6 +43,10 @@ let g:ada_gnat_extensions = 1                               " Add highlighting f
 let g:header_field_author = 'Your name'                     " Name used in files headers
 let g:header_field_author_email = 'your@email.org'          " Email address used in files headers
 let g:header_auto_add_header = 0                            " Disable auto adding headers to new or edited files
+let g:zv_file_types = {                                     " Map some file types to search in specific docsets
+   \   'help' : 'vim',                                      " Search in Vim docset if file type is help
+   \   'ada'  : 'ada',                                      " Search in Ada specification docset if file type is ada
+   \ }
 if has("gui_running")                                       " GUI specific settings
    set guioptions=aegimLt                                   " Show only menu, hide buttons, etc
    nnoremap <F11> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
