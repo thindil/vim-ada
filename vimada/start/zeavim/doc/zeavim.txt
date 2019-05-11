@@ -1,0 +1,289 @@
+*zeavim.txt*	Execute the documentation browser Zeal from Vim.
+
+    For Vim version 7.0 and above	Last change: 2018-03-12
+
+	ZEAVIM - EXECUTE THE DOCUMENTATION BROWSER ZEAL FROM VIM~
+			from Kabbaj Amine~
+
+Mail	: amine.kabb@gmail.com
+Repo	: https://github.com/KabbAmine/zeavim.vim
+License : This file is placed in the public domain.
+
+========================================================================
+|CONTENTS|				*zeavim-contents*
+
+1. DESCRIPTION					|zeavim-description|
+2. INSTALLATION					|zeavim-installation|
+    2.1. Manual					|zeavim-installation:manual|
+    2.2. With a plugin manager			|zeavim-installation:plugin-manager|
+3. USAGE					|zeavim-usage|
+4. MAPPING					|zeavim-mapping|
+    4.1. Default mapping.			|zeavim-mapping:default|
+    4.2. Custom mapping				|zeavim-mapping:custom|
+5. COMMANDS					|zeavim-commands|
+    5.1. Main commands				|zeavim-commands:main|
+    5.2. Specify manually docset		|zeavim-commands:docset|
+6. SETTINGS					|zeavim-settings|
+    6.1. Zeal's location			|zeavim-settings:location|
+    6.2. Zeal's arguments			|zeavim-settings:args|
+    6.3. Add file types				|zeavim-settings:new-types|
+    6.4. Disable default mappings		|zeavim-settings:no-mapping|
+    6.5. Order and criteria of defining docset	|zeavim-settings:order|
+    6.6. Docset name completion			|zeavim-settings:docset-completion|
+    6.7. Keep focus				|zeavim-settings:focus|
+7. NOTES					|zeavim-notes|
+
+========================================================================
+1. |DESCRIPTION|			*zeavim-description*
+
+Zeavim allows to use Zeal(http://zealdocs.org) documentation browser directly
+from Vim(http://vim.org).
+
+- Search for word under cursor, visual selection or the result of a
+  motion/text-object.
+- Search without losing focus in GNU/Linux.
+- Narrow search with a docset or a query.
+- Allows using multiple docsets.
+- Docset names completion.
+- Define you own docsets using patterns.
+- Works on GNU/Linux and Windows.
+
+========================================================================
+2. |INSTALLATION|			*zeavim-installation*
+
+To use zeavim, you need of course to have Zeal installed. Grab it from
+here(http://zealdocs.org/download.html) and install it.
+
+------------------------------------------------------------------------
+2.1. Manual installation~
+*zeavim-installation:manual*
+
+Install the distributed files into Vim runtime directory which is usually
+`~/.vim/`, or `$HOME/vimfiles` on Windows.
+
+------------------------------------------------------------------------
+2.2. Using a plugin manager~
+*zeavim-installation:plugin-manager*
+
+The used keyword depends of your vim plugin manager: >
+    Plug 'KabbAmine/zeavim.vim'
+<
+========================================================================
+3. |USAGE|				*zeavim-usage*
+
+1.  `<leader>z` or `Zeavim/ZeavimV`
+    Search for the word under cursor or the current visual selection with the
+    docset defined automatically+.
+
+2.  `gz{motion}`
+    Act like an operator and search for the result of a motion/text-object
+    with the docset defined automatically+
+    (*e.g. `gziW` will search for the inner Word*).
+
+3.  `<leader><leader>z` or `Zeavim!`
+    Narrow search with a docset and a query (A default docset is provided).
+    - Multiple docsets can be defined, just separate them by a comma.
+    - The docset name can be completed using `tab`, see part 6.5.
+
++ The current file type by default.
+
+========================================================================
+4. |MAPPING|				*zeavim-mapping*
+
+------------------------------------------------------------------------
+4.1. Default mappings~
+*zeavim-mapping:default*
+
+`<Leader>z` or `<Plug>Zeavim`
+    Search for `<word>` under cursor with the docset defined automatically.
+
+`<Leader>z` or `<Plug>ZVVisSelection`
+    Same as `<Leader>z` but use visual selection instead of `<word>.`
+
+`gz{motion/text-object}` or `<Plug>ZVOperator`
+    Same as <Leader>z but use the result of a motion/text-object instead of
+    `<word>.`
+
+`<Leader><leader>Z` or `<Plug>ZVKeyDocset`
+    Narrow search with a docset (A default one is provided) and a query in
+    input.
+
+------------------------------------------------------------------------
+4.2. Custom mappings~
+*zeavim-mapping:custom*
+
+You can easily change the default mapping for each action.
+
+For example: >
+    nmap ,z <Plug>Zeavim
+    vmap ,z <Plug>ZVVisSelection
+>
+========================================================================
+5. |COMMANDS|				*zeavim-commands*
+
+------------------------------------------------------------------------
+5.1. Main commands~
+*zeavim-commands:main*
+
+A unique command `Zeavim` is provided. >
+    :Zeavim     " NORMAL mode
+    :ZeavimV    " VISUAL mode
+    :Zeavim!    " Ask for docset & query
+
+The commands `ZvV` and `ZVKeyDocset` are still available to maintain
+compatibility with old versions.
+
+------------------------------------------------------------------------
+5.2. Specify manually docset
+*zeavim-commands:docset*
+
+If you need a lazy way to specify a docset(s), you can use: >
+    :Docset DOCSET1,DOCSET2
+
+As an example, I'm working on a `scss` file but I want to get `compass`
+documentation when using Zeavim, so I just need to specify manually this
+docset: >
+    :Docset compass
+
+Then Zeavim only for the current buffer will use `compass` as a docset.
+Note that you can define multiple docsets separated by comma(s).
+
+The docset name can be completed, for that see part 6.6.
+
+To set back the initial docset, a simple `:Docset` without argument is enough.
+
+========================================================================
+6. |SETTINGS|				*zeavim-settings*
+
+------------------------------------------------------------------------
+6.1. Zeal's location~
+*zeavim-settings:location*
+
+You can specify Zeal's location manually by adding in your vimrc: >
+    let g:zv_zeal_executable = 'path/to/zeal'
+
+default: >
+    has('win32')
+	\ ? $ProgramFiles . '\Zeal\zeal.exe'
+	\ : 'zeal'
+
+------------------------------------------------------------------------
+6.2. Zeal's arguments~
+*zeavim-settings:args*
+
+You can add arguments/flags to zeal command using `g:zv_zeal_args`
+
+default: `''`
+
+------------------------------------------------------------------------
+6.3. Adding file types~
+*zeavim-settings:new-types*
+
+You can map specific patterns (file names, file types or file extensions) to
+docset(s) using `g:zv_file_type`.
+
+default: >
+ {
+    	\   'scss: 'sass',
+	\   'sh  : 'bash',
+	\   'tex : 'latex'
+	\ }
+
+The variable is a dictionary where:
+* The keys are pattern(s) that can match file names, file types or file
+  extensions.
+* The values are the docset names.
+>
+    " For the docset, not mandatory but you can use underscores instead of
+    spaces
+    let g:zv_file_types = {
+        \	'FILE_NAME' : 'DOCSETNAME',
+        \	'EXTENSION' : 'DOCSET1,DOCSET2',
+        \	'FILE_TYPE' : 'DOCSET_NAME',
+        \ }
+
+example: >
+    let g:zv_file_types = {
+	\   'css'                      : 'css,foundation,bootstrap_4',
+	\   '.htaccess'                : 'apache_http_server',
+	\   '\v^(G|g)runt\.'           : 'gulp,javascript,nodejs',
+	\   '\v^(G|g)ulpfile\.'        : 'grunt',
+	\   '\v^(md|mdown|mkd|mkdn)$'  : 'markdown',
+	\ }
+
+
+------------------------------------------------------------------------
+6.4. Disable default mappings~
+*zeavim-settings:no-mapping*
+
+You can disable all the default mappings with: >
+  let g:zv_disable_mapping = 1
+
+default: `0`
+
+------------------------------------------------------------------------
+6.5. Order and criteria of defining docset~
+*zeavim-settings:order*
+
+You can set in which order and which criteria should be used when trying to
+find the docset with `g:zv_get_docset_by`.
+
+default: `['ext', 'file', 'ft']`
+
+To define the docset, the plugin checks the following:
+1. The value defined by `:Docset` command.
+2. The values defined in `g:zv_get_docset_by`.
+
+The default value of `g:zv_get_docset_by` is `['file', 'ext', 'ft']`, it means
+that the plugin will try to find a pattern matching:
+1. The current file name
+2. The current file extension
+3. The current file type
+
+You can set a specific order or remove a criteria: >
+    " Find matching pattern to the file type only:
+    let g:zv_get_docset_by = ['ft']
+
+    " Find matching pattern to the extension first, then to the file name 
+    " and finally to the type.
+    let g:zv_get_docset_by = ['ext', 'file', 'ft']
+
+------------------------------------------------------------------------
+6.6. Docset name completion~
+*zeavim-settings:docset-completion*
+
+You can specify where are stored zeal's docsets for command completion purpose
+with `g:zv_docsets_dir`.
+
+default: >
+    has('unix')
+	\ ? $HOME . '/.local/share/Zeal/Zeal/docsets'
+	\ : $LOCALAPPDATA . '\Zeal\Zeal\docsets'
+
+------------------------------------------------------------------------
+6.7. Keep focus~
+*zeavim-settings:focus*
+
+`g:zv_keep_focus` allows keeping the focus on vim after executing zeal.
+
+default: `1`
+
+Note that it needs `[wmtcrl]`(http://tripie.sweb.cz/utils/wmctrl/) to be
+installed and works only on GNU/Linux.
+
+========================================================================
+7. |NOTES|				*zeavim-notes*
+
+Zeavim was my first vim plugin and it was created in the beginning for a
+personal use, so please feel free to report issues and submit PR. I usually
+answer in 1-2 days.
+
+Thanks to [Jerzy Kozera](https://github.com/jkozera) for creating such
+wonderful open-source application.
+
+Thanks to Bram Moolenaar for creating the best piece of software in the world.
+
+Thanks to you if you're using zeavim.
+
+========================================================================
+vim:tw=78:ts=8:ft=help:norl:noet
