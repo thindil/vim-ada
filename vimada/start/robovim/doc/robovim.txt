@@ -1,0 +1,100 @@
+*robovim.txt* Robodoc support for Vim
+*robovim* *robodoc*
+
+Introduction                                                   |robovim-intro|
+Usage                                                          |robovim-usage|
+Extending                                                  |robovim-extending|
+
+==============================================================================
+Introduction                                                   *robovim-intro*
+
+Robovim is very simple plugin to support adding Robodoc headers to source code
+inside Vim. Most parameters can be autodetect by plugin. At this moment it
+support only Ada and Vim code. To add support for more file types, please look
+at |robovim-extending|. For more information about Robodoc please look at:
+https://rfsber.home.xs4all.nl/Robo/
+
+==============================================================================
+Usage                                                          *robovim-usage*
+
+To add new header to the code, place your cursor at name of element for which
+you wan to create header (name of function, type, variable, etc) and enter
+command:
+
+   :Roboheader {headertype}
+
+Where {headertype} is one character name of Robodoc (for default headers types,
+please look at
+https://rfsber.home.xs4all.nl/Robo/pages/robodoc-49942-user-manual.html#header_types)
+If will create new Robodoc header above line and fill it with all settings
+(like filename, element name) plus empty documentation sections FUNCTION and
+SOURCE.
+
+To add Robodoc footer to the code, enter command:
+
+   :Robofooter
+
+The footer will be placed after current cursor line.
+
+Example:
+
+Place your cursor at word Test in Ada source code line:
+
+procedure Test(Message:String) is
+
+Next, enter commands:
+
+   :Roboheader f
+   :Robofooter
+
+This fragment of code will now looks that >
+   -- ****f* filename/Test
+   -- FUNCTION
+   -- SOURCE
+   procedure Test(Message:String) is
+   -- ****
+<
+
+Additionally, you can set package name if you want to use other than
+auto-detected by plugin. To do it, enter command:
+
+   :Robopackage {packagename}
+
+Where {packagename} is new name of package used in Robodoc headers. If you want
+to back to auto-detect just run this command without argument:
+
+   :Robopackage
+
+==============================================================================
+Extending                                                  *robovim-extending*
+
+To add support for new file types, open file robovim.vim and in function
+set_props add elsif for selected file type. Variables to set are:
+
+      b:header_mark      Start mark for Robodoc header it is commonly set to
+                         comment sign of file type plus four *
+      b:remark_mark      Remark mark or just this same mark as used for comment
+                         in file type (for example in C it can be *)
+      b:end_mark         Footer for Robodoc header it is commonly set to
+                         comment sign of file type plus four *
+      l:search_for       The regular expression (or just word) which will be
+                         searched in the buffer to find package name for
+                         Robodoc. This can be, for example 'class', 'package',
+                         etc. If you not set it, plugin will use name of file.
+                         Search start from beginning of buffer.
+      l:result_after     If line with b:search_for was found, package name will
+                         be next word after this one. For example, if your
+                         package definition is 'package Test is' then
+                         b:result_after should be set to 'package'.
+
+Example:
+
+Support for Python file type will be looks that:
+>
+   elseif b:filetype == 'python'
+      let b:header_mark = '# ****'
+      let b:remark_mark = '#'
+      let b:end_mark = '# ****'
+      let b:search_mark = 'class'
+      let b:result_after = 'class'
+<
