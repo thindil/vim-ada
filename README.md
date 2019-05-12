@@ -33,6 +33,9 @@ To enable all options, you been need to install:
     b) Download from https://www.laeran.pl/download/Ada.docset.zip.
     c) Build it alone: look at https://github.com/thindil/ada-docset for
     instructions and code needed to build Ada docset.
+* Optional, but highly recommended: ROBODoc from https://rfsber.home.xs4all.nl/Robo/
+  for generating code documentation. For generating documentation from Ada
+  code, you may need file *robodocada.rc* from https://github.com/thindil/roboada
 
 Additionally, you can put included `.vimrc` file as a configuration file (or
 source it from your configuration file).
@@ -137,6 +140,13 @@ Webpage: https://github.com/luochen1990/rainbow
 Updated version of Rainbow Parenthesis. Help you read complex code by showing
 diff level of parentheses in diff color. This plugin wasn't modified but have
 some custom configuration in `.vimrc` file.
+
+### Robovim
+
+Webpage: https://github.com/thindil/robovim
+
+Robovim is simple Vim plugin which allow easier add Robodoc formatted
+documentation to source code. This plugin wasn't modified.
 
 ### Startify
 
