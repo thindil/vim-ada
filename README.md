@@ -1,9 +1,9 @@
 ## General Info
 
 Vim-Ada is ready to deploy set of plugins and settings which helps write Ada
-programs. See "Installation" section for detailed instructions how to install
-it and "Plugins" section for informations about included plugins and changes
-(if any) to them.
+(and in many other programming languages) programs. See "Installation"
+section for detailed instructions how to install it and "Plugins" section for
+informations about included plugins and changes (if any) to them.
 
 All changes to plugins are under respective plugin license which can be found
 in plugins directory. If plugin don't have license info included, then all my
@@ -123,6 +123,13 @@ This plugin is used for displaying thin vertical lines at each indentation
 level for code indented with spaces. This plugin wasn't modified but have some
 custom configuration in `.vimrc` file.
 
+### MW-Utils
+
+Webpage: https://github.com/marcweber/vim-addon-mw-utils
+
+vim: interpret a file by function and cache file automatically. This plugin
+wasn't modified. This plugin is required for SnipMate plugin to work.
+
 ### NERDTree
 
 Webpage: https://github.com/scrooloose/nerdtree
@@ -147,6 +154,22 @@ Webpage: https://github.com/thindil/robovim
 
 Robovim is simple Vim plugin which allow easier add Robodoc formatted
 documentation to source code. This plugin wasn't modified.
+
+### SnipMate
+
+Webpage: https://github.com/garbas/vim-snipmate
+
+SnipMate aims to provide support for textual snippets, similar to TextMate or
+other Vim plugins like UltiSnips. This plugin wasn't modified.
+
+### Snippets
+
+Webpage: https://github.com/honza/vim-snippets
+
+This repository contains snippets files for various programming languages.
+It is community-maintained and many people have contributed snippet files and
+other improvements already. This version of the plugin contains snippets only
+for SnipMate.
 
 ### Startify
 
@@ -185,6 +208,13 @@ sidebar that displays the ctags-generated tags of the current file, ordered by
 their scope. This means that for example methods in C++ are displayed under
 the class they are defined in. This plugin wasn't modified but have some
 custom configuration in `.vimrc` file.
+
+### Tlib
+
+Webpage: https://github.com/tomtom/tlib_vim
+
+This library provides some utility functions. This plugin wasn't modified. This
+plugin is required by SnipMate to work.
 
 ### Xml
 
