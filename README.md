@@ -27,10 +27,14 @@ To enable all options, you been need to install:
   language) from https://ctags.io
 * Other dependency is Zeal from https://zealdocs.org/. Additionally, for Ada
     documentation, you will be need to download Ada specification docset. You
-    can do this in few ways: a) Download Docset Feed from
-    https://zealusercontributions.herokuapp.com/ (recommended way).
-    There you will find detailed information how to install docset.
+    can do this in few ways:
+
+    a) Download Docset Feed from https://zealusercontributions.herokuapp.com/
+    (recommended way). There you will find detailed information how to install
+    docset.
+
     b) Download from https://www.laeran.pl/download/Ada.docset.zip.
+
     c) Build it alone: look at https://github.com/thindil/ada-docset for
     instructions and code needed to build Ada docset.
 * Optional, but highly recommended: ROBODoc from https://rfsber.home.xs4all.nl/Robo/
