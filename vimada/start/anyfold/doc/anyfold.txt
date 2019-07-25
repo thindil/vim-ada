@@ -1,0 +1,149 @@
+*anyfold.txt*    indent based folding of anything and everything    *anyfold*
+
+==============================================================================
+CONTENTS                                                       *anyfoldContents*
+
+    1. Introduction .....................|anyfoldIntroduction|
+    2. Usage ............................|anyfoldUsage|
+    3. Configuration and Options ........|anyfoldConfiguration|
+    4. Contributing .....................|anyfoldContributing|
+    5. Changelog ........................|anyfoldChangelog|
+    6. License ..........................|anyfoldLicense|
+
+==============================================================================
+1. Introduction                                               *anyfoldIntroduction*
+
+Anyfold allows quick navigation and focus in files that are structured by
+indentation. Its folding mechanism is generic and works equally well for any
+language. Folds based on indented blocks are very useful to reveal the logical
+structure of a complex file and to hide irrelevant information.
+
+To get an idea of how it works and why it is so useful, you need to try it
+yourself. Nonetheless, here comes a rough description of how folds are defined:
+each line followed by a hanging indent starts a new fold. A fold is closed by
+the next line with the same indent as the first line of the fold. The actual
+indents present in a file are carefully postprocessed to ensure that every fold
+contain exactly one logical block of code. Anyfold can handle many corner cases
+such as comments, empty lines and varying indentation widths. A fast fold update
+mechanism makes sure that folds are in sync with buffer.
+
+==============================================================================
+2. Usage                                                         *anyfoldUsage*
+                                                                 *:AnyFoldActivate*
+This plugin needs to be activated by the command :AnyFoldActivate, otherwise it
+will do nothing.
+
+To automatically activate vim-anyfold for a specific filetype, add the following
+line to vimrc:
+    autocmd Filetype <your-filetype> AnyFoldActivate
+
+For dealing with folds in general, see |fold-commands|, |fold-options| and
+|fold-behavior|. Additionally, anyfold defines the following mappings:
+
+                                                                *anyfoldMotion*
+    [[          Move to the beginning of the current block.          *[[*
+    ]]          Move to the end of the current block.                *]]*
+    ]k          Move to the end of the previous block.               *]k*
+    [j          Move to the beginning of the next block.             *[j*
+
+When a count is used, repeats the command [count] times. Commands can be used
+after an operator.
+
+The move commands are very similar to the default fold
+motion commands "[z", "]z", "zj", "zk" but they are more intuitive for indented
+blocks. More specifically, the first line of a block is defined as the first
+line in a fold and the last line of a block as the next line after the last
+line in a fold.
+
+Since anyfold can not correctly fold mismatched indentation, auto-indenting
+is highly recommended. See |equalprg|.
+
+                                                              *anyfoldIgnore*
+By default, anyfold uses the |foldignore| option to identify lines to ignore
+(such as comments and preprocessor statements). Lines starting with characters
+in |foldignore| will get their fold level from surrounding lines. If
+`g:anyfold_fold_comments=1` (see |anyfoldOptions|) these lines get their own
+folds.
+
+Note that |foldignore| can not identify multiline comments such as C style
+comments or Python doc strings. In order to ignore these cases using syntax
+identification, consider setting `g:anyfold_identify_comments` to 2 (see
+|anyfoldOptions|). Note that this feature may lead to slow performance for
+large files.
+
+==============================================================================
+3. Configuration and Options                            *anyfoldConfiguration*
+                                                             *anyfoldOptions*
+For more control over mappings and features, anyfold provides the following
+options. These can be set either globally
+    let g:<option>=<value>
+
+or filetype specific
+    autocmd Filetype <filetype> let g:<option>=<value>
+
+Option                      | Description
+----------------------------------------------------------------------
+g:anyfold_fold_display      | Minimalistic display of closed folds
+g:anyfold_motion            | Map motion commands (|anyfoldMotion|)
+g:anyfold_identify_comments | Identify lines to ignore for better fold behavior
+g:anyfold_fold_comments     | Fold multiline comments
+g:anyfold_comments          | names of syntax items that should be ignored.
+                            | Only used if `anyfold_identify_comments=2`.
+g:anyfold_fold_toplevel     | Fold subsequent unindented lines
+
+Option                      | Type            | Default value | Explanation   *anyfoldDefaults*
+----------------------------------------------------------------------
+g:anyfold_fold_display      | 0, 1            | 1 (= 'on')  |
+g:anyfold_motion            | 0, 1            | 1 (= 'on')  |
+g:anyfold_identify_comments | 0, 1, 2         | 1 (= 'on')  | 1: use |foldignore|
+                            |                 |             | 2: use |foldignore| and |synID()| (slow)
+g:anyfold_fold_comments     | 0, 1            | 0 (= 'off') |
+g:anyfold_comments          | list of strings | ['comment', 'string'] |
+g:anyfold_fold_toplevel     | 0, 1            | 0 (= 'off') |
+g:anyfold_fold_size_str     | string          | '%s lines'  | Format of fold size string in minimalistic display
+g:anyfold_fold_level_str    | string          | ' + '       | Format of fold level string in minimalistic display
+
+                                                                *anyfoldLoaded*
+For expert configuration, anyfold triggers an |autocmd-event| `anyfoldLoaded`
+after initialisation. This enables user-defined initialisation steps such as
+    autocmd User anyfoldLoaded normal zv
+which unfolds the line in which the cursor is located when opening a file.
+
+==============================================================================
+4. Contributing                                              *anyfoldContributing*
+
+Contributions are very welcome! Visit the official repository
+https://github.com/pseewald/vim-anyfold
+
+==============================================================================
+5. Changelog                                                   *anyfoldChangelog*
+
+v1.0 - First stable release
+
+For full changelog, visit https://github.com/pseewald/vim-anyfold
+
+==============================================================================
+6. License                                                     *anyfoldLicense*
+MIT License
+
+Copyright (c) 2016 Patrick Seewald
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+==============================================================================
+ vim:tw=78:ts=8:ft=help:norl:
