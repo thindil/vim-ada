@@ -80,6 +80,14 @@ Webpage: https://github.com/vim-airline/vim-airline
 Status bar and buffer list for Vim. This plugin wasn't modified but have some
 custom configuration in `.vimrc` file.
 
+### Anyfold
+
+Webpage: https://github.com/pseewald/vim-anyfold
+
+Generic folding mechanism and motion based on indentation. Fold anything that
+is structured into indented blocks. Quickly navigate between blocks. This
+plugin wasn't modified.
+
 ### Auto-pairs
 
 Webpage: https://github.com/jiangmiao/auto-pairs
