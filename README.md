@@ -41,18 +41,16 @@ To enable all options, you been need to install:
   for generating code documentation. For generating documentation from Ada
   code, you may need file *robodocada.rc* from https://github.com/thindil/roboada
 
-Additionally, you can put included `.vimrc` file as a configuration file (or
-source it from your configuration file). It is recommended, mostly because it
-may speed Ada omnicompletion function a bit.
-
-After installation or upgrading, it is recommended to run inside Vim command
-`:helptags ALL` to regenerate help tags.
+Additionally, set included `.vimrc` file as your configuration file (or
+source it from your configuration file). Since version 8.0 of vim-ada it is
+required, because all plugins are managed by Plug plugin which must be
+installed first.
 
 ## Plugins
 
 ### A.vim
 
-Webpage: https://www.vim.org/scripts/script.php?script_id=31
+Webpage: https://github.com/vim-scripts/a.vim
 
 Allow fast switch between spec (.ads) and body (.adb) files. This plugin don't
 have any help, so I recommend to visit website to read plugins command. This
@@ -155,6 +153,13 @@ users can visually browse complex directory hierarchies, quickly open files
 for reading or editing, and perform basic file system operations. This plugin
 can also be extended with custom mappings using a special API. This plugin
 wasn't modified but have some custom configuration in `.vimrc` file.
+
+### Plug
+
+Webpage: https://github.com/junegunn/vim-plug
+
+A minimalist Vim plugin manager. This wasn't modified. This plugin is
+required to load other plugins included in bundle.
 
 ### Rainbow Parentheses Improved
 
