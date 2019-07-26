@@ -89,9 +89,9 @@ set_props add elsif for selected file type. Variables to set are:
 
 Example:
 
-Support for Python file type will be looks that:
+Support for Python file type looks that:
 >
-   elseif b:filetype == 'python'
+   elseif l:filetype == 'python'
       let b:header_mark = '# ****'
       let b:remark_mark = '#'
       let b:end_mark = '# ****'

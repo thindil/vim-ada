@@ -190,7 +190,6 @@ function! s:on_bufenter()
     let t:gitgutter_didtabenter = 0
     call gitgutter#all(!g:gitgutter_terminal_reports_focus)
   else
-    call gitgutter#init_buffer(bufnr(''))
     call gitgutter#process_buffer(bufnr(''), !g:gitgutter_terminal_reports_focus)
   endif
 endfunction
@@ -214,6 +213,9 @@ augroup gitgutter
 
   autocmd ShellCmdPost * call gitgutter#all(1)
   autocmd BufLeave term://* call gitgutter#all(1)
+
+  autocmd BufFilePre  * GitGutterBufferDisable
+  autocmd BufFilePost * GitGutterBufferEnable
 
   " Handle all buffers when focus is gained, but only after it was lost.
   " FocusGained gets triggered on startup with Neovim at least already.

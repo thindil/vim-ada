@@ -71,7 +71,7 @@ function Test_add_lines()
   normal ggo*
   call s:trigger_gitgutter()
 
-  let expected = ["line=2  id=3000  name=GitGutterLineAdded"]
+  let expected = ["line=2  id=3000  name=GitGutterLineAdded  priority=10"]
   call assert_equal(expected, s:signs('fixture.txt'))
 endfunction
 
@@ -83,7 +83,7 @@ function Test_add_lines_fish()
   normal ggo*
   call s:trigger_gitgutter()
 
-  let expected = ["line=2  id=3000  name=GitGutterLineAdded"]
+  let expected = ["line=2  id=3000  name=GitGutterLineAdded  priority=10"]
   call assert_equal(expected, s:signs('fixture.txt'))
 
   let &shell = _shell
@@ -94,7 +94,7 @@ function Test_modify_lines()
   normal ggi*
   call s:trigger_gitgutter()
 
-  let expected = ["line=1  id=3000  name=GitGutterLineModified"]
+  let expected = ["line=1  id=3000  name=GitGutterLineModified  priority=10"]
   call assert_equal(expected, s:signs('fixture.txt'))
 endfunction
 
@@ -103,7 +103,7 @@ function Test_remove_lines()
   execute '5d'
   call s:trigger_gitgutter()
 
-  let expected = ["line=4  id=3000  name=GitGutterLineRemoved"]
+  let expected = ["line=4  id=3000  name=GitGutterLineRemoved  priority=10"]
   call assert_equal(expected, s:signs('fixture.txt'))
 endfunction
 
@@ -112,7 +112,17 @@ function Test_remove_first_lines()
   execute '1d'
   call s:trigger_gitgutter()
 
-  let expected = ["line=1  id=3000  name=GitGutterLineRemovedFirstLine"]
+  let expected = ["line=1  id=3000  name=GitGutterLineRemovedFirstLine  priority=10"]
+  call assert_equal(expected, s:signs('fixture.txt'))
+endfunction
+
+
+function Test_overlapping_hunks()
+  execute '3d'
+  execute '1d'
+  call s:trigger_gitgutter()
+
+  let expected = ["line=1  id=3000  name=GitGutterLineRemovedAboveAndBelow  priority=10"]
   call assert_equal(expected, s:signs('fixture.txt'))
 endfunction
 
@@ -122,7 +132,7 @@ function Test_edit_file_with_same_name_as_a_branch()
   call system('git checkout -b fixture.txt')
   call s:trigger_gitgutter()
 
-  let expected = ["line=5  id=3000  name=GitGutterLineModified"]
+  let expected = ["line=5  id=3000  name=GitGutterLineModified  priority=10"]
   call assert_equal(expected, s:signs('fixture.txt'))
 endfunction
 
@@ -134,7 +144,7 @@ function Test_file_added_to_git()
   normal ihello
   call s:trigger_gitgutter()
 
-  let expected = ["line=1  id=3000  name=GitGutterLineAdded"]
+  let expected = ["line=1  id=3000  name=GitGutterLineAdded  priority=10"]
   call assert_equal(expected, s:signs('fileAddedToGit.tmp'))
 endfunction
 
@@ -146,8 +156,8 @@ function Test_filename_with_equals()
   call s:trigger_gitgutter()
 
   let expected = [
-        \ 'line=1  id=3000  name=GitGutterLineAdded',
-        \ 'line=2  id=3001  name=GitGutterLineAdded'
+        \ 'line=1  id=3000  name=GitGutterLineAdded  priority=10',
+        \ 'line=2  id=3001  name=GitGutterLineAdded  priority=10'
         \ ]
   call assert_equal(expected, s:signs('=fixture=.txt'))
 endfunction
@@ -160,8 +170,8 @@ function Test_filename_with_square_brackets()
   call s:trigger_gitgutter()
 
   let expected = [
-        \ 'line=1  id=3000  name=GitGutterLineAdded',
-        \ 'line=2  id=3001  name=GitGutterLineAdded'
+        \ 'line=1  id=3000  name=GitGutterLineAdded  priority=10',
+        \ 'line=2  id=3001  name=GitGutterLineAdded  priority=10'
         \ ]
   call assert_equal(expected, s:signs('fix[tu]re.txt'))
 endfunction
@@ -174,10 +184,24 @@ function Test_filename_leading_dash()
   call s:trigger_gitgutter()
 
   let expected = [
-        \ 'line=1  id=3000  name=GitGutterLineAdded',
-        \ 'line=2  id=3001  name=GitGutterLineAdded'
+        \ 'line=1  id=3000  name=GitGutterLineAdded  priority=10',
+        \ 'line=2  id=3001  name=GitGutterLineAdded  priority=10'
         \ ]
   call assert_equal(expected, s:signs('-fixture.txt'))
+endfunction
+
+
+function Test_filename_umlaut()
+  call system('touch -- fixtüre.txt && git add -- fixtüre.txt')
+  edit fixtüre.txt
+  normal ggo*
+  call s:trigger_gitgutter()
+
+  let expected = [
+        \ 'line=1  id=3000  name=GitGutterLineAdded  priority=10',
+        \ 'line=2  id=3001  name=GitGutterLineAdded  priority=10'
+        \ ]
+  call assert_equal(expected, s:signs('fixtüre.txt'))
 endfunction
 
 
@@ -189,7 +213,7 @@ function Test_follow_symlink()
   6d
   call s:trigger_gitgutter()
 
-  let expected = ['line=5  id=3000  name=GitGutterLineRemoved']
+  let expected = ['line=5  id=3000  name=GitGutterLineRemoved  priority=10']
   call assert_equal(expected, s:signs('symlink'))
 endfunction
 
@@ -241,7 +265,7 @@ function Test_orphaned_signs()
   6d
   call s:trigger_gitgutter()
 
-  let expected = ['line=6  id=3001  name=GitGutterLineAdded']
+  let expected = ['line=6  id=3001  name=GitGutterLineAdded  priority=10']
   call assert_equal(expected, s:signs('fixture.txt'))
 endfunction
 
@@ -263,6 +287,7 @@ function Test_untracked_file_within_repo()
   call s:trigger_gitgutter()
 
   call assert_equal([], s:signs(tmp))
+  call assert_equal(-2, b:gitgutter.path)
 
   call system('rm '.tmp)
 endfunction
@@ -347,9 +372,9 @@ function Test_hunk_stage_nearby_hunk()
   GitGutterStageHunk
 
   let expected = [
-        \ 'line=3  id=3000  name=GitGutterLineAdded',
-        \ 'line=4  id=3001  name=GitGutterLineAdded',
-        \ 'line=5  id=3002  name=GitGutterLineAdded'
+        \ 'line=3  id=3000  name=GitGutterLineAdded  priority=10',
+        \ 'line=4  id=3001  name=GitGutterLineAdded  priority=10',
+        \ 'line=5  id=3002  name=GitGutterLineAdded  priority=10'
         \ ]
   call assert_equal(expected, s:signs('fixture.txt'))
 
@@ -417,9 +442,9 @@ function Test_undo_nearby_hunk()
   call s:trigger_gitgutter()
 
   let expected = [
-        \ 'line=3  id=3000  name=GitGutterLineAdded',
-        \ 'line=4  id=3001  name=GitGutterLineAdded',
-        \ 'line=5  id=3002  name=GitGutterLineAdded'
+        \ 'line=3  id=3000  name=GitGutterLineAdded  priority=10',
+        \ 'line=4  id=3001  name=GitGutterLineAdded  priority=10',
+        \ 'line=5  id=3002  name=GitGutterLineAdded  priority=10'
         \ ]
   call assert_equal(expected, s:signs('fixture.txt'))
 
@@ -445,13 +470,49 @@ function Test_undo_nearby_hunk()
 endfunction
 
 
+function Test_overlapping_hunk_op()
+  func Answer(char)
+    call feedkeys(a:char."\<CR>")
+  endfunc
+
+  " Undo upper
+
+  execute '3d'
+  execute '1d'
+  call s:trigger_gitgutter()
+  normal gg
+  call timer_start(100, {-> Answer('u')} )
+  GitGutterUndoHunk
+  call s:trigger_gitgutter()
+
+  let expected = [
+        \ 'line=2  id=3000  name=GitGutterLineRemoved  priority=10',
+        \ ]
+  call assert_equal(expected, s:signs('fixture.txt'))
+
+  " Undo lower
+
+  execute '1d'
+  call s:trigger_gitgutter()
+  normal gg
+  call timer_start(100, {-> Answer('l')} )
+  GitGutterUndoHunk
+  call s:trigger_gitgutter()
+
+  let expected = [
+        \ 'line=1  id=3000  name=GitGutterLineRemovedFirstLine  priority=10',
+        \ ]
+  call assert_equal(expected, s:signs('fixture.txt'))
+endfunction
+
+
 function Test_write_option()
   set nowrite
 
   normal ggo*
   call s:trigger_gitgutter()
 
-  let expected = ["line=2  id=3000  name=GitGutterLineAdded"]
+  let expected = ["line=2  id=3000  name=GitGutterLineAdded  priority=10"]
   call assert_equal(expected, s:signs('fixture.txt'))
 
   set write
@@ -586,4 +647,34 @@ function Test_encoding()
   call s:trigger_gitgutter()
 
   call assert_equal([], s:signs('cp932.txt'))
+endfunction
+
+
+function Test_empty_file()
+  " 0-byte file
+  call system('touch empty.txt && git add empty.txt')
+  edit empty.txt
+
+  call s:trigger_gitgutter()
+  call assert_equal([], s:signs('empty.txt'))
+
+
+  " File consisting only of a newline
+  call system('echo "" > newline.txt && git add newline.txt')
+  edit newline.txt
+
+  call s:trigger_gitgutter()
+  call assert_equal([], s:signs('newline.txt'))
+
+
+  " 1 line file without newline
+  " Vim will force a newline unless we tell it not to.
+  call system('echo -n a > oneline.txt && git add oneline.txt')
+  set noeol nofixeol
+  edit! oneline.txt
+
+  call s:trigger_gitgutter()
+  call assert_equal([], s:signs('oneline.txt'))
+
+  set eol fixeol
 endfunction

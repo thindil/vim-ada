@@ -32,6 +32,13 @@ fun s:set_props()
       let b:header_mark = '" ****'
       let b:remark_mark = '"'
       let b:end_mark = '" ****'
+   " Python ---------------------------
+   elseif l:filetype == 'python'
+      let b:header_mark = '# ****'
+      let b:remark_mark = '#'
+      let b:end_mark = '# ****'
+      let b:search_mark = 'class'
+      let b:result_after = 'class'
    " Others ---------------------------
     else
       let b:header_mark = '/* ****'

@@ -176,24 +176,26 @@ values):
 
   " or copy paste the following into your vimrc for shortform text
   let g:airline_mode_map = {
-      \ '__' : '-',
-      \ 'c'  : 'C',
-      \ 'i'  : 'I',
-      \ 'ic' : 'I',
-      \ 'ix' : 'I',
-      \ 'n'  : 'N',
-      \ 'ni' : 'N',
-      \ 'no' : 'N',
-      \ 'R'  : 'R',
-      \ 'Rv' : 'R',
-      \ 's'  : 'S',
-      \ 'S'  : 'S',
-      \ '' : 'S',
-      \ 't'  : 'T',
-      \ 'v'  : 'V',
-      \ 'V'  : 'V',
-      \ '' : 'V',
+      \ '__'     : '-',
+      \ 'c'      : 'C',
+      \ 'i'      : 'I',
+      \ 'ic'     : 'I',
+      \ 'ix'     : 'I',
+      \ 'n'      : 'N',
+      \ 'multi'  : 'M',
+      \ 'ni'     : 'N',
+      \ 'no'     : 'N',
+      \ 'R'      : 'R',
+      \ 'Rv'     : 'R',
+      \ 's'      : 'S',
+      \ 'S'      : 'S',
+      \ ''     : 'S',
+      \ 't'      : 'T',
+      \ 'v'      : 'V',
+      \ 'V'      : 'V',
+      \ ''     : 'V',
       \ }
+   Note: 'multi' is for displaying the multiple cursor mode
 <
 * define the set of filename match queries which excludes a window from having
   its statusline modified >
@@ -545,6 +547,24 @@ vim-capslock <https://github.com/tpope/vim-capslock>
 
 * enable/disable vim-capslock integration >
   let g:airline#extensions#capslock#enabled = 1
+
+-------------------------------------                    *airline-coc*
+coc <https://github.com/neoclide/coc>
+
+* enable/disable coc integration >
+  let g:airline#extensions#coc#enabled = 1
+<
+* change error symbol: >
+  let airline#extensions#coc#error_symbol = 'E:'
+<
+* change warning symbol: >
+  let airline#extensions#coc#warning_symbol = 'W:'
+<
+* change error format: >
+  let airline#extensions#coc#stl_format_err = '%E{[%e(#%fe)]}'
+<
+* change warning format: >
+  let airline#extensions#coc#stl_format_warn = '%W{[%w(#%fw)]}'
 
 -------------------------------------                          *airline-csv*
 csv.vim <https://github.com/chrisbra/csv.vim>
@@ -1072,6 +1092,12 @@ taboo.vim <https://github.com/gcmt/taboo.vim>
 * enable/disable taboo.vim integration >
   let g:airline#extensions#taboo#enabled = 1
 <
+-------------------------------------                        *airline-tabws*
+vim-tabws <https://github.com/s1341/vim-tabws>
+
+* enable/disable tabws integration >
+  let g:airline#extensions#tabws#enabled = 1
+<
 -------------------------------------                       *airline-tagbar*
 tagbar <https://github.com/majutsushi/tagbar>
 
@@ -1147,6 +1173,12 @@ virtualenv <https://github.com/jmcantrell/vim-virtualenv>
 * enable/disable virtualenv integration >
   let g:airline#extensions#virtualenv#enabled = 1
 <
+-------------------------------------                   *airline-vista*
+vista.vim <https://github.com/liuchngxu/vista.vim>
+
+* enable/disable vista integration >
+  let g:airline#extensions#vista#enabled = 1
+
 -------------------------------------                   *airline-whitespace*
 * enable/disable detection of whitespace errors. >
   let g:airline#extensions#whitespace#enabled = 1

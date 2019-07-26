@@ -66,10 +66,14 @@ endfunction
 
 function! s:set_clean_variables(file, vcs, val)
   let var=getbufvar(fnameescape(a:file), 'buffer_vcs_config', {})
-  if has_key(var, a:vcs) && has_key(var[a:vcs], 'dirty')
+  if has_key(var, a:vcs) && has_key(var[a:vcs], 'dirty') &&
+        \ type(getbufvar(fnameescape(a:file), 'buffer_vcs_config')) == type({})
     let var[a:vcs].dirty=a:val
-    call setbufvar(fnameescape(a:file), 'buffer_vcs_config', var)
-    unlet! b:airline_head
+    try
+      call setbufvar(fnameescape(a:file), 'buffer_vcs_config', var)
+      unlet! b:airline_head
+    catch
+    endtry
   endif
 endfunction
 
@@ -184,7 +188,10 @@ if v:version >= 800 && has("job")
       if job_status(get(jobs, a:file)) == 'run'
         return
       elseif has_key(jobs, a:file)
-        call remove(jobs, a:file)
+        " still running
+        return
+        " jobs dict should be cleaned on exit, so not needed here
+        " call remove(jobs, a:file)
       endif
     endif
     let id = job_start(cmd, {
@@ -311,7 +318,10 @@ elseif has("nvim")
       let s:clean_jobs[a:vcs] = {}
     endif
     if has_key(s:clean_jobs[a:vcs], a:file)
-      call remove(s:clean_jobs[a:vcs], a:file)
+      " still running
+      return
+      " jobs dict should be cleaned on exit, so not needed here
+      " call remove(s:clean_jobs[a:vcs], a:file)
     endif
     let id = jobstart(cmd, config)
     call s:set_clean_jobs_variable(a:vcs, a:file, id)
