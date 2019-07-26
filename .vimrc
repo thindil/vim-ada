@@ -27,6 +27,43 @@ set tags=./tags;/                                           " Where to search fo
 set grepprg=grep\ -nre                                      " Show line number, go recursive and use regular expressions for :grep command
 set updatetime=100                                          " Amount of millisecs between saves of swap file to disk. Needed for some plugins
 set cursorline                                              " Highlight line with cursor
+" This lines are required to run whole bundle. They will install (if needed) Plug
+" and all required plugins
+if !has("nvim")                                             " Install Plug for Vim
+   if empty(glob('~/.vim/autoload/plug.vim'))
+      silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+               \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+      autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+   endif
+   call plug#begin('~/.vim/plugged')                        " Start Plug for Vim
+else                                                        " Install Plug for NeoVim
+   if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+      silent !curl -fLo ~/.local/.share/nvim/site/plug.vim --create-dirs
+               \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+      autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+   endif
+   call plug#begin('~/.local/share/nvim/plugged')           " Start Plug for NeoVim
+endif
+Plug 'vim-scripts/a.vim'                                    " A plugin
+Plug 'vim-airline/vim-airline'                              " Airline plugin
+Plug 'pseewald/vim-anyfold'                                 " Anyfold plugin
+Plug 'jiangmiao/auto-pairs'                                 " Auto-pairs plugin
+Plug 'tpope/vim-fugitive'                                   " Fugitive plugin
+Plug 'airblade/vim-gitgutter'                               " Gitgutter plugin
+Plug 'ludovicchabant/vim-gutentags'                         " Gutentags plugin
+Plug 'Yggdroot/indentLine'                                  " indentLine plugin
+Plug 'marcweber/vim-addon-mw-utils'                         " MWUTils plugin, needed by Snipmate
+Plug 'scrooloose/nerdtree'                                  " Nerdtree plugin
+Plug 'luochen1990/rainbow'                                  " RainbowParenthesisImproved plugin
+Plug 'thindil/robovim'                                      " Robovim plugin
+Plug 'garbas/vim-snipmate'                                  " Snipmate plugin
+Plug 'honza/vim-snippets'                                   " Snippets plugin, needed by Snipmate
+Plug 'mhinz/vim-startify'                                   " Startify plugin
+Plug 'majutsushi/tagbar'                                    " Tagbar plugin
+Plug 'tomtom/tlib_vim'                                      " Tlib plugin, needed by Snipmate
+Plug 'KabbAmine/zeavim.vim'                                 " Zeavim plugin
+Plug 'NLKNguyen/papercolor-theme'                           " Papercolor theme
+call plug#end()                                             " End of Plug configuration
 let g:gitgutter_signs = 0                                   " Disable gitgutter signs
 let g:airline_powerline_fonts = 1                           " Use special patched fonts
 let g:airline#extensions#tabline#enabled = 1                " Show list of buffers
