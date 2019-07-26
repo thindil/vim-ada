@@ -42,7 +42,8 @@ To enable all options, you been need to install:
   code, you may need file *robodocada.rc* from https://github.com/thindil/roboada
 
 Additionally, you can put included `.vimrc` file as a configuration file (or
-source it from your configuration file).
+source it from your configuration file). It is recommended, mostly because it
+may speed Ada omnicompletion function a bit.
 
 After installation or upgrading, it is recommended to run inside Vim command
 `:helptags ALL` to regenerate help tags.
@@ -72,6 +73,9 @@ This is modified version of standard Ada support for Vim. Main changes:
 - Fixed and extended support for vim sessions on loading GNAT project files
   (it is possible to enable or disable it).
 - Added support for Ada 2012.
+- Updated omnicompletion function: now it should be a bit faster and show
+  items definitions too
+- Removed support for GNAT XRef
 
 ### Airline
 
