@@ -47,6 +47,7 @@ let g:zv_file_types = {                                     " Map some file type
    \   'help' : 'vim',                                      " Search in Vim docset if file type is help
    \   'ada'  : 'ada',                                      " Search in Ada specification docset if file type is ada
    \ }
+let g:gutentags_ctags_extra_args = ['--fields=+l']          " Generate tags files with additional field language. Can boost loading Ada tags
 if has("gui_running")                                       " GUI specific settings
    set guioptions=aegimLt                                   " Show only menu, hide buttons, etc
    nnoremap <F11> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
