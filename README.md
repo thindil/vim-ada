@@ -1,4 +1,4 @@
-## General Info
+## General Information
 
 Vim-Ada is ready to deploy set of plugins and settings which helps write Ada
 (and in many other programming languages) programs. See "Installation"
@@ -9,22 +9,48 @@ All changes to plugins are under respective plugin license which can be found
 in plugins directory. If plugin don't have license info included, then all my
 changes are in public domain.
 
+If you are new to Vim and want to have more user friendly experience with this
+editor, I recommend to use [SpaceVim](https://spacevim.org/). Main differences
+between vim-ada and SpaceVim:
+
+* Design in **Keep It Simple Stupid** principle: Vim-ada is just a bundle of
+  plugins which can be easily added, removed or locally edited to suit your
+  needs.
+* No changes to core systems of Vim: All keyboard shortcuts are that same,
+  thus, Vim-ada require less learning for experienced Vim/NeoVim users.
+* Easy to deploy: just download configuration file and replace your config,
+  rest will be done after first start of Vim/NeoVim.
+* Much younger, less polished than SpaceVim.
+
 ## Screenshots
 
 ![Dark background](screens/dark.png)
 
 ![Light background](screens/light.png)
 
-## Installation or upgrading
+## Installation
+
+### For versions 7.0 and below
 
 Just copy directory `vimada` to your Vim `runtimepath` directory (on Unix
 systems it is often `$HOME/.vim`) to directory `pack` (so, full path on Unix
-will be looks like `$HOME/.vim/pack/vimada`).
+will be looks like `$HOME/.vim/pack/vimada`). For upgrade from previous
+version: just replace old files with new.
+
+### From version 8.0
+
+Set included `.vimrc` file as your configuration file (or
+source it from your configuration file). Since version 8.0 of vim-ada it is
+required, because all plugins are managed by Plug plugin which must be
+installed first. For upgrade, use Plug commands.
+
+### Additional steps
 
 To enable all options, you been need to install:
 
 * Universal Ctags (this version is maintained and have full support for Ada
-  language) from https://ctags.io
+  language) from https://ctags.io for generating *tags* files needed for Vim
+  auto-completion.
 * Other dependency is Zeal from https://zealdocs.org/. Additionally, for Ada
     documentation, you will be need to download Ada specification docset. You
     can do this in few ways:
@@ -41,11 +67,6 @@ To enable all options, you been need to install:
   for generating code documentation. For generating documentation from Ada
   code, you may need file *robodocada.rc* from https://github.com/thindil/roboada
 
-Additionally, set included `.vimrc` file as your configuration file (or
-source it from your configuration file). Since version 8.0 of vim-ada it is
-required, because all plugins are managed by Plug plugin which must be
-installed first.
-
 ## Plugins
 
 ### A.vim
@@ -54,7 +75,7 @@ Webpage: https://github.com/vim-scripts/a.vim
 
 Allow fast switch between spec (.ads) and body (.adb) files. This plugin don't
 have any help, so I recommend to visit website to read plugins command. This
-plugin wasn't modified.
+plugin have fixed one bug with opening new buffers.
 
 ### AdaBundle
 
@@ -68,10 +89,10 @@ This is modified version of standard Ada support for Vim. Main changes:
 - Added support for Syntastic plugin (included in this pack too).
 - Updated help file.
 - Removed support for Dec Ada compiler.
-- Fixed and extended support for vim sessions on loading GNAT project files
+- Fixed and extended support for Vim sessions on loading GNAT project files
   (it is possible to enable or disable it).
 - Added support for Ada 2012.
-- Updated omnicompletion function: now it should be a bit faster and show
+- Updated omni completion function: now it should be a bit faster and show
   items definitions too
 - Removed support for GNAT XRef
 
@@ -120,7 +141,7 @@ Gutentags is a plugin that takes care of the much needed management of tags
 files in Vim. It will (re)generate tag files as you work while staying
 completely out of your way. It will even do its best to keep those tag files
 out of your way too. It has no dependencies and just works. This plugin wasn't
-modified.
+modified but have some custom configuration in `.vimrc` file.
 
 ### Header
 
@@ -159,7 +180,8 @@ wasn't modified but have some custom configuration in `.vimrc` file.
 Webpage: https://github.com/junegunn/vim-plug
 
 A minimalist Vim plugin manager. This wasn't modified. This plugin is
-required to load other plugins included in bundle.
+required to load other plugins included in bundle. Required configuration
+of this plugin is in `.vimrc` file.
 
 ### Rainbow Parentheses Improved
 
@@ -189,8 +211,7 @@ Webpage: https://github.com/honza/vim-snippets
 
 This repository contains snippets files for various programming languages.
 It is community-maintained and many people have contributed snippet files and
-other improvements already. This version of the plugin contains snippets only
-for SnipMate.
+other improvements already.
 
 ### Startify
 
