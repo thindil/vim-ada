@@ -44,7 +44,6 @@ else                                                        " Install Plug for N
    endif
    call plug#begin('~/.local/share/nvim/plugged')           " Start Plug for NeoVim
 endif
-Plug 'vim-scripts/a.vim'                                    " A plugin
 Plug 'vim-airline/vim-airline'                              " Airline plugin
 Plug 'pseewald/vim-anyfold'                                 " Anyfold plugin
 Plug 'jiangmiao/auto-pairs'                                 " Auto-pairs plugin
