@@ -71,11 +71,10 @@ To enable all options, you been need to install:
 
 ### A.vim
 
-Webpage: https://github.com/vim-scripts/a.vim
+Webpage: https://github.com/thindil/a.vim
 
-Allow fast switch between spec (.ads) and body (.adb) files. This plugin don't
-have any help, so I recommend to visit website to read plugins command. This
-plugin have fixed one bug with opening new buffers.
+Allow fast switch between spec (.ads) and body (.adb) files (works with C,
+C++ headers files too). This plugin wasn't modified.
 
 ### AdaBundle
 
