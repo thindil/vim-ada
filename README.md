@@ -78,22 +78,10 @@ C++ headers files too). This plugin wasn't modified.
 
 ### AdaBundle
 
-Webpage: https://www.vim.org/scripts/script.php?script_id=1609
+Webpage: https://github.com/thindil/Ada-Bundle
 
-This is modified version of standard Ada support for Vim. Main changes:
-
-- Changed support from Rainbow Parenthesis to Rainbow Parentheses Improved
-  plugin (which is included in this pack too).
-- Removed all tags commands which are now in base Vim (like jump to tag).
-- Added support for Syntastic plugin (included in this pack too).
-- Updated help file.
-- Removed support for Dec Ada compiler.
-- Fixed and extended support for Vim sessions on loading GNAT project files
-  (it is possible to enable or disable it).
-- Added support for Ada 2012.
-- Updated omni completion function: now it should be a bit faster and show
-  items definitions too
-- Removed support for GNAT XRef
+This is modified version of standard Ada support for Vim/Neovim. This plugin
+wasn't modified but have some custom configuration in `.vimrc` file.
 
 ### Airline
 
