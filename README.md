@@ -247,7 +247,7 @@ plugin is required by SnipMate to work.
 
 ### Xml
 
-Webpage: none
+Webpage: https://github.com/thindil/vim-xml
 
 This is just one line setting to enable spellchecking in XML files too.
 
