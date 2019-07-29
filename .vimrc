@@ -46,6 +46,7 @@ else                                                        " Install Plug for N
 endif
 Plug 'thindil/a.vim'                                        " A.vim plugin
 Plug 'thindil/Ada-Bundle'                                   " Ada-Bundle plugin
+Plug 'thindil/vim-xml'                                      " Vim-XML plugin
 Plug 'vim-airline/vim-airline'                              " Airline plugin
 Plug 'pseewald/vim-anyfold'                                 " Anyfold plugin
 Plug 'jiangmiao/auto-pairs'                                 " Auto-pairs plugin
