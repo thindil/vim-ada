@@ -47,8 +47,8 @@ else                                                        " Install Plug for N
    call plug#begin(s:plug_path)                             " Start Plug for NeoVim
 endif
 function! UpdatePlug(info)
-   if a:info.status = "installed" || a:info.status = "updated"
-      silent exe "!git apply " . glob(s:plug_path . '/vim-ada/pathes/' . a:info.name . ".diff")
+   if a:info.status != "unchanged" || a:info.force
+     silent exe "!git apply " . glob(s:plug_path . '/vim-ada/patches/' . a:info.name . ".diff")
    endif
 endfunction
 Plug 'thindil/a.vim'                                        " A.vim plugin
