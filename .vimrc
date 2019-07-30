@@ -33,7 +33,7 @@ if !has("nvim")                                             " Install Plug for V
    if empty(glob('~/.vim/autoload/plug.vim'))
       silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-      autocmd VimEnter * PlugInstall vim-ada --sync |PlugInstall --sync | source $MYVIMRC
+      autocmd VimEnter * PlugInstall vim-ada --sync | PlugInstall --sync | source $MYVIMRC
    endif
    let s:plug_path = '~/.vim/plugged'                       " Set Plug path for Vim
    call plug#begin(s:plug_path)                             " Start Plug for Vim
@@ -41,7 +41,7 @@ else                                                        " Install Plug for N
    if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
       silent !curl -fLo ~/.local/.share/nvim/site/plug.vim --create-dirs
                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-      autocmd VimEnter * PlugInstall vim-ada --sync |PlugInstall --sync | source $MYVIMRC
+      autocmd VimEnter * PlugInstall vim-ada --sync | PlugInstall --sync | source $MYVIMRC
    endif
    let s:plug_path = '~/.local/share/nvim/plugged'          " Set Plug path for neovim
    call plug#begin(s:plug_path)                             " Start Plug for NeoVim
