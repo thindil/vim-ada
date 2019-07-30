@@ -1,0 +1,15 @@
+diff --git a/syntax_checkers/ada/gcc.vim b/syntax_checkers/ada/gcc.vim
+index 44a0de33..599eb489 100644
+--- a/syntax_checkers/ada/gcc.vim
++++ b/syntax_checkers/ada/gcc.vim
+@@ -32,8 +32,8 @@ function! SyntaxCheckers_ada_gcc_GetLocList() dict
+         \     '%-G%f:%s:,' .
+         \     '%f:%l:%c: %m,' .
+         \     '%f:%l: %m',
+-        \ 'main_flags': '-c -x ada -gnats -gnatef',
+-        \ 'header_flags': '-S -x ada -gnats -gnatef',
++        \ 'main_flags': '-c -gnatc -gnatef',
++        \ 'header_flags': '-gnatc -gnatef',
+         \ 'header_names': '\.ads$' })
+ endfunction
+ 
