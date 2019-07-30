@@ -27,8 +27,8 @@ set tags=./tags;/                                           " Where to search fo
 set grepprg=grep\ -nre                                      " Show line number, go recursive and use regular expressions for :grep command
 set updatetime=100                                          " Amount of millisecs between saves of swap file to disk. Needed for some plugins
 set cursorline                                              " Highlight line with cursor
-" This lines are required to run whole bundle. They will install (if needed) Plug
-" and all required plugins
+" This lines are required to run whole bundle. They will install (if needed)
+" Plug and all required plugins
 if !has("nvim")                                             " Install Plug for Vim
    if empty(glob('~/.vim/autoload/plug.vim'))
       silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -39,7 +39,7 @@ if !has("nvim")                                             " Install Plug for V
    call plug#begin(s:plug_path)                             " Start Plug for Vim
 else                                                        " Install Plug for NeoVim
    if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-      silent !curl -fLo ~/.local/.share/nvim/site/plug.vim --create-dirs
+      silent !curl -fLo ~/.local/share/nvim/site/plug.vim --create-dirs
                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
       autocmd VimEnter * PlugInstall vim-ada --sync | PlugInstall --sync | source $MYVIMRC
    endif
@@ -51,6 +51,7 @@ function! UpdatePlug(info)
      silent exe "!git apply " . glob(s:plug_path . '/vim-ada/patches/' . a:info.name . ".diff")
    endif
 endfunction
+Plug 'thindil/vim-ada'                                      " Vim-ada plugin
 Plug 'thindil/a.vim'                                        " A.vim plugin
 Plug 'thindil/Ada-Bundle'                                   " Ada-Bundle plugin
 Plug 'thindil/vim-xml'                                      " Vim-XML plugin
@@ -76,6 +77,10 @@ Plug 'alpertuna/vim-header', { 'do': function('UpdatePlug') } " Vim-header theme
 Plug 'vim-syntastic/syntastic', { 'do': function('UpdatePlug') } " Syntastic theme with local changes
 Plug 'morhetz/gruvbox', { 'do': function('UpdatePlug') }    " Gruvbox theme with local changes
 call plug#end()                                             " End of Plug configuration
+" Don't go further if plugins are not loaded
+if empty(glob(s:plug_path . '/vim-ada'))
+   finish
+endif
 let g:gitgutter_signs = 0                                   " Disable gitgutter signs
 let g:airline_powerline_fonts = 1                           " Use special patched fonts
 let g:airline#extensions#tabline#enabled = 1                " Show list of buffers
