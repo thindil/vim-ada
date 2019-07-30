@@ -33,17 +33,24 @@ if !has("nvim")                                             " Install Plug for V
    if empty(glob('~/.vim/autoload/plug.vim'))
       silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-      autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+      autocmd VimEnter * PlugInstall vim-ada --sync |PlugInstall --sync | source $MYVIMRC
    endif
-   call plug#begin('~/.vim/plugged')                        " Start Plug for Vim
+   let s:plug_path = '~/.vim/plugged'                       " Set Plug path for Vim
+   call plug#begin(s:plug_path)                             " Start Plug for Vim
 else                                                        " Install Plug for NeoVim
    if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
       silent !curl -fLo ~/.local/.share/nvim/site/plug.vim --create-dirs
                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-      autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+      autocmd VimEnter * PlugInstall vim-ada --sync |PlugInstall --sync | source $MYVIMRC
    endif
-   call plug#begin('~/.local/share/nvim/plugged')           " Start Plug for NeoVim
+   let s:plug_path = '~/.local/share/nvim/plugged'          " Set Plug path for neovim
+   call plug#begin(s:plug_path)                             " Start Plug for NeoVim
 endif
+function! UpdatePlug(info)
+   if a:info.status = "installed" || a:info.status = "updated"
+      silent exe "!git apply " . glob(s:plug_path . '/vim-ada/pathes/' . a:info.name . ".diff")
+   endif
+endfunction
 Plug 'thindil/a.vim'                                        " A.vim plugin
 Plug 'thindil/Ada-Bundle'                                   " Ada-Bundle plugin
 Plug 'thindil/vim-xml'                                      " Vim-XML plugin
@@ -65,6 +72,9 @@ Plug 'majutsushi/tagbar'                                    " Tagbar plugin
 Plug 'tomtom/tlib_vim'                                      " Tlib plugin, needed by Snipmate
 Plug 'KabbAmine/zeavim.vim'                                 " Zeavim plugin
 Plug 'NLKNguyen/papercolor-theme'                           " Papercolor theme
+Plug 'alpertuna/vim-header', { 'do': function('UpdatePlug') } " Vim-header theme with local changes
+Plug 'vim-syntastic/syntastic', { 'do': function('UpdatePlug') } " Syntastic theme with local changes
+Plug 'morhetz/gruvbox', { 'do': function('UpdatePlug') }    " Gruvbox theme with local changes
 call plug#end()                                             " End of Plug configuration
 let g:gitgutter_signs = 0                                   " Disable gitgutter signs
 let g:airline_powerline_fonts = 1                           " Use special patched fonts
