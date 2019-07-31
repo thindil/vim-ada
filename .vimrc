@@ -73,7 +73,7 @@ if !has("nvim")
    if empty(glob('~/.vim/autoload/plug.vim'))
       silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-      autocmd VimEnter * PlugInstall vim-ada --sync | PlugInstall --sync | source $MYVIMRC
+      autocmd VimEnter * PlugInstall vim-ada --sync
    endif
    " Set plugins path for Vim
    let s:plug_path = '~/.vim/plugged'
@@ -82,7 +82,7 @@ else
    if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
       silent !curl -fLo ~/.local/share/nvim/site/plug.vim --create-dirs
                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-      autocmd VimEnter * PlugInstall vim-ada --sync | PlugInstall --sync | source $MYVIMRC
+      autocmd VimEnter * PlugInstall vim-ada --sync
    endif
    " Set plugins path for neovim
    let s:plug_path = '~/.local/share/nvim/plugged'
@@ -99,10 +99,21 @@ function! UpdatePlug(info)
    endif
 endfunction
 
+" ****f* .vimrc/UpdateAllPlugs
+" FUNCTION
+" Update all plugins if needed after update vim-ada
+" SOURCE
+function! UpdateAllPlugs(info)
+   if a:info.status != "unchanged"
+      PlugInstall! --sync
+      silent! source $MYVIMRC
+   endif
+endfunction
+
 " Start Plug
 call plug#begin(s:plug_path)
 " Vim-ada plugin
-Plug 'thindil/vim-ada'
+Plug 'thindil/vim-ada', { 'do':  function('UpdateAllPlugs')}
 " A.vim plugin
 Plug 'thindil/a.vim'
 " Ada-Bundle plugin
