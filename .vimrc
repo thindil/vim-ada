@@ -64,28 +64,22 @@ set cursorline
 " ------------------------------------
 " General Vim-Ada bundle configuration
 " ------------------------------------
-" This lines are required to run whole bundle. They will install (if needed)
-" Plug and all required plugins. You can delete them after installing all
-" plugins.
+" This lines are required to run whole bundle.
 "
-" Install evetything for Vim
+" Installation part. You can delete it after installing all plugins.
+" Set paths for Vim
 if !has("nvim")
-   if empty(glob('~/.vim/autoload/plug.vim'))
-      silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-               \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-      autocmd VimEnter * PlugInstall vim-ada --sync
-   endif
-   " Set plugins path for Vim
+   let s:plug_file = '~/.vim/autoload/plug.vim'
    let s:plug_path = '~/.vim/plugged'
-" Install everything for NeoVim
+" Set paths for NeoVim
 else
-   if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-      silent !curl -fLo ~/.local/share/nvim/site/plug.vim --create-dirs
-               \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-      autocmd VimEnter * PlugInstall vim-ada --sync
-   endif
-   " Set plugins path for neovim
+   let s:plug_file = '~/.local/share/nvim/site/autoload/plug.vim'
    let s:plug_path = '~/.local/share/nvim/plugged'
+endif
+" Install vim-ada and after it, all others plugins
+if empty(glob(s:plug_file))
+      silent exe "!curl -fLo " . s:plug_file . " --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+      autocmd VimEnter * PlugInstall vim-ada --sync
 endif
 " End of istallation part of Vim-Ada.
 
