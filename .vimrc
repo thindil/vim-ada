@@ -70,11 +70,11 @@ set cursorline
 " Set paths for Vim
 if !has("nvim")
    let s:plug_file = '~/.vim/autoload/plug.vim'
-   let s:plug_path = '~/.vim/plugged'
+   let g:plug_path = '~/.vim/plugged'
 " Set paths for NeoVim
 else
    let s:plug_file = '~/.local/share/nvim/site/autoload/plug.vim'
-   let s:plug_path = '~/.local/share/nvim/plugged'
+   let g:plug_path = '~/.local/share/nvim/plugged'
 endif
 " Install vim-ada and after it, all others plugins
 if empty(glob(s:plug_file))
@@ -89,7 +89,7 @@ endif
 " SOURCE
 function! UpdatePlug(info)
    if a:info.status != "unchanged" || a:info.force
-     silent exe "!git apply " . glob(s:plug_path . '/vim-ada/patches/' . a:info.name . ".diff")
+     silent exe "!git apply " . glob(g:plug_path . '/vim-ada/patches/' . a:info.name . ".diff")
    endif
 endfunction
 
@@ -105,7 +105,7 @@ function! UpdateAllPlugs(info)
 endfunction
 
 " Start Plug
-call plug#begin(s:plug_path)
+call plug#begin(g:plug_path)
 " Vim-ada plugin
 Plug 'thindil/vim-ada', { 'do':  function('UpdateAllPlugs')}
 " A.vim plugin
