@@ -1,18 +1,18 @@
-vim-ada.txt vim-ada Last change: July 31 2019
+vim-ada.txt vim-ada Last change: August 01 2019
 VIM-ADA - TABLE OF CONTENTS                                 *vimada* *vim-ada*
 ==============================================================================
 
 1. General Information                                        |vimada-general|
-2. Adding new plugin to bundle                              |vimada-newplugin|
-3. Adding local changes to the plugins                          |vimada-local|
+2. Adding or removing plugins in the bundle                   |vimada-plugins|
+3. Adding or removing local changes to the plugins              |vimada-local|
 
 ==============================================================================
 1. General Information     						                 *vimada-general*
 
-Vim-Ada is ready to deploy set of plugins and settings which helps write Ada
-(and in many other programming languages) programs. See "Installation" section
-for detailed instructions how to install it and "Plugins" section for
- informations about included plugins and changes (if any) to them.
+Vim-Ada is ready to deploy set of plugins and settings which helps write
+programs in various languages. As name of bundle says, it is focused mainly on
+Ada programming language, but it have support for other programming languages
+too.
 
 All changes to plugins are under respective plugin license which can be found
 in plugins directory. If plugin don't have license info included, then all my
@@ -31,7 +31,42 @@ SpaceVim:
 - Much younger, less polished than SpaceVim.
 
 ==============================================================================
-2. Adding a new plugin to the bundle     						   *vimada-newplugin*
+2. Adding or removing plugins in the bundle					     *vimada-plugins*
+
+To adding or removing Vim/NeoVim plugins Vim-Ada uses Plug plugin. Please
+refer to its documentation by :help plug
+Additional information:
+- Vim-ada should be always loaded as first plugin. Especially if others
+  plugins have any local changes. All others plugins can be loaded in any
+  order.
+- If you remove Vim-ada plugin or Plug all bundle will stop working.
 
 ==============================================================================
-3. Adding local changes to the plugins			                   *vimada-local*
+3. Adding or removing local changes to the plugins              *vimada-local*
+
+Generally, vim-ada uses command "git apply" to add local changes to plugins,
+thus please refer to this command documentation for information and limitations
+of it.
+
+To add local changes to selected plugin you have to follow this steps:
+1. Create file [name-of-plugin].diff with "git diff" command
+2. Copy that file to vim-ada/patches directory
+3. In Vim/NeoVim run command :PlugUpdate! to apply patch to it.
+
+Thus, for example, creating local changes patch for Syntastic plugin could
+looks that:
+1. git diff > syntastic.diff
+2. cp syntastic.diff ../vim-ada/patches
+3. In Vim/NeoVim run command :PlugUpdate!
+
+To remove local changes from selected plugin, delete file
+[name-of-plugin].diff from vim-ada/patches directory. Additionally, you will
+be need to reinstall or update selected plugin to remove local changes from
+it.
+
+Thus, for example, removing local changes patch for Syntastic plugin could
+looks that:
+1. rm vim-ada/patches/syntastic.diff
+2. rm -r syntastic
+3. In Vim/NeoVim run command :PlugInstall
+
