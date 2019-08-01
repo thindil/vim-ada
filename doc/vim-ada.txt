@@ -59,14 +59,15 @@ looks that:
 2. cp syntastic.diff ../vim-ada/patches
 3. In Vim/NeoVim run command :PlugUpdate!
 
-To remove local changes from selected plugin, delete file
-[name-of-plugin].diff from vim-ada/patches directory. Additionally, you will
-be need to reinstall or update selected plugin to remove local changes from
-it.
+To remove local changes from selected plugin, use Vim/NeoVim command
+RemoveLocalChanges[!] [pluginname] where [pluginname] is name of the plugin
+which will be have removed all local changes. If bang is added to the
+command (RemoveLocalChanges!), it will remove .diff file with local changes
+too.
 
 Thus, for example, removing local changes patch for Syntastic plugin could
 looks that:
-1. rm vim-ada/patches/syntastic.diff
-2. rm -r syntastic
-3. In Vim/NeoVim run command :PlugInstall
+:RemoveLocalChanges syntastic
+If you want remove file with local changes too:
+:RemoveLocalChanges! syntastic
 
