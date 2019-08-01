@@ -9,9 +9,9 @@ endif
 let g:vimada = 1
 
 fun s:remove_local_changes(force, pluginname)
-   exec "!cd " . glob(g:plug_path) . "/" . a:pluginname " && git checkout ."
+   silent exec "!cd " . glob(g:plug_path) . "/" . a:pluginname " && git checkout ."
    if a:force
-      exec "!rm " . glob(g:plug_path) . "/vim-ada/patches/" . a:pluginname . ".diff"
+      silent exec "!rm " . glob(g:plug_path) . "/vim-ada/patches/" . a:pluginname . ".diff"
    endif
 endfun
 
