@@ -7,7 +7,7 @@ VIM-ADA - TABLE OF CONTENTS                                 *vimada* *vim-ada*
 3. Adding or removing local changes to the plugins              |vimada-local|
 
 ==============================================================================
-1. General Information     						                 *vimada-general*
+1. General Information                                        *vimada-general*
 
 Vim-Ada is ready to deploy set of plugins and settings which helps write
 programs in various languages. As name of bundle says, it is focused mainly on
@@ -31,7 +31,7 @@ SpaceVim:
 - Much younger, less polished than SpaceVim.
 
 ==============================================================================
-2. Adding or removing plugins in the bundle					     *vimada-plugins*
+2. Adding or removing plugins in the bundle                   *vimada-plugins*
 
 To adding or removing Vim/NeoVim plugins Vim-Ada uses Plug plugin. Please
 refer to its documentation by :help plug
