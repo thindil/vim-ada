@@ -1,9 +1,11 @@
 ## General Information
 
-Vim-Ada is ready to deploy set of plugins and settings which helps write Ada
-(and in many other programming languages) programs. See "Installation"
-section for detailed instructions how to install it and "Plugins" section for
-informations about included plugins and changes (if any) to them.
+Vim-Ada is ready to deploy set of plugins and settings which helps write
+programs in various languages. As name of bundle says, it is focused mainly on
+Ada programming language, but it have support for other programming languages
+too. See "Installation" section for detailed instructions how to install it
+and "Plugins" section for informations about included plugins and changes
+(if any) to them.
 
 All changes to plugins are under respective plugin license which can be found
 in plugins directory. If plugin don't have license info included, then all my
