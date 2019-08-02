@@ -81,7 +81,7 @@ if empty(glob(s:plug_file))
       silent exe "!curl -fLo " . s:plug_file . " --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
       autocmd VimEnter * PlugInstall vim-ada --sync
 endif
-" End of istallation part of Vim-Ada.
+" End of installation part of Vim-Ada.
 
 " ****f* .vimrc/UpdatePlug
 " FUNCTION
