@@ -51,13 +51,14 @@ of it.
 To add local changes to selected plugin you have to follow this steps:
 1. Create file [name-of-plugin].diff with "git diff" command
 2. Copy that file to vim-ada/patches directory
-3. In Vim/NeoVim run command :PlugUpdate! to apply patch to it.
+3. In Vim/NeoVim run command :AppendLocalChanges [name-of-plugin] to apply
+   patch to it.
 
 Thus, for example, creating local changes patch for Syntastic plugin could
 looks that:
 1. git diff > syntastic.diff
 2. cp syntastic.diff ../vim-ada/patches
-3. In Vim/NeoVim run command :PlugUpdate!
+3. In Vim/NeoVim run command :AppendLocalChanges syntastic
 
 To remove local changes from selected plugin, use Vim/NeoVim command
 RemoveLocalChanges[!] [pluginname] where [pluginname] is name of the plugin
