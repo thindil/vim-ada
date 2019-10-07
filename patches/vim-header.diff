@@ -2,13 +2,6 @@ diff --git a/autoload/header.vim b/autoload/header.vim
 index bb204b3..0170044 100644
 --- a/autoload/header.vim
 +++ b/autoload/header.vim
-@@ -1,3 +1,6 @@
-+" File              : header.vim
-+" Date              : 04.02.2019
-+" Last Modified Date: 04.02.2019
- " PROPERTIES AND FUNCTIONS FOR GENERAL PURPOSES
- " ---------------------------------------------
- " Set default global values
 @@ -189,6 +192,9 @@ fun s:set_props()
          let b:first_line = '..'
          let b:comment_char = '  '
