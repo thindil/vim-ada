@@ -8,8 +8,8 @@ index 44a0de33..599eb489 100644
          \     '%f:%l: %m',
 -        \ 'main_flags': '-c -x ada -gnats -gnatef',
 -        \ 'header_flags': '-S -x ada -gnats -gnatef',
-+        \ 'main_flags': '-c -gnatc -gnatef',
-+        \ 'header_flags': '-gnatc -gnatef',
++        \ 'main_flags': '-c -gnatc -gnatef -gnatq',
++        \ 'header_flags': '-gnatc -gnatef -gnatq',
          \ 'header_names': '\.ads$' })
  endfunction
  
