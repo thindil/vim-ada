@@ -5,6 +5,7 @@ VIM-ADA - TABLE OF CONTENTS                                 *vimada* *vim-ada*
 1. General Information                                        |vimada-general|
 2. Adding or removing plugins in the bundle                   |vimada-plugins|
 3. Adding or removing local changes to the plugins              |vimada-local|
+4. Troubleshooting                                           |vimada-troubles|
 
 ==============================================================================
 1. General Information                                        *vimada-general*
@@ -71,4 +72,14 @@ looks that:
 :RemoveLocalChanges syntastic
 If you want remove file with local changes too:
 :RemoveLocalChanges! syntastic
+
+==============================================================================
+4. Troubleshooting                                           *vimada-troubles*
+
+Problem: Vim-Plug don't want to update plugin with local changes.
+Solution: Unfortunately, Vim-Plug don't have option to run something before
+          update starts (only after it). Thus in that situation, local changes
+          must be removed manually from that plugin before upgrade it. To do
+          it, run Vim/NeoVim command RemoveLocalChanges [pluginname] and then
+          run upgrade process again.
 
