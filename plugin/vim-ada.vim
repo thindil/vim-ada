@@ -1,6 +1,6 @@
 " Bundle of plugins to change Vim/NeoVim into IDE
 " Maintainer: Bartek Jasicki <thindil@laeran.pl>
-" Last Change:  2019-08-02
+" Last Change:  2019-10-07
 " License: GPLv3
 
 if exists('g:vimada')
@@ -16,6 +16,7 @@ let g:vimada = 1
 " pluginname - Name of plugin to revert changes
 " SOURCE
 function s:remove_local_changes(force, pluginname)
+" ****
    silent exec "!cd " . glob(g:plug_path) . "/" . a:pluginname " && git checkout ."
    if a:force
       silent exec "!rm " . glob(g:plug_path) . "/vim-ada/patches/"
@@ -30,6 +31,8 @@ endfunction
 " pluginname - Name of plugin to append local changes
 " SOURCE
 function s:append_local_changes(pluginname)
+" ****
+  silent exec "!cd " . glob(g:plug_path) . "/" . a:pluginname " && git checkout ."
   silent exec "!cd " . glob(g:plug_path) . "/" . a:pluginname " && git apply "
       \ . glob(g:plug_path) . "/vim-ada/patches/" . a:pluginname . ".diff"
 endfunction
