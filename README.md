@@ -24,6 +24,11 @@ between vim-ada and SpaceVim:
   rest will be done after first start of Vim/NeoVim.
 * Much younger, less polished than SpaceVim.
 
+**Important:** This version of README.md is about current version of Vim-Ada.
+Earlier versions of Vim-Ada may have different requirements or contents.
+Please read README.md included in release to get information about other
+releases.
+
 ## Screenshots
 
 ![Dark background](screens/dark.png)
@@ -31,15 +36,6 @@ between vim-ada and SpaceVim:
 ![Light background](screens/light.png)
 
 ## Installation
-
-### For versions 7.0 and below
-
-Just copy directory `vimada` to your Vim `runtimepath` directory (on Unix
-systems it is often `$HOME/.vim`) to directory `pack` (so, full path on Unix
-will be looks like `$HOME/.vim/pack/vimada`). For upgrade from previous
-version: just replace old files with new.
-
-### From version 8.0
 
 Set included `.vimrc` file as your configuration file (or
 source it from your configuration file). Since version 8.0 of vim-ada it is
@@ -91,6 +87,19 @@ Webpage: https://github.com/vim-airline/vim-airline
 
 Status bar and buffer list for Vim. This plugin wasn't modified but have some
 custom configuration in `.vimrc` file.
+
+### Ale
+
+Webpage: https://github.com/dense-analysis/ale
+
+ALE (Asynchronous Lint Engine) is a plugin providing linting (syntax checking
+and semantic errors) in NeoVim 0.2.0+ and Vim 8 while you edit your text files,
+and acts as a Vim Language Server Protocol client. This plugin have changed
+Ada support from gcc to gnatmake for support for GNAT Project files (.gpr).
+This change caused that linting Ada code during editing is not possible. Thus
+it is recommended to use custom configuration from `.vimrc` file. Additionally,
+if you want to have support for [Ada Language Server](https://github.com/AdaCore/ada_language_server)
+you will need to install this version of Ale: https://github.com/thindil/ale
 
 ### Anyfold
 
@@ -212,40 +221,19 @@ bookmarked files and persistent sessions. All of this can be accessed in a
 simple to use menu that even allows to open multiple entries at once. This
 plugin wasn't modified.
 
-### Syntastic
-
-Webpage: https://github.com/vim-syntastic/syntastic
-
-Syntastic is a syntax checking plugin for Vim created by Martin Grenfell. It
-runs files through external syntax checkers and displays any resulting errors
-to the user. This can be done on demand, or automatically as files are saved.
-If syntax errors are detected, the user is notified and is happy because they
-didn't have to compile their code or execute their script to find them. This
-plugin have changes to Ada support:
-
-- Default checking flag was changed from `-gnats` to `-gnatc`.
-- Fixed it to work with GNAT project files too.
-
-Additionally, this plugin have some custom configuration in `.vimrc` file
-which is required to proper work of plugin.
-
-### TagBar
-
-Webpage: https://github.com/majutsushi/tagbar
-
-Tagbar is a Vim plugin that provides an easy way to browse the tags of the
-current file and get an overview of its structure. It does this by creating a
-sidebar that displays the ctags-generated tags of the current file, ordered by
-their scope. This means that for example methods in C++ are displayed under
-the class they are defined in. This plugin wasn't modified but have some
-custom configuration in `.vimrc` file.
-
 ### Tlib
 
 Webpage: https://github.com/tomtom/tlib_vim
 
 This library provides some utility functions. This plugin wasn't modified. This
 plugin is required by SnipMate to work.
+
+### Vista
+
+Webpage: https://github.com/liuchengxu/vista.vim
+
+View and search LSP symbols, tags in Vim/NeoVim. This plugin wasn't modified
+but have some custom configuration in `.vimrc` file.
 
 ### Xml
 
