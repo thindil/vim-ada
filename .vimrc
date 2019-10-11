@@ -150,10 +150,10 @@ Plug 'tomtom/tlib_vim'
 Plug 'KabbAmine/zeavim.vim'
 " Papercolor theme
 Plug 'NLKNguyen/papercolor-theme'
-" Vim-header theme with local changes
+" Vim-header plugin with local changes
 Plug 'alpertuna/vim-header', { 'do': function('UpdatePlug') }
-" Syntastic theme with local changes
-Plug 'vim-syntastic/syntastic', { 'do': function('UpdatePlug') }
+" Ale plugin with local changes
+Plug 'dense-analysis/ale', { 'do': function('UpdatePlug') }
 " Gruvbox theme with local changes
 Plug 'morhetz/gruvbox', { 'do': function('UpdatePlug') }
 " End of Plug configuration
@@ -180,14 +180,12 @@ let g:airline#extensions#tabline#formatter = "unique_tail"
 let g:airline#extensions#tabline#buffer_nr_show = 1
 " Enable colouring brackets
 let g:rainbow_active = 1
-" Set syntastic checker
-let g:syntastic_ada_compiler = "gnatmake"
-" Disable syntastic signs
-let g:syntastic_enable_signs = 0
-" Disable syntastic error balloons
-let g:syntastic_enable_balloons = 0
-" Always update errors list
-let g:syntastic_always_populate_loc_list = 1
+" Block ale checking files on text changed (in fly)
+let g:ale_lint_on_text_changed = 0
+" Block ale checking files on quit Insert mode
+let g:ale_lint_on_insert_leave = 0
+" Block ale checking files on load file
+let g:ale_lint_on_enter = 0
 " Use default theme color for showing indent level
 let g:indentLine_setColors = 0
 " Add syntax support for GNAT project files
