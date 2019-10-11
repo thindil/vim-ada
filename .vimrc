@@ -142,8 +142,8 @@ Plug 'garbas/vim-snipmate'
 Plug 'honza/vim-snippets'
 " Startify plugin
 Plug 'mhinz/vim-startify'
-" Tagbar plugin
-Plug 'majutsushi/tagbar'
+" Vista plugin
+Plug 'liuchengxu/vista.vim'
 " Tlib plugin, needed by Snipmate
 Plug 'tomtom/tlib_vim'
 " Zeavim plugin
@@ -245,7 +245,7 @@ colorscheme PaperColor
 " ---------------------
 " Abbreviation for open/close NERDTree
 cnoreabbrev nt NERDTreeToggle
-" Abbreviation for open/close TagBar
-cnoreabbrev tb TagbarToggle
+" Abbreviation for open/close Vista
+cnoreabbrev tb Vista!!
 " No more unknown command during saving files
 cnoreabbrev W w
