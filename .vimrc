@@ -215,10 +215,12 @@ let g:zv_file_types = {
    \   'help' : 'vim',
    \   'ada'  : 'ada',
    \ }
-" Generate tags files with additional field language. Can boost loading Ada
-" tags
-let g:gutentags_ctags_extra_args = ['--fields=+l']
-" Set default vista executive to ale for Ada
+" Generate tags files with additional field language. Additionally, don't
+" generate tags for Ada code
+let g:gutentags_ctags_extra_args = ['--fields=+l', '--exclude=*.adb', '--exclude=*.ads']
+" Don't generate tags when opening Ada files
+let g:gutentags_exclude_filetypes = ['ada']
+"" Set default vista executive to ale for Ada
 let g:vista_executive_for = {
   \ 'ada': 'ale',
   \ }
