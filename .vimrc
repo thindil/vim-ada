@@ -186,6 +186,16 @@ let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_insert_leave = 0
 " Block ale checking files on load file
 let g:ale_lint_on_enter = 0
+" Set full path to your ada_language_server command for ale
+let g:ale_ada_lsp_executable = "ada_language_server"
+" Enable gnatmake and adalsp as linters for Ada
+let g:ale_linters = {
+\   'ada': ['gnatmake', "adalsp"],
+\}
+" Enable gnatpp for ALEFix
+let g:ale_fixers = {
+\   'ada': ['gnatpp'],
+\}
 " Use default theme color for showing indent level
 let g:indentLine_setColors = 0
 " Add syntax support for GNAT project files
@@ -208,6 +218,10 @@ let g:zv_file_types = {
 " Generate tags files with additional field language. Can boost loading Ada
 " tags
 let g:gutentags_ctags_extra_args = ['--fields=+l']
+" Set default vista executive to ale for Ada
+let g:vista_executive_for = {
+  \ 'ada': 'ale',
+  \ }
 
 " ------------------------------
 " GVim specific settings
