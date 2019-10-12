@@ -94,12 +94,10 @@ Webpage: https://github.com/dense-analysis/ale
 
 ALE (Asynchronous Lint Engine) is a plugin providing linting (syntax checking
 and semantic errors) in NeoVim 0.2.0+ and Vim 8 while you edit your text files,
-and acts as a Vim Language Server Protocol client. This plugin have changed
-Ada support from gcc to gnatmake for support for GNAT Project files (.gpr).
-This change caused that linting Ada code during editing is not possible. Thus
-it is recommended to use custom configuration from `.vimrc` file. Additionally,
-if you want to have support for [Ada Language Server](https://github.com/AdaCore/ada_language_server)
-you will need to install this version of Ale: https://github.com/thindil/ale
+and acts as a Vim Language Server Protocol client. This plugin have added
+Ada support for gnatmake for support for GNAT Project files (.gpr). Gnatmake
+linter can be used only on save file. Thus it is recommended to use custom
+configuration from `.vimrc` file.
 
 ### Anyfold
 
