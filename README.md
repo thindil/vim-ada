@@ -46,12 +46,13 @@ installed first. For upgrade, use Plug commands.
 
 To enable all options, you been need to install:
 
-* Universal Ctags (this version is maintained and have full support for Ada
-  language) from https://ctags.io for generating *tags* files needed for Vim
-  auto-completion.
+* Universal Ctags from https://ctags.io for generating *tags* files needed for
+  Vim auto-completion.
+* Ada Language Server from https://github.com/AdaCore/ada_language_server for
+  full support of the code completion, tags list, etc. for Ada language.
 * Other dependency is Zeal from https://zealdocs.org/. Additionally, for Ada
-    documentation, you will be need to download Ada specification docset. You
-    can do this in few ways:
+  documentation, you will be need to download Ada specification docset. You
+  can do this in few ways:
 
     a) Download Docset Feed from https://zealusercontributions.herokuapp.com/
     (recommended way). There you will find detailed information how to install
@@ -61,6 +62,7 @@ To enable all options, you been need to install:
 
     c) Build it alone: look at https://github.com/thindil/ada-docset for
     instructions and code needed to build Ada docset.
+
 * Optional, but highly recommended: ROBODoc from https://rfsber.home.xs4all.nl/Robo/
   for generating code documentation. For generating documentation from Ada
   code, you may need file *robodocada.rc* from https://github.com/thindil/roboada
