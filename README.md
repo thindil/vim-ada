@@ -5,7 +5,9 @@ programs in various languages. As name of bundle says, it is focused mainly on
 Ada programming language, but it have support for other programming languages
 too. See "Installation" section for detailed instructions how to install it
 and "Plugins" section for informations about included plugins and changes
-(if any) to them.
+(if any) to them. If you search for more plugins, you can visit [Vim Awesome](https://vimawesome.com/)
+or the project wiki [Recommended plugins](https://github.com/thindil/vim-ada/wiki/Recommended-plugins)
+page.
 
 All changes to plugins are under respective plugin license which can be found
 in plugins directory. If plugin don't have license info included, then all my
