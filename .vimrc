@@ -60,6 +60,8 @@ set grepprg=grep\ -nre
 set updatetime=100
 " Highlight line with cursor
 set cursorline
+" Set fold level. All higher level fold that this will be closed.
+set foldlevel=99
 
 " ------------------------------------
 " General Vim-Ada bundle configuration
