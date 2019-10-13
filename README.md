@@ -101,14 +101,6 @@ Ada support for gnatmake for support for GNAT Project files (.gpr). Gnatmake
 linter can be used only on save file. Thus it is recommended to use custom
 configuration from `.vimrc` file.
 
-### Anyfold
-
-Webpage: https://github.com/pseewald/vim-anyfold
-
-Generic folding mechanism and motion based on indentation. Fold anything that
-is structured into indented blocks. Quickly navigate between blocks. This
-plugin wasn't modified.
-
 ### Auto-pairs
 
 Webpage: https://github.com/jiangmiao/auto-pairs
