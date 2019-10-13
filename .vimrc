@@ -66,7 +66,8 @@ set cursorline
 " ------------------------------------
 " This lines are required to run whole bundle.
 "
-" Installation part. You can delete it after installing all plugins.
+" Installation part. You can delete it after installing all plugins, except
+" setting for g:plug_path.
 " Set paths for Vim
 if !has("nvim")
    let s:plug_file = '~/.vim/autoload/plug.vim'
@@ -103,6 +104,9 @@ function! UpdateAllPlugs(info)
       silent! source $MYVIMRC
    endif
 endfunction
+
+" Set auto-completion to Ale
+let g:ale_completion_enabled = 1
 
 " Start Plug
 call plug#begin(g:plug_path)
