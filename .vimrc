@@ -122,8 +122,6 @@ Plug 'thindil/Ada-Bundle'
 Plug 'thindil/vim-xml'
 " Airline plugin
 Plug 'vim-airline/vim-airline'
-" Anyfold plugin
-Plug 'pseewald/vim-anyfold'
 " Auto-pairs plugin
 Plug 'jiangmiao/auto-pairs'
 " Fugitive plugin
