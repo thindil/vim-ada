@@ -1,11 +1,11 @@
-vim-ada.txt vim-ada Last change: August 01 2019
+vim-ada.txt vim-ada Last change: October 14 2019
 VIM-ADA - TABLE OF CONTENTS                                 *vimada* *vim-ada*
 ==============================================================================
 
 1. General Information                                        |vimada-general|
 2. Adding or removing plugins in the bundle                   |vimada-plugins|
 3. Adding or removing local changes to the plugins              |vimada-local|
-4. Troubleshooting                                           |vimada-troubles|
+4. Frequently Asked Questions                                     |vimada-faq|
 
 ==============================================================================
 1. General Information                                        *vimada-general*
@@ -74,12 +74,23 @@ If you want remove file with local changes too:
 :RemoveLocalChanges! syntastic
 
 ==============================================================================
-4. Troubleshooting                                           *vimada-troubles*
+4. Frequently Asked Questions                                     *vimada-faq*
 
-Problem: Vim-Plug don't want to update plugin with local changes.
-Solution: Unfortunately, Vim-Plug don't have option to run something before
-          update starts (only after it). Thus in that situation, local changes
-          must be removed manually from that plugin before upgrade it. To do
-          it, run Vim/NeoVim command RemoveLocalChanges [pluginname] and then
-          run upgrade process again.
+Question: Vim-Plug don't want to update plugin with local changes.
+Answer: Unfortunately, Vim-Plug don't have option to run something before
+        update starts (only after it). Thus in that situation, local changes
+        must be removed manually from that plugin before upgrade it. To do
+        it, run Vim/NeoVim command RemoveLocalChanges [pluginname] and then
+        run upgrade process again.
 
+Question: Where I can find more plugins?
+Answer: You can look at the project wiki page:
+        https://github.com/thindil/vim-ada/wiki/Recommended-plugins
+        or at Vim Awesome page:
+        https://vimawesome.com/
+
+Question: I have question not listed here.
+Answer: You can ask it at mail thindil@laeran.pl or open a new issue at Github
+        project page: https://github.com/thindil/vim-ada/issues
+        But in second case, please first use search option to check if someone
+        not asked same or similar question earlier.
