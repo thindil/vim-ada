@@ -45,7 +45,7 @@ index 0000000..f019991
 +
 +    " -gnatc: Check syntax and semantics only (no code generation attempted)
 +    return '%e -c -gnatc '
-+    \   . ale#Pad(ale#Var(a:buffer, 'ada_gcc_options'))
++    \   . ale#Pad(ale#Var(a:buffer, 'ada_gnatmake_options'))
 +    \   . ' -o ' . ale#Escape(l:out_file)
 +    \   . ' ' . ale#Escape(fnamemodify(bufname(a:buffer), ':p'))
 +endfunction
@@ -76,6 +76,6 @@ index 0000000..f019991
 +\   'name': 'gnatmake',
 +\   'output_stream': 'stderr',
 +\   'executable': {b -> ale#Var(b, 'ada_gnatmake_executable')},
-+\   'command': function('ale_linters#ada#gcc#GetCommand'),
++\   'command': function('ale_linters#ada#gnatmake#GetCommand'),
 +\   'callback': 'ale_linters#ada#gnatmake#Handle',
 +\})
