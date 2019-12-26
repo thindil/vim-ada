@@ -140,7 +140,7 @@ modified but have some custom configuration in `.vimrc` file.
 Webpage: https://github.com/alpertuna/vim-header
 
 Easily adds brief author info and license headers. This plugin have added Ada
-support and have some custom configuration in `.vimrc` file.
+and Tcl support plus have some custom configuration in `.vimrc` file.
 
 ### IndentLine
 
