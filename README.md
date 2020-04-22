@@ -54,15 +54,13 @@ To enable all options, you been need to install:
   full support of the code completion, tags list, etc. for Ada language.
 * Other dependency is Zeal from https://zealdocs.org/. Additionally, for Ada
   documentation, you will be need to download Ada specification docset. You
-  can do this in few ways:
+  can do this in two ways:
 
     a) Download Docset Feed from https://zealusercontributions.herokuapp.com/
     (recommended way). There you will find detailed information how to install
     docset.
 
-    b) Download from https://www.laeran.pl/download/Ada.docset.zip.
-
-    c) Build it alone: look at https://github.com/thindil/ada-docset for
+    b) Build it alone: look at https://github.com/thindil/ada-docset for
     instructions and code needed to build Ada docset.
 
 * Optional, but highly recommended: ROBODoc from https://rfsber.home.xs4all.nl/Robo/
