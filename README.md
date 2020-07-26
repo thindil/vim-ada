@@ -33,9 +33,9 @@ releases.
 
 ## Screenshots
 
-![Dark background](screens/dark.png)
+![Papercolor - dark background](screens/dark.png)
 
-![Light background](screens/light.png)
+![Papercolor - light background with opened vista and nerdtree](screens/light.png)
 
 ## Installation
 
