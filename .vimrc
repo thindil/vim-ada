@@ -62,6 +62,8 @@ set updatetime=100
 set cursorline
 " Set fold level. All higher level fold that this will be closed.
 set foldlevel=99
+" Start terminal window in insert mode
+autocmd TermOpen * startinsert
 
 " ------------------------------------
 " General Vim-Ada bundle configuration
@@ -152,8 +154,12 @@ Plug 'liuchengxu/vista.vim'
 Plug 'tomtom/tlib_vim'
 " Zeavim plugin
 Plug 'KabbAmine/zeavim.vim'
-" Papercolor theme
-Plug 'NLKNguyen/papercolor-theme'
+" AnyFold plugin
+Plug 'pseewald/vim-anyfold'
+" Todo.txt plugin
+Plug 'dbeniamine/todo.txt-vim'
+" Papercolor theme with local changes
+Plug 'NLKNguyen/papercolor-theme', { 'do': function('UpdatePlug') }
 " Vim-header plugin with local changes
 Plug 'alpertuna/vim-header', { 'do': function('UpdatePlug') }
 " Ale plugin with local changes
@@ -269,3 +275,7 @@ cnoreabbrev nt NERDTreeToggle
 cnoreabbrev tb Vista!!
 " No more unknown command during saving files
 cnoreabbrev W w
+" Activate AnyFold plugin for the selected buffer
+cnoreabbrev af AnyFoldActivate
+" Open terminal window in split mode
+cnoreabbrev Term :sp +term
