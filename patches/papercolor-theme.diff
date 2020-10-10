@@ -1,0 +1,23 @@
+diff --git a/colors/PaperColor.vim b/colors/PaperColor.vim
+index 0d52afe..471d2ee 100755
+--- a/colors/PaperColor.vim
++++ b/colors/PaperColor.vim
+@@ -1995,14 +1995,16 @@ fun! s:apply_syntax_highlightings()
+   exec 'hi cucumberPlaceholder' . s:fg_aqua
+ 
+   " Ada Highlighting
+-  exec 'hi adaInc' . s:fg_aqua . s:ft_bold
++  exec 'hi adaInc' . s:fg_red
+   exec 'hi adaSpecial' . s:fg_aqua . s:ft_bold
+-  exec 'hi adaKeyword' . s:fg_pink
++  exec 'hi adaKeyword' . s:fg_orange
+   exec 'hi adaBegin' . s:fg_pink
+   exec 'hi adaEnd' . s:fg_pink
+   exec 'hi adaTypedef' . s:fg_navy . s:ft_bold
+   exec 'hi adaAssignment' . s:fg_aqua . s:ft_bold
+   exec 'hi adaAttribute' . s:fg_green
++  exec 'hi adaOperator' . s:fg_blue
++  exec 'hi adaSign' . s:fg_olive
+ 
+   " COBOL Highlighting
+   exec 'hi cobolMarker' . s:fg_comment . s:bg_cursorline
