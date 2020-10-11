@@ -1,8 +1,8 @@
 diff --git a/colors/PaperColor.vim b/colors/PaperColor.vim
-index 0d52afe..471d2ee 100755
+index 0d52afe..c4037e9 100755
 --- a/colors/PaperColor.vim
 +++ b/colors/PaperColor.vim
-@@ -1995,14 +1995,16 @@ fun! s:apply_syntax_highlightings()
+@@ -1995,15 +1995,23 @@ fun! s:apply_syntax_highlightings()
    exec 'hi cucumberPlaceholder' . s:fg_aqua
  
    " Ada Highlighting
@@ -16,8 +16,16 @@ index 0d52afe..471d2ee 100755
    exec 'hi adaTypedef' . s:fg_navy . s:ft_bold
    exec 'hi adaAssignment' . s:fg_aqua . s:ft_bold
    exec 'hi adaAttribute' . s:fg_green
+-
 +  exec 'hi adaOperator' . s:fg_blue
 +  exec 'hi adaSign' . s:fg_olive
- 
++
++  " Tcl Highlighting
++  exec 'hi tclBoolean' . s:fg_green
++  exec 'hi tclCommand' . s:fg_pink
++  exec 'hi tcltkWidgetSwitch' . s:fg_blue
++  exec 'hi tcltkWidgetColor' . s:fg_pink
++  
    " COBOL Highlighting
    exec 'hi cobolMarker' . s:fg_comment . s:bg_cursorline
+   exec 'hi cobolLine' . s:fg_foreground
