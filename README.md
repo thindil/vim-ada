@@ -1,34 +1,35 @@
 ## General Information
 
 Vim-Ada is ready to deploy set of plugins and settings which helps write
-programs in various languages. As name of bundle says, it is focused mainly on
-Ada programming language, but it have support for other programming languages
-too. See "Installation" section for detailed instructions how to install it
-and "Plugins" section for informations about included plugins and changes
-(if any) to them. If you search for more plugins, you can visit [Vim Awesome](https://vimawesome.com/)
-or the project wiki [Recommended plugins](https://github.com/thindil/vim-ada/wiki/Recommended-plugins)
+programs in various programming languages. As name of bundle says, it is
+focused mainly on the Ada programming language, but it have support for
+other programming languages too. See "Installation" section for detailed
+instructions how to install it and "Plugins" section for informations
+about included plugins and changes (if any) to them. If you need more
+plugins, you can visit [Vim Awesome](https://vimawesome.com/) or the
+project wiki [Recommended plugins](https://github.com/thindil/vim-ada/wiki/Recommended-plugins)
 page.
 
-All changes to plugins are under respective plugin license which can be found
-in plugins directory. If plugin don't have license info included, then all my
-changes are in public domain.
+All changes to plugins are under the respective plugin license which can be
+found in plugins directory. If the plugin don't have license info included,
+then all my changes are in public domain.
 
-If you are new to Vim and want to have more user friendly experience with this
-editor, I recommend to use [SpaceVim](https://spacevim.org/). Main differences
-between vim-ada and SpaceVim:
+If you are new to Vim and you want to have more user friendly experience with
+this editor, I recommend to use [SpaceVim](https://spacevim.org/). Main
+differences between vim-ada and SpaceVim:
 
 * Design in **Keep It Simple Stupid** principle: Vim-ada is just a bundle of
   plugins which can be easily added, removed or locally edited to suit your
   needs.
 * No changes to core systems of Vim: All keyboard shortcuts are that same,
   thus, Vim-ada require less learning for experienced Vim/NeoVim users.
-* Easy to deploy: just download configuration file and replace your config,
-  rest will be done after first start of Vim/NeoVim.
+* Easy to deploy: just download the configuration file and replace your
+  config, rest will be done after first start of Vim/NeoVim.
 * Much younger, less polished than SpaceVim.
 
 **Important:** This version of README.md is about current version of Vim-Ada.
 Earlier versions of Vim-Ada may have different requirements or contents.
-Please read README.md included in release to get information about other
+Please read README.md included in the release to get information about other
 releases.
 
 ## Screenshots
@@ -64,8 +65,8 @@ To enable all options, you been need to install:
     instructions and code needed to build Ada docset.
 
 * Optional, but highly recommended: ROBODoc from https://rfsber.home.xs4all.nl/Robo/
-  for generating code documentation. For generating documentation from Ada
-  code, you may need file *robodocada.rc* from https://github.com/thindil/roboada
+  for generating a code documentation. For generating a documentation from Ada
+  code, you may need the file *robodocada.rc* from https://github.com/thindil/roboada
 
 ## Plugins
 
@@ -100,6 +101,14 @@ and acts as a Vim Language Server Protocol client. This plugin have added
 Ada support for gnatmake for support for GNAT Project files (.gpr). Gnatmake
 linter can be used only on save file. Thus it is recommended to use custom
 configuration from `.vimrc` file.
+
+### AnyFold
+
+Webpage: https://github.com/pseewald/vim-anyfold
+
+Generic folding mechanism and motion based on indentation. Fold anything that
+is structured into indented blocks. Quickly navigate between blocks. This plugin
+wasn't modified but have some custom configuration in `.vimrc` file.
 
 ### Auto-pairs
 
@@ -220,6 +229,14 @@ Webpage: https://github.com/tomtom/tlib_vim
 This library provides some utility functions. This plugin wasn't modified. This
 plugin is required by SnipMate to work.
 
+### Todo.txt
+
+Webpage: https://github.com/dbeniamine/todo.txt-vim
+
+Todo.txt-vim is a plugin to manage todo.txt files it was initially designed by
+Freitass then forked and improved by David Beniamine. This plugin wasn't
+modified.
+
 ### Vista
 
 Webpage: https://github.com/liuchengxu/vista.vim
@@ -245,10 +262,10 @@ from Vim. This plugin wasn't modified but have some custom configuration in
 
 Webpage: https://github.com/NLKNguyen/papercolor-theme
 
-Used as default theme for Vim, have some additional support for Ada syntax.
-Comes in two versions: dark (default if you use included `.vimrc`
-configuration file) and light (default for no configuration). It is unmodified,
-only some custom configuration is in `.vimrc` file.
+Used as default theme for Vim/NeoVim. Comes in two versions: dark (default if
+you use included `.vimrc` configuration file) and light (default for no
+configuration). This version has a bit better support for the Ada and Tcl
+syntax, also some custom configuration is in `.vimrc` file.
 
 ### Gruvbox
 
