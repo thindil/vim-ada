@@ -11,17 +11,17 @@ VIM-ADA - TABLE OF CONTENTS                                 *vimada* *vim-ada*
 1. General Information                                        *vimada-general*
 
 Vim-Ada is ready to deploy set of plugins and settings which helps write
-programs in various languages. As name of bundle says, it is focused mainly on
-Ada programming language, but it have support for other programming languages
-too.
+programs in various programming languages. As name of bundle says, it is
+focused mainly on the Ada programming language, but it have support for other
+programming languages too.
 
-All changes to plugins are under respective plugin license which can be found
-in plugins directory. If plugin don't have license info included, then all my
-changes are in public domain.
+All changes to the plugins are under respective plugin license which can be
+found in plugins directory. If a plugin don't have a license info included,
+then all my changes are in public domain.
 
-If you are new to Vim and want to have more user friendly experience with this
-editor, I recommend to use SpaceVim. Main differences between vim-ada and
-SpaceVim:
+If you are new to Vim/NeoVim and you want to have a more user friendly
+experience with this editor, I recommend to use SpaceVim. Main differences
+between vim-ada and SpaceVim:
 - Design in Keep It Simple Stupid principle: Vim-ada is just a bundle of
   plugins which can be easily added, removed or locally edited to suit your
   needs.
