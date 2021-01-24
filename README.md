@@ -57,7 +57,7 @@ To enable all options, you been need to install:
   documentation, you will be need to download Ada specification docset. You
   can do this in two ways:
 
-    a) Download Docset Feed from https://zealusercontributions.herokuapp.com/
+    a) Download Docset Feed from https://zealusercontributions.now.sh/
     (recommended way). There you will find detailed information how to install
     docset.
 
