@@ -1,11 +1,11 @@
 diff --git a/autoload/header.vim b/autoload/header.vim
-index d873d56..8baf286 100644
+index 0338089..67374d3 100644
 --- a/autoload/header.vim
 +++ b/autoload/header.vim
-@@ -194,6 +194,14 @@ fun s:set_props()
-     elseif b:filetype == 'dosini'
-         let b:first_line = '; vim:ft=dosini'
-         let b:comment_char = ';'
+@@ -214,6 +214,14 @@ fun s:set_props()
+         let b:block_comment = 1
+         let b:comment_begin = '```'
+         let b:comment_end = '```'
 +    " ----------------------------------
 +    elseif b:filetype == 'tcl'
 +       let b:first_line = '#!/usr/bin/env tclsh'
@@ -14,6 +14,6 @@ index d873d56..8baf286 100644
 +    " ----------------------------------
 +    elseif b:filetype == 'ada'
 +        let b:comment_char = '--'
-     " ----------------------------------
- 	elseif b:filetype == 'markdown'
- 		let b:comment_start = '```'
+     else
+         let b:is_filetype_available = 0
+     endif
