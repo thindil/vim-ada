@@ -198,9 +198,9 @@ let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_enter = 0
 " Set full path to your ada_language_server command for ale
 let g:ale_ada_lsp_executable = "ada_language_server"
-" Enable gnatmake and adalsp as linters for Ada
+" Enable gnatmake and ada language server as linters for Ada
 let g:ale_linters = {
-\   'ada': ['gnatmake', "adalsp"],
+\   'ada': ['gnatmake', "adals"],
 \}
 " Enable gnatpp for ALEFix
 let g:ale_fixers = {
