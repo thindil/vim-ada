@@ -116,21 +116,13 @@ Webpage: https://github.com/jiangmiao/auto-pairs
 
 Insert or delete brackets, quotes in pair. This plugin wasn't modified.
 
-### Fugitive
+### Grammarous
 
-Webpage: https://github.com/tpope/vim-fugitive
+Webpage: https://github.com/rhysd/vim-grammarous
 
-Git wrapper, allow do a lots of git "things" inside Vim. This plugin wasn't
-modified.
-
-### GitGutter
-
-Webpage: https://github.com/airblade/vim-gitgutter
-
-Shows a git diff in the 'gutter' (sign column). It shows which lines have been
-added, modified, or removed. You can also preview, stage, and undo individual
-hunks. The plugin also provides a hunk text object. This plugin wasn't
-modified but have some custom configuration in `.vimrc` file.
+vim-grammarous is a powerful grammar checker for Vim. Simply do :GrammarousCheck
+to see the powerful checking. This plugin automatically downloads LanguageTool,
+which requires Java 8+. This plugin wasn't modified.
 
 ### GutenTags
 
@@ -196,6 +188,15 @@ Webpage: https://github.com/thindil/robovim
 
 Robovim is simple Vim plugin which allow easier add Robodoc formatted
 documentation to source code. This plugin wasn't modified.
+
+### Signify
+
+Webpage: https://github.com/mhinz/vim-signify
+
+Signify (or just Sy) uses the sign column to indicate added, modified and
+removed lines in a file that is managed by a version control system (VCS).
+This plugin wasn't modified but have some custom configuration in `.vimrc`
+file.
 
 ### SnipMate
 
