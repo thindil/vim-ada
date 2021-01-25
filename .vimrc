@@ -126,10 +126,6 @@ Plug 'thindil/vim-xml'
 Plug 'vim-airline/vim-airline'
 " Auto-pairs plugin
 Plug 'jiangmiao/auto-pairs'
-" Fugitive plugin
-Plug 'tpope/vim-fugitive'
-" Gitgutter plugin
-Plug 'airblade/vim-gitgutter'
 " Gutentags plugin
 Plug 'ludovicchabant/vim-gutentags'
 " indentLine plugin
@@ -158,6 +154,10 @@ Plug 'KabbAmine/zeavim.vim'
 Plug 'pseewald/vim-anyfold'
 " Todo.txt plugin
 Plug 'dbeniamine/todo.txt-vim'
+" Grammarous plugin
+Plug 'rhysd/vim-grammarous'
+" Signify plugin
+Plug 'mhinz/vim-signify'
 " Papercolor theme with local changes
 Plug 'NLKNguyen/papercolor-theme', { 'do': function('UpdatePlug') }
 " Vim-header plugin with local changes
@@ -178,8 +178,6 @@ endif
 " --------------------------------------------
 " General configurations for installed plugins
 " --------------------------------------------
-" Disable gitgutter signs
-let g:gitgutter_signs = 0
 " Use special patched fonts
 let g:airline_powerline_fonts = 1
 " Show list of buffers
@@ -219,10 +217,8 @@ let g:header_field_author_email = 'your@email.org'
 " Disable auto adding headers to new or edited files
 let g:header_auto_add_header = 0
 " Map some file types to search in specific docsets:
-" 1. Search in Vim docset if file type is help
-" 2. Search in Ada specification docset if file type is ada
+" 1. Search in Ada specification docset if file type is ada
 let g:zv_file_types = {
-   \   'help' : 'vim',
    \   'ada'  : 'ada',
    \ }
 " Generate tags files with additional field language. Additionally, don't
@@ -230,10 +226,18 @@ let g:zv_file_types = {
 let g:gutentags_ctags_extra_args = ['--fields=+l', '--exclude=*.adb', '--exclude=*.ads']
 " Don't generate tags when opening Ada files
 let g:gutentags_exclude_filetypes = ['ada']
-"" Set default vista executive to ale for Ada
+" Don't generate tags for files in the selected directories
+let g:gutentags_ctags_exclude = ['bin', 'obj', 'tests', 'docs', 'others']
+" Set default vista executive to Ale for Ada
 let g:vista_executive_for = {
   \ 'ada': 'ale',
   \ }
+" Close tree window or bookmark table after opening a file
+let g:NERDTreeQuitOnOpen = 1
+" Change the default Signify sign for changed lines
+let g:signify_sign_change = '~'
+" Use the newer version of SnipMate parser
+let g:snipMate = { 'snippet_version' : 1 }
 
 " ------------------------------
 " GVim specific settings
