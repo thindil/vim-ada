@@ -2,9 +2,9 @@
 
 Vim-Ada is ready to deploy set of plugins and settings which helps write
 programs in various programming languages. As name of bundle says, it is
-focused mainly on the Ada programming language, but it have support for
+focused mainly on the Ada programming language, but it has support for
 other programming languages too. See "Installation" section for detailed
-instructions how to install it and "Plugins" section for informations
+instructions how to install it and "Plugins" section for information
 about included plugins and changes (if any) to them. If you need more
 plugins, you can visit [Vim Awesome](https://vimawesome.com/) or the
 project wiki [Recommended plugins](https://github.com/thindil/vim-ada/wiki/Recommended-plugins)
@@ -14,7 +14,7 @@ All changes to plugins are under the respective plugin license which can be
 found in plugins directory. If the plugin don't have license info included,
 then all my changes are in public domain.
 
-If you are new to Vim and you want to have more user friendly experience with
+If you are new to Vim and you want to have more user-friendly experience with
 this editor, I recommend to use [SpaceVim](https://spacevim.org/). Main
 differences between vim-ada and SpaceVim:
 
@@ -47,14 +47,14 @@ installed first. For upgrade, use Plug commands.
 
 ### Additional steps
 
-To enable all options, you been need to install:
+To enable all options, you have been need to install:
 
 * Universal Ctags from https://ctags.io for generating *tags* files needed for
   Vim auto-completion.
 * Ada Language Server from https://github.com/AdaCore/ada_language_server for
   full support of the code completion, tags list, etc. for Ada language.
 * Other dependency is Zeal from https://zealdocs.org/. Additionally, for Ada
-  documentation, you will be need to download Ada specification docset. You
+  documentation, you will be needed to download Ada specification docset. You
   can do this in two ways:
 
     a) Download Docset Feed from https://zealusercontributions.now.sh/
@@ -67,6 +67,9 @@ To enable all options, you been need to install:
 * Optional, but highly recommended: ROBODoc from https://rfsber.home.xs4all.nl/Robo/
   for generating a code documentation. For generating a documentation from Ada
   code, you may need the file *robodocada.rc* from https://github.com/thindil/roboada
+* Optional: If you want to use Grammarous plugin you will download the
+  LanguageTool (website: https://languagetool.org) program at the first run of
+  plugin. This program requires Java 8+ to work.
 
 ## Plugins
 
@@ -97,9 +100,9 @@ Webpage: https://github.com/dense-analysis/ale
 
 ALE (Asynchronous Lint Engine) is a plugin providing linting (syntax checking
 and semantic errors) in NeoVim 0.2.0+ and Vim 8 while you edit your text files,
-and acts as a Vim Language Server Protocol client. This plugin have added
+and acts as a Vim Language Server Protocol client. This plugin has added
 Ada support for gnatmake for support for GNAT Project files (.gpr). Gnatmake
-linter can be used only on save file. Thus it is recommended to use custom
+linter can be used only on save file. Thus, it is recommended to use custom
 configuration from `.vimrc` file.
 
 ### AnyFold
@@ -128,7 +131,7 @@ which requires Java 8+. This plugin wasn't modified.
 
 Webpage: https://github.com/ludovicchabant/vim-gutentags
 
-Gutentags is a plugin that takes care of the much needed management of tags
+Gutentags is a plugin that takes care of the much-needed management of tags
 files in Vim. It will (re)generate tag files as you work while staying
 completely out of your way. It will even do its best to keep those tag files
 out of your way too. It has no dependencies and just works. This plugin wasn't
@@ -138,7 +141,7 @@ modified but have some custom configuration in `.vimrc` file.
 
 Webpage: https://github.com/alpertuna/vim-header
 
-Easily adds brief author info and license headers. This plugin have added Ada
+Easily adds brief author info and license headers. This plugin has added Ada
 and Tcl support plus have some custom configuration in `.vimrc` file.
 
 ### IndentLine
@@ -272,8 +275,8 @@ syntax, also some custom configuration is in `.vimrc` file.
 
 Webpage: https://github.com/morhetz/gruvbox
 
-Another theme available with this pack. More informations about this theme,
-configuring and enabling it, you can find at it webpage. This version of
+Another theme available with this pack. More information about this theme,
+configuring and enabling it, you can find at its webpage. This version of
 Gruvbox have added support for Ada syntax.
 
 -------
