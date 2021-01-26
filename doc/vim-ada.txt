@@ -1,4 +1,4 @@
-vim-ada.txt vim-ada Last change: October 14 2019
+vim-ada.txt vim-ada Last change: January 25 2021
 VIM-ADA - TABLE OF CONTENTS                                 *vimada* *vim-ada*
 ==============================================================================
 
@@ -12,24 +12,24 @@ VIM-ADA - TABLE OF CONTENTS                                 *vimada* *vim-ada*
 
 Vim-Ada is ready to deploy set of plugins and settings which helps write
 programs in various programming languages. As name of bundle says, it is
-focused mainly on the Ada programming language, but it have support for other
+focused mainly on the Ada programming language, but it has support for other
 programming languages too.
 
 All changes to the plugins are under respective plugin license which can be
 found in plugins directory. If a plugin don't have a license info included,
 then all my changes are in public domain.
 
-If you are new to Vim/NeoVim and you want to have a more user friendly
+If you are new to Vim/NeoVim and you want to have a more user-friendly
 experience with this editor, I recommend to use SpaceVim. Main differences
 between vim-ada and SpaceVim:
-- Design in Keep It Simple Stupid principle: Vim-ada is just a bundle of
+* Design in "Keep It Simple Stupid" principle: Vim-ada is just a bundle of
   plugins which can be easily added, removed or locally edited to suit your
   needs.
-- No changes to core systems of Vim: All keyboard shortcuts are that same,
+* No changes to core systems of Vim: All keyboard shortcuts are that same,
   thus, Vim-ada require less learning for experienced Vim/NeoVim users.
-- Easy to deploy: just download configuration file and replace your config,
+* Easy to deploy: just download configuration file and replace your config,
   rest will be done after first start of Vim/NeoVim.
-- Much younger, less polished than SpaceVim.
+* Much younger, less polished than SpaceVim.
 
 ==============================================================================
 2. Adding or removing plugins in the bundle                   *vimada-plugins*
@@ -37,10 +37,10 @@ between vim-ada and SpaceVim:
 To adding or removing Vim/NeoVim plugins Vim-Ada uses Plug plugin. Please
 refer to its documentation by :help plug
 Additional information:
-- Vim-ada should be always loaded as first plugin. Especially if others
+* Vim-ada should be always loaded as first plugin. Especially if others
   plugins have any local changes. All others plugins can be loaded in any
   order.
-- If you remove Vim-ada plugin or Plug all bundle will stop working.
+* If you remove Vim-ada plugin or Plug all bundle will stop working.
 
 ==============================================================================
 3. Adding or removing local changes to the plugins              *vimada-local*
@@ -56,21 +56,21 @@ To add local changes to selected plugin you have to follow this steps:
    patch to it.
 
 Thus, for example, creating local changes patch for Syntastic plugin could
-looks that:
+look that:
 1. git diff > syntastic.diff
 2. cp syntastic.diff ../vim-ada/patches
 3. In Vim/NeoVim run command :AppendLocalChanges syntastic
 
 To remove local changes from selected plugin, use Vim/NeoVim command
 RemoveLocalChanges[!] [pluginname] where [pluginname] is name of the plugin
-which will be have removed all local changes. If bang is added to the
+which will be having removed all local changes. If bang is added to the
 command (RemoveLocalChanges!), it will remove .diff file with local changes
 too.
 
 Thus, for example, removing local changes patch for Syntastic plugin could
-looks that:
+look that:
 :RemoveLocalChanges syntastic
-If you want remove file with local changes too:
+If you want to remove file with local changes too:
 :RemoveLocalChanges! syntastic
 
 ==============================================================================
@@ -78,7 +78,7 @@ If you want remove file with local changes too:
 
 Question: Vim-Plug don't want to update plugin with local changes.
 Answer: Unfortunately, Vim-Plug don't have option to run something before
-        update starts (only after it). Thus in that situation, local changes
+        update starts (only after it). Thus, in that situation, local changes
         must be removed manually from that plugin before upgrade it. To do
         it, run Vim/NeoVim command RemoveLocalChanges [pluginname] and then
         run upgrade process again.
