@@ -158,14 +158,16 @@ Plug 'dbeniamine/todo.txt-vim'
 Plug 'rhysd/vim-grammarous'
 " Signify plugin
 Plug 'mhinz/vim-signify'
+" EasyMotion plugin
+Plug 'easymotion/vim-easymotion'
+" QuickUi plugin
+Plug 'skywind3000/vim-quickui'
+" Gruvbox theme
+Plug 'lifepillar/vim-gruvbox8'
 " Papercolor theme with local changes
 Plug 'NLKNguyen/papercolor-theme', { 'do': function('UpdatePlug') }
-" Vim-header plugin with local changes
-Plug 'alpertuna/vim-header', { 'do': function('UpdatePlug') }
 " Ale plugin with local changes
 Plug 'dense-analysis/ale', { 'do': function('UpdatePlug') }
-" Gruvbox theme with local changes
-Plug 'morhetz/gruvbox', { 'do': function('UpdatePlug') }
 " End of Plug configuration
 call plug#end()
 
@@ -180,12 +182,6 @@ endif
 " --------------------------------------------
 " Use special patched fonts
 let g:airline_powerline_fonts = 1
-" Show list of buffers
-let g:airline#extensions#tabline#enabled = 1
-" Set buffer list formatter for airline
-let g:airline#extensions#tabline#formatter = "unique_tail"
-" Show number of buffer in buffers list
-let g:airline#extensions#tabline#buffer_nr_show = 1
 " Enable colouring brackets
 let g:rainbow_active = 1
 " Block ale checking files on text changed (in fly)
@@ -210,12 +206,6 @@ let g:indentLine_setColors = 0
 let g:ada_with_gnat_project_files = 1
 " Add highlighting for GNAT extensions (attributes, pragmas, etc)
 let g:ada_gnat_extensions = 1
-" Name used in files headers
-let g:header_field_author = 'Your name'
-" Email address used in files headers
-let g:header_field_author_email = 'your@email.org'
-" Disable auto adding headers to new or edited files
-let g:header_auto_add_header = 0
 " Map some file types to search in specific docsets:
 " 1. Search in Ada specification docset if file type is ada
 let g:zv_file_types = {
@@ -238,6 +228,61 @@ let g:NERDTreeQuitOnOpen = 1
 let g:signify_sign_change = '~'
 " Use the newer version of SnipMate parser
 let g:snipMate = { 'snippet_version' : 1 }
+" Reset QuickUi menus
+call quickui#menu#reset()
+" Add QuickUi menu Plugins
+call quickui#menu#install('&Plugins', [
+            \ [ '&NerdTree', 'NERDTreeToggle' ],
+            \ [ '&Vista', 'Vista!!' ],
+            \ [ '&Startify', 'Startify' ],
+            \ [ 'Check &Grammar', 'GrammarousCheck' ],
+            \ [ 'Reset G&rammar', 'GrammarousReset' ],
+            \ ])
+" Add QuickUi menu View
+call quickui#menu#install('&View', [
+            \ [ '&Buffers', "call quickui#tools#list_buffer('e')" ],
+            \ [ '&Terminal', 'terminal' ],
+            \ [ '&Split terminal', 'sp +terminal' ],
+            \ ])
+" Add QuickUi menu Ada
+call quickui#menu#install('&Ada', [
+            \ [ '&Compile', 'make' ],
+            \ [ '&Format', 'ALEFix' ],
+            \ [ '&Go to definition', 'ALEGoToDefinition' ],
+            \ [ '&Show definition', 'ALEHover' ],
+            \ [ 'Search &Ada specification', 'Zeavim!' ],
+            \ ], '<auto>', 'ada')
+" Add QuickUi menu Help
+call quickui#menu#install('&Help', [
+            \ [ '&Index', "help index | only" ],
+            \ [ '&Tutorial', "Tutor" ],
+            \ [ '&Ale', "help ale | only" ],
+            \ [ '&Anyfold', "help anyfold | only" ],
+            \ [ '&EasyMotion', "help easymotion | only" ],
+            \ [ '&NerdTree', "help nerdtree | only" ],
+            \ [ '&Snippets', "help snippets | only" ],
+            \ ])
+" Show QuickUi menus tooltips
+let g:quickui_show_tip = 1
+" Set QuickUi menus theme to papercolor dark
+let g:quickui_color_scheme = 'papercol dark'
+" Set QuickUi menus border style
+let g:quickui_border_style = 2
+" Enable AnyFold for any file type
+augroup anyfold
+    autocmd!
+    autocmd Filetype * AnyFoldActivate
+augroup END
+" Disable AnyFold plugin for large files (more than 1000000 bytes), use then
+" standard folding
+let g:LargeFile = 1000000
+autocmd BufReadPre,BufRead * let f=getfsize(expand("<afile>")) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
+function LargeFile()
+    augroup anyfold
+        autocmd!
+        autocmd Filetype * setlocal foldmethod=indent
+    augroup END
+endfunction
 
 " ------------------------------
 " GVim specific settings
