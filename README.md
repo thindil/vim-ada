@@ -119,6 +119,15 @@ Webpage: https://github.com/jiangmiao/auto-pairs
 
 Insert or delete brackets, quotes in pair. This plugin wasn't modified.
 
+### EasyMotion
+
+Webpage: https://github.com/easymotion/vim-easymotion
+
+EasyMotion provides a much simpler way to use some motions in vim. It takes the
+`<number>` out of `<number>w` or `<number>f{char}` by highlighting all possible
+choices and allowing you to press one key to jump directly to the target. This
+plugin wasn't modified.
+
 ### Grammarous
 
 Webpage: https://github.com/rhysd/vim-grammarous
@@ -136,13 +145,6 @@ files in Vim. It will (re)generate tag files as you work while staying
 completely out of your way. It will even do its best to keep those tag files
 out of your way too. It has no dependencies and just works. This plugin wasn't
 modified but have some custom configuration in `.vimrc` file.
-
-### Header
-
-Webpage: https://github.com/alpertuna/vim-header
-
-Easily adds brief author info and license headers. This plugin has added Ada
-and Tcl support plus have some custom configuration in `.vimrc` file.
 
 ### IndentLine
 
@@ -176,6 +178,13 @@ Webpage: https://github.com/junegunn/vim-plug
 A minimalist Vim plugin manager. This wasn't modified. This plugin is
 required to load other plugins included in bundle. Required configuration
 of this plugin is in `.vimrc` file.
+
+### QuickUI
+
+Webpage: https://github.com/skywind3000/vim-quickui
+
+Adds some basic UI components to the Vim/NeoVim. This plugin wasn't modified
+but have some custom configuration in `.vimrc` file.
 
 ### Rainbow Parentheses Improved
 
@@ -271,13 +280,12 @@ you use included `.vimrc` configuration file) and light (default for no
 configuration). This version has a bit better support for the Ada and Tcl
 syntax, also some custom configuration is in `.vimrc` file.
 
-### Gruvbox
+### Gruvbox8
 
-Webpage: https://github.com/morhetz/gruvbox
+Webpage: https://github.com/lifepillar/vim-gruvbox8
 
 Another theme available with this pack. More information about this theme,
-configuring and enabling it, you can find at its webpage. This version of
-Gruvbox have added support for Ada syntax.
+configuring and enabling it, you can find at its webpage.
 
 -------
 
