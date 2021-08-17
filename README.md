@@ -47,7 +47,7 @@ installed first. For upgrade, use Plug commands.
 
 ### Additional steps
 
-To enable all options, you have been need to install:
+To enable all options, you have been needing to install:
 
 * Universal Ctags from https://ctags.io for generating *tags* files needed for
   Vim auto-completion.
@@ -232,14 +232,14 @@ Webpage: https://github.com/mhinz/vim-startify
 This plugin provides a start screen for Vim. It provides dynamically created
 headers or footers and uses configurable lists to show recently used or
 bookmarked files and persistent sessions. All of this can be accessed in a
-simple to use menu that even allows to open multiple entries at once. This
+simple-to-use menu that even allows opening multiple entries at once. This
 plugin wasn't modified.
 
 ### Tlib
 
 Webpage: https://github.com/tomtom/tlib_vim
 
-This library provides some utility functions. This plugin wasn't modified. This
+This library provides some utility functions. This plugin wasn't modified. The
 plugin is required by SnipMate to work.
 
 ### Todo.txt
