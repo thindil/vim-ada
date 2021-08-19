@@ -328,3 +328,11 @@ cnoreabbrev W w
 cnoreabbrev af AnyFoldActivate
 " Open terminal window in split mode
 cnoreabbrev Term :sp +term
+
+" ------------------
+" Keyboard shortcuts
+" ------------------
+" Show QuickUI menu
+noremap <M-m> :call quickui#menu#open()<cr>
+" Show QuickUI list of buffers
+noremap <C-p> :call quickui#tools#list_buffer('e')<cr>
