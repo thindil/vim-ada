@@ -173,7 +173,7 @@ call plug#end()
 
 " Don't go further if plugins are not installed. You can delete this lines
 " after installation.
-if empty(glob(s:plug_path . '/vim-ada'))
+if empty(glob(g:plug_path . '/vim-ada'))
    finish
 endif
 
